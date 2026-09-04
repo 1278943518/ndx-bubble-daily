@@ -474,10 +474,14 @@ function init(){
 }
 
 // ===== 数据加载: 多源容灾 =====
-// 源① 云端每日更新(GitHub Actions 每天 8 点自动抓取+打分 → raw 提供 CORS 数据)
+// 源① jsDelivr CDN(云端 GitHub Actions 每天 8 点自动抓取+打分, push 后自动 purge CDN 立即生效)
 // 源② 本站部署的 data.json(手动部署时的快照)
-// 源③ 内嵌兜底 FALLBACK(本地/离线可用)
-const REMOTE_DATA = "https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json";
+// 源③ GitHub raw(海外网络兜底)
+// 源④ 内嵌兜底 FALLBACK(本地/离线可用)
+const REMOTE_SOURCES = [
+  { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json", n:"jsDelivr CDN" },
+  { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json", n:"GitHub raw" },
+];
 function stampData(){
   const meta = DATA.meta;
   const el = document.getElementById("data-meta");
@@ -490,18 +494,23 @@ function stampData(){
     el.textContent = `数据截止 ${last ? last.d : "?"}（内嵌快照）`;
   }
 }
-async function fetchJson(url){
+async function fetchJson(url, ms){
+  const ctl = new AbortController();
+  const t = setTimeout(()=>ctl.abort(), ms || 6000);
   try{
-    const r = await fetch(url, { cache:"no-store" });
+    const r = await fetch(url, { cache:"no-store", signal: ctl.signal });
     if(!r.ok) return null;
     const j = await r.json();
     return (j && j.week && j.week.length) ? j : null;
   }catch(e){ return null; }
+  finally{ clearTimeout(t); }
 }
 async function loadData(){
-  let j = await fetchJson(REMOTE_DATA);
-  if(j){ DATA = j; console.log("[泡沫温度计] 数据源: 云端每日更新"); return; }
-  j = await fetchJson("data.json");
+  for(const s of REMOTE_SOURCES){
+    const j = await fetchJson(s.u);
+    if(j){ DATA = j; console.log("[泡沫温度计] 数据源:", s.n); return; }
+  }
+  const j = await fetchJson("data.json", 4000);
   if(j){ DATA = j; console.log("[泡沫温度计] 数据源: 本站快照"); return; }
   console.warn("[泡沫温度计] 远程加载失败, 使用内嵌兜底数据");
   DATA = FALLBACK;
