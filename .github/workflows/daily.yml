@@ -1,0 +1,57 @@
+name: 每日数据更新
+
+on:
+  schedule:
+    - cron: "0 0 * * *"                    # 每天 UTC 00:00 = 北京时间 08:00
+  workflow_dispatch: {}                     # 支持手动触发
+  push:
+    paths: [".github/workflows/daily.yml"]  # 首次提交本文件即自触发一次(链路验证)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 安装依赖
+        run: pip install -q pandas numpy openpyxl
+
+      - name: 抓取基础数据 (VIX/FRED/CAPE/margin)
+        run: |
+          python bubble/fetch_data.py || echo "fetch_data 有非必需源失败, 继续检查关键文件"
+          for f in vix_daily fedfunds_daily t10y2y_daily cape_month margin_month; do
+            [ -s "bubble_data/$f.csv" ] || { echo "缺少必需数据: $f"; exit 1; }
+          done
+
+      - name: 抓取周K (NDX/INX/ARKK)
+        run: python bubble/fetch_weekly.py
+
+      - name: 重算泡沫评分 (滚动520周分位)
+        run: python bubble/analyze_weekly.py
+
+      - name: 构建页面数据 (data.json + index.html)
+        run: python bubble_app/build.py
+
+      - name: 提交并推送更新
+        run: |
+          git config user.name "wb-data-bot"
+          git config user.email "wb-data-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "无数据变化, 跳过提交"
+          else
+            git commit -m "chore: 每日数据更新 $(date -u +'%Y-%m-%dT%H:%MZ')"
+            git push
+          fi
