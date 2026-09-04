@@ -36,7 +36,15 @@ jobs:
           done
 
       - name: 抓取周K (NDX/INX/ARKK)
-        run: python bubble/fetch_weekly.py
+        run: |
+          for i in 1 2 3 4; do
+            if python bubble/fetch_weekly.py; then break; fi
+            echo "fetch_weekly 失败(第${i}次), 12s 后重试..."
+            sleep 12
+          done
+          for f in ndx_week inx_week arkk_week; do
+            [ -s "bubble_data/$f.csv" ] || { echo "缺少必需周K: $f"; exit 1; }
+          done
 
       - name: 重算泡沫评分 (滚动520周分位)
         run: python bubble/analyze_weekly.py
