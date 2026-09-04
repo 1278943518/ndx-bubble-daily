@@ -55,3 +55,7 @@ jobs:
             git commit -m "chore: 每日数据更新 $(date -u +'%Y-%m-%dT%H:%MZ')"
             git push
           fi
+
+      - name: 刷新 jsDelivr CDN 缓存 (数据即时生效)
+        run: |
+          curl -s "https://purge.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json" || echo "(purge 失败不影响数据, CDN 最长 12h 自动回源)"
