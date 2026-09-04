@@ -6,8 +6,8 @@
 
 - **GitHub Actions 每天 08:00（北京时间）自动运行**（`.github/workflows/daily.yml`）
 - 执行管线：抓取基础数据（CBOE VIX / FRED 利率 / multpl CAPE / FINRA 保证金）→ 抓取周K（腾讯 NDX/INX + 东方财富 ARKK）→ 重算八特征滚动 520 周分位评分 → 构建 `bubble_app/data.json`
-- 产物自动 commit 到本仓库 `main` 分支
-- 前端页面通过 `https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json` 读取（raw 带 CORS，浏览器可直接 fetch）
+- 产物自动 commit 到本仓库 `main` 分支，并自动 purge jsDelivr CDN 缓存（数据即时生效）
+- 前端页面通过 `https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json` 读取（jsDelivr 带 CORS，国内可直接访问）
 
 ## 页面
 
