@@ -49,9 +49,12 @@ df["mom52"] = df["ndx"] / df["ndx"].shift(52) - 1
 df["F3_vix"] = df["vix"]
 # 特征5: 投机狂热 = ARKK/NDX 相对52周动量
 df["arkk_ndx_mom"] = (df["arkk"] / df["arkk"].shift(52) - 1) - (df["ndx"] / df["ndx"].shift(52) - 1)
-# 特征6: 新买家 = 距52周高点距离
-df["hi52"] = df["ndx"].rolling(52, min_periods=26).max()
-df["dd52"] = df["ndx"] / df["hi52"] - 1
+# 特征6: 新买家 = ICI 美国股票基金月净流入异常度 (v2.2 替换原"距52周高点距离")
+# 数据: bubble_data/ici_flows_monthly.csv (ICI 官方月度实际值, 2007-01 起, 百万美元)
+# 构造: flows − 过去60个月滚动中位数(不含当月) → 异常度; 周频化用 ffill (同 CAPE/margin)
+ici = pd.read_csv(f"{B}/ici_flows_monthly.csv", index_col=0, parse_dates=True)["Total Equity"]
+ici_anom = ici - ici.rolling(60, min_periods=36).median().shift(1)
+df["ici_anom"] = ici_anom.reindex(df.index, method="ffill")
 df["F7_fed"] = df["fed"]
 # 特征8: 科技泡沫 = NDX/INX 相对52周收益
 df["rel_mom52"] = (df["ndx"] / df["ndx"].shift(52) - 1) - (df["inx"] / df["inx"].shift(52) - 1)
@@ -78,7 +81,7 @@ f3 = 100 - calc_pct(df["F3_vix"])                   # 情绪: VIX 低分位 → 
 f4 = calc_pct(df["margin_lag"])                     # 杠杆: margin 高分位 → 高分
 f5_raw = calc_pct(df["arkk_ndx_mom"])               # 投机: 相对动量高分位
 f5 = np.maximum(f5_raw, 50)                         # 修复: 单向加分但刻度一致(50=中性)
-f6 = calc_pct(df["dd52"])                           # 新买家: 距高点近 → 高分
+f6 = calc_pct(df["ici_anom"])                           # 新买家: 基金流入异常度高 → 高分
 f7 = 100 - calc_pct(df["F7_fed"])                   # 货币: 利率低 → 宽松 (不计分)
 f8 = calc_pct(df["rel_mom52"])                      # 科技: 相对动量高分位
 
@@ -153,6 +156,6 @@ for d in inf_periods:
 # 当前状态
 cur = df.iloc[-1]
 print(f"\n=== 当前({cur.name.date()}): 总分 {cur['total']:.1f} ===")
-print(f"  特征: 估值{cur['s1']:.0f} 预期{cur['s2']:.0f} 情绪{cur['s3']:.0f} 杠杆{cur['s4']:.0f} 投机{cur['s5']:.0f}(原始分位{cur['f5_raw']:.0f}) 新买家{cur['s6']:.0f} 货币{cur['s7']:.0f} 科技{cur['s8']:.0f}")
+print(f"  特征: 估值{cur['s1']:.0f} 预期{cur['s2']:.0f} 情绪{cur['s3']:.0f} 杠杆{cur['s4']:.0f} 投机{cur['s5']:.0f}(原始分位{cur['f5_raw']:.0f}) 新买家流入{cur['s6']:.0f} 货币{cur['s7']:.0f} 科技{cur['s8']:.0f}")
 zone = "高热区(≥70)" if cur["total"] >= 70 else ("偏高区(55-70)" if cur["total"] >= 55 else ("中性区(45-55)" if cur["total"] >= 45 else "低估区(<45)"))
 print(f"  区域: {zone}")

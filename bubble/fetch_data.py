@@ -132,3 +132,27 @@ print("Fear&Greed:", fg_df.index[0].date(), "→", fg_df.index[-1].date(), f"({l
 print("当前分:", fg["fear_and_greed"]["score"], fg["fear_and_greed"]["rating"])
 
 print("\n全部数据源拉取完成 →", OUT)
+
+# ---------- 7. ICI 股票基金月净流入 (新买家特征, s6 数据源) ----------
+# 种子: bubble_data/ici_flows_monthly.csv (2007-01 起拼接版)
+# 同步: 尝试从 datasets/investor-flow-of-funds-us 拉官方同步版; 有效则覆盖, 无效保留种子
+import urllib.request as _ur
+ici_path = f"{OUT}/ici_flows_monthly.csv"
+try:
+    _req = _ur.Request("https://raw.githubusercontent.com/datasets/investor-flow-of-funds-us/main/data/monthly.csv",
+                       headers={"User-Agent": "Mozilla/5.0"})
+    _raw = _ur.urlopen(_req, timeout=40).read().decode("utf-8")
+    _lines = [l for l in _raw.strip().splitlines() if l.strip()]
+    if len(_lines) > 50 and "Date" in _lines[0] and len(_lines[1].split(",")) >= 8:
+        with open(ici_path, "w", encoding="utf-8") as f:
+            f.write(_raw)
+        print("ICI flows: 远程同步成功 →", len(_lines) - 1, "个月")
+    else:
+        print(f"ICI flows: 远程文件无效({len(_lines)}行), 保留本地种子")
+except Exception as e:
+    print("ICI flows: 同步失败(保留种子):", e)
+
+# 本地种子兜底: 若文件不存在(首次云端运行且远程失败), 从仓库种子目录复制
+import os as _os
+if not _os.path.exists(ici_path):
+    print("警告: ici_flows_monthly.csv 缺失, 请确认种子已提交至 bubble_data/")
