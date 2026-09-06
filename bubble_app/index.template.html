@@ -88,7 +88,7 @@
   <header>
     <div>
       <div class="title">美股<span class="hl">泡沫温度计</span></div>
-      <div class="subtitle">RiskWatch 八特征 · 滚动10年分位 · 周频更新</div>
+      <div class="subtitle">RiskWatch 八特征 · 滚动10年分位 · 周频更新 · 历史2000起(月频)</div>
       <div class="data-meta" id="data-meta">数据加载中…</div>
     </div>
     <div class="badge" id="badge">--</div>
@@ -126,7 +126,9 @@
       <span class="seg-item" data-k="gran" data-v="month">月频</span>
       <span class="seg-div"></span>
       <span class="seg-label">范围</span>
-      <span class="seg-item active" data-k="range" data-v="all">2020起</span>
+      <span class="seg-item active" data-k="range" data-v="all">全部</span>
+      <span class="seg-item" data-k="range" data-v="y10">10年</span>
+      <span class="seg-item" data-k="range" data-v="y5">5年</span>
       <span class="seg-item" data-k="range" data-v="y3">3年</span>
       <span class="seg-item" data-k="range" data-v="y1">1年</span>
     </div>
@@ -165,6 +167,7 @@
     数据源：CAPE(multpl) · VIX(CBOE) · 保证金债务(FINRA) · ARKK/纳指/标普(东财) · 利率(FRED)<br>
     频率：周频 · 滚动520周(10年)分位 · 动量52周 · 杠杆滞后4周<br>
     权重：估值20% 预期12% 情绪10% 杠杆18% 投机10% 新买家15% 科技15%（货币刺激不计分）<br>
+    数据范围：月频 2000-01 起 · 周频 2003-08 起（2000-2009 为分位窗口积累期，2010 起满 10 年参照）<br>
     仅供研究参考，不构成投资建议
   </footer>
 </div>
@@ -192,6 +195,7 @@ const FEATURES = [
 ];
 
 const KEY_POINTS = [
+  { d:"2008-10-31", l:"2008.10 金融危机", w:8 },
   { d:"2020-03-27", l:"2020.3 疫情底", w:9 },
   { d:"2020-09-04", l:"2020.9 科技回调", w:2 },
   { d:"2021-02-26", l:"2021.2 投机顶", w:9 },
@@ -213,11 +217,11 @@ function getSeries(){
   const ds = DATA[CUR.gran];
   let cut;
   if(CUR.range === "all"){
-    cut = "2020-01";
+    cut = ds[0].d.slice(0,7);          // 全部 = 数据起点(月频 2000-01 / 周频 2003-08)
   }else{
     const last = new Date(ds[ds.length-1].d);
     const c = new Date(last);
-    c.setFullYear(c.getFullYear() - (CUR.range==="y3" ? 3 : 1));
+    c.setFullYear(c.getFullYear() - (CUR.range==="y10" ? 10 : CUR.range==="y5" ? 5 : CUR.range==="y3" ? 3 : 1));
     cut = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}`;
   }
   return ds.filter(d => d.d.slice(0,7) >= cut);
@@ -478,9 +482,11 @@ function init(){
 // 源② 本站部署的 data.json(手动部署时的快照)
 // 源③ GitHub raw(海外网络兜底)
 // 源④ 内嵌兜底 FALLBACK(本地/离线可用)
+// 缓存击穿: URL 附每日版本参数(北京时间) → CDN 边缘缓存键每天变化, 必然回源取最新, 杜绝"手机看到旧分"
+const _dayKey = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "");
 const REMOTE_SOURCES = [
-  { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json", n:"jsDelivr CDN" },
-  { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json", n:"GitHub raw" },
+  { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json?v=" + _dayKey, n:"jsDelivr CDN" },
+  { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json?v=" + _dayKey, n:"GitHub raw" },
 ];
 function stampData(){
   const meta = DATA.meta;
@@ -505,14 +511,21 @@ async function fetchJson(url, ms){
   }catch(e){ return null; }
   finally{ clearTimeout(t); }
 }
+// 陈旧判定: CDN 边缘节点可能缓存旧文件, 若远程数据比构建时内嵌快照还旧 → 丢弃(避免旧分覆盖新分)
+function isStale(j){
+  if(!j || !j.meta || !j.meta.updated) return false;
+  if(!FALLBACK || !FALLBACK.meta || !FALLBACK.meta.updated) return false;
+  return j.meta.updated < FALLBACK.meta.updated;
+}
 async function loadData(){
   for(const s of REMOTE_SOURCES){
     const j = await fetchJson(s.u);
-    if(j){ DATA = j; console.log("[泡沫温度计] 数据源:", s.n); return; }
+    if(j && !isStale(j)){ DATA = j; console.log("[泡沫温度计] 数据源:", s.n); return; }
+    if(j) console.warn("[泡沫温度计] 忽略陈旧数据:", s.n, j.meta && j.meta.updated);
   }
   const j = await fetchJson("data.json", 4000);
-  if(j){ DATA = j; console.log("[泡沫温度计] 数据源: 本站快照"); return; }
-  console.warn("[泡沫温度计] 远程加载失败, 使用内嵌兜底数据");
+  if(j && !isStale(j)){ DATA = j; console.log("[泡沫温度计] 数据源: 本站快照"); return; }
+  console.warn("[泡沫温度计] 远程无有效新数据, 使用内嵌快照");
   DATA = FALLBACK;
 }
 

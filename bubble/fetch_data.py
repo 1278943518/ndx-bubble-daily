@@ -33,7 +33,7 @@ def http_get(url, headers=None, timeout=25, retries=3):
 
 # ---------- 1. 腾讯月K ----------
 def fetch_tencent(code):
-    url = f"https://web.ifzq.gtimg.cn/appstock/app/usfqkline/get?param={code},month,,,300,qfq"
+    url = f"https://web.ifzq.gtimg.cn/appstock/app/usfqkline/get?param={code},month,,,1200,qfq"
     d = json.loads(http_get(url))
     rows = d["data"][code]["month"]
     out = []

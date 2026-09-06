@@ -94,7 +94,7 @@ W = {"s1": 0.20, "s2": 0.12, "s3": 0.10, "s4": 0.18, "s5": 0.10, "s6": 0.15, "s8
 assert abs(sum(W.values()) - 1.0) < 1e-9
 df["total"] = sum(df[k] * w for k, w in W.items())
 
-df = df[df.index >= "2016-01-01"]
+df = df[df.index >= "2003-01-01"]   # 周频数据 2003-08 起(腾讯1200根); FRED 补段后自动更早
 df.to_csv("bubble_out/scores_weekly.csv")
 print("周频得分表已生成:", len(df), "周,", df.index[0].date(), "→", df.index[-1].date())
 

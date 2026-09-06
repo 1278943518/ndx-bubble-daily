@@ -94,6 +94,7 @@ def calc_pct(s, window=120, expanding=False):
     for i in range(n):
         v = vals[i]
         if np.isnan(v):
+            out[i] = 50.0          # 数据缺失期(ARKK/ICI 等未覆盖段)给中性分
             continue
         start = 0 if expanding else max(0, i - window)
         hist = vals[start:i]  # 不含当前(避免自引用)
@@ -114,7 +115,9 @@ f3 = 100 - calc_pct(df["F3_vix"])
 f4 = calc_pct(df["margin_lag"])
 # 特征5 (v2.0): ARKK/NDX 相对动量高分位 → 投机狂热高分 (单向加分)
 f5_raw = calc_pct(df["arkk_ndx_mom"])
-f5 = np.clip((f5_raw - 50) * 2, 0, 100)  # 仅50分位以上贡献, 消退不拖累
+# ARKK 2014-10 才上市: 缺失期保持中性 50(否则 clip 会把中性压成 0)
+arkk_na = df["arkk_ndx_mom"].isna().values
+f5 = np.where(arkk_na, 50.0, np.clip((f5_raw - 50) * 2, 0, 100))  # 仅50分位以上贡献, 消退不拖累
 # 特征6: 基金流入异常度高 → 高分 (新买家涌入)
 f6 = calc_pct(df["ici_anom"])
 # 特征7: 利率低分位 → 宽松高分 (不计入总分)
@@ -132,8 +135,8 @@ W = {"s1": 0.20, "s2": 0.12, "s3": 0.10, "s4": 0.18, "s5": 0.10,
 assert abs(sum(W.values()) - 1.0) < 1e-9
 df["total"] = sum(df[k] * w for k, w in W.items())
 
-# 只保留 2016 起
-df = df[df.index >= "2016-01-01"]
+# 只保留 2000 起 (腾讯月K 1200根 = 2000-01 起)
+df = df[df.index >= "2000-01-01"]
 df.to_csv("bubble_out/scores_monthly.csv")
 print("月度得分表已生成:", len(df), "个月,", df.index[0].date(), "→", df.index[-1].date())
 
