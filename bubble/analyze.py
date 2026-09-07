@@ -67,8 +67,10 @@ df["F3_vix"] = df["vix"]
 # --- 特征4: 杠杆 = margin debt 水平(滞后1月, 滚动分位) ---
 df["margin_lag"] = df["margin"].shift(1)
 
-# --- 特征5: 投机提前买入 (v2.0 替换) = ARKK/NDX 相对12M动量 ---
-# ARKK 2021-02 见顶(比纳指早9个月), 相对动量极端时=投机狂热
+# --- 特征5: 投机狂热 = ARKK/NDX 相对12M动量 (v2.3 正名) ---
+# 博主"特征5 提前买入"(需求前置/囤积)无可得 proxy: 成交量异常度验证 IC≈0 失败,
+# 期权情绪(CBOE put/call)数据不可达 → 用 ARKK 相对动量近似"投机狂热",
+# ARKK 2021-02 见顶(比纳指早9个月), 相对动量极端时=投机泡沫先行预警(实证有效)
 df["arkk_ndx_mom"] = (df["arkk"] / df["arkk"].shift(12) - 1) - (df["ndx"] / df["ndx"].shift(12) - 1)
 
 # --- 特征6: 新买家 = ICI 美国股票基金月净流入异常度 (v2.2 替换原"距52周高点距离") ---
@@ -80,10 +82,12 @@ df["ici_anom"] = (ici_flows - ici_flows.rolling(60, min_periods=36).median().shi
 # --- 特征7: 货币宽松 (不计入总分) ---
 df["F7_fed"] = df["fed"]
 
-# --- 特征8: 科技泡沫 = 纳指100/标普500 相对12个月收益 ---
-ndx_m12 = df["ndx"] / df["ndx"].shift(12) - 1
-inx_m12 = df["inx"] / df["inx"].shift(12) - 1
-df["rel_mom12"] = ndx_m12 - inx_m12
+# --- 特征8: 科技泡沫 = 纳指100/标普500 相对36个月收益 (v2.3: 12月→36月) ---
+# 成长泡沫是多年累积(2000/2021均3年+跑赢), 12月窗在相对优势末期过早回落(2021-11仅41分漏报)
+# 36月窗实测: 2021-11 分位 100, 修复漏报主因
+ndx_m36 = df["ndx"] / df["ndx"].shift(36) - 1
+inx_m36 = df["inx"] / df["inx"].shift(36) - 1
+df["rel_mom36"] = ndx_m36 - inx_m36
 
 # ============ 3. 打分公式: 滚动10年分位 → 0-100 ============
 def calc_pct(s, window=120, expanding=False):
@@ -122,8 +126,8 @@ f5 = np.where(arkk_na, 50.0, np.clip((f5_raw - 50) * 2, 0, 100))  # 仅50分位�
 f6 = calc_pct(df["ici_anom"])
 # 特征7: 利率低分位 → 宽松高分 (不计入总分)
 f7 = 100 - calc_pct(df["F7_fed"])
-# 特征8: 科技相对动量高分位 → 高分
-f8 = calc_pct(df["rel_mom12"])
+# 特征8: 科技相对动量(36月)高分位 → 高分
+f8 = calc_pct(df["rel_mom36"])
 
 df["s1"] = f1; df["s2"] = f2; df["s3"] = f3; df["s4"] = f4
 df["s5"] = f5; df["s6"] = f6; df["s7"] = f7; df["s8"] = f8

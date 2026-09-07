@@ -47,7 +47,7 @@ df["F1_cape"] = df["cape"]
 # 特征2: 预期继续上涨 = 52周动量
 df["mom52"] = df["ndx"] / df["ndx"].shift(52) - 1
 df["F3_vix"] = df["vix"]
-# 特征5: 投机狂热 = ARKK/NDX 相对52周动量
+# 特征5: 投机狂热 = ARKK/NDX 相对52周动量 (v2.3 正名, 见月频版注释)
 df["arkk_ndx_mom"] = (df["arkk"] / df["arkk"].shift(52) - 1) - (df["ndx"] / df["ndx"].shift(52) - 1)
 # 特征6: 新买家 = ICI 美国股票基金月净流入异常度 (v2.2 替换原"距52周高点距离")
 # 数据: bubble_data/ici_flows_monthly.csv (ICI 官方月度实际值, 2007-01 起, 百万美元)
@@ -56,8 +56,8 @@ ici = pd.read_csv(f"{B}/ici_flows_monthly.csv", index_col=0, parse_dates=True)["
 ici_anom = ici - ici.rolling(60, min_periods=36).median().shift(1)
 df["ici_anom"] = ici_anom.reindex(df.index, method="ffill")
 df["F7_fed"] = df["fed"]
-# 特征8: 科技泡沫 = NDX/INX 相对52周收益
-df["rel_mom52"] = (df["ndx"] / df["ndx"].shift(52) - 1) - (df["inx"] / df["inx"].shift(52) - 1)
+# 特征8: 科技泡沫 = NDX/INX 相对156周收益 (v2.3: 52周→156周, 修复成长泡沫漏报)
+df["rel_mom156"] = (df["ndx"] / df["ndx"].shift(156) - 1) - (df["inx"] / df["inx"].shift(156) - 1)
 
 # ============ 3. 打分: 滚动520周分位 (10年) ============
 def calc_pct(s, window=520, expanding=False, min_p=52):
@@ -83,7 +83,7 @@ f5_raw = calc_pct(df["arkk_ndx_mom"])               # 投机: 相对动量高分
 f5 = np.maximum(f5_raw, 50)                         # 修复: 单向加分但刻度一致(50=中性)
 f6 = calc_pct(df["ici_anom"])                           # 新买家: 基金流入异常度高 → 高分
 f7 = 100 - calc_pct(df["F7_fed"])                   # 货币: 利率低 → 宽松 (不计分)
-f8 = calc_pct(df["rel_mom52"])                      # 科技: 相对动量高分位
+f8 = calc_pct(df["rel_mom156"])                      # 科技: 相对动量(156周)高分位
 
 df["s1"] = f1; df["s2"] = f2; df["s3"] = f3; df["s4"] = f4
 df["s5"] = f5; df["s6"] = f6; df["s7"] = f7; df["s8"] = f8
