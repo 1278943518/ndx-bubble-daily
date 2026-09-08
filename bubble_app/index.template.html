@@ -61,12 +61,29 @@
   .advice ul { margin-left:16px; }
   .advice li { margin-bottom:3px; }
   .advice .tag { display:inline-block; font-size:10px; font-weight:700; color:#fff; border-radius:4px; padding:1px 6px; margin-right:4px; }
-  /* ===== zones ===== */
-  .zrow { display:flex; align-items:center; gap:8px; font-size:12px; padding:6px 0; border-bottom:1px dashed var(--line); }
-  .zrow:last-child { border-bottom:none; }
-  .zrow .dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
-  .zrow .zname { font-weight:700; width:64px; flex-shrink:0; }
-  .zrow .zdesc { color:var(--sub); font-size:11px; }
+  /* ===== plan ===== */
+  .plan-ctrl { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+  .plan-ctrl label { font-size:12px; color:var(--sub); }
+  .plan-ctrl input { width:98px; padding:5px 9px; font-size:15px; font-weight:800; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); font-variant-numeric:tabular-nums; font-family:inherit; }
+  .plan-ctrl input:focus { outline:none; border-color:var(--blue); }
+  .plan-mode { display:flex; gap:5px; margin-left:auto; }
+  .plan-mode button { font-size:11px; padding:4px 11px; border-radius:99px; border:1px solid var(--line); background:#f0f3f7; color:var(--sub); cursor:pointer; font-family:inherit; }
+  .plan-mode button.on { background:var(--blue); border-color:var(--blue); color:#fff; font-weight:700; }
+  .prow { display:flex; align-items:baseline; gap:8px; font-size:13px; padding:7px 0; border-bottom:1px dashed var(--line); }
+  .prow .pn { font-weight:700; flex:1; min-width:0; }
+  .prow .pp { color:var(--sub); font-size:12px; width:40px; text-align:right; flex-shrink:0; }
+  .prow .pa { font-weight:800; width:78px; text-align:right; font-variant-numeric:tabular-nums; flex-shrink:0; }
+  .prow.tot { border-top:1.5px solid var(--ink); border-bottom:none; margin-top:1px; }
+  .prow.ph { padding:4px 0; border-bottom:1px solid var(--line); font-size:11px; color:var(--sub); font-weight:600; }
+  .plan-ctrl .unit { font-size:11.5px; color:var(--sub); }
+  .cal { font-size:12px; margin-top:4px; }
+  .crow { display:flex; gap:8px; padding:5px 0; border-bottom:1px dashed var(--line); }
+  .crow:last-child { border-bottom:none; }
+  .crow .cw { font-weight:700; width:88px; flex-shrink:0; font-size:11.5px; }
+  .crow .cd { color:var(--sub); font-size:11.5px; }
+  .cal-h { font-size:11px; color:var(--sub); font-weight:700; margin-top:14px; }
+  .codes { font-size:10.5px; color:var(--sub); margin-top:10px; line-height:1.6; }
+  .hint { font-size:10.5px; color:var(--sub); margin-top:11px; line-height:1.6; }
   footer { font-size:10px; color:var(--sub); text-align:center; margin-top:8px; line-height:1.7; }
   .kpts { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .kpt { font-size:10px; background:#f0f3f7; border-radius:6px; padding:2px 7px; color:var(--sub); }
@@ -114,6 +131,30 @@
   </div>
 
   <div class="card">
+    <h2>每日定投 <span class="tip">按计划执行，不看温度</span></h2>
+    <div class="plan-ctrl">
+      <label for="pamt">月投入</label>
+      <input type="number" id="pamt" value="5000" min="0" step="100">
+      <span class="unit">元 ÷ 21 个交易日</span>
+      <div class="plan-mode">
+        <button id="pmStd" class="on">均衡版</button>
+        <button id="pmAggr">进攻版</button>
+      </div>
+    </div>
+    <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
+    <div id="prows"></div>
+    <div class="cal-h">执行规则</div>
+    <div class="cal">
+      <div class="crow"><span class="cw">每个交易日</span><span class="cd">按日申购；QDII 限购按上限买</span></div>
+      <div class="crow"><span class="cw">QDII 买不进</span><span class="cd">先投 A 股两档，下月补回</span></div>
+      <div class="crow"><span class="cw">6 月 · 12 月</span><span class="cd">再平衡，低配档先用新增资金补</span></div>
+      <div class="crow"><span class="cw">奖　金</span><span class="cd">分 3 个月摊薄，并入日投</span></div>
+    </div>
+    <div class="codes">场内 513100 · 513500 · 512890 · 159201　|　场外 270042 · 050025 · 020602 · 023919</div>
+    <div class="hint">温度不改变任何一档的买入金额 —— 回测四种温度调节变体，全部跑输固定权重。</div>
+  </div>
+
+  <div class="card">
     <h2>八特征分解 <span class="tip">0-100 分位</span></h2>
     <div id="features"></div>
   </div>
@@ -145,17 +186,8 @@
   </div>
 
   <div class="card">
-    <h2>操作建议</h2>
+    <h2>读数</h2>
     <div class="advice" id="advice"></div>
-  </div>
-
-  <div class="card">
-    <h2>分界说明</h2>
-    <div class="zrow"><span class="dot" style="background:var(--red)"></span><span class="zname">≥70 高热</span><span class="zdesc">减仓 / 离场，等待分数回落</span></div>
-    <div class="zrow"><span class="dot" style="background:var(--orange)"></span><span class="zname">55-70 偏高</span><span class="zdesc">谨慎持有，不追高</span></div>
-    <div class="zrow"><span class="dot" style="background:var(--amber)"></span><span class="zname">45-55 中性</span><span class="zdesc">观望 / 定投</span></div>
-    <div class="zrow"><span class="dot" style="background:var(--green)"></span><span class="zname">≤45 低估</span><span class="zdesc">分批布局区</span></div>
-    <div style="font-size:11px;color:var(--sub);margin-top:8px;">⚠️ 若 <b>13 周内总分下降 ≥20</b>，触发顶部拐点预警（如 2018-11、2020-03）。</div>
   </div>
 
   <div class="card">
@@ -164,10 +196,7 @@
   </div>
 
   <footer>
-    数据源：CAPE(multpl) · VIX(CBOE) · 保证金债务(FINRA) · ARKK/纳指/标普(东财) · 利率(FRED)<br>
-    频率：周频 · 滚动520周(10年)分位 · 动量52周 · 杠杆滞后4周<br>
-    权重：估值20% 预期12% 情绪10% 杠杆18% 投机狂热10% 新买家15% 科技15%（货币刺激不计分）<br>
-    数据范围：月频 2000-01 起 · 周频 2003-08 起（2000-2009 为分位窗口积累期，2010 起满 10 年参照）<br>v2.3：科技特征改用 36 个月相对动量（修复 2021-11 顶部漏报）<br>
+    数据源：CAPE · VIX · 保证金债务 · ARKK · 纳指 · 标普 · FRED 利率　周频 · 滚动 10 年分位<br>
     仅供研究参考，不构成投资建议
   </footer>
 </div>
@@ -177,10 +206,10 @@ let DATA = null;                       // 运行时数据: fetch data.json 优�
 const FALLBACK = __DATA__;             // 构建时内嵌的快照(本地/离线可用)
 
 const ZONES = [
-  { max:45,  name:"低估区", color:"#059669", cls:"low",  advice:["分批布局区","适合定投加仓","关注估值分位回落后的机会"], head:"低估区 · 布局窗口" },
-  { max:55,  name:"中性区", color:"#ca8a04", cls:"mid",  advice:["观望为主","可保持定投","等待方向明确"], head:"中性区 · 观望定投" },
-  { max:70,  name:"偏高区", color:"#d97706", cls:"high", advice:["谨慎持有","不追高、不加杠杆","减仓锁利可分批进行"], head:"偏高区 · 谨慎持有" },
-  { max:101, name:"高热区", color:"#dc2626", cls:"hot",  advice:["考虑减仓 / 离场","等待分数回落再布局","警惕拐点预警信号"], head:"高热区 · 减仓离场" },
+  { max:45,  name:"低估区", color:"#059669", cls:"low"  },
+  { max:55,  name:"中性区", color:"#ca8a04", cls:"mid"  },
+  { max:70,  name:"偏高区", color:"#d97706", cls:"high" },
+  { max:101, name:"高热区", color:"#dc2626", cls:"hot"  },
 ];
 
 const FEATURES = [
@@ -409,16 +438,47 @@ function bindOverlay(){
   document.getElementById("tip-close").addEventListener("pointerdown", e => { e.stopPropagation(); hideTip(); });
 }
 
-// ===== Advice =====
+// ===== Advice (仅作观察, 不改变定投金额) =====
 function renderAdvice(t, turn){
   const z = zoneOf(t);
-  let html = `<div class="head" style="color:${z.color}">${z.head}</div><ul>`;
-  for(const a of z.advice) html += `<li>${a}</li>`;
-  html += `</ul>`;
+  let html = `<div class="head" style="color:${z.color}">${z.name} · ${t.toFixed(1)} 分</div>`;
+  html += `<div style="font-size:12px;color:var(--sub);margin-top:2px;">仅作观察记录，不改变定投金额。</div>`;
   if(turn && turn >= 20){
-    html += `<div style="margin-top:8px;font-size:12px;color:#991b1b;background:#fef2f2;border-radius:8px;padding:8px 10px;">⚠️ <b>顶部预警</b>：近13周总分下降 ${turn.toFixed(0)} 分（≥20），历史上对应 2018-11 / 2020-03 式拐点，建议提高警惕。</div>`;
+    html += `<div style="margin-top:8px;font-size:12px;color:#991b1b;background:#fef2f2;border-radius:8px;padding:8px 10px;">⚠️ <b>顶部预警</b>：近 13 周总分下降 ${turn.toFixed(0)} 分（≥20），历史上对应 2018-11 / 2020-03 式拐点。</div>`;
   }
   document.getElementById("advice").innerHTML = html;
+}
+
+// ===== 每日定投计划 =====
+let PMODE = "std";
+const DAYS = 21;                              // 每月约 21 个交易日
+const PLANS = {
+  std:  [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 25], ["A股自由现金流", 15]],
+  aggr: [["纳斯达克 100", 40], ["标普 500", 30], ["A股红利低波", 10], ["A股自由现金流", 20]],
+};
+function renderPlan(){
+  const inp = document.getElementById("pamt");
+  const x = parseFloat(inp.value) || 0;
+  const per = x / DAYS;                        // 每个交易日总投入
+  const rows = PLANS[PMODE];
+  let h = "", s = 0;
+  for(const [n, p] of rows){
+    const v = Math.round(per * p / 100); s += v;
+    h += `<div class="prow"><span class="pn">${n}</span><span class="pp">${p}%</span><span class="pa">¥${v.toLocaleString("zh-CN")}</span></div>`;
+  }
+  h += `<div class="prow tot"><span class="pn">合计</span><span class="pp">100%</span><span class="pa">¥${s.toLocaleString("zh-CN")}</span></div>`;
+  document.getElementById("prows").innerHTML = h;
+}
+function bindPlan(){
+  const inp = document.getElementById("pamt");
+  const bS = document.getElementById("pmStd"), bA = document.getElementById("pmAggr");
+  const savedAmt = localStorage.getItem("pamt");
+  if(savedAmt !== null) inp.value = savedAmt;
+  if(localStorage.getItem("pmode") === "aggr"){ PMODE = "aggr"; bA.classList.add("on"); bS.classList.remove("on"); }
+  inp.addEventListener("input", e => { renderPlan(); localStorage.setItem("pamt", e.target.value); });
+  bS.addEventListener("click", () => { PMODE = "std";  bS.classList.add("on"); bA.classList.remove("on"); localStorage.setItem("pmode","std");  renderPlan(); });
+  bA.addEventListener("click", () => { PMODE = "aggr"; bA.classList.add("on"); bS.classList.remove("on"); localStorage.setItem("pmode","aggr"); renderPlan(); });
+  renderPlan();
 }
 
 // ===== Key points recap =====
@@ -451,6 +511,7 @@ function init(){
   document.getElementById("gauge-l").textContent = `${cur.d} · ${z.name}`;
   renderFeatures(cur);
   refresh();
+  bindPlan();
   // turn warning (基于周频, 固定)
   const w = DATA.week;
   const last13 = w.slice(-13).map(d=>d.total);
