@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>美股温度计 · 使用与定投说明</title>
+<style>
+  :root{
+    --ink:#111827; --sub:#5b6472; --faint:#8b93a1;
+    --line:#e6e8ec; --bg:#f6f7f9; --card:#fff;
+    --blue:#2563eb; --blue-bg:#eff4ff;
+    --green:#059669; --amber:#b45309; --red:#b91c1c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 56px;}
+  header{margin-bottom:22px;}
+  h1{font-size:22px;font-weight:700;margin:0 0 6px;letter-spacing:-.2px;}
+  .lead{font-size:13px;color:var(--sub);margin:0;}
+  .lead b{color:var(--ink);}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px;}
+  h2{font-size:15px;font-weight:700;margin:0 0 4px;display:flex;align-items:baseline;gap:8px;}
+  h2 .n{font-size:12px;color:var(--faint);font-weight:600;}
+  h2 .t{margin-left:auto;font-size:11px;font-weight:400;color:var(--faint);}
+  .sub{font-size:12px;color:var(--sub);margin:0 0 12px;}
+  h3{font-size:13.5px;font-weight:700;margin:16px 0 6px;}
+  h3:first-child{margin-top:0;}
+  p{margin:0 0 9px;font-size:13.5px;}
+  p:last-child{margin-bottom:0;}
+  ul{margin:0 0 9px;padding-left:19px;font-size:13.5px;}
+  li{margin-bottom:5px;}
+  li:last-child{margin-bottom:0;}
+
+  /* 计算器 */
+  .calc{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px;}
+  .calc label{font-size:12.5px;color:var(--sub);}
+  .calc input{width:96px;padding:5px 9px;font:700 15px/1.4 inherit;color:var(--ink);
+    border:1px solid var(--line);border-radius:8px;background:#fff;font-variant-numeric:tabular-nums;}
+  .calc input:focus{outline:none;border-color:var(--blue);}
+  .calc .u{font-size:12px;color:var(--faint);}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums;}
+  th,td{text-align:right;padding:8px 6px;border-bottom:1px solid var(--line);}
+  th:first-child,td:first-child{text-align:left;}
+  th{font-size:11.5px;color:var(--faint);font-weight:600;letter-spacing:.2px;}
+  tbody tr:last-child td{border-bottom:none;}
+  tr.tot td{border-top:1.5px solid var(--ink);font-weight:700;}
+  td.nm{font-weight:700;}
+  td.p{color:var(--sub);}
+  td.d{font-weight:700;}
+  .codes{font-size:11.5px;color:var(--sub);font-variant-numeric:normal;}
+
+  /* 标的块 */
+  .asset{border-top:1px solid var(--line);padding:13px 0 3px;}
+  .asset:first-of-type{border-top:none;padding-top:2px;}
+  .asset .hd{display:flex;align-items:baseline;gap:9px;margin-bottom:5px;}
+  .asset .nm{font-weight:700;font-size:14px;}
+  .asset .pct{margin-left:auto;font-weight:700;font-size:14px;color:var(--blue);}
+  .asset .kv{font-size:12.5px;color:var(--sub);}
+  .asset .kv b{color:var(--ink);font-weight:600;}
+  .warn{font-size:12px;color:var(--amber);background:#fffbeb;border:1px solid #fde68a;
+    border-radius:8px;padding:7px 10px;margin-top:7px;}
+
+  /* 规则 */
+  .rule{display:flex;gap:11px;padding:10px 0;border-bottom:1px dashed var(--line);}
+  .rule:last-child{border-bottom:none;}
+  .rule .k{font-weight:700;font-size:12.5px;width:96px;flex-shrink:0;}
+  .rule .v{font-size:13px;color:var(--sub);}
+  .rule .v b{color:var(--ink);font-weight:600;}
+
+  .no{list-style:none;padding-left:0;}
+  .no li{padding-left:19px;position:relative;}
+  .no li:before{content:"✕";position:absolute;left:0;color:var(--red);font-weight:700;font-size:12px;}
+
+  .mini{font-size:12.5px;}
+  .mini td,.mini th{padding:6px 5px;font-size:12.5px;}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:5px;
+    background:var(--blue-bg);color:var(--blue);}
+  .muted{color:var(--faint);font-size:12px;}
+  footer{font-size:11.5px;color:var(--faint);text-align:center;margin-top:20px;line-height:1.7;}
+  .divider{height:1px;background:var(--line);margin:14px 0;}
+  a{color:var(--blue);}
+
+  @media print{
+    body{background:#fff;font-size:11.5pt;}
+    .wrap{max-width:none;padding:0;}
+    .card{border:1px solid #d5d8dd;break-inside:avoid;page-break-inside:avoid;margin-bottom:10px;}
+    .calc input{border:1px solid #ccc;}
+    header{break-after:avoid;}
+    a{color:#1d4ed8;text-decoration:none;}
+  }
+  @page{margin:14mm 12mm;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>美股温度计 · 使用与定投说明</h1>
+  <p class="lead">不择时 · <b>每个交易日定投</b> · 分红再投 · 数据每日 08:00 自动更新<br>
+  看顺序：<b>配置表 → 标的选择 → 执行规则</b>；取舍理由与回测在后面，不影响执行。</p>
+</header>
+
+<!-- ============ 一、配置表 ============ -->
+<div class="card">
+  <h2><span class="n">01</span>配置表 <span class="t">每天照这张表买</span></h2>
+  <p class="sub">输入你的月投入额，自动换算成每个交易日的金额（按每月约 21 个交易日）。</p>
+
+  <div class="calc">
+    <label for="amt">月投入</label>
+    <input type="number" id="amt" value="5000" min="0" step="100">
+    <span class="u">元 ÷ 21 个交易日</span>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>标的</th><th>比例</th><th>每日</th><th>每月</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="sub" style="margin:11px 0 0;">金额改动只影响这一页的显示，不影响温度计里的定投卡片。</p>
+</div>
+
+<!-- ============ 二、标的选择 ============ -->
+<div class="card">
+  <h2><span class="n">02</span>标的选择 <span class="t">买哪只、在哪买</span></h2>
+  <p class="sub">同一档里选任意一只即可，场内与场外不要重复计算比例。QDII（美股两档）优先场外申购，避免场内溢价。<br>
+  <b>同一指数下先比费率再比规模</b>：管理费+托管费能差 0.40%/年，这是 100% 确定的成本；QDII 还要看当日额度够不够日投。</p>
+
+  <div class="asset">
+    <div class="hd"><span class="nm">纳斯达克 100</span><span class="pct">30%</span></div>
+    <div class="kv">作用：<b>成长引擎</b>。长期收益最高的腿，也是波动和回撤的主要来源。<br>
+    场内：<b>159501（嘉实 · 0.60%）</b> · 159696（易方达 · 0.60%） · 159660（汇添富 · 0.65%）<br>
+    场外：<b>018966</b> 汇添富纳指100联接A（0.65%，额度较宽） · 019172 摩根（0.60%，限额紧）</div>
+    <div class="warn">同指数费率差 <b>0.40%/年</b>：159501 / 159696 是 0.60% 档；<span class="tag">513100（国泰）0.80%、159941（广发）1.00% 是高价档</span>。场外原选的 270042（广发联接A）同样是 1.00% 档，且单日限额极低，日投买不进。</div>
+  </div>
+
+  <div class="asset">
+    <div class="hd"><span class="nm">标普 500</span><span class="pct">30%</span></div>
+    <div class="kv">作用：<b>压波动</b>。和纳指相关 0.55，行业更分散，MDD 比纳指浅一档。<br>
+    场内：<b>159655（华夏 · 0.75%）</b> · 513650（南方 · 0.75%） · 513500（博时 · 0.80%）<br>
+    场外：017641 摩根标普500联接A（0.65%）；050025（博时 · 0.80%）额度常年紧张</div>
+  </div>
+
+  <div class="asset">
+    <div class="hd"><span class="nm">A 股红利低波</span><span class="pct">25%</span></div>
+    <div class="kv">作用：<b>唯一真分散源</b>。与纳指相关性只有 0.31，最低时接近 0。<br>
+    场内：<b>563020（易方达 · 0.20%）</b> · 512890（华泰柏瑞 · 0.60%，规模最大）<br>
+    场外：<b>020602</b> 易方达联接A（0.20%）　|　跟踪指数：中证红利低波动 <b>H20269</b>（全收益）</div>
+    <div class="warn">它<span class="tag">不是低波资产</span>：波动 18.9%~26.1%，比纳指还高；2006-2026 最大回撤 -63.7%。别因为名字叫"低波"就加仓。</div>
+  </div>
+
+  <div class="asset">
+    <div class="hd"><span class="nm">A 股自由现金流</span><span class="pct">15%</span></div>
+    <div class="kv">作用：<b>价值风格的另一半</b>。编制逻辑与红利低波不同（现金流质量 vs 高股息+低波）。<br>
+    场内：<b>159201（华夏 · 0.20%）</b> · 159222（易方达 · 0.20%） · 159221（嘉实 · 0.20%）<br>
+    场外：<b>023917</b> 华夏联接A（0.20%） · 023919 国泰联接A（0.20%，直销免申购费）<br>
+    跟踪指数：<b>国证自由现金流 980092</b>（100 只 · 5 个行业权重 &gt;10% · PE 13.3 · 编制最早 · 与中证 932365 可互换）</div>
+    <div class="warn"><b>两个坑</b>：① 自由现金流有中证 932365 / 国证 980092 / 富时三个版本，不同 ETF 跟踪的不是同一个指数——<b>国证系产品端最强</b>（159201 规模 161 亿、日均成交 2.86 亿、跟踪误差 0.05%）。② 场外费率两极分化：<span class="tag">汇添富 024002、华泰柏瑞 024622 是 0.60%/年</span>，比华夏 / 国泰 / 南方贵 3 倍。别只看指数名字，要顺着这条链逐层看费率。</div>
+  </div>
+</div>
+
+<!-- ============ 三、执行规则 ============ -->
+<div class="card">
+  <h2><span class="n">03</span>执行规则 <span class="t">照做，不判断</span></h2>
+
+  <h3>买入</h3>
+  <div class="rule"><span class="k">每个交易日</span><span class="v">按上表金额<b>按日申购</b>。场外 QDII 有单日限额，就<b>按上限买</b>，不用等攒够。</span></div>
+  <div class="rule"><span class="k">在哪买</span><span class="v"><b>小额日投走场外</b>——场内佣金最低 5 元/笔，日投 143 元等于每笔先亏 3.5%；<b>大额单笔（≥5 万）走场内</b>，佣金摊薄到 0.01% 以下才划算。</span></div>
+  <div class="rule"><span class="k">A 类 / C 类</span><span class="v">场外<b>长期持有选 A 类</b>（申购费一次性，1 折约 0.10%）；C 类 0 申购费但每年收 0.20% 销售服务费，只在 1 年内赎回时划算。盈亏平衡约 6 个月。</span></div>
+  <div class="rule"><span class="k">QDII 买不进</span><span class="v">当天买不进的部分<b>先投 A 股两档</b>，下月再平衡时补回比例。</span></div>
+  <div class="rule"><span class="k">奖　金</span><span class="v">分 <b>3 个月摊薄</b>并入日投，不要一次性打进去。</span></div>
+  <div class="rule"><span class="k">分　红</span><span class="v">默认<b>再投资</b>（场外选"红利再投"，场内分红到账后手动买入）。</span></div>
+
+  <h3>再平衡</h3>
+  <div class="rule"><span class="k">6 月 · 12 月</span><span class="v">每年两次检视，<b>任一档相对偏离超过 40% 才动手</b>，没到线不动 —— 完整规则见 <b>04 再平衡细则</b>。</span></div>
+  <div class="rule"><span class="k">怎么补</span><span class="v"><b>优先用新增资金补低配档</b>；绝对偏离 ≥15pp 才卖出超配档。</span></div>
+
+  <h3>不要做</h3>
+  <ul class="no">
+    <li>不看温度分加减任何一档的买入金额（回测四种温度调节变体全部跑输固定权重）</li>
+    <li>不因为某档"最近涨得好/跌得惨"调整比例或暂停扣款</li>
+    <li>不在 QDII 场内溢价 &gt;1.5% 时买入（改走场外申购或换同类）</li>
+  </ul>
+</div>
+
+<!-- ============ 四、再平衡细则 ============ -->
+<div class="card">
+  <h2><span class="n">04</span>再平衡细则 <span class="t">频率 · 阈值 · 算例</span></h2>
+  <p class="sub">每年两次（6 月末、12 月末）。触发后用新增资金修正，尽量不卖出。</p>
+
+  <h3>触发条件</h3>
+  <div class="rule"><span class="k">检视频率</span><span class="v">每年 <b>2 次</b>：<b>6 月末</b>与<b>12 月末</b>各检视一次，年中不动。</span></div>
+  <div class="rule"><span class="k">相对阈值</span><span class="v">任一档的 <b>|实际权重 − 目标权重| ÷ 目标权重 &gt; 40%</b> 即触发。换算成绝对偏离：<b>纳指 12pp · 标普 12pp · 红利低波 10pp · 现金流 6pp</b>。</span></div>
+  <div class="rule"><span class="k">绝对兜底</span><span class="v">任一档绝对偏离 <b>≥ 15pp</b> → 必须卖出超配档，不再等新增资金。</span></div>
+
+  <h3>为什么不能用统一的 8pp 绝对阈值</h3>
+  <p>目标权重不同的标的，同样 8pp 的含义完全不同：</p>
+  <table class="mini">
+    <thead><tr><th>标的</th><th>目标权重</th><th>8pp 相当于</th></tr></thead>
+    <tbody>
+      <tr><td>纳斯达克 100</td><td>30%</td><td>相对偏离 27%（权重涨到 38% 或跌到 22% 才触发）</td></tr>
+      <tr><td>标普 500</td><td>30%</td><td>相对偏离 27%（涨到 38% 或跌到 22%）</td></tr>
+      <tr><td>A 股红利低波</td><td>25%</td><td>相对偏离 32%（涨到 33% 或跌到 17%）</td></tr>
+      <tr><td>A 股自由现金流</td><td>15%</td><td><b>相对偏离 53%</b>（涨到 23% 或跌到 7%）</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:9px;">对 15% 的现金流腿，8pp 意味着它要涨 53% 或跌 53% 才触发——<b>实际上等于没有阈值</b>。2014-2026 四资产回测里，现金流腿在检视点的最大偏离只有 <b>7.2pp（相对 48%）</b>，<b>从未触发过</b>；整条 8pp 规则 12.7 年只触发 1 次，效果几乎等于"不再平衡"（组合最大回撤 −19.5%，与完全不再平衡一模一样）。</p>
+  <p><b>所以答案是：需要额外设定规则，但不必逐条手设参数——改用相对阈值即可。</b>相对阈值会自动做到"高占比给宽、低占比给严"：纳指放宽到 12pp、现金流收紧到 6pp。</p>
+  <div class="warn">诚实说明：把阈值改紧之后，2014-2026 四资产样本的 Calmar 从 0.84 升到 1.22、最大回撤从 −19.5% 收敛到 −14.3%，年换手仅 2.6%；但在 <b>2006-2026 长样本</b>（含 2008）里，各种再平衡规则的 Calmar 都落在 0.29~0.31，<b>差异很小</b>。所以这次改动的价值主要在"逻辑自洽 + 自适应"，<b>不要把 1.22 当成预测</b>。</div>
+
+  <h3>调仓计算方式</h3>
+  <p>三步：① 算出每档实际市值 → ② 目标市值 = 组合总市值 × 目标权重 → ③ 差额 = 目标市值 − 实际市值（正数要补，负数超配）。</p>
+  <p class="muted" style="margin:9px 0 6px;">算例：组合 10 万元（均衡版 30/30/25/15）</p>
+  <table class="mini">
+    <thead><tr><th>标的</th><th>实际 → 目标</th><th>相对偏离</th><th>需调整</th></tr></thead>
+    <tbody>
+      <tr><td>纳斯达克 100</td><td>42.0% → 30%</td><td style="color:var(--red);font-weight:700;">+40.0%</td><td>−12,000</td></tr>
+      <tr><td>标普 500</td><td>29.0% → 30%</td><td>−3.3%</td><td>+1,000</td></tr>
+      <tr><td>A 股红利低波</td><td>19.0% → 25%</td><td>−24.0%</td><td>+6,000</td></tr>
+      <tr><td>A 股自由现金流</td><td>10.0% → 15%</td><td>−33.3%</td><td>+5,000</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:9px;">纳指相对偏离 +40.0% → <b>触发</b>。要补的合计 12,000 元，正好等于纳指超出的部分。</p>
+
+  <h3>执行步骤</h3>
+  <div class="rule"><span class="k">1 记录</span><span class="v">6/12 月末记下四档市值与权重，算相对偏离，确认是否触发。</span></div>
+  <div class="rule"><span class="k">2 先不卖</span><span class="v">触发后<b>不动持仓</b>，把未来<b>3 个月</b>的日投金额改成"只买低配档"的临时比例。</span></div>
+  <div class="rule"><span class="k">3 补不平再卖</span><span class="v">3 个月内补齐 → 恢复标准比例；补不平，或任一档绝对偏离 ≥15pp → 卖出超配档。</span></div>
+  <div class="rule"><span class="k">4 卖的顺序</span><span class="v">优先卖<b>场内、费率最低、成本基础最高</b>的份额；QDII 场外赎回费按持有期分档，优先卖持有满 2 年的。</span></div>
+  <div class="rule"><span class="k">5 记录留档</span><span class="v">记下日期、各档权重、调了多少、用了什么方式，下次检视对照。</span></div>
+  <p class="muted" style="margin-top:11px;">再平衡是<b>纪律动作，不是判断动作</b>——不看温度、不看新闻、不预测方向。没到线就不动。</p>
+</div>
+
+<!-- ============ 五、温度计怎么看 ============ -->
+<div class="card">
+  <h2><span class="n">05</span>温度计怎么看 <span class="t">只观察，不动手</span></h2>
+  <div class="rule"><span class="k">泡沫分</span><span class="v">0-100 分位。<b>≤45 低估 · 45-55 中性 · 55-70 偏高 · ≥70 高热</b>。</span></div>
+  <div class="rule"><span class="k">八特征</span><span class="v">估值 / 预期 / 情绪 / 杠杆 / 投机狂热 / 新买家 / 科技 / 货币，看是哪一项在推高分数。</span></div>
+  <div class="rule"><span class="k">顶部预警</span><span class="v">近 13 周总分下降 ≥20 分，历史上对应 2018-11、2020-03 式拐点。</span></div>
+  <p style="margin-top:11px;font-size:13px;">这些读数<b>只用于记录和观察</b>。回测里所有"按温度调节仓位"的变体都跑输固定权重，所以温度不改变任何一档的买入金额——<b>该买多少还买多少</b>。</p>
+</div>
+
+<!-- ============ 六、取舍判断 ============ -->
+<div class="card">
+  <h2><span class="n">06</span>为什么这么配 <span class="t">不读也能执行</span></h2>
+
+  <h3>1. 唯一的真·分散是"美股 × A股"</h3>
+  <p>纳指 × 红利低波相关性中位数 <b>0.31</b>（最低 -0.07）——这是全表唯一真正的分散来源。标普 × 纳指 0.55，标普更像是"降波动版纳指"，不是分散。</p>
+
+  <h3>2. 红利低波 × 现金流 = 0.87，是一个风格包</h3>
+  <p>两者高度重叠，同时配置几乎没有额外分散价值。保留两只是因为编制逻辑不同、长期因子暴露有差异，但 A 股合计 40% 应视为<b>一个敞口</b>，不是两个。</p>
+
+  <h3>3. 现金流腿限仓 15%</h3>
+  <p>回测里用中证 932365 作代理（它的历史数据最全），实际执行买<b>国证 980092</b>——两者 2014–2025 全收益年化都是 19.6%，可互换；但国证编制最早、行业最均衡（5 个行业权重 &gt;10%）、产品端费率与流动性都更好。限仓 15% 的理由不是"指数太新"，而是：<b>该风格 ETF 成立均不足 2 年，跟踪误差与流动性未经完整周期验证，回测收益带有事后偏差</b>。</p>
+
+  <h3>4. 温度计不参与决策</h3>
+  <p>在推荐配置上叠加温度条件（2016-2026，125 个月，定投口径）：固定权重 2.46x / XIRR 16.87%，四种温度变体 2.38~2.45x / 16.24~16.77%，<b>全部不高于固定权重</b>。温度 ≥70 触发了 41% 的月份，这么高频的干预一次正贡献都没有。</p>
+
+  <h3>5. 进攻版（纳40/标30/红利低波10/现金流20）</h3>
+  <p>回测里进攻版收益更高、回撤反而更小（因为红利低波实际并不低波）。但它的优势<b>全部来自 2014 年后的美股牛市</b>；切换到 2000-2013 这样的美股弱势期，它会落后 1.8~1.9pp。选它的前提是判断未来 10-20 年美股继续主导——那是判断，不是分散。</p>
+</div>
+
+<!-- ============ 七、回测验证 ============ -->
+<div class="card">
+  <h2><span class="n">07</span>回测验证 <span class="t">人民币 · 分红再投</span></h2>
+  <p class="sub">主样本 2014-01~2026-08（13.6 年，四资产齐全）；扩展样本 2006-01~2026-08（20.6 年，含 2008）。</p>
+
+  <h3>推荐配置 30/30/25/15</h3>
+  <table class="mini">
+    <thead><tr><th>口径</th><th>CAGR</th><th>波动</th><th>最大回撤</th><th>Calmar</th><th>定投 XIRR</th><th>账户回撤</th></tr></thead>
+    <tbody>
+      <tr><td>主样本 一次性</td><td>16.81%</td><td>12.4%</td><td>-17.3%</td><td>0.97</td><td>—</td><td>—</td></tr>
+      <tr><td>主样本 定投</td><td>—</td><td>—</td><td>—</td><td>—</td><td>16.26%</td><td>-10.2%</td></tr>
+      <tr><td>扩展样本 定投</td><td>—</td><td>—</td><td>—</td><td>—</td><td>14.66%</td><td>-31.3%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>对照：旧版三档（标普50 / 纳指35 / 防守15）</h3>
+  <table class="mini">
+    <thead><tr><th>口径</th><th>CAGR</th><th>最大回撤</th><th>Calmar</th><th>定投 XIRR</th><th>账户回撤</th></tr></thead>
+    <tbody>
+      <tr><td>旧版 全权益（等权益口径）</td><td>17.31%</td><td>-17.6%</td><td>0.98</td><td>18.06%</td><td>-15.1%</td></tr>
+      <tr><td>旧版 85%权益 + 15%债金</td><td>15.92%</td><td>-15.3%</td><td>1.04</td><td>16.78%</td><td>-12.5%</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:9px;">关键结论：<b>四资产不买任何防守资产，定投账户回撤 -10.2%，比"旧版带 15% 防守"的 -12.5% 还低</b>，收益只少 0.5pp。分散化买到的是路径，不是终值。</p>
+
+  <div class="divider"></div>
+  <p class="muted">回测未计入基金费率、申赎费、QDII 溢价、冲击成本与税费。20.6 年样本只覆盖 2 次完整危机，尾部估计需打折看。两个样本的强弱排序完全反转（主样本纳指第一、红利低波垫底；扩展样本反过来），说明任何"最优权重"都是过拟合，本方案以"双样本都不差"为标准。</p>
+</div>
+
+<!-- ============ 八、风险 ============ -->
+<div class="card">
+  <h2><span class="n">08</span>风险提示</h2>
+  <ul>
+    <li><b>样本敏感性（最大风险）</b>：本方案是"双样本稳健"而非"任一区间最优"，仍可能在未来 10 年跑输全纳指。</li>
+    <li><b>自由现金流的回溯偏差</b>：指数历史为回溯编制，ETF 成立不足 2 年，已限仓 15%。</li>
+    <li><b>红利低波是高波动资产</b>：跨市场看波动高于纳指，2008 年本土危机中账户回撤最大。</li>
+    <li><b>风格集中</b>：红利低波 × 现金流 0.87，A 股 40% 实际是一个风格包。</li>
+    <li><b>汇率风险</b>：美股腿以人民币结算，USDCNY 波动直接进损益。</li>
+    <li><b>QDII 额度与溢价</b>：场外限购、场内溢价会侵蚀收益，需预留执行摩擦。</li>
+    <li><b>A 股政策与估值风险</b>：红利/现金流风格与"资产荒"环境高度相关，风格切回成长时 A 股腿可能长期跑输。</li>
+  </ul>
+  <p class="muted" style="margin-top:11px;">以上为回测与研究结果，<b>不构成投资建议</b>。跨境配置涉及额度、税务居民身份与合规要求，落地前请与持证理财顾问及税务师确认。</p>
+</div>
+
+<footer>
+  美股泡沫温度计 · 使用与定投说明　v1.2　2026-09-10<br>
+  数据每日 08:00 自动更新　·　配置与规则变更以本页面为准<br>
+  v1.2 变更：再平衡阈值由"统一 8pp 绝对"改为"相对偏离 40%"（绝对兜底 15pp）<br>
+  基金代码与费率核对至 2026-09-10，买前请以基金公司最新公告为准；QDII 单日额度每日变动。
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var DAYS = 21;
+  var P = [["纳斯达克 100",30],["标普 500",30],["A 股红利低波",25],["A 股自由现金流",15]];
+  var inp = document.getElementById("amt");
+  var box = document.getElementById("rows");
+  function fmt(v){ return "¥" + Math.round(v).toLocaleString("zh-CN"); }
+  function render(){
+    var x = parseFloat(inp.value) || 0;
+    var per = x / DAYS;
+    var h = "", sd = 0;
+    for(var i=0;i<P.length;i++){
+      var p = P[i][1], v = Math.round(per*p/100); sd += v;
+      h += '<tr><td class="nm">'+P[i][0]+'</td><td class="p">'+p+'%</td><td class="d">'+fmt(v)+'</td><td>'+fmt(x*p/100)+'</td></tr>';
+    }
+    h += '<tr class="tot"><td>合计</td><td>100%</td><td>'+fmt(sd)+'</td><td>'+fmt(x)+'</td></tr>';
+    box.innerHTML = h;
+  }
+  try{ var s = localStorage.getItem("plan_amt"); if(s!==null) inp.value = s; }catch(e){}
+  inp.addEventListener("input", function(e){ render(); try{ localStorage.setItem("plan_amt", e.target.value); }catch(err){} });
+  render();
+})();
+</script>
+</body>
+</html>
