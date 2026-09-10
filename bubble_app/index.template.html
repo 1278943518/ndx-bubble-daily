@@ -66,9 +66,6 @@
   .plan-ctrl label { font-size:12px; color:var(--sub); }
   .plan-ctrl input { width:98px; padding:5px 9px; font-size:15px; font-weight:800; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); font-variant-numeric:tabular-nums; font-family:inherit; }
   .plan-ctrl input:focus { outline:none; border-color:var(--blue); }
-  .plan-mode { display:flex; gap:5px; margin-left:auto; }
-  .plan-mode button { font-size:11px; padding:4px 11px; border-radius:99px; border:1px solid var(--line); background:#f0f3f7; color:var(--sub); cursor:pointer; font-family:inherit; }
-  .plan-mode button.on { background:var(--blue); border-color:var(--blue); color:#fff; font-weight:700; }
   .prow { display:flex; align-items:baseline; gap:8px; font-size:13px; padding:7px 0; border-bottom:1px dashed var(--line); }
   .prow .pn { font-weight:700; flex:1; min-width:0; }
   .prow .pp { color:var(--sub); font-size:12px; width:40px; text-align:right; flex-shrink:0; }
@@ -136,10 +133,6 @@
       <label for="pamt">月投入</label>
       <input type="number" id="pamt" value="5000" min="0" step="100">
       <span class="unit">元 ÷ 21 个交易日</span>
-      <div class="plan-mode">
-        <button id="pmStd" class="on">均衡版</button>
-        <button id="pmAggr">进攻版</button>
-      </div>
     </div>
     <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
     <div id="prows"></div>
@@ -450,17 +443,13 @@ function renderAdvice(t, turn){
 }
 
 // ===== 每日定投计划 =====
-let PMODE = "std";
 const DAYS = 21;                              // 每月约 21 个交易日
-const PLANS = {
-  std:  [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 25], ["A股自由现金流", 15]],
-  aggr: [["纳斯达克 100", 40], ["标普 500", 30], ["A股红利低波", 10], ["A股自由现金流", 20]],
-};
+const PLAN = [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 25], ["A股自由现金流", 15]];
 function renderPlan(){
   const inp = document.getElementById("pamt");
   const x = parseFloat(inp.value) || 0;
   const per = x / DAYS;                        // 每个交易日总投入
-  const rows = PLANS[PMODE];
+  const rows = PLAN;
   let h = "", s = 0;
   for(const [n, p] of rows){
     const v = Math.round(per * p / 100); s += v;
@@ -471,13 +460,9 @@ function renderPlan(){
 }
 function bindPlan(){
   const inp = document.getElementById("pamt");
-  const bS = document.getElementById("pmStd"), bA = document.getElementById("pmAggr");
   const savedAmt = localStorage.getItem("pamt");
   if(savedAmt !== null) inp.value = savedAmt;
-  if(localStorage.getItem("pmode") === "aggr"){ PMODE = "aggr"; bA.classList.add("on"); bS.classList.remove("on"); }
   inp.addEventListener("input", e => { renderPlan(); localStorage.setItem("pamt", e.target.value); });
-  bS.addEventListener("click", () => { PMODE = "std";  bS.classList.add("on"); bA.classList.remove("on"); localStorage.setItem("pmode","std");  renderPlan(); });
-  bA.addEventListener("click", () => { PMODE = "aggr"; bA.classList.add("on"); bS.classList.remove("on"); localStorage.setItem("pmode","aggr"); renderPlan(); });
   renderPlan();
 }
 
