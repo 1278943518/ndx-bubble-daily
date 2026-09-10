@@ -8,11 +8,39 @@
   - data.json 取仓库版本(云端 Actions 每日更新), 不用本地旧数据
   - 站点说明页用版本化文件名(EdgeOne 按 URL 逐条缓存), 改版只改 PLAN_VER 一行
 """
-import os, shutil, json
+import os, shutil, json, sys
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+
+def _find_root(start):
+    """从 start 向上查找同时含 bubble_app/ 与 ndx-repo/ 的工作目录"""
+    d = start
+    for _ in range(8):
+        if (os.path.isdir(os.path.join(d, "bubble_app"))
+                and os.path.isdir(os.path.join(d, "ndx-repo"))):
+            return d
+        parent = os.path.dirname(d)
+        if parent == d:
+            break
+        d = parent
+    return None
+
+
+# 工作目录 = 同时含 bubble_app/(本地工作副本) 与 ndx-repo/(仓库克隆) 的目录
+# 优先读环境变量 NDX_ROOT, 否则从脚本位置自动向上查找
+ROOT = (os.environ.get("NDX_ROOT")
+        or _find_root(os.path.dirname(os.path.abspath(__file__)))
+        or os.path.dirname(os.path.abspath(__file__)))
 LOCAL = os.path.join(ROOT, "bubble_app")
 REPO = os.path.join(ROOT, "ndx-repo", "bubble_app")
+
+if not (os.path.isdir(LOCAL) and os.path.isdir(REPO)):
+    sys.exit(
+        "找不到工作目录。\n"
+        f"  当前推断: {ROOT}\n"
+        f"  需要存在: {LOCAL}\n"
+        f"            {REPO}\n"
+        "请先 clone 仓库到 ndx-repo/, 或用环境变量 NDX_ROOT 指定工作目录。"
+    )
 
 PLAN_VER = "plan-v15.html"          # ← 说明页改版时改这里（并同步 index 模板里的链接）
 

@@ -33,3 +33,20 @@
 ## 手动更新
 
 仓库页面 → Actions → 每日数据更新 → Run workflow，即可手动触发一次。
+
+## 前端改版（本地流程）
+
+改页面请在本地工作副本操作，不要直接改仓库里的 `index.html`：
+
+1. 在工作目录下准备 `bubble_app/`（本地副本）与 `ndx-repo/`（本仓库克隆）
+2. 改 `bubble_app/index.template.html`（页面模板）与 `plan.html`（说明页）
+3. 跑 `python analysis/tools/sync_repo.py` —— 同步进 `ndx-repo/` 并用仓库最新 `data.json` 重建 `index.html`
+4. 在 `ndx-repo/` 里 commit + push
+
+> `index.html` 是构建产物，每日管线会用模板重新生成，**直接手改会被覆盖**。
+> 详细约定见 `analysis/README.md`。
+
+## 归档资料
+
+`analysis/`（研究脚本）与 `research/`（研究报告）为离线资料，**不参与部署**，
+仅用于结论回溯与后续维护。两者的目录说明见各自目录下的 `README.md`。

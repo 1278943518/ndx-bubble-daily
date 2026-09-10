@@ -34,8 +34,7 @@ analysis/
 
 | 脚本 | 用途 |
 |---|---|
-| **`sync_repo.py`** | ⭐ **关键工具**：把本地 `bubble_app` 的改动同步进仓库克隆，并用仓库最新 `data.json` 重建 `index.html` |
-| `inject.py` | 把 `data.json` 注入 `index.template.html` → `index.html`（不依赖 pandas） |
+| **`sync_repo.py`** | ⭐ **关键工具**：把本地 `bubble_app` 的改动同步进仓库克隆，并用仓库最新 `data.json` 重建 `index.html` || `inject.py` | 把 `data.json` 注入 `index.template.html` → `index.html`（不依赖 pandas） |
 | `fetch_alloc.py` | 下载并清洗配置回测数据（纳指100/标普500/中证红利低波/中证现金流等，人民币口径、分红再投资）|
 | `fetch_arkk.py` | ARKK / TLT 历史**月**K 下载（Stooq 反爬 PoW 绕过）；周K 已并入 `bubble/fetch_weekly.py` |
 | `fetch_tencent_ext.py` | 一次性：腾讯月K/周K 扩展到 1200 根，更新 `ndx_month`/`inx_month` 等 |
@@ -50,6 +49,30 @@ analysis/
 
 脚本多为**一次性研究代码**，路径多为硬编码，直接运行前请先确认输入文件位置。
 如需重跑，建议先看 `bt_final*.py`（定稿方案）与 `sync_repo.py`（与仓库协作的方式）。
+
+## 前端改版的协作方式（`sync_repo.py`）
+
+改前端页面时的标准工作目录约定：
+
+```
+<工作目录>/
+├─ bubble_app/      ← 本地工作副本（在这里改 index.template.html / plan.html）
+├─ ndx-repo/        ← 本仓库的克隆（git clone 到这个名字）
+└─ sync_repo.py
+```
+
+`sync_repo.py` 做四件事：
+
+1. 把 `bubble_app/plan.html` 复制成版本化文件名（改版只需改脚本里的 `PLAN_VER` 一行，EdgeOne 按 URL 逐条缓存）
+2. 把 `index.template.html`、`plan.html`、`plan-v*.html` 按 **CRLF** 同步进 `ndx-repo/bubble_app/`（本地是 LF，不转换会产生全文件 diff）
+3. 用**仓库版本**的 `data.json`（云端每日更新，不要用本地旧数据）重建 `index.html`，即 `index.template.html` 里的 `__DATA__` 占位符替换为 data.json
+4. 顺手把 `bubble_app/data.json` 刷新成仓库最新版
+
+脚本的路径解析已改为**自动向上查找**同时含 `bubble_app/` 与 `ndx-repo/` 的目录，
+也可用环境变量 `NDX_ROOT` 显式指定，因此放在 `analysis/tools/` 下也能正常工作。
+
+> ⚠️ 注意：`index.html` 是**构建产物**，不要直接手改——
+> 线上每日管线会用 `index.template.html` 重新生成它。要改页面请改模板。
 
 ## 未纳入本目录的内容
 
