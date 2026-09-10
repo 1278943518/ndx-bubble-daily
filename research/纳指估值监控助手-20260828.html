@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳指估值监控助手 · 好买点雷达</title>
+<style>
+  :root { --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec; --accent:#2563eb; --red:#dc2626; --green:#059669; --amber:#b45309; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.65; padding:20px 14px 40px; }
+  .wrap { max-width:860px; margin:0 auto; }
+  header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:16px; }
+  h1 { font-size:22px; }
+  .status { font-size:12px; color:var(--sub); display:flex; align-items:center; gap:8px; }
+  .dot { width:9px; height:9px; border-radius:50%; background:#9ca3af; display:inline-block; }
+  .dot.ok { background:#10b981; box-shadow:0 0 0 3px rgba(16,185,129,.18); }
+  .dot.stale { background:#f59e0b; box-shadow:0 0 0 3px rgba(245,158,11,.18); }
+  .dot.err { background:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.18); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  .card h2 { font-size:15px; margin-bottom:12px; padding-left:9px; border-left:4px solid var(--accent); }
+  .quotes { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; }
+  .qbox { background:#fafbfc; border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .qname { font-size:13px; color:var(--sub); }
+  .qprice { font-size:26px; font-weight:700; margin:2px 0 4px; font-variant-numeric:tabular-nums; }
+  .qchg { font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .up { color:var(--red); } .down { color:var(--green); }
+  .qmeta { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:10px; font-size:12px; color:var(--sub); }
+  .qmeta b { color:var(--ink); font-variant-numeric:tabular-nums; }
+  .pegrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-bottom:14px; }
+  .pebox { background:#fafbfc; border:1px solid var(--line); border-radius:12px; padding:14px 16px; }
+  .pebox .lab { font-size:12px; color:var(--sub); }
+  .pebox .num { font-size:34px; font-weight:800; font-variant-numeric:tabular-nums; line-height:1.15; }
+  .pebox .zone { display:inline-block; font-size:12px; font-weight:700; padding:3px 10px; border-radius:16px; color:#fff; margin-top:6px; }
+  .pebox .note { font-size:11px; color:var(--sub); margin-top:6px; }
+  .ruler { position:relative; height:52px; margin:18px 0 8px; }
+  .track { position:absolute; left:0; right:0; top:16px; height:12px; border-radius:8px;
+    background:linear-gradient(90deg,#dc2626 0%,#f97316 30%,#fbbf24 52%,#84cc16 72%,#2563eb 88%,#7c3aed 100%); }
+  .tick { position:absolute; top:0; transform:translateX(-50%); text-align:center; font-size:10px; color:var(--sub); }
+  .tick::after { content:''; display:block; width:1px; height:10px; background:#9ca3af; margin:2px auto 0; }
+  .needle { position:absolute; top:0; transform:translateX(-50%); font-size:20px; line-height:1; transition:left .6s ease; z-index:2; }
+  .zonebar { display:flex; font-size:11px; border-radius:8px; overflow:hidden; text-align:center; margin-bottom:8px; }
+  .zonebar div { padding:5px 0; color:#fff; font-weight:600; }
+  .basis { background:#f0f6ff; border:1px solid #d3e3ff; border-radius:8px; padding:8px 12px; font-size:12px; color:var(--sub); }
+  .basis b { color:var(--ink); }
+  .advice { background:#f0f6ff; border:1px solid #d3e3ff; border-radius:10px; padding:14px 16px; font-size:14px; }
+  .advice .t { font-size:15px; font-weight:700; margin-bottom:6px; }
+  .drawdown-line { display:flex; align-items:center; gap:8px; margin-top:10px; font-size:13px; flex-wrap:wrap; }
+  .drawdown-line b { font-variant-numeric:tabular-nums; }
+  .chip { font-size:12px; padding:4px 10px; border-radius:16px; border:1px solid var(--line); background:#fafbfc; }
+  .chip.on { background:#eef2ff; border-color:#c7d7ff; color:var(--accent); font-weight:600; }
+  label { font-size:13px; color:var(--sub); }
+  .row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
+  input[type=number] { padding:5px 8px; border:1px solid var(--line); border-radius:8px; font-size:13px; background:#fff; width:72px; }
+  .btn { padding:7px 16px; border:none; border-radius:8px; background:var(--accent); color:#fff; font-size:13px; font-weight:600; cursor:pointer; }
+  .btn.ghost { background:#fff; color:var(--accent); border:1px solid var(--accent); }
+  .hist { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .hist.open { max-height:1200px; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:8px; }
+  th,td { border:1px solid var(--line); padding:7px 9px; text-align:left; }
+  th { background:#f2f4f7; }
+  .notices { max-height:160px; overflow-y:auto; font-size:12px; }
+  .notices div { padding:5px 8px; border-bottom:1px dashed var(--line); color:var(--sub); }
+  .notices .when { color:#9ca3af; margin-right:6px; }
+  .toggle-switch { position:relative; width:42px; height:24px; display:inline-block; }
+  .toggle-switch input { display:none; }
+  .slider { position:absolute; inset:0; background:#d1d5db; border-radius:24px; cursor:pointer; transition:.2s; }
+  .slider::before { content:''; position:absolute; width:18px; height:18px; border-radius:50%; background:#fff; top:3px; left:3px; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+  .toggle-switch input:checked + .slider { background:var(--accent); }
+  .toggle-switch input:checked + .slider::before { transform:translateX(18px); }
+  .btnrow { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:8px; }
+  .disclaimer { font-size:11px; color:var(--sub); margin-top:16px; padding-top:12px; border-top:1px dashed var(--line); }
+  .banner { position:fixed; top:16px; right:16px; max-width:320px; background:#111827; color:#fff; border-radius:12px; padding:12px 16px; font-size:13px; box-shadow:0 6px 20px rgba(0,0,0,.25); z-index:99; display:none; }
+  .banner.show { display:block; animation:slidein .3s ease; }
+  @keyframes slidein { from { transform:translateX(30px); opacity:0; } to { transform:none; opacity:1; } }
+  .banner .b-title { font-weight:700; margin-bottom:3px; }
+  /* ===== 市场温度评估 ===== */
+  .temp-top { display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:12px; }
+  .temp-score { text-align:center; }
+  .temp-score .num { font-size:46px; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; }
+  .temp-score .unit { font-size:13px; color:var(--sub); }
+  .temp-band { font-size:14px; font-weight:700; padding:5px 14px; border-radius:18px; color:#fff; }
+  .tempbar-wrap { position:relative; height:58px; margin:10px 0 6px; }
+  .temp-track { position:absolute; left:0; right:0; top:22px; height:14px; border-radius:9px;
+    background:linear-gradient(90deg,#2563eb 0%,#059669 22%,#fbbf24 45%,#f97316 68%,#dc2626 84%,#7c3aed 100%); }
+  .temp-tick { position:absolute; top:8px; transform:translateX(-50%); text-align:center; font-size:10px; color:var(--sub); }
+  .temp-tick::after { content:''; display:block; width:1px; height:9px; background:#9ca3af; margin:2px auto 0; }
+  .temp-needle { position:absolute; top:0; transform:translateX(-50%); font-size:20px; line-height:1; transition:left .6s ease; z-index:2; }
+  .temp-sub { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+  .temp-chip { font-size:11.5px; padding:4px 10px; border-radius:14px; background:#fafbfc; border:1px solid var(--line); color:var(--sub); }
+  .temp-chip b { color:var(--ink); font-variant-numeric:tabular-nums; }
+  .temp-note { background:#f0f6ff; border:1px solid #d3e3ff; border-radius:8px; padding:8px 12px; font-size:12px; color:var(--sub); }
+  .temp-note b { color:var(--ink); }
+</style>
+</head>
+<body>
+<div class="banner" id="banner"><div class="b-title" id="bTitle"></div><div id="bBody"></div></div>
+<div class="wrap">
+
+  <header>
+    <h1>📡 纳指估值监控助手 · 好买点雷达</h1>
+    <div class="status">
+      <span class="dot" id="dot"></span>
+      <span id="statusText">初始化中…</span>
+    </div>
+  </header>
+
+  <!-- 实时行情 -->
+  <div class="card">
+    <h2>实时行情 <span style="font-weight:400;font-size:12px;color:var(--sub)">（按日频定投设计：页面打开自动刷新，每 60 分钟自动更新，可随时手动刷新）</span></h2>
+    <div class="quotes" id="quotes"></div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="refreshNow">🔄 点击刷新</button>
+      <span style="font-size:12px;color:var(--sub)" id="lastRef">—</span>
+    </div>
+  </div>
+
+  <!-- 估值监控 -->
+  <div class="card">
+    <h2>估值监控（纳指100 · 自动读取基准 + 实时价格换算）</h2>
+    <div class="pegrid">
+      <div class="pebox">
+        <div class="lab">PE-TTM（滚动市盈率）</div>
+        <div class="num" id="peTtm">--</div>
+        <div><span class="zone" id="peZoneTtm">--</span></div>
+        <div class="note">历史规律的主判断指标：&lt;20 极限重仓区 / 20-25 高性价比 / 28-30 合理偏高 / &gt;33 风险区</div>
+      </div>
+      <div class="pebox">
+        <div class="lab">Forward PE（前瞻市盈率）</div>
+        <div class="num" id="peFwd">--</div>
+        <div><span class="zone" id="peZoneFwd">--</span></div>
+        <div class="note">盈利增长预期下的先行指标：&lt;20 高性价比 / 20-24 合理 / &gt;28 偏贵（相对参考）</div>
+      </div>
+    </div>
+    <div class="ruler" id="ruler"></div>
+    <div class="zonebar" id="zonebar"></div>
+    <div class="basis">
+      <b>估值基准（自动内置，无需手动填写）</b>：PE-TTM 29.8 倍、Forward PE 23.0 倍，对应 2026-08-27 收盘 29,641.56 点（来源：公开行情综合核实）。页面按最新价格自动实时换算这两个 PE；季度财报更新后可联系我们刷新基准。
+    </div>
+  </div>
+
+  <!-- 市场温度评估 -->
+  <div class="card">
+    <h2>市场温度评估 <span style="font-weight:400;font-size:12px;color:var(--sub)">（泡沫评分思路 · 自动计算）</span></h2>
+    <div class="temp-top">
+      <div class="temp-score">
+        <div class="num" id="tempScore">--</div>
+        <div class="unit">/ 100 分</div>
+      </div>
+      <div>
+        <span class="temp-band" id="tempBand">--</span>
+        <div style="font-size:12px;color:var(--sub);margin-top:6px" id="tempBandDesc"></div>
+      </div>
+    </div>
+    <div class="tempbar-wrap" id="tempBar">
+      <div class="temp-track"></div>
+      <div class="temp-needle" id="tempNeedle">▼</div>
+    </div>
+    <div class="temp-sub" id="tempSub"></div>
+    <div class="temp-note" id="tempNote"></div>
+  </div>
+
+  <!-- 建议 -->
+  <div class="card">
+    <h2>当前位置 · 历史规律建议</h2>
+    <div class="advice" id="adviceBox">
+      <div class="t">计算中…</div>
+      <div id="adviceBody"></div>
+    </div>
+    <div class="drawdown-line">
+      距 52 周高点回撤：<b id="ddNow">--</b>
+      <span class="chip" id="ddZone">--</span>
+    </div>
+  </div>
+
+  <!-- 提醒设置 -->
+  <div class="card">
+    <h2>自动提醒</h2>
+    <div class="row">
+      <label class="toggle-switch"><input type="checkbox" id="alertOn"><span class="slider"></span></label>
+      <label for="alertOn">开启提醒（估值档位变化 / 回撤超阈值时弹通知 + 提示音）</label>
+    </div>
+    <div class="row">
+      <label>到达布局区（PE-TTM ≤</label>
+      <input type="number" id="alertBuy" min="15" max="35" step="0.5" value="25">
+      <label>倍）时提醒</label>
+      <span style="color:#9ca3af;font-size:12px">（历史高性价比布局区）</span>
+    </div>
+    <div class="row">
+      <label>进入风险区（PE-TTM ≥</label>
+      <input type="number" id="alertRisk" min="28" max="45" step="0.5" value="33">
+      <label>倍）时提醒</label>
+      <span style="color:#9ca3af;font-size:12px">（历史偏贵/风险区）</span>
+    </div>
+    <div class="row">
+      <label>回撤超</label>
+      <input type="number" id="alertDD" min="5" max="40" step="1" value="20">
+      <label>% 时提醒</label>
+      <span style="color:#9ca3af;font-size:12px">（距 52 周高）</span>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="enableNotif">🔔 开启浏览器系统通知</button>
+      <span style="font-size:12px;color:var(--sub)" id="notifState">未授权</span>
+    </div>
+    <div style="margin-top:12px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px">提醒记录</div>
+      <div class="notices" id="notices"><div style="color:#9ca3af">暂无（开启提醒后，触发条件时这里会出现记录）</div></div>
+    </div>
+  </div>
+
+  <!-- 历史对照 -->
+  <div class="card">
+    <div class="row" style="margin-bottom:0">
+      <button class="btn ghost" id="toggleHist">📖 历史规律对照表（点击展开）</button>
+    </div>
+    <div class="hist" id="hist">
+      <table>
+        <tr><th>PE-TTM 档位</th><th>历史性质</th><th>历史案例</th><th>应对思路（历史规律）</th></tr>
+        <tr><td>&lt; 20 倍</td><td>极限重仓区</td><td>2018.12 / 2022.10</td><td>十年确定性最高位置</td></tr>
+        <tr><td>20 ~ 25 倍</td><td>高性价比布局区</td><td>2020.3 / 2025.4（前瞻口径）</td><td>分批买入核心区间</td></tr>
+        <tr><td>25 ~ 28 倍</td><td>开始有吸引力</td><td>2019 / 2024 初</td><td>正常定投 + 加大力度</td></tr>
+        <tr><td>28 ~ 30 倍</td><td>合理偏高</td><td>2026.08（当前）</td><td>正常定投保持参与，不追高</td></tr>
+        <tr><td>30 ~ 33 倍</td><td>偏贵</td><td>2025.10 前段</td><td>小额定投或暂停新增</td></tr>
+        <tr><td>33 ~ 35 倍</td><td>风险区</td><td>2025.10（36.4 倍）</td><td>停止新增，警惕杀估值</td></tr>
+        <tr><td>&gt; 35 倍</td><td>高危区</td><td>2021 末（42.9 倍）</td><td>只减不加</td></tr>
+      </table>
+      <table style="margin-top:10px">
+        <tr><th>深度回撤</th><th>历史案例</th><th>修复时间</th></tr>
+        <tr><td>-20% 左右</td><td>2018.12 / 2025.4</td><td>约 4~8 个月</td></tr>
+        <tr><td>-30% 左右</td><td>2020.3 / 2022</td><td>约 5~18 个月</td></tr>
+        <tr><td>-50% 以上</td><td>2000 / 2008</td><td>以年计（2000 需 15 年）</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    免责声明：本工具为历史规律与公开行情的量化监控，仅供参考，不构成投资建议。市场有风险，投资需谨慎。任何投资决策应结合个人风险承受能力、资金状况和投资目标独立判断，必要时咨询持牌专业机构。过往表现不预示未来收益。数据来源：腾讯自选股公开行情接口（实时价格，非实时行情存在延迟）；PE-TTM / Forward PE 为"权威基准 + 价格实时换算"的估算值（基准更新于 2026-08-28），与官方精确口径可能有偏差。
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  /* ============ 估值基准（自动内置，来源：公开行情综合核实，更新于 2026-08-28） ============ */
+  var BASE_PRICE  = 29641.56;   // 2026-08-27 纳指100 收盘
+  var BASE_PE_TTM = 29.8;       // 同期 PE-TTM 参考值
+  var BASE_PE_FWD = 23.0;       // 同期 Forward PE 参考值
+  var EPS_TTM = BASE_PRICE / BASE_PE_TTM;   // 隐含滚动 EPS
+  var EPS_FWD = BASE_PRICE / BASE_PE_FWD;   // 隐含前瞻 EPS
+
+  /* ============ 历史规律档位（基于 PE-TTM） ============ */
+  var ZONES = [
+    { max: 20,      label: '极限重仓区',   cls: 'red',    advice: '历史铁底区（2018.12 / 2022.10 级别）。PE-TTM 跌破 20 倍，近十年三次大底均在此区间，历史上确定性最高的位置。适合分批重仓，子弹尽量留到这个区域。' },
+    { max: 25,      label: '高性价比布局区', cls: 'orange', advice: '历史底部核心区间（2020.3 / 2025.4 前瞻口径）。"回撤超 20% + PE 回到此区间" 是过去十年验证最充分的买点组合，可逐档加大买入力度。' },
+    { max: 28,      label: '开始有吸引力', cls: 'yellow', advice: '接近低估边缘（2019 / 2024 初水平）。正常定投 + 适度加大力度，不必等完美低点。' },
+    { max: 30,      label: '合理偏高（当前区）', cls: 'green',  advice: '处于十年中枢（约 28.4 倍）附近。正常定投保持参与、不追高；一次性大额配置可等待或分批。' },
+    { max: 33,      label: '偏贵',       cls: 'blue',   advice: '进入历史偏高区（约 70%+ 分位）。小额定投或暂停新增；持仓者留意止盈节奏。' },
+    { max: 35,      label: '风险区',      cls: 'purple', advice: '接近历史极值（2025.10 约 36.4 倍水平）。停止新增，警惕高位杀估值。' },
+    { max: Infinity, label: '高危区',     cls: 'deep',   advice: '历史极值区（2021 末 42.9 倍水平）。只减不加——2018 / 2022 年高位满仓的教训历历在目。' }
+  ];
+  var ZONE_COLORS = { red:'#dc2626', orange:'#f97316', yellow:'#b45309', green:'#84cc16', blue:'#2563eb', purple:'#7c3aed', deep:'#581c87' };
+  var FWD_ZONES = [
+    { max: 18,  label: '极度低估区', cls: 'red' },
+    { max: 22,  label: '高性价比区', cls: 'orange' },
+    { max: 26,  label: '合理区',    cls: 'green' },
+    { max: 30,  label: '偏贵',      cls: 'blue' },
+    { max: Infinity, label: '风险区', cls: 'purple' }
+  ];
+
+  var CODE_LIST = ['usNDX','usIXIC'];
+  var CODE_NAME = { usNDX: '纳斯达克100 (NDX)', usIXIC: '纳斯达克综合 (IXIC)' };
+
+  /* ============ 状态 ============ */
+  var settings = loadSettings();
+  var quotes = {};
+  var lastQuoteTime = 0;
+  var failCount = 0;
+  var zoneState = { prevZoneIdx:-1, buyAlerted:false, riskAlerted:false, ddAlerted:false };
+
+  var el = {
+    dot: document.getElementById('dot'),
+    statusText: document.getElementById('statusText'),
+    quotes: document.getElementById('quotes'),
+    refreshNow: document.getElementById('refreshNow'),
+    lastRef: document.getElementById('lastRef'),
+    peTtm: document.getElementById('peTtm'),
+    peZoneTtm: document.getElementById('peZoneTtm'),
+    peFwd: document.getElementById('peFwd'),
+    peZoneFwd: document.getElementById('peZoneFwd'),
+    ruler: document.getElementById('ruler'),
+    zonebar: document.getElementById('zonebar'),
+    adviceBox: document.getElementById('adviceBox'),
+    adviceBody: document.getElementById('adviceBody'),
+    ddNow: document.getElementById('ddNow'),
+    ddZone: document.getElementById('ddZone'),
+    alertOn: document.getElementById('alertOn'),
+    alertBuy: document.getElementById('alertBuy'),
+    alertRisk: document.getElementById('alertRisk'),
+    alertDD: document.getElementById('alertDD'),
+    enableNotif: document.getElementById('enableNotif'),
+    notifState: document.getElementById('notifState'),
+    notices: document.getElementById('notices'),
+    toggleHist: document.getElementById('toggleHist'),
+    hist: document.getElementById('hist'),
+    banner: document.getElementById('banner'),
+    bTitle: document.getElementById('bTitle'),
+    bBody: document.getElementById('bBody'),
+    tempScore: document.getElementById('tempScore'),
+    tempBand: document.getElementById('tempBand'),
+    tempBandDesc: document.getElementById('tempBandDesc'),
+    tempBar: document.getElementById('tempBar'),
+    tempNeedle: document.getElementById('tempNeedle'),
+    tempSub: document.getElementById('tempSub'),
+    tempNote: document.getElementById('tempNote')
+  };
+
+  function loadSettings() {
+    var d = {};
+    try { d = JSON.parse(localStorage.getItem('ndx_monitor') || '{}'); } catch(e) {}
+    return { alertOn: !!d.alertOn, alertBuy: +d.alertBuy || 25, alertRisk: +d.alertRisk || 33, alertDD: +d.alertDD || 20 };
+  }
+  function saveSettings() { localStorage.setItem('ndx_monitor', JSON.stringify(settings)); }
+
+  /* ============ 行情获取：腾讯接口 JSONP ============ */
+  function loadQuotes() {
+    var script = document.createElement('script');
+    script.src = 'https://qt.gtimg.cn/q=' + CODE_LIST.join(',') + '&t=' + Date.now();
+    script.onload = function() {
+      script.remove();
+      var ok = 0;
+      CODE_LIST.forEach(function(c) {
+        if (window['v_' + c]) {
+          try { quotes[c] = parseQuote(window['v_' + c]); ok++; } catch(e) {}
+        }
+      });
+      if (ok > 0) { lastQuoteTime = Date.now(); failCount = 0; renderAll(); checkAlerts(); }
+      else { onFail(); }
+    };
+    script.onerror = function() { script.remove(); onFail(); };
+    document.head.appendChild(script);
+  }
+  function onFail() {
+    failCount++;
+    if (lastQuoteTime > 0) setStatus('stale', '刷新失败（已 ' + failCount + ' 次），显示最近一次数据');
+    else setStatus('err', '无法获取行情，请检查网络');
+  }
+  function parseQuote(raw) {
+    var a = raw.split('~');
+    return {
+      name: a[1], code: a[2],
+      price: parseFloat(a[3]), prev: parseFloat(a[4]), open: parseFloat(a[5]),
+      chg: parseFloat(a[31]), chgPct: parseFloat(a[32]), high: parseFloat(a[33]), low: parseFloat(a[34]),
+      high52w: parseFloat(a[48]), low52w: parseFloat(a[49]),
+      ytd: parseFloat(a[54]), chg5d: parseFloat(a[55]), chg20d: parseFloat(a[60]), chg60d: parseFloat(a[61])
+    };
+  }
+
+  /* ============ 估值计算（价格实时换算） ============ */
+  function getPE() {
+    var q = quotes.usNDX;
+    if (!q || !q.price) return null;
+    return { ttm: q.price / EPS_TTM, fwd: q.price / EPS_FWD, price: q.price };
+  }
+  function findZone(pe, list) {
+    if (pe == null) return null;
+    for (var i = 0; i < list.length; i++) if (pe < list[i].max) return { idx: i, zone: list[i] };
+    return { idx: list.length - 1, zone: list[list.length - 1] };
+  }
+
+  /* ============ 渲染 ============ */
+  function setStatus(cls, text) { el.dot.className = 'dot' + (cls ? ' ' + cls : ''); el.statusText.textContent = text; }
+  function fmt(n, d) { return (n == null || isNaN(n)) ? '--' : n.toFixed(d == null ? 2 : d); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ts() { var t = new Date(); return pad(t.getHours()) + ':' + pad(t.getMinutes()) + ':' + pad(t.getSeconds()); }
+
+  function renderQuotes() {
+    var html = '';
+    CODE_LIST.forEach(function(c) {
+      var q = quotes[c];
+      if (!q) return;
+      var cls = q.chgPct >= 0 ? 'up' : 'down';
+      var sign = q.chgPct >= 0 ? '+' : '';
+      var dd = q.high52w > 0 ? ((q.price / q.high52w - 1) * 100) : null;
+      html += '<div class="qbox">'
+        + '<div class="qname">' + (CODE_NAME[c] || q.name) + '</div>'
+        + '<div class="qprice ' + cls + '">' + fmt(q.price) + '</div>'
+        + '<div class="qchg ' + cls + '">' + sign + fmt(q.chg) + ' &nbsp; ' + sign + fmt(q.chgPct) + '%</div>'
+        + '<div class="qmeta">'
+        + '<span>距52周高 <b class="' + (dd != null && dd < -20 ? 'down' : '') + '">' + (dd == null ? '--' : fmt(dd) + '%') + '</b></span>'
+        + '<span>年初至今 <b class="' + (q.ytd >= 0 ? 'up' : 'down') + '">' + (q.ytd >= 0 ? '+' : '') + fmt(q.ytd) + '%</b></span>'
+        + '<span>近5日 <b>' + (q.chg5d >= 0 ? '+' : '') + fmt(q.chg5d) + '%</b></span>'
+        + '<span>近60日 <b>' + (q.chg60d >= 0 ? '+' : '') + fmt(q.chg60d) + '%</b></span>'
+        + '</div></div>';
+    });
+    if (html) el.quotes.innerHTML = html;
+  }
+
+  function buildRuler() {
+    var min = 15, max = 40, tHtml = '';
+    [18, 20, 22, 25, 28, 30, 33, 35, 38].forEach(function(t) {
+      tHtml += '<div class="tick" style="left:' + ((t - min) / (max - min)) * 100 + '%">' + t + '</div>';
+    });
+    el.ruler.innerHTML = tHtml + '<div class="needle" id="needle">▼</div>';
+    var zHtml = '', widths = [12.5, 20, 12, 8, 12, 8, 27.5], names = ['<20','20-25','25-28','28-30','30-33','33-35','>35'];
+    for (var i = 0; i < ZONES.length; i++) {
+      zHtml += '<div style="width:' + widths[i] + '%;background:' + ZONE_COLORS[ZONES[i].cls] + '">' + names[i] + '</div>';
+    }
+    el.zonebar.innerHTML = zHtml;
+  }
+
+  function renderValuation() {
+    var pe = getPE();
+    if (!pe) { el.peTtm.textContent = '--'; el.peFwd.textContent = '--'; return null; }
+    var zT = findZone(pe.ttm, ZONES);
+    var zF = findZone(pe.fwd, FWD_ZONES);
+    el.peTtm.textContent = fmt(pe.ttm, 1);
+    el.peFwd.textContent = fmt(pe.fwd, 1);
+    el.peZoneTtm.textContent = zT.zone.label;
+    el.peZoneTtm.style.background = ZONE_COLORS[zT.zone.cls];
+    el.peZoneFwd.textContent = zF.zone.label;
+    el.peZoneFwd.style.background = ZONE_COLORS[zF.zone.cls];
+    var needle = document.getElementById('needle');
+    if (needle) {
+      needle.style.left = Math.max(0, Math.min(100, ((pe.ttm - 15) / 25) * 100)) + '%';
+      needle.style.color = ZONE_COLORS[zT.zone.cls];
+    }
+    el.adviceBox.innerHTML = '<div class="t">' + zT.zone.label + ' · PE-TTM 约 ' + fmt(pe.ttm, 1) + ' 倍</div>'
+      + '<div id="adviceBody">' + zT.zone.advice + '</div>';
+    return { ttm: pe.ttm, fwd: pe.fwd, zoneIdx: zT.idx };
+  }
+
+  function renderDrawdown() {
+    var q = quotes.usNDX;
+    if (!q || !q.high52w) { el.ddNow.textContent = '--'; return null; }
+    var dd = (q.price / q.high52w - 1) * 100;
+    el.ddNow.textContent = fmt(dd) + '%';
+    el.ddNow.className = dd <= -20 ? 'down' : '';
+    var tag, cls;
+    if (dd > -10) { tag = '正常调整区（历史每年 1-2 次，不必恐慌）'; cls = 'chip on'; }
+    else if (dd > -20) { tag = '中度回撤（历史平均修复约 3 个月）'; cls = 'chip'; }
+    else if (dd > -30) { tag = '深度回撤 · 历史上多为买点区'; cls = 'chip on'; }
+    else { tag = '极端回撤（黑天鹅级，历史上分批布局机会）'; cls = 'chip on'; }
+    el.ddZone.textContent = tag;
+    el.ddZone.className = cls;
+    return dd;
+  }
+
+  /* ============ 市场温度评估（泡沫评分代理：可量化指标合成，0-100 分） ============ */
+  // 高热阈值 80 分：对齐博主「泡沫评分 79.9 离开高热区」口径（80+ = 高热/狂热区）
+  function calcTemperature() {
+    var q = quotes.usNDX, pe = getPE();
+    if (!q || !q.price || !pe) return null;
+    // 1) 估值分（权重 55%）：PE-TTM 分位映射（<20 冰点 / 29.8 中枢 65 分 / 36.4+ 极值 92 分）
+    var peV = pe.ttm, vScore;
+    if (peV <= 20) vScore = 10 + (peV - 14) / 6 * 15;
+    else if (peV <= 25) vScore = 25 + (peV - 20) / 5 * 20;
+    else if (peV <= 29.8) vScore = 45 + (peV - 25) / 4.8 * 20;
+    else if (peV <= 33) vScore = 65 + (peV - 29.8) / 3.2 * 15;
+    else vScore = 80 + Math.min(12, (peV - 33) / 3.4 * 12);
+    vScore = Math.max(0, Math.min(100, vScore));
+    // 2) 回撤分（权重 25%）：距 52 周高，贴近高点=热，深回撤=冷
+    var dd = q.high52w > 0 ? (q.price / q.high52w - 1) * 100 : 0;
+    var dScore;
+    if (dd >= 0) dScore = 90;
+    else if (dd >= -10) dScore = 90 + dd / 10 * 30;
+    else if (dd >= -20) dScore = 60 + (dd + 10) / 10 * 25;
+    else if (dd >= -30) dScore = 35 + (dd + 20) / 10 * 20;
+    else dScore = 15 + Math.max(-15, (dd + 30) / 10 * 15);
+    dScore = Math.max(0, Math.min(100, dScore));
+    // 3) 动量分（权重 20%）：60 日涨跌幅
+    var m60 = q.chg60d, mScore;
+    if (m60 >= 15) mScore = 90;
+    else if (m60 >= 5) mScore = 70 + (m60 - 5) / 10 * 20;
+    else if (m60 >= 0) mScore = 55 + m60 / 5 * 15;
+    else if (m60 >= -5) mScore = 40 + m60 / 5 * 15;
+    else if (m60 >= -12) mScore = 25 + (m60 + 5) / 7 * 15;
+    else mScore = 10;
+    mScore = Math.max(0, Math.min(100, mScore));
+    // 合成
+    var score = Math.round(vScore * 0.55 + dScore * 0.25 + mScore * 0.20);
+    return { score: score, vScore: Math.round(vScore), dScore: Math.round(dScore), mScore: Math.round(mScore),
+      peV: peV, dd: dd, m60: m60, prev: window._tempPrev || null };
+  }
+  function tempBandOf(s) {
+    if (s >= 90) return { label: '🔥 狂热区', cls: '#7c3aed', desc: '2000 年式全面狂热特征，历史上此时应大幅降仓甚至清仓。' };
+    if (s >= 80) return { label: '🌡️ 高热区', cls: '#dc2626', desc: '泡沫评分高位，容错率极低，停止新增、警惕杀估值（对齐博主「离开高热区」口径：80 分以上）。' };
+    if (s >= 70) return { label: '♨️ 偏热区', cls: '#f97316', desc: '价格偏高、容错率低，正常定投保持参与，不追高（接近高热但尚未极端）。' };
+    if (s >= 60) return { label: '🌤️ 偏暖区', cls: '#b45309', desc: '估值中枢附近偏上，性价比一般，正常定投即可。' };
+    if (s >= 45) return { label: '🌥️ 常温区', cls: '#059669', desc: '估值与情绪中性，按计划定投，回撤时可适度加码。' };
+    return { label: '❄️ 低温区', cls: '#2563eb', desc: '情绪冰点 / 深度回撤，历史上多为高性价比布局区，分批买入。' };
+  }
+  function renderTemperature() {
+    var t = calcTemperature();
+    if (!t) { el.tempScore.textContent = '--'; return; }
+    window._tempPrev = t.score;
+    var band = tempBandOf(t.score);
+    el.tempScore.textContent = t.score;
+    el.tempScore.style.color = band.cls;
+    el.tempBand.textContent = band.label;
+    el.tempBand.style.background = band.cls;
+    el.tempBandDesc.textContent = band.desc;
+    // 刻度：0-100，关键分位标注（40 / 60 / 80 高热线）
+    var bar = el.tempBar;
+    bar.innerHTML = '<div class="temp-track"></div>'
+      + '<div class="temp-tick" style="left:40%">40</div><div class="temp-tick" style="left:60%">60</div>'
+      + '<div class="temp-tick" style="left:80%;color:#dc2626;font-weight:700">80 高热线</div>'
+      + '<div class="temp-needle" id="tempNeedle">▼</div>';
+    var needle = document.getElementById('tempNeedle');
+    if (needle) { needle.style.left = t.score + '%'; needle.style.color = band.cls; }
+    // 分项贡献
+    el.tempSub.innerHTML = ''
+      + '<span class="temp-chip">估值偏离 <b>' + fmt(t.peV, 1) + '倍</b> → ' + t.vScore + ' 分</span>'
+      + '<span class="temp-chip">距52周高回撤 <b>' + fmt(t.dd) + '%</b> → ' + t.dScore + ' 分</span>'
+      + '<span class="temp-chip">60日动量 <b>' + (t.m60 >= 0 ? '+' : '') + fmt(t.m60) + '%</b> → ' + t.mScore + ' 分</span>'
+      + '<span class="temp-chip">综合 = 估值55% + 回撤25% + 动量20%</span>';
+    el.tempNote.innerHTML = '<b>口径说明</b>：本温度为可量化代理指标（估值 + 回撤 + 动量）合成的市场热度，与博主「泡沫评分」口径不同（博主还含杠杆融资、新买家等主观指标），仅作方向参考。博主 2026-08-24 发布时评分为 <b>79.9</b>（离开高热区），当前代理温度 ' + t.score + ' 分' + (t.score >= 80 ? '，进入高热区。' : '，仍处于高热线下方。');
+  }
+
+  function renderAll() {
+    renderQuotes();
+    var v = renderValuation();
+    renderDrawdown();
+    renderTemperature();
+    el.lastRef.textContent = '行情时间 2026-08-27 收盘 · 最近刷新 ' + ts();
+    setStatus('ok', '数据正常 · ' + CODE_LIST.length + ' 个标的已更新');
+    if (quotes.usNDX) document.title = 'NDX ' + fmt(quotes.usNDX.price) + (quotes.usNDX.chgPct >= 0 ? ' ▲' : ' ▼') + ' · 纳指雷达';
+    return v;
+  }
+
+  /* ============ 提醒 ============ */
+  function flashBanner(title, body) { el.bTitle.textContent = title; el.bBody.textContent = body; el.banner.className = 'banner show'; setTimeout(function() { el.banner.className = 'banner'; }, 6000); }
+  function beep() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      var ctx = window._actx || (window._actx = new AC());
+      var o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.type = 'sine'; o.frequency.value = 880;
+      g.gain.setValueAtTime(0.25, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+      o.start(); o.stop(ctx.currentTime + 0.5);
+    } catch(e) {}
+  }
+  function notify(title, body) {
+    flashBanner(title, body);
+    addNotice(title + '：' + body);
+    if (!settings.alertOn) return;
+    beep();
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try { new Notification(title, { body: body, tag: 'ndx-alert' }); } catch(e) {}
+    }
+  }
+  function addNotice(text) {
+    var div = document.createElement('div');
+    div.innerHTML = '<span class="when">' + ts() + '</span>' + text.replace(/</g, '&lt;');
+    el.notices.insertBefore(div, el.notices.firstChild);
+    if (el.notices.children.length > 30) el.notices.removeChild(el.notices.lastChild);
+  }
+
+  function checkAlerts() {
+    var v = renderAll();
+    if (!v || !settings.alertOn) return;
+    var buyT = parseFloat(el.alertBuy.value) || 25;
+    var riskT = parseFloat(el.alertRisk.value) || 33;
+    var ddT = parseFloat(el.alertDD.value) || 20;
+
+    if (v.zoneIdx !== zoneState.prevZoneIdx && zoneState.prevZoneIdx >= 0) {
+      notify('纳指估值档位变化', 'PE-TTM 约 ' + fmt(v.ttm, 1) + ' 倍，进入「' + ZONES[v.zoneIdx].label + '」。' + ZONES[v.zoneIdx].advice);
+    }
+    zoneState.prevZoneIdx = v.zoneIdx;
+
+    if (v.ttm <= buyT && !zoneState.buyAlerted) {
+      notify('🎯 到达布局区', '纳指100 估算 PE-TTM ' + fmt(v.ttm, 1) + ' 倍 ≤ ' + buyT + ' 倍。历史规律：' + findZone(v.ttm, ZONES).zone.advice);
+      zoneState.buyAlerted = true;
+    } else if (v.ttm > buyT + 2) { zoneState.buyAlerted = false; }
+
+    if (v.ttm >= riskT && !zoneState.riskAlerted) {
+      notify('⚠️ 进入风险区', '纳指100 估算 PE-TTM ' + fmt(v.ttm, 1) + ' 倍 ≥ ' + riskT + ' 倍。历史规律：' + findZone(v.ttm, ZONES).zone.advice);
+      zoneState.riskAlerted = true;
+    } else if (v.ttm < riskT - 2) { zoneState.riskAlerted = false; }
+
+    var q = quotes.usNDX;
+    if (q && q.high52w > 0) {
+      var dd = (q.price / q.high52w - 1) * 100;
+      if (dd <= -ddT && !zoneState.ddAlerted) {
+        notify('📉 回撤超 ' + ddT + '%', '纳指100 距 52 周高回撤 ' + fmt(dd) + '%。历史上深度回撤往往对应买点区，请对照估值档位判断。');
+        zoneState.ddAlerted = true;
+      } else if (dd > -ddT + 2) { zoneState.ddAlerted = false; }
+    }
+  }
+
+  /* ============ 事件绑定 ============ */
+  el.refreshNow.addEventListener('click', function() { loadQuotes(); });
+  document.addEventListener('visibilitychange', function() { if (!document.hidden) loadQuotes(); });
+
+  el.alertOn.checked = settings.alertOn;
+  el.alertBuy.value = settings.alertBuy;
+  el.alertRisk.value = settings.alertRisk;
+  el.alertDD.value = settings.alertDD;
+  el.alertOn.addEventListener('change', function() { settings.alertOn = el.alertOn.checked; saveSettings(); if (settings.alertOn) requestNotifIfPossible(); });
+  el.alertBuy.addEventListener('change', function() { settings.alertBuy = +el.alertBuy.value; saveSettings(); });
+  el.alertRisk.addEventListener('change', function() { settings.alertRisk = +el.alertRisk.value; saveSettings(); });
+  el.alertDD.addEventListener('change', function() { settings.alertDD = +el.alertDD.value; saveSettings(); });
+
+  el.enableNotif.addEventListener('click', requestNotifIfPossible);
+  function requestNotifIfPossible() {
+    if (!('Notification' in window)) { el.notifState.textContent = '当前浏览器不支持系统通知'; return; }
+    if (Notification.permission === 'granted') { el.notifState.textContent = '已授权 ✓'; return; }
+    Notification.requestPermission().then(function(p) {
+      el.notifState.textContent = p === 'granted' ? '已授权 ✓' : (p === 'denied' ? '已拒绝（可在浏览器设置中开启）' : '暂未决定');
+    }).catch(function() { el.notifState.textContent = '授权失败'; });
+  }
+  if ('Notification' in window && Notification.permission === 'granted') el.notifState.textContent = '已授权 ✓';
+
+  el.toggleHist.addEventListener('click', function() {
+    var open = el.hist.classList.toggle('open');
+    el.toggleHist.textContent = open ? '📖 历史规律对照表（点击收起）' : '📖 历史规律对照表（点击展开）';
+  });
+
+  /* ============ 启动：按日频场景，打开即刷新 + 每 60 分钟自动更新 ============ */
+  buildRuler();
+  loadQuotes();
+  setInterval(loadQuotes, 60 * 60 * 1000);
+})();
+</script>
+</body>
+</html>

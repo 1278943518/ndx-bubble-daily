@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳指定投 · 止盈深度研究与方案升级</title>
+<style>
+  :root{ --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
+    --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb; --gray:#6b7280; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; padding:16px 12px 48px; font-size:13px; }
+  .wrap{ max-width:800px; margin:0 auto; }
+  header{ margin-bottom:14px; }
+  .title{ font-size:21px; font-weight:800; letter-spacing:.4px; }
+  .title .hl{ color:var(--blue); }
+  .subtitle{ font-size:11px; color:var(--sub); margin-top:4px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:13px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .card h2{ font-size:14.5px; font-weight:800; margin-bottom:11px; padding-left:9px; border-left:4px solid var(--blue); }
+  .card h2 .n{ color:var(--blue); }
+  .card h3{ font-size:13px; font-weight:700; margin:14px 0 6px; color:#1f2937; }
+  .card h3:first-child{ margin-top:0; }
+  p{ margin-bottom:8px; }
+  .lead{ background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:14px 16px; margin-bottom:13px; }
+  .lead .big{ font-size:15.5px; font-weight:800; color:#1e40af; display:block; margin-bottom:6px; line-height:1.55; }
+  .lead .sm{ font-size:12.5px; color:#1e3a8a; }
+  .warn{ background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#991b1b; font-size:12.5px; }
+  .warn b{ color:#7f1d1d; }
+  .ok{ background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#065f46; font-size:12.5px; }
+  .note{ background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#92400e; font-size:12.5px; }
+  .quote{ background:#f8fafc; border-left:3px solid var(--gray); border-radius:0 10px 10px 0; padding:10px 13px; margin:9px 0; font-size:12px; color:var(--sub); }
+  .quote b{ color:#374151; }
+  table{ width:100%; border-collapse:collapse; font-size:12px; margin:8px 0; }
+  th,td{ border-bottom:1px solid var(--line); padding:6px 5px; text-align:left; vertical-align:top; }
+  th{ background:#f8fafc; font-weight:700; color:var(--sub); font-size:11px; }
+  tr:last-child td{ border-bottom:none; }
+  td.c,th.c{ text-align:center; } td.r,th.r{ text-align:right; font-variant-numeric:tabular-nums; }
+  .tag{ display:inline-block; font-size:10px; font-weight:700; color:#fff; border-radius:4px; padding:1px 6px; white-space:nowrap; }
+  .tag.g{ background:var(--green); } .tag.a{ background:var(--amber); }
+  .tag.o{ background:var(--orange); } .tag.r{ background:var(--red); }
+  .tag.b{ background:var(--blue); } .tag.n{ background:var(--gray); }
+  ul{ margin:4px 0 8px 18px; } li{ margin-bottom:5px; }
+  ol{ margin:4px 0 8px 20px; } ol li{ margin-bottom:5px; }
+  .kv{ display:flex; gap:8px; flex-wrap:wrap; margin:9px 0; }
+  .kv .it{ flex:1; min-width:96px; background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:9px 11px; }
+  .kv .it .l{ font-size:10.5px; color:var(--sub); }
+  .kv .it .v{ font-size:17px; font-weight:800; line-height:1.35; }
+  .kv .it .v small{ font-size:11px; font-weight:600; color:var(--sub); }
+  .chk{ list-style:none; margin-left:0; }
+  .chk li{ padding-left:22px; position:relative; margin-bottom:6px; }
+  .chk li:before{ content:"☐"; position:absolute; left:0; color:var(--blue); font-size:14px; }
+  .foot{ font-size:11px; color:var(--sub); text-align:center; margin-top:16px; line-height:1.7; }
+  .hl-r{ color:var(--red); font-weight:700; } .hl-g{ color:var(--green); font-weight:700; }
+  tr.hl-row td{ background:#fffbeb; font-weight:700; }
+  tr.bad td{ background:#fef2f2; }
+  tr.good td{ background:#ecfdf5; }
+  .src{ font-size:10.5px; color:var(--sub); font-style:normal; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="title">纳指定投 · <span class="hl">止盈深度研究与方案升级</span></div>
+  <div class="subtitle">基于公开实证 + 你自己的 555 周数据回测 · 2026-09-06</div>
+</header>
+
+<div class="lead">
+  <span class="big">结论先说，它和直觉相反：<b>你现在不该考虑止盈，该考虑的是"什么时候才需要考虑"。</b></span>
+  <div class="sm">
+    我用你自己的温度计数据跑了回测：<b>基于评分减仓止盈，让收益下降 9–55 个百分点，但最大回撤只改善 0.2–1.8 个百分点</b>——
+    性价比极差。而<b>股债再平衡</b>在同等条件下改善回撤 11 个百分点，性价比是止盈的 <b>7 倍以上</b>。<br><br>
+    真正该触发卖出的不是"涨了多少"、"分数多高"，而是<b>① 定投钝化（约第 5 年）② 这笔钱有了明确用途</b>。
+  </div>
+</div>
+
+<!-- ============ 1 网上怎么说 ============ -->
+<div class="card">
+  <h2><span class="n">01</span> 网上主流的三种止盈法</h2>
+
+  <table>
+    <tr><th>方法</th><th>核心逻辑</th><th>优势</th><th>劣势 / 盲区</th></tr>
+    <tr>
+      <td><b>① 目标收益率法</b><br><span class="src">最常见</span></td>
+      <td>设定 15%/20%/30% 等收益线，达标后全额或分批赎回，重启新一轮</td>
+      <td>规则简单、纪律性强、不依赖判断</td>
+      <td><b>周期错配</b>：牛市初期达标就清仓，错过主升浪</td>
+    </tr>
+    <tr>
+      <td><b>② 估值分位法</b><br><span class="src">机构推荐</span></td>
+      <td>PE/PB 历史百分位 &gt; 80% 开始减，&gt; 90% 大幅减仓</td>
+      <td>顺应周期，能吃到主升浪</td>
+      <td><b>在长牛赛道会钝化</b>：估值中枢持续上移，指标失灵</td>
+    </tr>
+    <tr>
+      <td><b>③ 最大回撤法</b><br><span class="src">右侧交易</span></td>
+      <td>"目标收益 30% + 最大回撤 10%"：达标后继续持有，等从高点回落 10% 再卖</td>
+      <td>让利润奔跑，捕捉大趋势</td>
+      <td>需牺牲顶部利润；回撤阈值难定；要盯盘</td>
+    </tr>
+  </table>
+  <p class="src">来源：约投顾《定投组合何时应该止盈》、今日头条《纳指100长期定投，止盈操作该如何理性抉择》、交银施罗德《定投进阶指南》、华夏基金投教基地等。</p>
+
+  <h3>但实证结论是<b>分裂的</b>——关键在于标的的长期形态</h3>
+  <div class="quote">
+    <b>东方红资产管理（中国基金报）</b>回测 2008–2022 共 15 年，同样用"50% 目标止盈"：<br>
+    · 标的 = <b>恒生指数</b>（长期横盘震荡）：止盈比不止盈累计收益<b class="hl-g">高 39.28%</b> ✓<br>
+    · 标的 = <b>偏股混合型基金指数</b>（屡创新高）：止盈 41.82% vs 不止盈 <b>100.38%</b> ✗<br>
+    <b>结论："如果定投标的长期能创出新高，止盈将会中断时间的复利效应。"</b>
+  </div>
+  <div class="quote">
+    <b>希财网</b>回测 2003–2020（17 年，每月 1000 元，20% 止盈）：<br>
+    · 有止盈：累计收益 23%，年化 <b>1.36%</b><br>
+    · 不止盈：累计收益 <b>315.82%</b>，年化 <b>18.58%</b><br>
+    <b>原因：① 止盈时本金还很小，赚的绝对额少 ② 每次止盈等于把雪球推倒重滚，复利中断。</b>
+  </div>
+  <div class="quote">
+    <b>兴业证券</b>回测沪深300（2006–2020）：50% 目标止盈 IRR <b>14.51%</b> vs 不止盈 <b>7.19%</b> —— <b>止盈完胜</b>。<br>
+    <span class="src">（但这恰恰印证了上面的规律：沪深300 在 2007 高点后十余年未创新高，属"横盘型"。）</span>
+  </div>
+
+  <div class="ok">
+    <b>所以判断顺序是反的：不是"我要不要止盈"，而是"我投的这个东西，长期会不会不断创新高"。</b><br>
+    恒生 / 沪深300 → 长期横盘 → <b>止盈有效</b>；<br>
+    纳指100 / 偏股基金指数 → 长期创新高 → <b>止盈有害</b>。
+  </div>
+</div>
+
+<!-- ============ 2 我的回测 ============ -->
+<div class="card">
+  <h2><span class="n">02</span> 用你自己的数据回测：止盈到底值不值</h2>
+  <p>用你的 data.json（2016-04 至今，126 个月度读数），每月定投 1,000 元，测试"评分触发减仓、12 个月分批回投"。</p>
+
+  <table>
+    <tr><th>策略</th><th class="r">最大回撤</th><th class="r">期末资产</th><th class="r">收益率</th><th class="r">相对基准</th></tr>
+    <tr class="good"><td><b>① 不止盈（基准）</b></td><td class="r">−27.6%</td><td class="r">363,080</td><td class="r"><b>+192.8%</b></td><td class="r">—</td></tr>
+    <tr><td>② 评分 ≥ 85 减三成</td><td class="r">−27.4%</td><td class="r">351,603</td><td class="r">+183.6%</td><td class="r hl-r">−9.2pp</td></tr>
+    <tr><td>③ 评分 ≥ 85 减五成</td><td class="r">−27.3%</td><td class="r">348,760</td><td class="r">+181.3%</td><td class="r hl-r">−11.5pp</td></tr>
+    <tr><td>④ 评分 ≥ 80 减三成</td><td class="r">−26.3%</td><td class="r">324,230</td><td class="r">+161.5%</td><td class="r hl-r">−31.3pp</td></tr>
+    <tr class="bad"><td>⑤ 评分 ≥ 75 减三成</td><td class="r">−25.8%</td><td class="r">294,318</td><td class="r">+137.4%</td><td class="r hl-r">−55.4pp</td></tr>
+    <tr style="background:#f8fafc"><td colspan="2">（参考）纳指指数本身最大回撤</td><td class="r">−33.0%</td><td class="r" colspan="2">—</td></tr>
+  </table>
+
+  <div class="warn">
+    <b>这张表最关键的是看两列的对比关系：</b><br>
+    · 收益：损失 <b>9.2 ~ 55.4 个百分点</b>（越激进的止盈亏得越惨）<br>
+    · 回撤：只改善 <b>0.2 ~ 1.8 个百分点</b><br><br>
+    <b>也就是说，止盈几乎买不到"安全感"，却要付出巨大的收益代价。</b>
+  </div>
+
+  <p><b>为什么止盈几乎不改善回撤？</b>因为真正的几次大回撤（2020 年 3 月疫情、2022 年加息）发生时，
+  温度计读数<b>并不在高位</b> —— 2020 年 3 月崩盘前评分才 50 多，2022 年下跌时评分已从 87 回落。
+  <b>泡沫评分测的是"估值贵不贵"，不是"下个月跌不跌"</b>，它本来就不是一个择时信号。</p>
+
+  <h3>再算一笔"性价比"账</h3>
+  <table>
+    <tr><th>方式</th><th class="r">回撤改善</th><th class="r">收益损失</th><th class="r">每改善 1pp 回撤<br>要付出多少收益</th></tr>
+    <tr class="bad"><td>止盈：评分≥85 减三成</td><td class="r">0.2pp</td><td class="r">9.2pp</td><td class="r hl-r"><b>46.0pp</b></td></tr>
+    <tr class="bad"><td>止盈：评分≥75 减三成</td><td class="r">1.8pp</td><td class="r">55.4pp</td><td class="r hl-r"><b>30.8pp</b></td></tr>
+    <tr class="good"><td>股债 70/30 + 年度再平衡</td><td class="r">11.1pp</td><td class="r">67.7pp</td><td class="r hl-g"><b>6.1pp</b></td></tr>
+    <tr class="good"><td>股债 70/30 + 偏离 5pp 再平衡</td><td class="r">11.2pp</td><td class="r">65.2pp</td><td class="r hl-g"><b>5.8pp ← 最优</b></td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)">
+    注：70/30 的收益损失里，大部分来自"权益比例从 100% 降到 70%"这个配置动作本身，不是再平衡动作。
+    <b>单看再平衡动作：70/30 不再平衡 +140.1% → 年度再平衡 +125.1%，损失 15pp，换来回撤从 −20.2% 改善到 −16.5%（3.7pp），比值 4.05 —— 依然是止盈的 7 倍以上效率。</b>
+  </p>
+
+  <div class="ok">
+    <b>结论：降低回撤，请优先用"资产配置 + 再平衡"，不要用"止盈"。</b><br>
+    再平衡是<b>机械的、不择时的</b>（涨多了卖、跌多了买，永远满仓），所以既能降波动又不怎么踏空；
+    止盈是<b>择时的</b>（卖出等低点），而"低点"什么时候来没人知道 —— 纳指常常是"卖了就再也没便宜过"。
+  </div>
+</div>
+
+<!-- ============ 3 纳指的特殊性 ============ -->
+<div class="card">
+  <h2><span class="n">03</span> 纳指的特殊性：为什么"估值止盈"在这里最容易失灵</h2>
+
+  <h3>① 盈利增长会消化估值 —— PE 会钝化</h3>
+  <div class="quote">
+    2018/3/12：纳指100 点位 7,131，PE <b>33.90 倍</b><br>
+    2026/9/5：纳指100 点位 29,544，PE <b>30.41 倍</b><br>
+    <b>8 年多，点位涨了 314%，PE 反而降了 9.6%。</b>这轮涨幅几乎全部由业绩推动，不是估值扩张。
+  </div>
+  <p>这意味着：<b>如果你在 2018 年因为"PE 33.9 倍、看着贵"而止盈，你会错过后面 314% 的涨幅。</b>
+  而 PE 分位法在 2018 年大概率会给出"高估"信号。</p>
+
+  <h3>② 当前估值到底贵不贵？三个数据源打架，要会看</h3>
+  <table>
+    <tr><th>口径</th><th class="r">数值</th><th class="r">历史分位</th><th>说明</th></tr>
+    <tr><td>PE-TTM（雪球，9/4）</td><td class="r">30–31.5 倍</td><td class="r">近10年 64–67%</td><td>中等偏上</td></tr>
+    <tr><td>PE-TTM（中财网，9/3）</td><td class="r">30.31 倍</td><td class="r">2011以来 64.93%</td><td>一致</td></tr>
+    <tr><td>PE-TTM（另一来源，9/2）</td><td class="r">约 35 倍</td><td class="r">2011以来 约 88%</td><td class="hl-r">口径不同，明显偏高</td></tr>
+    <tr class="hl-row"><td><b>前瞻 PE 2026E（Trendonify，9/2）</b></td><td class="r"><b>20.84 倍</b></td><td class="r"><b>10年 25%、5年 13.3%</b></td><td><b>按盈利预期看反而偏低</b></td></tr>
+  </table>
+  <div class="note">
+    <b>同一个指数，PE-TTM 分位 65–88%、前瞻 PE 分位却只有 13–25% —— 差别全部来自"用哪个盈利"。</b>
+    纳指龙头盈利增速快（2026 年 EPS 预期 +43%），用去年的盈利算就显得贵，用明年的盈利算就显得便宜。
+    <b>这就是为什么单一 PE 指标在纳指上不可靠，必须两个一起看，且更应看前瞻 PE。</b>
+  </div>
+
+  <h3>③ 起始估值与定投收益的关系（雪球 KIMI 回测，长周期实证）</h3>
+  <table>
+    <tr><th>起始 PE</th><th>5 年定投</th><th>10 年定投</th><th>20 年定投</th></tr>
+    <tr><td>PE = 13.18（2012，极低）</td><td class="r">—</td><td class="r hl-g">年化 23.01%（最佳）</td><td class="r">—</td></tr>
+    <tr><td>PE = 46.72（1999，泡沫顶）</td><td class="r hl-r">−13.85%</td><td class="r hl-r">−5.31%（唯一亏损）</td><td class="r">+10.09%（仍为正）</td></tr>
+    <tr><td>PE = 69.82（2002，盈利塌陷）</td><td class="r">—</td><td class="r">—</td><td class="r hl-g">年化 16.83%（最佳）</td></tr>
+    <tr class="hl-row"><td><b>PE &gt; 40（当前不在这一档）</b></td><td class="r">—</td><td class="r"><b>平均年化约 3.5%</b></td><td class="r">—</td></tr>
+  </table>
+  <ul>
+    <li><b>PE 与短期收益强相关，与长期收益弱相关。</b></li>
+    <li><b>15 年以上的定投，历史上零亏损，正收益占比 100%。</b></li>
+    <li>即使从 PE 69.82 的极端点开始，<b>20 年年化仍有 16.83%</b>。</li>
+    <li>当前 PE 约 30–35 倍，<b>不在"PE&gt;40"的危险档</b>，但确实不算便宜 —— 10 年预期年化大概率落在 <b>8%–12%</b>，低于过去十年的 18%。</li>
+  </ul>
+</div>
+
+<!-- ============ 4 那什么时候该卖 ============ -->
+<div class="card">
+  <h2><span class="n">04</span> 那到底什么时候该卖？三个真实理由（和三个伪理由）</h2>
+
+  <h3>❌ 三个<b>不成立</b>的卖出理由</h3>
+  <table>
+    <tr><th>伪理由</th><th>为什么站不住</th></tr>
+    <tr><td>"已经赚了 50%，落袋为安"</td><td>定投前期本金小，50% 的绝对额很少；止盈等于把雪球推倒重滚（实证：20% 止盈年化 1.36% vs 不止盈 18.58%）</td></tr>
+    <tr><td>"PE 到 80% 分位了，该减仓"</td><td>纳指盈利增速快，PE 会钝化（8 年涨 314% 而 PE 反降 9.6%）；且 PE-TTM 与前瞻 PE 给出相反结论</td></tr>
+    <tr><td>"温度计 70 分了，好高"</td><td>回测：≥75/80/85 减仓，收益损失 9–55pp，回撤只改善 0.2–1.8pp。<b>泡沫分测的是"贵不贵"，不是"跌不跌"</b></td></tr>
+  </table>
+
+  <h3>✅ 三个<b>成立</b>的卖出理由</h3>
+  <ol>
+    <li><b>定投钝化</b>（约第 5 年）—— 新增资金占比降到 2% 以下后，定投已无法摊薄成本，组合实际变成"一次性持有"，
+      此时<b>该从"攒份额"切换到"管仓位"</b>（见第 05 节）。</li>
+    <li><b>这笔钱有了明确用途</b>（买房、结婚、创业）—— 用钱前 <b>2–3 年</b>把对应部分的权益比例降到 30% 以下。
+      <b>这是最正当、也是唯一没有争议的止盈理由。</b></li>
+    <li><b>风险敞口超限</b> —— 权益类占总金融资产比例超过你能承受的上限（比如你给自己定的 70%），
+      通过再平衡卖超配部分，而不是清仓。</li>
+  </ol>
+
+  <div class="note">
+    <b>一句话区分：止盈 = 择时（赌市场会跌），再平衡 = 控风险（不管市场怎么走）。</b>
+    前者需要你判断对，后者只需要你执行规则。历史上前者在纳指上几乎没对过。
+  </div>
+</div>
+
+<!-- ============ 5 钝化时间表 ============ -->
+<div class="card">
+  <h2><span class="n">05</span> 你的"钝化时间表"：什么时候定投开始失效</h2>
+  <p>按你的节奏（月均 7,000 元、年化 10%）测算，每月新增资金占账户的比例：</p>
+  <table>
+    <tr><th>时间</th><th class="r">账户资产</th><th class="r">月新增占比</th><th>状态</th></tr>
+    <tr><td>第 3 年</td><td class="r">约 29 万</td><td class="r">2.41%</td><td>定投依然有效</td></tr>
+    <tr class="hl-row"><td><b>第 5 年</b></td><td class="r"><b>约 54 万</b></td><td class="r"><b>1.31%</b></td><td><b>钝化显现 ← 切换点</b></td></tr>
+    <tr><td>第 8 年</td><td class="r">约 100 万</td><td class="r">0.70%</td><td>基本等同一次性持有</td></tr>
+    <tr><td>第 10 年</td><td class="r">约 140 万</td><td class="r">0.50%</td><td>完全钝化</td></tr>
+  </table>
+  <div class="ok">
+    <b>这意味着：从第 1 年到第 5 年，你的核心任务只有一个 —— 不间断地把份额攒起来，任何卖出都是自伤。</b><br>
+    从第 5 年（账户约 50 万）起，策略重心从"攒份额"切换到"管仓位"，这时才需要年度再平衡。
+  </div>
+
+  <h3>第 5 年之后怎么做：再平衡规则（不是止盈）</h3>
+  <table>
+    <tr><th>触发条件</th><th>动作</th><th>频率</th></tr>
+    <tr class="hl-row"><td><b>偏离目标比例 5 个百分点</b></td><td><b>把超配的卖掉、补到低配的</b>，回到目标比例</td><td>季度检查，触发才动</td></tr>
+    <tr><td>年度例行</td><td>无论是否偏离，每年 1 月做一次归位</td><td>每年 1 次</td></tr>
+    <tr><td>不触发</td><td>什么都不做</td><td>—</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)">
+    <b>关键：再平衡卖出后，钱是去买债券/货币（低配资产），不是"持币等待低点"。</b>
+    所以你永远满仓、永远不踏空 —— 这是它和止盈最本质的区别。
+    回测也证实：偏离 5pp 再平衡的性价比（5.8）优于年度再平衡（6.1），也远优于任何止盈（30–46）。
+  </p>
+</div>
+
+<!-- ============ 6 升级后的方案 ============ -->
+<div class="card">
+  <h2><span class="n">06</span> 方案升级：加入"退出规则"（买入部分不变）</h2>
+
+  <div class="ok">
+    <b>买入端完全不变</b>，继续按《最终执行计划》的逐月表执行：2–10 月每月 7,833，11/12/1 月每月 4,500，
+    4 只基金日投 26 元（奖金期 45 元），全年 8.4 万。<b>本次升级只新增"卖出规则"。</b>
+  </div>
+
+  <h3>你的三段式退出规则</h3>
+  <table>
+    <tr><th>阶段</th><th>时间 / 条件</th><th>卖出规则</th><th>心态</th></tr>
+    <tr class="good">
+      <td><b>第 1 阶段<br>攒份额期</b></td>
+      <td>现在 → 第 5 年<br>（账户 &lt; 50 万）</td>
+      <td><b>不卖。任何情况下都不卖。</b><br>温度计只调节每月买入金额（当前 69 分 → 0.85×）</td>
+      <td>把回撤当打折促销。<br>纳指 15 年以上定投历史零亏损</td>
+    </tr>
+    <tr class="hl-row">
+      <td><b>第 2 阶段<br>管仓位期</b></td>
+      <td>第 5 年起<br>（账户 &gt; 50 万）</td>
+      <td><b>只有再平衡，没有止盈。</b><br>偏离目标比例 5pp 就归位；每年 1 月例行一次</td>
+      <td>从"攒多少"转向"比例对不对"</td>
+    </tr>
+    <tr>
+      <td><b>第 3 阶段<br>用钱期</b></td>
+      <td>买房 / 结婚 / 大额支出<br>前 <b>2–3 年</b></td>
+      <td><b>这才是真正的止盈。</b><br>把要用的那部分钱的权益比例降到 <b>≤30%</b>，分 6–12 个月完成，不要一次性砍</td>
+      <td>按用途倒推，不按收益率</td>
+    </tr>
+  </table>
+
+  <h3>目标比例怎么定（第 2 阶段用）</h3>
+  <table>
+    <tr><th>人生阶段</th><th class="c">权益（纳指+标普+A股）</th><th class="c">债券/货币</th></tr>
+    <tr class="hl-row"><td><b>现在（未婚、20年+期限）</b></td><td class="c"><b>75%</b></td><td class="c"><b>25%</b></td></tr>
+    <tr><td>结婚 / 有娃 / 有房贷后</td><td class="c">60–65%</td><td class="c">35–40%</td></tr>
+    <tr><td>用钱前 2–3 年（针对那笔钱）</td><td class="c">≤30%</td><td class="c">≥70%</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)">
+    注：当前执行表的 50/25/25（海外/A股/债券）里，权益合计就是 75%。
+    <b>第 2 阶段开始后，你要盯的是"权益 75%"这条线，而不是某一只基金赚了多少。</b>
+  </p>
+
+  <div class="warn">
+    <b>一个必须提前想清楚的问题：你这笔钱打算什么时候用？</b><br>
+    · 如果 20 年内完全不用（纯养老/财富积累）→ <b>第 1、2 阶段就够了，永远不需要第 3 阶段</b>。<br>
+    · 如果 5–8 年内可能买房/结婚 → <b>现在就应该给这笔钱单独建一个子账户</b>，从第 4 年开始逐步降权益，
+      不要等到要用钱前一年才动 —— 那时如果正好撞上 -30%，你就被动了。<br>
+    <b>建议你现在就想一下这个问题，它比"止盈点设多少"重要得多。</b>
+  </div>
+</div>
+
+<!-- ============ 7 检查清单 ============ -->
+<div class="card">
+  <h2><span class="n">07</span> 更新后的检查清单</h2>
+  <h3>每月（10 分钟）</h3>
+  <ul class="chk">
+    <li>看月度温度计读数 → 定下月<b>买入</b>系数（当前 69.0 → 0.85×）</li>
+    <li>核对 4 只基金是否都扣款成功</li>
+    <li>查一次纳指 ETF 场内溢价：<b>&gt; 10% 不碰</b></li>
+    <li><b>不做任何卖出动作</b>（第 1 阶段）</li>
+  </ul>
+  <h3>每季度（仅第 5 年后需要）</h3>
+  <ul class="chk">
+    <li>算一次权益占比，偏离 75% 超过 5pp 就再平衡归位</li>
+  </ul>
+  <h3>每年</h3>
+  <ul class="chk">
+    <li>1 月：例行再平衡（第 5 年后）</li>
+    <li>个税汇算：2 月那笔 2 万务必试算"单独计税"（省约 1,400 元）</li>
+    <li><b>重问自己一次：这笔钱 5 年内会用吗？</b>如果答案是"会"，开始规划降权益的时间表</li>
+  </ul>
+</div>
+
+<!-- ============ 8 风险 ============ -->
+<div class="card">
+  <h2><span class="n">08</span> 风险与局限（务必读）</h2>
+  <ul>
+    <li><b>本次回测的样本局限很关键。</b>你的 data.json 只有 2016 年至今（126 个月），<b>这十年纳指是单边长牛，任何减仓策略在样本内必然吃亏</b>。所以"止盈有害"这个结论，在本样本内是被放大的。<b>它真实的含义是：在一个持续创新高的资产上，止盈的代价远高于它的收益 —— 而不是"止盈永远错"。</b></li>
+    <li><b>若未来出现 2000 年级别的泡沫破裂</b>（纳指曾 -83%、15 年才回本），本结论会被显著削弱。这也是为什么仍需保留"第 3 阶段用钱前降权益"这条规则。</li>
+    <li><b>"15 年以上定投零亏损"是历史统计，不是承诺。</b>过去 40 年美股的特殊性（利率长期下行、科技垄断全球化）未来未必延续。</li>
+    <li><b>估值数据源打架</b>（PE-TTM 30–35 倍、分位 65%–88%）。不同数据商口径不同，不要拿单一数字做决策，更要看前瞻 PE。</li>
+    <li><b>不构成投资建议。</b>本文件为方法论研究与规划参考，实际操作前建议与持证理财顾问确认；涉及税务请以当年政策为准并咨询税务师。</li>
+    <li><b>KYC 提示：</b>本方案基于你未婚、无房贷、风险承受强、期限 20 年+ 的假设。<b>若未来结婚、购房、收入结构变化，需重做第 06 节的目标比例。</b></li>
+  </ul>
+</div>
+
+<div class="foot">
+  研究来源：约投顾《三种止盈策略对比》· 东方红资产管理（中国基金报）《基金定投要不要止盈》·
+  希财网定投回测 · 兴业证券《教你科学定投》· 交银施罗德《定投进阶指南》· 华夏基金投教基地《延迟满足》·
+  雪球 KIMI 纳指定投 PE 回测 · Trendonify 前瞻 PE · 中财网/雪球估值数据（2026-09-02~05）<br>
+  自有回测：data.json 555 周 / 126 月，2016-04 至今，月度定投口径，未投部分按货基年化 2% 计<br>
+  生成时间：2026-09-06 · 配套文件：《纳指定投-最终执行计划-20260906.html》（买入端执行表）
+</div>
+
+</div>
+</body>
+</html>

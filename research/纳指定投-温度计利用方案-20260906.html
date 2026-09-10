@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="xqWJcuZCERP2SH1tAiuyXe">
+<head data-page-node-id="a7grTCM20DLUZ5XVxC6FrX">
+<meta charset="UTF-8" data-page-node-id="H8zCNtRp07MHisd2jxkQAJ">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="pyEHPFSyyb5cjFrxzIFWsD">
+<title>纳指定投 · 温度计全面检验与最终方案（2026-09-06）</title>
+<style>
+  :root{ --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
+    --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb; --gray:#6b7280; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.68; padding:16px 12px 48px; font-size:13px; }
+  .wrap{ max-width:840px; margin:0 auto; }
+  header{ margin-bottom:14px; }
+  .title{ font-size:21px; font-weight:800; letter-spacing:.4px; }
+  .title .hl{ color:var(--blue); }
+  .subtitle{ font-size:11px; color:var(--sub); margin-top:4px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:12px; }
+  .card h2{ font-size:14px; font-weight:800; margin-bottom:9px; display:flex; align-items:center; gap:7px; }
+  .num{ background:var(--ink); color:#fff; width:19px; height:19px; border-radius:5px; font-size:10px; display:inline-flex; align-items:center; justify-content:center; flex:none; }
+  .card p{ font-size:12.5px; color:#2b313c; margin-bottom:8px; }
+  .card p:last-child{ margin-bottom:0; }
+  table{ width:100%; border-collapse:collapse; font-size:11.5px; margin:6px 0; }
+  th{ background:#f0f2f6; color:var(--sub); font-weight:700; text-align:right; padding:6px 7px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th:first-child{ text-align:left; }
+  td{ padding:6px 7px; border-bottom:1px solid #f0f1f4; text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td:first-child{ text-align:left; font-weight:600; }
+  tr.win td{ background:#ecfdf5; }
+  tr.lose td{ background:#fef2f2; }
+  tr.ref td{ background:#f8fafc; }
+  .pos{ color:var(--red); font-weight:700; } .neg{ color:var(--green); font-weight:700; } .mut{ color:var(--sub); }
+  .alert{ background:#fef2f2; border:1px solid #fecaca; border-left:3px solid var(--red); border-radius:8px; padding:11px 13px; margin-bottom:12px; }
+  .alert .h{ font-weight:800; color:var(--red); font-size:13px; margin-bottom:5px; }
+  .alert p{ font-size:12.5px; color:#3f1418; }
+  .ok{ background:#ecfdf5; border:1px solid #a7f3d0; border-left:3px solid var(--green); border-radius:8px; padding:11px 13px; margin-bottom:12px; }
+  .ok .h{ font-weight:800; color:var(--green); font-size:13px; margin-bottom:5px; }
+  .ok p{ font-size:12.5px; color:#0d3b2e; }
+  .note{ background:#fffbeb; border:1px solid #fde68a; border-left:3px solid var(--amber); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:12px; color:#4a3708; }
+  ul{ margin:6px 0 6px 17px; font-size:12.5px; } li{ margin-bottom:4px; }
+  .chartbox{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px; margin:8px 0; }
+  .kv{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin:8px 0; }
+  .kv div{ background:#f8f9fb; border:1px solid var(--line); border-radius:9px; padding:9px 11px; }
+  .kv .k{ font-size:10.5px; color:var(--sub); }
+  .kv .v{ font-size:15px; font-weight:800; margin-top:1px; }
+  .tag{ display:inline-block; font-size:10px; padding:1px 6px; border-radius:4px; font-weight:700; }
+  .tag.r{ background:#fee2e2; color:#b91c1c; } .tag.g{ background:#d1fae5; color:#047857; } .tag.b{ background:#dbeafe; color:#1d4ed8; } .tag.y{ background:#fef3c7; color:#92400e; }
+  .layer{ border:1px solid var(--line); border-radius:11px; padding:11px 13px; margin-bottom:9px; }
+  .layer .lt{ font-size:13px; font-weight:800; margin-bottom:4px; }
+  .layer .lm{ font-size:11px; color:var(--sub); margin-bottom:6px; }
+  footer{ font-size:10.5px; color:var(--sub); text-align:center; margin-top:18px; line-height:1.7; }
+  code{ background:#f1f3f6; padding:1px 5px; border-radius:4px; font-size:11.5px; }
+</style>
+</head>
+<body data-page-node-id="n4S5y1tkSo8nMpfl4H7Eo5">
+<div class="wrap" data-page-node-id="BHctu3bXGpxyoAkixHHEPQ">
+
+<header data-page-node-id="YWhJuQGRLbR41BoCES5gwm">
+  <div class="title" data-page-node-id="KDVYbciS71TNF9VRtGGntl">纳指定投 · 温度计全面检验与<span class="hl" data-page-node-id="z1SANuXtIw0sYoXOn7NCGn">最终方案</span></div>
+  <div class="subtitle" data-page-node-id="BtTlQtRX9xzC8mFbanoInp">三轮回测 · 五种用法 · 结论：主计划无脑定投，温度计只做「刹车」和「闲钱买点」| 2026-09-06</div>
+</header>
+
+<div class="alert" data-page-node-id="JBIzNmGkl55iYJuSkK15ml">
+  <div class="h" data-page-node-id="yjnb2XH4ZoEKA1zzxLBLGt">先说结论（不绕弯）</div>
+  <p data-page-node-id="M4VmhdIWNk29wTDpq0fApU"><b data-page-node-id="FEKBoJzEkNEaLE7tV96EPQ">「倍数定投」在你的资金结构里执行不起来</b>：倍数的弹药只能来自两个地方——要么平时少投攒出来（=节流，回测 <b data-page-node-id="BU1yAq0L6l8ZCOtY5HtnEE">-12.1pp</b>），要么是预算外的闲钱（这是唯一成立的形式）。
+  我把温度计能想到的用法全部回测了一遍（节流 / 减仓调仓 / 奖金等待 / 奖金分批 / 闲钱冷买），<b data-page-node-id="WHIlvvwccunHIdiTWzNUDM">唯一 10 年全程跑赢无脑定投的用法是：没有。</b>你的月投 + 奖金一共 84,000/年，全部无脑投掉，就是历史最优解。</p>
+</div>
+
+<div class="card" data-page-node-id="GzDPURYiNqXHoAj9FrNgmO">
+  <h2 data-page-node-id="9AOD8pwSHLaRbie8FsE2Jo"><span class="num" data-page-node-id="a31dYcW42vHSEfKPTqpQql">01</span>为什么「倍数定投」是个伪命题（先算弹药账）</h2>
+  <p data-page-node-id="DWdu94tb3oddcSWO1DzdIq">倍数定投 = 温度低时投 1.8×、温度高时投 0.2×。问一个问题：<b data-page-node-id="DpHkp6nT2kiiAMbiLW4qy9">1.8× 的那 0.8× 钱从哪来？</b></p>
+  <table data-page-node-id="O3ldP0HPiBWQOc4uIEpxVd">
+    <tr data-page-node-id="u6KNk54265TYI1v8CJFZiJ"><th data-page-node-id="F0tXN4RBFTi6XsPZYN8cDE">弹药来源</th><th data-page-node-id="IPeT2FthzSE78Wp6BkEz9r">等价于</th><th data-page-node-id="11YAzSFGkmnDUuzbWoDVQ5">10 年回测结果</th><th data-page-node-id="ygNhkK0QzcysDYO5FLuvKW">判定</th></tr>
+    <tr class="lose" data-page-node-id="j4JK7WUWJBXgxHQXZ1imCu"><td data-page-node-id="O8K507AJi4atmLJExAsIIH">平时少投攒出来</td><td style="text-align:left" data-page-node-id="ErlwbwnmS6tHDri5YR4YDM">高温度时少买 → 就是「节流」</td><td data-page-node-id="YRDA39rZCISkdB7gK4rzaL">-12.1pp，回撤仅改善 2.3pp</td><td data-page-node-id="eivIbC6CZH8eyknBAAk8W1"><span class="tag r" data-page-node-id="2MjIi2vILtPUBmKZGvBInC">✗ 亏</span></td></tr>
+    <tr class="win" data-page-node-id="U7FaTWBMKsFA0uwRrcvcxG"><td data-page-node-id="FVf6Y3bmYkJSo4PrpYbDtI">预算外闲钱（涨薪/退税/红包）</td><td style="text-align:left" data-page-node-id="JKzaFm2QH6p2oaePiwD1WC">不占用定投预算，冷时一次砸</td><td data-page-node-id="MkpTbNOHdvHinyIBQ8fb6T">唯一不吃亏的形态（见 §05）</td><td data-page-node-id="1Jrr7cVtt2EDQ0wcmTBzb3"><span class="tag g" data-page-node-id="EDuhwd6CHxxtHC7WwOanm2">✓ 可行</span></td></tr>
+    <tr data-page-node-id="X4yEx2lX9K7CC2sB9wn4px"><td data-page-node-id="davXuT13SXcGt0Cg3NZRFG">借来的钱 / 应急金</td><td style="text-align:left" data-page-node-id="wENroZg1rAivaYhPwyrW45">杠杆 / 挪用安全垫</td><td data-page-node-id="JewSlF3JOD5yJdI1ATlD4o">不可测，且违背纪律</td><td data-page-node-id="gzmmvqQCQLkbiCfeu7OzQW"><span class="tag r" data-page-node-id="ALKebgd3O0bwlDeeLyBXHM">✗ 禁止</span></td></tr>
+  </table>
+  <p data-page-node-id="FskQna2UEMNIaeHYTCdOHE">你的月盈余 4,500 是固定预算，奖金 3 万是每年两次的进账——<b data-page-node-id="9AmEn3sMyI6pjMhn0fDpRD">预算内没有多余弹药</b>。硬要倍数，就是把「温度高时少投」包装成倍数，本质还是节流，已经测过：亏 12.1pp（约 10.5 万 / 10 年）。</p>
+</div>
+
+<div class="card" data-page-node-id="lWEHaTfypdbzFi39CNFRuZ">
+  <h2 data-page-node-id="dWyrXg0VRvjpolJPfAIQyF"><span class="num" data-page-node-id="uhbCMFtSZVOETyk7fNd1mw">02</span>三轮检验总表：5 种用法全部跑输无脑</h2>
+  <p data-page-node-id="27JGmMbc7CCywlzSBqhybY">统一口径：2016-05 ~ 2026-08（124 个月），你的现金流（月 4,500 + 2 月 2 万 + 8 月 1 万），闲置资金货基 2%，<b data-page-node-id="2cPpJKncGl2flfVQ1lSh4I">收益 = 期末总资产 ÷ 全部进账</b>（858,000），XIRR 按到账日计。</p>
+  <table data-page-node-id="JgjlASCWxxKmcq1lZtATdo">
+    <tr data-page-node-id="rvCVox7RkQrUMlIFGJocVk"><th data-page-node-id="vNCMnDNYTcsEMA744ph6Lv">用法</th><th data-page-node-id="FaqSIUhL3d7taXUFv35FJc">期末总资产</th><th data-page-node-id="hmtxBCaPCljIMuaHBdX3Vu">总收益率</th><th data-page-node-id="QkRUPHfFpK63OYcBgvkG8N">vs 无脑</th><th data-page-node-id="6Nt4DTHwd2cVSUKK4Qn3u5">XIRR</th><th data-page-node-id="kKbEqyV2IPWFoSsFExR5M8">最大回撤</th></tr>
+    <tr class="win" data-page-node-id="JYBzi0K4h6WCuH2HmVcmCQ"><td data-page-node-id="EhoX4yEf4v0edGvDB2KAbD">① 全额无脑定投（基准）</td><td data-page-node-id="HleetJ995M95A6s4wKWko6">2,514,945</td><td data-page-node-id="hYDWqMs8lXZPQ13IF9xX9O">189.7%</td><td class="mut" data-page-node-id="gWUDjhX7mVCWhCFab6FCWD">—</td><td data-page-node-id="eNqea9TwwdQn0jUVzr14KB">19.87%</td><td data-page-node-id="oGYMbi9eqsmUySwODHzKps">-27.0%</td></tr>
+    <tr data-page-node-id="aHuATzODTUOvTzbI8UU7sl"><td data-page-node-id="lJb4xwdvwkKGZEmvYKvHzk">奖金分 3 期（原方案变体）</td><td data-page-node-id="OZzcelyoegiAOYk4vkZej8">2,513,875</td><td data-page-node-id="i7Cf6IyAEZEZwuHKU1MFoY">189.6%</td><td class="neg" data-page-node-id="rONc7mVG8Ie0qWs6k88cGF">-0.1pp</td><td data-page-node-id="dbBCNn1oLDy0VAuSPoDSNV">19.86%</td><td data-page-node-id="pJGPnARRzp4v8UfC5yclIx">-26.9%</td></tr>
+    <tr class="lose" data-page-node-id="4pimkTs0D3XK27zdI1YQwg"><td data-page-node-id="2af1rLRhvHNGyKSRgoXsEb">奖金分 6 期（旧执行计划）</td><td data-page-node-id="SbVCjZEmtVsZlBXjYp32KA">2,490,975</td><td data-page-node-id="oabdJ5kFfEL2PaGs8CPiI6">187.0%</td><td class="neg" data-page-node-id="X5jfSut5pQIQKdAQZaKroU">-2.8pp</td><td data-page-node-id="QEXWs3ueJbeNC3nWxzJaGp">19.69%</td><td data-page-node-id="N9unayk1xRaQvc4UGMFTdI">-26.7%</td></tr>
+    <tr class="lose" data-page-node-id="D1mkXywfKLYW9dkfvEGlaB"><td data-page-node-id="iia8b8Djx0HXfbbrVVknQn">奖金分 12 期</td><td data-page-node-id="4je5IxsQB4zlHL3GULyibC">2,456,791</td><td data-page-node-id="NuOatj6vk0iQRmRvBWu9yQ">183.0%</td><td class="neg" data-page-node-id="BXRIrB4DXaZ30rWWVd6GFu">-6.7pp</td><td data-page-node-id="F1Z5pbtv3rCPQfhKjoJ65S">19.44%</td><td data-page-node-id="QIRQ3YLc6ZzdK3EtCMRb64">-26.3%</td></tr>
+    <tr class="lose" data-page-node-id="EH2JbkFLp3S6wfOYFjTY2A"><td data-page-node-id="IUFW4JejwbsHfgAPge8CfE">奖金等温度 ≤55 才投</td><td data-page-node-id="S7PFBzKDyB3RKYoslXaGmx">2,472,695</td><td data-page-node-id="bnUsOCAxxFpSMG7q3mHyId">184.9%</td><td class="neg" data-page-node-id="EyPFT87MaIGMzeKPgT8x5f">-4.9pp</td><td data-page-node-id="dUwFjLyLeVECBaTPqNA4Om">19.56%</td><td data-page-node-id="YaG9TaIQUjZ2rKM9AZpMba">-26.9%</td></tr>
+    <tr class="lose" data-page-node-id="pEsG1AYBhA1q5QLH9xduIR"><td data-page-node-id="1dkl3kOwXYkYhGP3XSiCuW">等 ≤55 + 18 个月熔断</td><td data-page-node-id="dOuE8Nqx3n3d5zXsCiI8d6">2,462,042</td><td data-page-node-id="gRhlvSjAnwvwqDrlGBFnUQ">183.6%</td><td class="neg" data-page-node-id="bQvSYqt3vB1cVqDzrX3Ipp">-6.1pp</td><td data-page-node-id="2rSnlVg5InegRvp6ovL2Ps">19.48%</td><td data-page-node-id="DOTrGl9x2AnwOkXcUTkSV1">-26.8%</td></tr>
+    <tr class="lose" data-page-node-id="kG4Q8bAL3MmEQGXFJkBUBQ"><td data-page-node-id="IEfRD1sKcL2VazZB1dZWIs">等 ≤50 + 18 个月熔断</td><td data-page-node-id="ANL7taFUBRMjxaQRDQXE5G">2,453,598</td><td data-page-node-id="bB8CyzjOtuy0Ft4fBWErcS">182.7%</td><td class="neg" data-page-node-id="bYR7slMTdqTjCiswSEiYOL">-7.1pp</td><td data-page-node-id="c2S8RY2QBFBgYXuZGb2P7z">19.42%</td><td data-page-node-id="BjZvaS3zQERW4FsnsbvGWp">-26.5%</td></tr>
+  </table>
+  <div class="note" data-page-node-id="tVuEEZdEXPZaqG8gxOWIY7"><b data-page-node-id="poulFMqYdJ1tiXRSUkWHo6">规律：钱越早进场越好。</b>分批/等待的本质是「晚进场」，在单边牛市的样本里每拖一个月都是踏空成本。
+  注意「等温度 ≤55」的触发点不是完美的：2021-09 温度 53.4 触发买入，之后 12 个月纳指 <b data-page-node-id="EFNuTY841NEo8CD4kE4pHH">-25.3%</b>（2022 熊市）。低温 ≠ 马上涨，只是期望更高。</div>
+</div>
+
+<div class="card" data-page-node-id="OTuOfz9RQqhRiVkfsnYLOH">
+  <h2 data-page-node-id="r2lmhlMpvRzrolbi7ywWxr"><span class="num" data-page-node-id="ogPvzh36o0fMB3pon5kYCD">03</span>温度计确实有预测力，但用不上</h2>
+  <p data-page-node-id="yLzKUwhW5JOQ2TKNgB0Vc7">先说清楚：温度计不是废物。对它做信号检验（555 周 + 126 个月）：</p>
+  <div class="chartbox" data-page-node-id="FHpxLYiATn12TGKgUzi5G0"><canvas id="c1" height="180" data-page-node-id="OfV0ZRF8dwThTOybHoXAk5"></canvas></div>
+  <table data-page-node-id="IN45NAXbv5FhEc9ZpMlCks">
+    <tr data-page-node-id="rl5DvATtl7ydEepLVhGy8j"><th data-page-node-id="pyD1RHgOT4mCDsfplbGOFd">温度区间</th><th data-page-node-id="MZWZtUpNJoqnrRkCC9EgCU">样本</th><th data-page-node-id="MR0BIXXNABFriIyyHbbdNk">未来 12 个月均值</th><th data-page-node-id="Kag1sZxCxzu90SfXW7xr8r">为正比例</th><th data-page-node-id="KzskLjck6SKET0BKIA44R4">未来 24 个月均值</th><th data-page-node-id="E0hJqTRvCbZ1MF8qqKqCbd">为正比例</th></tr>
+    <tr class="win" data-page-node-id="h5HA22kzp4XciRsccHoCvW"><td data-page-node-id="lCA9ebycyGLKzx36ZRwSEk">≤40（极冷）</td><td data-page-node-id="st9fDevahCnxQ6YpkGfCB3">13</td><td data-page-node-id="W1aLEFxc3NaTMPZGFkspRy">33.9%</td><td data-page-node-id="aJ5sdA3KRyFgqFxZ7Q9ELX">100%</td><td data-page-node-id="vysxzwtbdJoHrjTYIcPwy2">67.1%</td><td data-page-node-id="Fisxuvy9bixDoVL09FYIhK">100%</td></tr>
+    <tr class="win" data-page-node-id="xgSHShVtw139dDRrczKGI1"><td data-page-node-id="F7cl5SyGctQlYtFCu8Ue2f">40–55（冷）</td><td data-page-node-id="cwqOxp4Pb0NguiNOjlMo8l">28</td><td data-page-node-id="ZpjF6HwbkIoUidTjbQnsyy">23.5%</td><td data-page-node-id="Kn92e2ZG9UCtPWUKeKYKtE">86%</td><td data-page-node-id="ecnjT6F0cUbbFu5VHSrN4u">60.6%</td><td data-page-node-id="Y1Icbc6MYIVxOjbezk2SZh">100%</td></tr>
+    <tr data-page-node-id="Q5WCLz5CUPcxT1fxTFTXOH"><td data-page-node-id="Buw8ByYJxchDtVbgbC2n3A">55–65</td><td data-page-node-id="Ia2iB7Ux74WAjKzY4H6zTJ">31</td><td data-page-node-id="4SR9yTRow8SuvZeRLSqvel">17.6%</td><td data-page-node-id="nLnmnKq9kOOHfETK3UYMTz">81%</td><td data-page-node-id="jIsp5ncCvUeCWn3xszBAP7">46.3%</td><td data-page-node-id="WKL6HQltfQ9X569UlhoABX">86%</td></tr>
+    <tr data-page-node-id="b5j4p4ceThe3CppC9tGydJ"><td data-page-node-id="3rkmQAWFRIiDA3xu0eSKYk">65–75</td><td data-page-node-id="EvKmfgAOlbfie0bfFPGu2h">24</td><td data-page-node-id="YHYXJDq1bZiUb0net3mwAQ">22.7%</td><td data-page-node-id="HoAXMQxTY505FCQpkuZGWR">90%</td><td data-page-node-id="aYInae9y83Egd6ts7bvZL4">37.8%</td><td data-page-node-id="1aTt7pMde2esCYbU0duutU">100%</td></tr>
+    <tr class="lose" data-page-node-id="Rdn6v87oatjIDmLvXXbRlK"><td data-page-node-id="7QKJ9fofQaLRYHH5TRux1i">75–85（热）</td><td data-page-node-id="6GT8reMUjov7Fg2pQJJnU3">18</td><td data-page-node-id="g2QwGbLShhAwYRN64rKS5j">17.4%</td><td data-page-node-id="tN4gmo6LlJAWHzxZlGQ06s">94%</td><td data-page-node-id="XfcFG9CQDzuXxikYYMfUiZ">16.1%</td><td data-page-node-id="EViQBQiphSd6xSt8CX4GPt">62%</td></tr>
+    <tr class="lose" data-page-node-id="aF2kyAFOFu6eg7zUc1tN5t"><td data-page-node-id="TfzbxDNUMSzSopDVzXAgbz">≥85（极热）</td><td data-page-node-id="vy4YAPaxJ0mcUobct5SCFL">9</td><td data-page-node-id="QLATxVaig3zH8EuAT8iwwO">14.8%</td><td data-page-node-id="mRMwGFHm78GN1jOiCvuagB">78%</td><td data-page-node-id="zK5D2kpd5EDrn6byki6ekz">31.9%</td><td data-page-node-id="GZTCVBiGUv3bsjJhaBDIOI">100%</td></tr>
+  </table>
+  <p style="margin-top:6px" data-page-node-id="xmVJ7pPG9hrlODA5dB8Fqq">相关性：温度 → 未来 3/6 个月收益 <b data-page-node-id="WARDF1dxkBuQhI9abLH5gl">几乎为 0</b>（ρ ≈ -0.01~-0.06）；未来 12 个月 ρ = <b data-page-node-id="f9L0UJ0mBXoPFi4D4oXpP2">-0.30</b>；未来 24 个月 ρ = <b data-page-node-id="M2GJcYJE0TGOnckz8kdlSp">-0.56</b>。
+  而且温度 = 过去 12 个月涨幅的镜像（r = +0.83）——它是「涨太多会均值回归」的<b data-page-node-id="Xb1GTHtWQNNrLd56H5t75F">中期信号（12–24 个月尺度）</b>，对短期没用。</p>
+  <div class="note" data-page-node-id="3rYZMR4pqitRhlLG5rdi7t"><b data-page-node-id="XHPv8DzMjixcGZwDQGNmHG">为什么有预测力却赚不到钱？</b>信号有效的时间尺度（12–24 个月）和定投的执行尺度（每个月）错配。为了等一个 ≤55 的月份，资金平均闲置 4–18 个月只吃 2%，
+  124 个月里只有 31% 的月份温度 ≤55。踏空成本（约 6–15pp）&gt; 低吸增益（约 5–8pp），净值为负。</div>
+</div>
+
+<div class="card" data-page-node-id="Fl9ruQD7V1S3jMREvMtNMb">
+  <h2 data-page-node-id="3r3udxRxRcIyBspZa0bzAm"><span class="num" data-page-node-id="033gA8AIN8RGS8yRg3Eu8o">04</span>那前两轮为什么得出「温度择时有用」？</h2>
+  <ul data-page-node-id="E9iN0d5Gy2xTnATmH80ZxM">
+    <li data-page-node-id="oleYcHngODdAyhX7E8KXGe"><b data-page-node-id="6SMmfPGWjaKBdm0DJdwC0H">第一轮（+192.2%≈无脑）</b>：模型 Bug，规则根本没生效，② ≡ ①。</li>
+    <li data-page-node-id="CS5ByIxHkAd8AOwWhFIt87"><b data-page-node-id="m4QFxtyol9UHE50SkeoFpy">第二轮（+8pp）</b>：分母 Bug——等待池里的钱没算进投入本金，收益率虚高。修正后等待策略实际 <b data-page-node-id="CqyKLLykvSLxA7FJ9Nu0id">-6.1pp</b>。</li>
+  </ul>
+  <p style="margin-top:6px" data-page-node-id="U314PmOE3T5xo7IFSiKWPR">这两次教训本身值得记住：<b data-page-node-id="gia0HKmt9ZLnNBETboXVNf">回测里「择时有效」的结论，先怀疑是不是口径问题。</b>同一份数据、同样的规则，分母一变结论就反转。
+  最终以「钱到账就算本金」的口径为准——这是对你真实钱包最诚实的算法。</p>
+</div>
+
+<div class="card" data-page-node-id="FutMmqLtMrZ44VTMw2EJWk">
+  <h2 data-page-node-id="33jhnmIbEii7te2fFRsgf5"><span class="num" data-page-node-id="F13rXL5LBZqh9l3i9dKTZX">05</span>最终方案：无脑底盘 + 温度刹车 + 闲钱冷买</h2>
+
+  <div class="layer" style="border-left:3px solid var(--green)" data-page-node-id="09SrZX4U6w8KooychU4K6u">
+    <div class="lt" data-page-node-id="kzwjjXkuEqAYQDTMIOvPBI">第一层 · 无脑底盘（84,000/年，约占可投资金的 100%）<span class="tag g" data-page-node-id="7v5zSQSJdUSjG96ybglphH">照常执行，温度计不干预</span></div>
+    <div class="lm" data-page-node-id="ZkD3a8qd8ry49BqYfOgCiF">管理你「每个月都有的钱」——这是收益的主要来源，回测证明任何干预都只会更差。</div>
+    <ul data-page-node-id="SMLyEqLM39dC0Guctj5dwN">
+      <li data-page-node-id="ZvhaovjXeohRICbVtdOALs">月盈余 4,500 × 12 个月，雷打不动，到账即投（4 只基金按原比例）</li>
+      <li data-page-node-id="GShsmLPWYWqiRyANSJqUuV"><b data-page-node-id="4cqmOA9me5lOn0VWF1oYcJ">奖金（2 月 2 万 + 下半年 1 万）：到手即投，不再分 6 期</b>（旧计划分 6 期，回测代价 -2.8pp ≈ -2.4 万/10 年；等温度代价更大）</li>
+      <li data-page-node-id="xHPGlgPQVkIv43soQVmiBN">不设过渡期、不设温度阈值、不看当月涨跌</li>
+    </ul>
+  </div>
+
+  <div class="layer" style="border-left:3px solid var(--amber)" data-page-node-id="CF8yBziGriS2olR9RjwDA3">
+    <div class="lt" data-page-node-id="dhmBHEmMmhfmMhiGpj0PKK">第二层 · 温度刹车（行为工具，不是交易信号）<span class="tag y" data-page-node-id="D8i1T5VCLquoD0axzpR51f">每天看，几乎永远不动</span></div>
+    <div class="lm" data-page-node-id="xoKYIOD1AAEvdsNQUkTlFE">温度计真正值钱的地方：把「感觉」变成「数字」，在过热时管住手。</div>
+    <ul data-page-node-id="0lvKIUWqxbVtzisHkNqB5N">
+      <li data-page-node-id="HnHs8Ay8A42rX3sPrga2Ok">温度 ≥85（历史上仅 7.3% 的月份）：执行三不——<b data-page-node-id="Q8tMmMIjT8BxcTWAuskQSE">不追加、不加倍、不因为「还能涨」临时加大投入</b>；已有份额继续持有</li>
+      <li data-page-node-id="JgJO8oGGRPoZ3hQ95Ul5Ii">温度 ≥85 同时意味着未来 12–24 个月期望收益低于平均：如果你那时恰好有大额计划外进账，参考第三层</li>
+      <li data-page-node-id="vnv8jygJr2aCbYHjgeFP0V">温度在 55–85 之间：什么都不做，这正是大多数时候的状态（当前 2026-08：<b data-page-node-id="u8CpFKjGTYrNqrovfqS175">64.1</b>）</li>
+    </ul>
+  </div>
+
+  <div class="layer" style="border-left:3px solid var(--blue)" data-page-node-id="iPhS171eSLAJdvFERpYtv0">
+    <div class="lt" data-page-node-id="qCnaqJgqlxt1cqYQkUZFZg">第三层 · 闲钱冷买（唯一的倍数形态，弹药 = 预算外的钱）<span class="tag b" data-page-node-id="MIhHnDaeMiqHTvrRlqvwrN">低频，可能一年一次或几年一次</span></div>
+    <div class="lm" data-page-node-id="wuW5L2h7m8kSVG2ze0lpY1">倍数定投唯一成立的形态：不动定投预算，只用「计划外闲钱」，且只在冷的时候出手。</div>
+    <ul data-page-node-id="jND5hDfUW1aqbBHTRsxh4T">
+      <li data-page-node-id="exBO2WC2n21ZQ0kgvPpJHQ">弹药只包括：涨薪后的新增结余、退税、副业/红包等<b data-page-node-id="qA5drGgR7P32lEoCkWEPsN">预算之外</b>的钱（应急金、定投预算严格排除）</li>
+      <li data-page-node-id="oHRHSqSk37Lf19ZCegJGk3">触发条件：温度 ≤50 的月份（历史上 12–24 个月后正收益概率 ~100%，均值 60–67%）</li>
+      <li data-page-node-id="46YIoCtW2KCwmmT8MeazI6">动作：闲钱一次性买入（≈ 当月的「加倍」），而不是按月摊</li>
+      <li data-page-node-id="mFeAsRcDPAZvD1oLCJ3OCo">等不到 ≤50 怎么办：闲钱在货基吃 2% 并不亏；超过 18 个月仍无触发就把闲钱按 3 期投入，防止无限期等待（2022–2023 那种长冷期以外，18 个月足够等到一次）</li>
+    </ul>
+  </div>
+  <div class="note" data-page-node-id="a0qRCUEoFfv8FYGl3aAWcu"><b data-page-node-id="RjgVgYDHDcy9gvLoAODFCB">三层之间的关系：</b>第一层产生 90%+ 的长期收益，第二层防止你亲手毁掉它，第三层是锦上添花。
+  请把「充分利用温度计」理解为第二、三层的用途，而不是给第一层加温度系数——那已经被数据否决了。</div>
+</div>
+
+<div class="card" data-page-node-id="eaE8BdSNZnshTP19Ie0vXh">
+  <h2 data-page-node-id="xZhw3TqhjLpstaj5SnqCUw"><span class="num" data-page-node-id="cDigXC60EPM9UsGTj1PjCR">06</span>与你现有执行计划的差异（需要改 2 处）</h2>
+  <table data-page-node-id="Hdykc05917kqrTitZSDACc">
+    <tr data-page-node-id="wFsEBKql4EcoRb2SKeWGSt"><th data-page-node-id="ZFgGZv2tVZ7Pr31ABmgDHz">原执行计划（2026-09-06 版）</th><th data-page-node-id="8Gabh4re9YHsEnre1ZDUw5">本次修正</th><th data-page-node-id="ramh0tMq9rZMoGPd9srkBq">理由</th></tr>
+    <tr data-page-node-id="GifmgHtZOicmh7Bp7dfZiD"><td style="text-align:left" data-page-node-id="kMD9Wf1HfgHS6q63a6Qcrk">2 月奖金 2 万分 6 期投放</td><td class="pos" data-page-node-id="0LVXV7bBYKbqnDGyqL46Bo">→ 到手即投（一次买入）</td><td style="text-align:left" data-page-node-id="aCa0czpbuHyhEQqo88rLUY">分 6 期 10 年 -2.8pp，无风险补偿</td></tr>
+    <tr data-page-node-id="y9ewOBEW3eb8UMyxByUDv4"><td style="text-align:left" data-page-node-id="Qaq5r5xRI9bMQZ64uLEm3S">下半年 1 万按 6 期投放</td><td class="pos" data-page-node-id="eCdsTfOiqj1KyZxqgFnh0A">→ 到手即投</td><td style="text-align:left" data-page-node-id="a2HCICNoDW4vLexLXNB7VR">同上</td></tr>
+    <tr data-page-node-id="wH3ADKy5cTnHbAVlZ4xhwu"><td style="text-align:left" data-page-node-id="DDNNLFaO8ufr7HGbJx6Ax6">月投金额按温度计系数调节（旧版）</td><td class="pos" data-page-node-id="SWhZ5oJ42UN8NAL3JRd7NR">→ 固定 4,500，不做系数调节</td><td style="text-align:left" data-page-node-id="lO5iGslQs83sTlk7bPS1Z1">节流回测 -12.1pp</td></tr>
+    <tr data-page-node-id="6jubISzpHAhZP2KoRflKHK"><td style="text-align:left" data-page-node-id="viuXraigkYxa6fjyIY9A6L">温度 ≥85 停投 / 减投（旧版）</td><td class="pos" data-page-node-id="vsw1hH1yqxGeZLD0w4NjJZ">→ 只刹车不改变计划</td><td style="text-align:left" data-page-node-id="wyRD9nUOwUjzEN31vVYRLq">见 §05 第二层</td></tr>
+  </table>
+  <p style="margin-top:6px" data-page-node-id="DMIyhcKCOkPKAqBSMImHbg"><b data-page-node-id="fkRSGoH2DD3DGOOrOM4wfi">当前状态提醒（2026-09）：</b>温度 64.1，属「什么都不做」区间。若你的下半年 1 万奖金还没投出，请按修正后的规则尽快一次投掉，不要再等温度。</p>
+</div>
+
+<div class="card" data-page-node-id="6RaqxDrDLUYYSvU1tGWJAn">
+  <h2 data-page-node-id="7RvSCCEEqw7v1PyqFkMngg"><span class="num" data-page-node-id="uP6qswrz51Cc8Uksss1gh0">07</span>数字预期（诚实版）</h2>
+  <div class="kv" data-page-node-id="5wZannkA02BUWprOP3VSx2">
+    <div data-page-node-id="iqFVCKFigfas0QwhR4MbOK"><div class="k" data-page-node-id="JqOAGttPwJp0raFtwc9Ix3">回测 10 年（2016–2026）</div><div class="v" data-page-node-id="9nl45iie0tXasG47y21GR9">XIRR ≈ 19.9%</div></div>
+    <div data-page-node-id="SYXp5MXFAh6ClMDGI7SaHw"><div class="k" data-page-node-id="LuVH8T9zuhm2s6V86nlS5A">这是单边牛市样本</div><div class="v" style="font-size:12px" data-page-node-id="iIGxZcorB6uS0i29zc28V3">纳指 +551%，不可外推</div></div>
+    <div data-page-node-id="QjS9NEPc2YimD23mmRdNAE"><div class="k" data-page-node-id="dEoiM6Oew3agtuh85oCVRV">最大回撤（样本内）</div><div class="v" data-page-node-id="C72RGpqXKKX1CS6rLwcbJq">≈ -27%</div></div>
+    <div data-page-node-id="Wgh6pXyOzsXtzWHJhWwBi1"><div class="k" data-page-node-id="zGAeohWkFvkBsxJkZbYqNg">长期规划建议假设</div><div class="v" style="font-size:12px" data-page-node-id="jqDP91Ur2Hk4bqJs5FxX1E">年化 7–8%</div></div>
+  </div>
+  <p data-page-node-id="H55gc3OoGQIxk29crWLPKc">按 7–8% 年化保守测算（84,000/年）：20 年 ≈ <b data-page-node-id="77nrR1kdVX5Uzc92j6KCEa">344–384 万</b>（本金 168 万）。不要用 19.9% 外推 20 年——那是历史上最好的十年，不是常态。</p>
+</div>
+
+<div class="card" data-page-node-id="GOyWmx8UEpGFa8pmIJiysN">
+  <h2 data-page-node-id="gWe3EE3r7ebvbtnhMjTBmg"><span class="num" data-page-node-id="pOVBeATtHoIBu3DyGL3nNd">08</span>局限与免责</h2>
+  <ul data-page-node-id="VUYQzO3MSTqRnMhwEzfWOX">
+    <li data-page-node-id="WMWNlqz7VSJZbFB6pIbUhZ">样本 124 个月、单边牛市，没有 2000/2008 级别崩盘；「等待」策略在真崩盘年份（温度长时间 ≤55）的表现无法从本样本验证——但逻辑上那种年份对等待策略有利，本结论是「牛市样本中的保守估计」。</li>
+    <li data-page-node-id="pdL61bKgHyjqzdLZ1sWWOG">温度分本身是回看构造的，可能存在前视偏差。</li>
+    <li data-page-node-id="4A1M3AXSACC9HQ40eDTw9F">未计入：QDII 额度停购、场内溢价、汇率、申赎费、A/C 类差异。</li>
+    <li data-page-node-id="HEyzkRjZ1im6TJFvhJLzHx">个人养老金节税、4 只基金轮换等原计划内容不变，仍按原执行。</li>
+    <li data-page-node-id="s0KLYVD1LQCcUW16LWytDI">本文为个人研究记录，不构成投资建议；实际操作请与持证理财顾问确认。</li>
+  </ul>
+</div>
+
+<footer data-page-node-id="foXXcKiFM8nJ5IwYa4vHoM">
+  生成 2026-09-06 · 数据：本地 data.json（更新至 2026-09-04）· 脚本 bt_detail / bt_signal / bt_bonus3 / bt_alloc<br data-page-node-id="Zy2FzmrARtVbbEj6fcibqE">
+  本文档为个人研究记录，不构成投资建议
+</footer>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if (typeof Chart === 'undefined') return;
+  new Chart(document.getElementById('c1'), {
+    type: 'bar',
+    data: {
+      labels: ['≤40','40–55','55–65','65–75','75–85','≥85'],
+      datasets: [{
+        label: '未来 12 个月平均收益',
+        data: [33.9, 23.5, 17.6, 22.7, 17.4, 14.8],
+        backgroundColor: ['#059669','#10b981','#f59e0b','#f59e0b','#ef4444','#dc2626'],
+        borderRadius: 4
+      },{
+        label: '未来 24 个月平均收益',
+        data: [67.1, 60.6, 46.3, 37.8, 16.1, 31.9],
+        backgroundColor: ['#047857','#059669','#d97706','#d97706','#b91c1c','#991b1b'],
+        borderRadius: 4
+      }]
+    },
+    options: { responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, font:{size:11} } },
+        tooltip:{ callbacks:{ label:c=>c.dataset.label+': '+c.parsed.y+'%' } } },
+      scales:{ y:{ ticks:{ callback:v=>v+'%', font:{size:10} }, grid:{ color:'#eef0f4' },
+        title:{ display:true, text:'温度区间 → 其后收益', font:{size:11} } },
+        x:{ ticks:{ font:{size:11} }, grid:{ display:false } } } }
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+# -*- coding: utf-8 -*-
+"""温度可信度验证 v2（口径与 bt_20y 一致: 池子吃息、final 含池、tot=全部预算）
+区间: C=2005-01起, A=2006-09起(20年), B=2010-01起(满10年窗)
+"""
+import csv, datetime as dt
+ALL = [r for r in csv.DictReader(open('bubble_out/scores_monthly.csv', encoding='utf-8'))
+       if r['date'] < '2026-09-01' and r['date'] >= '2000-01-01']
+CASH_M = 0.02 / 12
+
+def xirr(flows):
+    def npv(r):
+        t0 = flows[0][0]
+        return sum(a / (1 + r) ** ((d - t0).days / 365.0) for d, a in flows)
+    lo, hi = -0.9999, 5.0
+    if npv(lo) * npv(hi) > 0: return None
+    for _ in range(300):
+        mid = (lo + hi) / 2
+        if npv(lo) * npv(mid) <= 0: hi = mid
+        else: lo = mid
+    return (lo + hi) / 2
+
+def coef(t):
+    if t >= 85: return 0.2
+    if t >= 75: return 0.7
+    if t >= 65: return 0.85
+    if t >= 55: return 1.0
+    if t >= 40: return 1.3
+    return 1.8
+
+def run(rows, mode, thr=55, cap=None, core=1000.0, side=0.0, side_thr=40, side_wait=False):
+    """正确口径: 每期预算(core+side)全部计入 tot; 未投资金池吃息; final=份额×现价+全部池"""
+    shares = 0.0; pool = 0.0; pool2 = 0.0; wait = 0
+    tot = 0.0; flows = []; peak = 0.0; mdd = 0.0
+    for r in rows:
+        d = dt.date.fromisoformat(r['date'][:10]); ndx = float(r['ndx']); t = float(r['total'])
+        pool *= (1 + CASH_M); pool2 *= (1 + CASH_M)
+        pool += core
+        if mode == 'naive':
+            buy = core
+        elif mode == 'coef':
+            buy = min(pool, core * coef(t))
+        elif mode == 'wait':
+            if t <= thr or (cap and wait >= cap):
+                buy = pool; pool = 0.0; wait = 0
+            else:
+                buy = 0.0; wait += 1
+        pool -= buy
+        # 闲钱
+        if side > 0:
+            pool2 += side
+            if side_wait:
+                if t <= side_thr: buy += pool2; pool2 = 0.0
+            else:
+                buy += pool2; pool2 = 0.0
+        tot += core + side
+        shares += buy / ndx
+        flows.append((d, -(core + side)))
+        val = shares * ndx + pool + pool2
+        if val > 0:
+            peak = max(peak, val)
+            if val / peak - 1 < mdd: mdd = val / peak - 1
+    final = shares * float(rows[-1]['ndx']) + pool + pool2
+    flows.append((dt.date.fromisoformat(rows[-1]['date'][:10]), final))
+    return dict(final=final, ret=final / tot - 1, xirr=xirr(flows), mdd=mdd, pool=pool + pool2)
+
+segs = [('C 2005-01 起(窗5年+)', '2005-01-01'),
+        ('A 2006-09 起(20年主表)', '2006-09-01'),
+        ('B 2010-01 起(满10年窗)', '2010-01-01')]
+for lb, d0 in segs:
+    rows = [r for r in ALL if r['date'] >= d0]
+    print('═' * 100)
+    print(f'【{lb}】{rows[0]["date"]} ~ {rows[-1]["date"]} ({len(rows)}个月) '
+          f'纳指 {float(rows[0]["ndx"]):,.0f}→{float(rows[-1]["ndx"]):,.0f} ({float(rows[-1]["ndx"])/float(rows[0]["ndx"])-1:+.0%})')
+    print('═' * 100)
+    res = {'① 无脑': run(rows, 'naive'),
+           '② 温和节流': run(rows, 'coef'),
+           '④ 等≤55': run(rows, 'wait', thr=55),
+           '⑤ ≤55+18月': run(rows, 'wait', thr=55, cap=18),
+           '⑥ ≤50+24月': run(rows, 'wait', thr=50, cap=24)}
+    b = res['① 无脑']
+    print(f"{'策略':<14}{'收益率':>9}{'vs①':>8}{'XIRR':>8}{'MDD':>8}{'期末池':>9}")
+    for k, v in res.items():
+        print(f"{k:<14}{v['ret']:>9.1%}{(v['ret']-b['ret'])*100:>+7.1f}pp{v['xirr']:>8.2%}{v['mdd']:>8.1%}{v['pool']:>9,.0f}")
+    print('  ── 闲钱对照(核心1000无脑+闲钱250/月; 同总额公平比较) ──')
+    sa = run(rows, 'naive', side=250.0)
+    for sth, nm in [(40, '等≤40投光'), (50, '等≤50投光')]:
+        sv = run(rows, 'naive', side=250.0, side_thr=sth, side_wait=True)
+        print(f"  闲钱{nm:<12}{sv['ret']:>8.1%}  vs闲钱即投 {(sv['ret']-sa['ret'])*100:>+6.1f}pp   "
+              f"MDD {sv['mdd']:>6.1%} vs {sa['mdd']:.1%}   期末池 {sv['pool']:,.0f}")

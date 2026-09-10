@@ -23,6 +23,12 @@
 | `bubble_app/build.py` | 合成周/月数据 → `bubble_app/data.json` + `index.html` |
 | `bubble_out/scores_monthly.csv` | 月频种子（月末手动更新一次）|
 | `finra_margin.xlsx` | FINRA 保证金债务种子（每月 FINRA 发布后手动更新）|
+| `analysis/` | 研究与回测脚本归档（不参与线上管线，见 `analysis/README.md`）|
+| `research/` | 研究报告、方案文档与数据来源快照（不参与线上管线，见 `research/README.md`）|
+
+> `analysis/` 与 `research/` 为 2026-09-11 归档加入的**离线资料**，
+> 仅供研究回溯与后续维护使用，**不影响每日管线与前端页面**。
+> 其中 `analysis/tools/sync_repo.py` 是本地改动与仓库协作的关键工具。
 
 ## 手动更新
 

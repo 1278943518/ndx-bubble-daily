@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="Pwj2opKBzrzFuDkGFlGCVL">
+<head data-page-node-id="vXLcX3FuyD6T85hidjQSaF">
+<meta charset="UTF-8" data-page-node-id="evDpc9j8E4zNqvoYwjiN7m">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="lFnkyHtYvIxoV6xCWGCFqA">
+<title>纳指定投 · 「节流」策略细节解剖（2026-09-07）</title>
+<style>
+  :root{ --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
+    --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb; --gray:#6b7280; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.68; padding:16px 12px 48px; font-size:13px; }
+  .wrap{ max-width:840px; margin:0 auto; }
+  header{ margin-bottom:14px; }
+  .title{ font-size:21px; font-weight:800; letter-spacing:.4px; }
+  .title .hl{ color:var(--red); }
+  .subtitle{ font-size:11px; color:var(--sub); margin-top:4px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:12px; }
+  .card h2{ font-size:14px; font-weight:800; margin-bottom:9px; display:flex; align-items:center; gap:7px; }
+  .num{ background:var(--ink); color:#fff; width:19px; height:19px; border-radius:5px; font-size:10px; display:inline-flex; align-items:center; justify-content:center; flex:none; }
+  .card p{ font-size:12.5px; color:#2b313c; margin-bottom:8px; }
+  .card p:last-child{ margin-bottom:0; }
+  table{ width:100%; border-collapse:collapse; font-size:11.5px; margin:6px 0; }
+  th{ background:#f0f2f6; color:var(--sub); font-weight:700; text-align:right; padding:6px 7px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th:first-child{ text-align:left; }
+  td{ padding:6px 7px; border-bottom:1px solid #f0f1f4; text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td:first-child{ text-align:left; font-weight:600; }
+  tr.win td{ background:#ecfdf5; } tr.lose td{ background:#fef2f2; } tr.ref td{ background:#f8fafc; }
+  .pos{ color:var(--red); font-weight:700; } .neg{ color:var(--green); font-weight:700; } .mut{ color:var(--sub); }
+  .alert{ background:#fef2f2; border:1px solid #fecaca; border-left:3px solid var(--red); border-radius:8px; padding:11px 13px; margin-bottom:12px; }
+  .alert .h{ font-weight:800; color:var(--red); font-size:13px; margin-bottom:5px; }
+  .alert p{ font-size:12.5px; color:#3f1418; }
+  .ok{ background:#ecfdf5; border:1px solid #a7f3d0; border-left:3px solid var(--green); border-radius:8px; padding:11px 13px; margin-bottom:12px; }
+  .ok .h{ font-weight:800; color:var(--green); font-size:13px; margin-bottom:5px; }
+  .ok p{ font-size:12.5px; color:#0d3b2e; }
+  .note{ background:#fffbeb; border:1px solid #fde68a; border-left:3px solid var(--amber); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:12px; color:#4a3708; }
+  .chartbox{ background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px; margin:8px 0; }
+  ul{ margin:6px 0 6px 17px; font-size:12.5px; } li{ margin-bottom:4px; }
+  .kv{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin:8px 0; }
+  .kv div{ background:#f8f9fb; border:1px solid var(--line); border-radius:9px; padding:9px 11px; }
+  .kv .k{ font-size:10.5px; color:var(--sub); } .kv .v{ font-size:15px; font-weight:800; margin-top:1px; }
+  footer{ font-size:10.5px; color:var(--sub); text-align:center; margin-top:18px; line-height:1.7; }
+</style>
+</head>
+<body data-page-node-id="2BbV2ZqKNO2EvED4WWKAL3">
+<div class="wrap" data-page-node-id="iwvhHhVnBKbO7ERS3TXbCF">
+
+<header data-page-node-id="SjSjN8aEdDuezV2n80fhUv">
+  <div class="title" data-page-node-id="D0uCJvxWubG8zwK4Rbmqb6">「节流」策略细节解剖：钱到底在哪亏的<span class="hl" data-page-node-id="3wR58zNdeEtDgiDF9vLk85">，以及为什么亏</span></div>
+  <div class="subtitle" data-page-node-id="KCCPlPHUwdrnhnUBYTUhGM">固定预算月投 1,000 · 2016-05 ~ 2026-08（124 个月）· 系数：≥85→0.2× / 75-85→0.7× / 65-75→0.85× / 55-65→1.0× / 40-55→1.3× / ≤40→1.8× · 2026-09-07</div>
+</header>
+
+<div class="alert" data-page-node-id="BMt2x2XMn7MQP8D5enn6uw">
+  <div class="h" data-page-node-id="EeuH1FQ5CyFmqW9RaiByjr">回答标题问题：节流不是"无意义的折腾"，而是"三个方向都错了"</div>
+  <p data-page-node-id="clJHG1UIEkkvbMedpVPocc">节流想干三件事：热时少买（防回撤）、冷时多买（摊成本）、全程省钱（控制风险）。
+  回测显示三件事的结局：<b data-page-node-id="wykrhpR4iaDDxa4B23EjBs">热时少买 → 82~89% 概率踏空上涨；冷时多买 → 本身有效但弹药被热时少买吃光；最终平均成本反而比无脑高 4%</b>。
+  而最致命的一击在机制层：这个温度计在样本内唯一的真崩盘（2021-11 见顶、2022 跌 -35%）前<b data-page-node-id="Cn2K6L0Dg5CgYDEIy0Aqmj">根本没报高温</b>——见 §06。</p>
+</div>
+
+<div class="card" data-page-node-id="JNv9FcH0zN36vNHXMhDkvt">
+  <h2 data-page-node-id="JMka3MjlvBBDX4pLVDDoK5"><span class="num" data-page-node-id="ncolpQaqDfo8Cov61qvtb7">01</span>三个账本数字：份额、成本、终值</h2>
+  <table data-page-node-id="FXBbbBZBbmg1feEjfXL8pZ">
+    <tr data-page-node-id="l85RepEdAe7rgYr94QH3hW"><th data-page-node-id="7hJ2wzabCnnDVK5XkGOyXK">指标</th><th data-page-node-id="Ab0otnDC0bVDqTeGoUksFW">① 无脑</th><th data-page-node-id="oFkYBIxH9h7pnrB5EICTsQ">② 节流</th><th data-page-node-id="dVO1zXTB3iux1ZkphPlKs3">差异</th></tr>
+    <tr class="win" data-page-node-id="gqbTFSnvuvS1fC4yb65Czn"><td data-page-node-id="ob4gL6vt07WMPefduhlhsb">期末份额</td><td data-page-node-id="oSCXMStbbCNd3E27dgWKyI">12.326</td><td data-page-node-id="Hyu7k3XkRALdnBVBYkmLQb">11.747</td><td class="neg" data-page-node-id="dX6P9AMhVAAZUw3URkD5AS">-4.7%</td></tr>
+    <tr class="lose" data-page-node-id="NHZ1eO8ebFyUZxXnxnW0Cn"><td data-page-node-id="AFd7ogLLDHuLvjxMC3XQa3">份额平均成本</td><td data-page-node-id="4hrOLzrcvULVgzoqzUvCh4">10,060</td><td data-page-node-id="D8RCeojVi2I21xmO29h5BF">10,462</td><td class="pos" data-page-node-id="QTI7N1k4k7nVsZECOPFuK5">+4.0%（更贵！）</td></tr>
+    <tr class="lose" data-page-node-id="aeIQaGtqlmWymnBB2GYRVQ"><td data-page-node-id="a8MTzX4piB0tAwuY6SIQc3">期末市值</td><td data-page-node-id="vDZT14wECFKVoINUAjsWAO">363,080</td><td data-page-node-id="lZaM9Ta87CZv6SZ4faXWYp">348,052</td><td class="neg" data-page-node-id="A2ojmKBrNR7DYRNlVE8VGB">-15,028（-12.1pp）</td></tr>
+    <tr data-page-node-id="72vb5HYZO4CW0tS3jZ0kFm"><td data-page-node-id="WF2raiM4Og30C6ef6aHCSC">累计投入</td><td data-page-node-id="BxOGpZHvTKhhoF8jqBeyLk">124,000</td><td data-page-node-id="MQLmeYTucn9cz0KwwCzEo1">122,896</td><td class="neg" data-page-node-id="ofFbsEvRDE7fTvHDYGe52s">-1,104（一直没投出去）</td></tr>
+  </table>
+  <p data-page-node-id="bPerlWMFQxFZbb6kfrBND4"><b data-page-node-id="WM7gdzwcGarT1tetVK4zSm">最反直觉的一条：节流把成本买贵了 4%。</b>它的本意是摊低成本，结果反而更贵——原因见 §02、§06。</p>
+</div>
+
+<div class="card" data-page-node-id="NzDuQ504Ze1CfXDVOpEPfQ">
+  <h2 data-page-node-id="7YnKIySCKzUK4oWBzXPW1F"><span class="num" data-page-node-id="IwEz3xgiFGg6JPj0llUULq">02</span>踏空的具体位置：少投最多的 12 个月</h2>
+  <p data-page-node-id="zGSQJWGjirloVSbTO3teOf">节流 vs 无脑每月差额排序，少投最多的月份：</p>
+  <table data-page-node-id="UY3ggggtU5lMR9YWfY6fl2">
+    <tr data-page-node-id="jbMsLGMJF9HEEVEx858Qdq"><th data-page-node-id="tW4MJms3DVHmbyjqy414pg">月份</th><th data-page-node-id="0RkPJzM1pryF3WUNs0dXRE">温度</th><th data-page-node-id="fGieUXT0JAG6exZkUscPfs">当月少投</th><th data-page-node-id="TVkU7O0ErfPl8cuLYDlhfT">纳指当时</th><th data-page-node-id="4yFa5vN5tBvxCdRRg0vo2m">纳指现在</th></tr>
+    <tr class="lose" data-page-node-id="6WnRJvlFpvT4tHLiHoGM9s"><td data-page-node-id="NsmiSNF0DArVuTHNzUVKCc">2017-04 ~ 2018-01（逐月）</td><td data-page-node-id="83cREZQQP93ECYCGPPrind">85.5 ~ 91.0</td><td data-page-node-id="EG5ZW13Hsf69gYrqpeh5ql">各 -800 元/月</td><td data-page-node-id="RY9uajDvALBBlMRMrvaQX4">5,584 ~ 6,950</td><td data-page-node-id="FQleUgn81YNlGjBmuaRtIz">29,457</td></tr>
+    <tr class="lose" data-page-node-id="JeFmn1Ba4PAFHAiHeKb9Tk"><td data-page-node-id="lomzhctDq3pBuPOuMDCIVi">2017-03 / 09 / 2018-02 等</td><td data-page-node-id="a1NDUmCR9RZHVAWPyeifdh">76.6 ~ 79.5</td><td data-page-node-id="k5SCcC0CIX790BnlNxONYO">各 -300 元/月</td><td data-page-node-id="omUt4HBrieT7uxJFE5L8uQ">5,436 ~ 6,854</td><td data-page-node-id="1fGsRZkcLoGo3uxNbYFxGr">29,457</td></tr>
+  </table>
+  <p data-page-node-id="FtsBk8PL2xLupgM86WLNt3"><b data-page-node-id="t339OI2QxSYQNUFGKZv6qw">注意点位：2017 年温度计连续 10 个月 ≥75（8 个月 ≥85，节流只投 0.2×=200 元），但纳指当时只有 5,400~7,000 点——事后看是整个 10 年的地板价。</b>
+  在这减投 = 用 200 元替代 1,000 元买入后来翻了 4~5 倍的资产。整个 10 年最大的一批"踏空"发生在最便宜的时候。</p>
+  <div class="chartbox" data-page-node-id="i5PkgpTkq5KXNHb7c2pQCz"><canvas id="c1" height="170" data-page-node-id="mIM3drBomqBqqlPwxu7v9K"></canvas></div>
+</div>
+
+<div class="card" data-page-node-id="UGnHxPEBdr7wolMCCfwQpF">
+  <h2 data-page-node-id="dCYcqeZmbVKIxm5OOR4HgX"><span class="num" data-page-node-id="1a7dvS6IoRNhNYca5p4gfo">03</span>减投时点之后的市场：82~89% 还在涨</h2>
+  <table data-page-node-id="wNX7MzKV3Z5hBKZCzTw0Dk">
+    <tr data-page-node-id="5EU3cHCZtfmCDwgNXnji6e"><th data-page-node-id="VHnuJCB0ZouQzwRFpZ7Uvd">节流"少买"的 52 个月（42% 的时间）之后…</th><th data-page-node-id="J1qofiXosxGefdgEhzhCBM">均值</th><th data-page-node-id="USIr5oyvDewaV0HhwJw8PO">中位</th><th data-page-node-id="osLFWvVEA2Q11DlgdYZ6mW">上涨比例</th></tr>
+    <tr data-page-node-id="syXLmpEFbh0I6FV4phkI89"><td data-page-node-id="XbLFeB6dNQqgj1UsyIV8wW">未来 3 个月</td><td data-page-node-id="q5UxdC7316CfAsZN4oH0L3">+4.8%</td><td data-page-node-id="0SiLXJfa1Tf8dLr9zLYaTD">+5.9%</td><td data-page-node-id="FwlHAaEdze45zh9hfEx7Ve">82%</td></tr>
+    <tr class="lose" data-page-node-id="mqANFUjU8zp3gAOhAo22FA"><td data-page-node-id="vgLEGy2wxbliQMr4hVwJDX">未来 6 个月</td><td data-page-node-id="vlGSQqn4CCAvvlj96iaDLn">+11.3%</td><td data-page-node-id="yxKAbFXEYSmZpk8qOA4eGF">+11.9%</td><td data-page-node-id="p9LVJgc5E86tYUeM7zTP6v">88%</td></tr>
+    <tr class="lose" data-page-node-id="q528LUjj7kHfwVE0j09Sgc"><td data-page-node-id="wmwrOiIFu1NrSyWQ4IL47I">未来 12 个月</td><td data-page-node-id="jF9qeI5Za7nhPR7HfLtFVc">+19.3%</td><td data-page-node-id="8UhEiANWKKKOqCtYyBfF54">+21.4%</td><td data-page-node-id="Gq1H1MERLjFNBgMQ1RbRas">89%</td></tr>
+  </table>
+  <p data-page-node-id="fB9lYuDwJu4AWcDg1Gxm5M">每次温度高触发减投时，市场之后大概率继续涨——<b data-page-node-id="IhdmkUzQyBmZGpCdQjEffs">减投这个动作本身在这 10 年里有近 9 成概率是错的</b>。
+  对照无脑定投任意月份的未来 12 个月均值：+21.6%。减投月份之后其实不比平时差多少——"热"不是"要跌"的近因。</p>
+</div>
+
+<div class="card" data-page-node-id="PUh3nWC9beNg5CbxXg9Pic">
+  <h2 data-page-node-id="gHRQTEt2icV0t3RuuxzXJS"><span class="num" data-page-node-id="gkEu7QT63IclUgG1zNEUlY">04</span>但"冷时加倍"本身是有效的——问题出在弹药</h2>
+  <table data-page-node-id="EmBhyfgJIv4aEFZzVugM9q">
+    <tr data-page-node-id="0v9QbhGxwKYJ0CI3FMnZtk"><th data-page-node-id="kmOfpbqv1kHsPvNymOjLQI">节流"加倍"的 39 个月（温度 ≤55）之后…</th><th data-page-node-id="avgOqb6S5rfeNL1hdNS6MQ">均值</th><th data-page-node-id="9q9DjcCAVqSoYFgxa5hCtn">中位</th><th data-page-node-id="ubA7mY1SIbrYhl7WbUpIbs">上涨比例</th></tr>
+    <tr class="win" data-page-node-id="mikmSBekdzYM0fT8KHjBgB"><td data-page-node-id="e2jpOBpuL9tqadhuihKXAu">未来 3 个月</td><td data-page-node-id="YvFMLOjxg1OEiTdnP43z1F">+6.2%</td><td data-page-node-id="EZFPplBALkwINhol6m1dqH">+6.6%</td><td data-page-node-id="NKjovTBTqUanoKuOsUBmMB">77%</td></tr>
+    <tr class="win" data-page-node-id="msn2F4jSlNusIvrQZsJ2T6"><td data-page-node-id="fR7v5GZ6RiknvAYSbnzIK0">未来 12 个月</td><td data-page-node-id="r3S7PyrBKPt630oNdgmFsi">+26.9%</td><td data-page-node-id="DdoqbQx51nfHI2WkBnbnWd">+30.2%</td><td data-page-node-id="2bJNjvPacZ7HXNsOEZJL8N">90%</td></tr>
+  </table>
+  <p data-page-node-id="rI9FL27WbyZS9YbCBQpBBB">冷月加倍投（1.3×/1.8×）后的一年平均 +26.9%，优于任意月份的 +21.6%——<b data-page-node-id="Q3KbNE6qr4elABFAQ5Syi1">"加"的方向是对的</b>。
+  但固定预算下，加倍的钱只能来自之前减投攒下的池子。等于：<b data-page-node-id="O1CEmIxIdsaVQKctKU0BmX">用 2017 地板价踏空的 800 元，去补贴 2022 年抄底的 800 元——前者损失 4~5 倍涨幅，后者只赚回一次反弹。</b>净值为负。</p>
+  <div class="ok" data-page-node-id="yvjPnBASBwMj2EkxvDMyDN"><div class="h" data-page-node-id="Xy87ykSI6vX9rv7ZvBgcOx">✓ 推论</div><p data-page-node-id="VPSFx8CGKZNXHix0acwNUp">只保留"冷时加倍"、砍掉"热时减投"，弹药改由预算外闲钱提供——这就是三层方案里的「闲钱冷买」。方向已被数据支持，差的只是弹药来源。</p></div>
+</div>
+
+<div class="card" data-page-node-id="DkUcTVaLVAxF70wu9oyLQq">
+  <h2 data-page-node-id="zSqmGTUXu7NfUsq4P70sIW"><span class="num" data-page-node-id="8MsYsC6umofW5Y5CcmjLjQ">05</span>差距的逐年账本：牛市踏空 8 年 vs 熊市少跌 2 年</h2>
+  <table data-page-node-id="sGs6miCKWraNgZPKoyujqp">
+    <tr data-page-node-id="AHr5Gz3n3zhFL2WKn7HmHK"><th data-page-node-id="YHKlvH06rOfHpKK0nZXAlw">年末</th><th data-page-node-id="oOFUyCPXRDUbE9HAOLN3Yo">① 份额价值</th><th data-page-node-id="ff6QSMO1Si2W1JspX0j4LR">② 份额价值</th><th data-page-node-id="BZbBXY1CnQN9DqeVKnL2YP">累计差距</th><th data-page-node-id="w8rPnjMCnqsfszNGxzG6Uv">当年发生了什么</th></tr>
+    <tr data-page-node-id="uD4uG6bfrrrygLWbCGE7WG"><td data-page-node-id="fTSjHT4fY5RUWE5vazEBOc">2016</td><td data-page-node-id="otEz5tPvEnUlTa0gUx9p9S">8,246</td><td data-page-node-id="bBqP7fxe1EH9pXAknZO8nq">8,246</td><td data-page-node-id="1AdQLb0eJzYw983q5TgOcl">0</td><td class="mut" data-page-node-id="Y53bljR4lMytiL2TMiuEP2">开局相同</td></tr>
+    <tr class="lose" data-page-node-id="FJ8tAVBao4jCJ7GWd93aHx"><td data-page-node-id="QNJlGdAuBbooz5O6GVTLX9">2017</td><td data-page-node-id="gG5GL6E2MPUPB5W7LFroTT">24,106</td><td data-page-node-id="dJ4pUFASlTmTiFAP80C60W">16,211</td><td data-page-node-id="EonMvhPyMBpmsCWj41cPmE">-7,895</td><td style="text-align:left" data-page-node-id="685yUdz8uDMZS6zMsTtBPG">假高温，全年减投，纳指 +26%</td></tr>
+    <tr class="lose" data-page-node-id="BRSDWYTnGCs9zwmudOlteM"><td data-page-node-id="j9ZRbMr4PR7NoyY3NDcT7R">2018</td><td data-page-node-id="SnL3HTC7MjeDwBqSkkRPdG">34,770</td><td data-page-node-id="xgtNYcNMrp3swuYm8RSFhq">25,619</td><td data-page-node-id="FPdDiFKbXuGcXjPxqe3FFv">-9,152</td><td style="text-align:left" data-page-node-id="XKoiaLHnkiuo9kjCbtj7b5">上半年继续减投</td></tr>
+    <tr class="lose" data-page-node-id="sxldhA8OSYGvo12MLWB5kZ"><td data-page-node-id="ak46yGV4EeOfHrXN7Cd4U5">2020</td><td data-page-node-id="7CqhxbK6WgmHPoaFWhDmfd">106,197</td><td data-page-node-id="CvaJPxU7uFOnmJIdj5mIdE">90,838</td><td data-page-node-id="5csSX9pNl2quf7FoDhfVyY">-15,358</td><td style="text-align:left" data-page-node-id="BA7WxVxauj1ro1045FniEI">2020-08 起高温，错过反弹后半段</td></tr>
+    <tr class="lose" data-page-node-id="bnYDADvACuJZ1zJJf1zzlg"><td data-page-node-id="LFTa3kLT3mcVAnMxavAorR">2021</td><td data-page-node-id="xWTyiFDOLv32yhjXuUN4jy">148,031</td><td data-page-node-id="X6LUBJDro4wUHcqafubCGc">127,084</td><td data-page-node-id="MZrd8vjsKY8BCSDyXA0B9U">-20,947</td><td style="text-align:left" data-page-node-id="2nHhPO73AwdXdW4vmEitIb">差距峰值</td></tr>
+    <tr class="win" data-page-node-id="EezLpjzpHy5i4AwueBg61y"><td data-page-node-id="Zk3527GwUaZ6p9gFslH158">2022</td><td data-page-node-id="XuZxrt4d88kKXtw5iuSFfs">109,740</td><td data-page-node-id="6Bxtk5G7dH66VQoSA0eiBF">102,985</td><td data-page-node-id="b0AKCDGD8LwNMm0xjNZzrw">-6,755</td><td style="text-align:left" data-page-node-id="he4gUKpRFS4eRPvlCw9xzm">熊市低温度加倍，差距收窄 2/3</td></tr>
+    <tr class="lose" data-page-node-id="DanuigD0iZRhDWREQVZS4a"><td data-page-node-id="kCllN9Hh4oGtHrQjEXWYCH">2023</td><td data-page-node-id="LvDEkFxwKmZ0W7SqbHDPQq">182,925</td><td data-page-node-id="8YJFwIZcSqnnMbP1Y93NNz">174,066</td><td data-page-node-id="Y8z1V5sALbvd8rfQqARfRH">-8,859</td><td style="text-align:left" data-page-node-id="licsFvwVFw0VL7abv57QDm">反弹中差距重新扩大</td></tr>
+    <tr class="lose" data-page-node-id="LNCKz4qXGFA1wkhLGhRxAe"><td data-page-node-id="JgeG0UygxMwjBN7Bn6A25D">2025/2026</td><td data-page-node-id="kwCTqivUhj6AGufZ59BKI6">303,826/363,080</td><td data-page-node-id="2eeqCNuy20JPanEx1ARYf8">289,603/346,035</td><td data-page-node-id="q4OTdNn7gKCt4otp9EcD11">-14,223/-17,045</td><td style="text-align:left" data-page-node-id="3FkzfLYLbch37sDCsCnKxq">差距创新高</td></tr>
+  </table>
+  <p data-page-node-id="z0XeQPZ54ovXlRlykTPVLY"><b data-page-node-id="1bIyR9T8FjTeAjMS3uip76">2022 年是节流唯一的高光：一年收窄 14,192 的差距。</b>但 2023 年起差距又花了两年扩回去还创了新高。
+  用 2 年熊市少跌，换 8 年牛市少赚——-12.1pp 就是这么来的。</p>
+</div>
+
+<div class="card" data-page-node-id="HwhqiuumDTq625PmaxZGqO">
+  <h2 data-page-node-id="bWUFI9QPsMqTlICLZYbB2T"><span class="num" data-page-node-id="mu8NGj7HTXxFNa2dE3G7h5">06</span>致命机制：温度计在关键拐点"该热不热、不该热偏热"</h2>
+  <p data-page-node-id="AJbmvujp9LVSz5L2ow9RNc">这是整份解剖最重要的一节。温度 = 八因子 <b data-page-node-id="1rCa3NDgZI1tESGVnK5DQV">滚动 520 周分位</b>——衡量的是"当前比过去 10 年的自己贵多少"，不是"比基本面贵多少"。两个拐点案例：</p>
+  <table data-page-node-id="O09ZH6XqnQVU6lh1yTZ0c7">
+    <tr data-page-node-id="GvkBESBrS14PAssVkWgpYX"><th data-page-node-id="P9O48xX2OyySb13VLmxK6R">案例</th><th data-page-node-id="AUEIYwIPGY2CSgLQjAyLOr">温度计表现</th><th data-page-node-id="zVudktIN0iGZN9P6MMjZDt">节流动作</th><th data-page-node-id="LCjPWYdxxTcDQ7vQR2K9gg">事后看</th></tr>
+    <tr class="lose" data-page-node-id="DbYqpCJN6MBDETnS8Qu7Es"><td data-page-node-id="cjrPhmxqQB1kDCaObTrF6V"><b data-page-node-id="sA9ENXdt0XNNAc0XXeVoBE">2017 假高温</b><br data-page-node-id="Cj9IxvIDBB4ZK1HVC88V7m">（纳指 5,436~6,396）</td><td style="text-align:left" data-page-node-id="skBdVeKVedPP8kBXiCkRWR">连涨 2 年分位冲高，10 个月 ≥75</td><td style="text-align:left" data-page-node-id="0ijmBNr1YcmKdZBBB7Jz8t">0.2×~0.7× 减投</td><td style="text-align:left" data-page-node-id="9C1DqB0jezq4eGAhCnI33G">地板价，后 24 个月 +37%，10 年后 4~5 倍</td></tr>
+    <tr class="lose" data-page-node-id="QBuuw465cce7os739AYnsd"><td data-page-node-id="lhFKcXmOHyPgrBs1opfq1H"><b data-page-node-id="OkgENQzfW8dAzRRBBHQa2e">2021 真顶部不报</b><br data-page-node-id="GbpjO6a1B7mrZ0s6M5juwe">（2021-11-19 见顶 16,573）</td><td style="text-align:left" data-page-node-id="88EwKAURkjBVLsARjqtpkW">2020-03 崩过拉低分位，顶部温度仅 56~74</td><td style="text-align:left" data-page-node-id="YVRD29heXVv3czn6N1D4tG">1.0× 满投，2021-09 温度 53.4 甚至 1.3× 加投</td><td style="text-align:left" data-page-node-id="QuYo3fjvR5d2vSQ97dYJ9o">2 个月后崩盘 -35%</td></tr>
+  </table>
+  <ul data-page-node-id="CDXXx4AdwVoPZrr3HiVL91">
+    <li data-page-node-id="qG3tuG21rD2Atq9G6xjzDd"><b data-page-node-id="iO03wEMMXwEKsqHqrKcUqz">崩盘前</b>：2021-11-19 当周温度 71.9 → 节流按 1.0× 满仓接飞刀；2022-01 起温度才降到 44（此时已跌 8%）。</li>
+    <li data-page-node-id="ay49Yavn0APw03usX6QBZ2"><b data-page-node-id="EHACkIC3bEWB8tTlGsq56A">假高温</b>：2017 年的"热"是涨出来的（相对自身），不是贵出来的（绝对估值）。真正的贵（CAPE 40+）在样本内从未出现，节流引以为傲的"逃顶能力"根本没用上。</li>
+    <li data-page-node-id="YaRSm3SsGFcn7PkYMsre4U">2022 年节流的"少亏"全部来自熊市途中的 1.3×/1.8× 抄底摊成本——<b data-page-node-id="WUmgLXMMQBWCCaXnoaWCOE">不是逃顶逃得好，是抄底抄得早（而且弹药来自更早的踏空）</b>。</li>
+  </ul>
+</div>
+
+<div class="card" data-page-node-id="5spw7gY8QaOhtvHUvAzitO">
+  <h2 data-page-node-id="e3mXQKXRnbJ4sEX9QS1Glg"><span class="num" data-page-node-id="qeaDnfitYPyUFGE90o1jzI">07</span>节流在什么环境下才会赢？（诚实边界）</h2>
+  <ul data-page-node-id="JzKCp4c91R2tVRftvb7kHk">
+    <li data-page-node-id="7458QGu8F8YkTyAdXX6Mko"><b data-page-node-id="aJDjkwpwpzRNxwC5Cg7VBj">能赢的环境</b>：2000/2008 式泡沫破裂——前提是温度计在顶部报 ≥85。但本样本唯一的顶部（2021）它只报 71.9，<b data-page-node-id="w3vfWMi9ylSDBcnuuJCYgY">前提在本温度计上未验证成立</b>。</li>
+    <li data-page-node-id="4dGL39b2Dqy4JIsinRumga"><b data-page-node-id="5dpkdLDOATXt04XF37vmlE">打平的环境</b>：长期横盘/阴跌市场（如恒指 2021-2024）——温度长期偏低，减投几乎不触发，节流≈无脑，可能小赢一点抄底的钱。</li>
+    <li data-page-node-id="x8bDHVqIVtXfC23oONr0zG"><b data-page-node-id="1LblAFFcL6d95o1AT6ibtK">必输的环境</b>：单边慢牛（本样本）——减投月份后 89% 上涨，减一次亏一次。</li>
+    <li data-page-node-id="vhCNMFsySpcnEVvFUMnTbH">你的投资期限是 20 年起步——样本外 20 年里大概率会碰到一次真崩盘，节流在那一次里可能值回票价。<b data-page-node-id="fpUdnkYK2gXUWNCe7Z4qkg">但"可能值回票价"的保险，不该用每月 4,500 的本金去赌，应该用闲钱（第三层）去配。</b></li>
+  </ul>
+  <div class="note" data-page-node-id="WmhbuSAjCWmzkL8Eu68lmt"><b data-page-node-id="fcahtdzdlKJQoIZTSzcq3F">换算到你的钱：</b>基准月投 1,000 差 15,028 元 → 你的月投 4,500 ≈ <b data-page-node-id="XahPTIvFTjZY03k7ojZbDh">10 年差 6.8 万元</b>。这是"节流税"，为的是一个样本内从未兑现过的"崩盘保险"。</div>
+</div>
+
+<footer data-page-node-id="gr7fKACJ4zF7KA5B6P7vsA">
+  生成 2026-09-07 · 口径：固定预算递延（追投上限 1×月投）· 数据：data.json（asof 2026-09-04）<br data-page-node-id="LlxgaRDtwslyMhRhnSMJHP">
+  脚本：bt_throttle_debug.py / check_hot.py · 个人研究记录，不构成投资建议
+</footer>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  if (typeof Chart === 'undefined') return;
+  // 温度>=75 月份的纳指点位：展示"高温时其实点位不高"
+  new Chart(document.getElementById('c1'), {
+    type: 'scatter',
+    data: { datasets: [{
+      label: '温度 ≥75 的月份（纳指点位）',
+      data: [
+        {x:76.6,y:5436},{x:86.9,y:5584},{x:90.1,y:5789},{x:86.6,y:5647},{x:85.5,y:5880},
+        {x:87.2,y:5989},{x:79.5,y:5979},{x:87.7,y:6249},{x:91.0,y:6366},{x:90.8,y:6396},
+        {x:90.0,y:6950},{x:79.3,y:6854},{x:79.2,y:7041},{x:76.5,y:7655},{x:75.7,y:7628},
+        {x:81.4,y:12111},{x:75.2,y:11418},{x:75.0,y:11053},{x:82.8,y:12268},{x:83.9,y:12888},
+        {x:83.2,y:12925},{x:82.0,y:12909},{x:82.7,y:13091},{x:79.8,y:13861},
+        {x:76.1,y:16826},{x:75.5,y:24680},{x:76.4,y:25858}
+      ],
+      backgroundColor: 'rgba(220,38,38,.75)', pointRadius: 5
+    }]},
+    options: { responsive:true, maintainAspectRatio:true,
+      plugins:{ legend:{ display:false },
+        tooltip:{ callbacks:{ label:c=>'温度 '+c.parsed.x+' | 纳指 '+Number(c.parsed.y).toLocaleString() } },
+        title:{ display:true, text:'温度≥75 的 27 个月：早期牛市的地板价也在里面（红圈左下方 2017 年 5,400~7,000 点）', font:{size:11} } },
+      scales:{ x:{ min:70, max:95, title:{display:true,text:'温度'}, ticks:{font:{size:10}}, grid:{color:'#eef0f4'} },
+        y:{ title:{display:true,text:'纳指点位'}, ticks:{font:{size:10}, callback:v=>v/1000+'k'}, grid:{color:'#eef0f4'} } } }
+  });
+});
+</script>
+</body>
+</html>

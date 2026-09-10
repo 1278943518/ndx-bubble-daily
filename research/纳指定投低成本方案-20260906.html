@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳指定投 · 成本最低方案</title>
+<style>
+  :root{ --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
+    --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb; --gray:#6b7280; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.65; padding:16px 12px 40px; font-size:13px; }
+  .wrap{ max-width:720px; margin:0 auto; }
+  header{ margin-bottom:14px; }
+  .title{ font-size:20px; font-weight:800; letter-spacing:.5px; }
+  .title .hl{ color:var(--blue); }
+  .subtitle{ font-size:11px; color:var(--sub); margin-top:3px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:13px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .card h2{ font-size:14px; font-weight:700; margin-bottom:10px; padding-left:9px; border-left:4px solid var(--blue); }
+  .card h3{ font-size:13px; font-weight:700; margin:12px 0 6px; }
+  .card h3:first-child{ margin-top:0; }
+  p{ margin-bottom:8px; }
+  .lead{ background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:12px 14px; margin-bottom:13px; font-size:13px; }
+  .lead .big{ font-size:15px; font-weight:800; color:#1e40af; display:block; margin-bottom:4px; }
+  .warn{ background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#991b1b; }
+  .ok{ background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#065f46; }
+  table{ width:100%; border-collapse:collapse; font-size:12px; margin:8px 0; }
+  th,td{ border-bottom:1px solid var(--line); padding:6px 6px; text-align:left; vertical-align:top; }
+  th{ background:#f8fafc; font-weight:700; color:var(--sub); font-size:11px; }
+  td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .tag{ display:inline-block; font-size:10px; font-weight:700; color:#fff; border-radius:4px; padding:1px 6px; }
+  .tag.g{ background:var(--green); } .tag.a{ background:var(--amber); }
+  .tag.o{ background:var(--orange); } .tag.r{ background:var(--red); }
+  .tag.b{ background:var(--blue); } .tag.n{ background:var(--gray); }
+  ul{ margin:4px 0 8px 18px; } li{ margin-bottom:4px; }
+  .kv{ display:flex; gap:8px; flex-wrap:wrap; margin:8px 0; }
+  .kv .it{ flex:1; min-width:96px; background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:8px 10px; }
+  .kv .it .l{ font-size:10px; color:var(--sub); }
+  .kv .it .v{ font-size:16px; font-weight:800; line-height:1.3; }
+  .steps{ counter-reset:s; margin:6px 0 0 0; padding:0; list-style:none; }
+  .steps li{ position:relative; padding-left:26px; margin-bottom:8px; counter-increment:s; }
+  .steps li:before{ content:counter(s); position:absolute; left:0; top:1px; width:18px; height:18px; border-radius:50%; background:var(--blue); color:#fff; font-size:11px; font-weight:700; text-align:center; line-height:18px; }
+  .note{ font-size:11px; color:var(--sub); margin-top:8px; line-height:1.6; }
+  .hl-y{ background:#fef9c3; padding:0 3px; }
+  .hl-r{ color:var(--red); font-weight:700; }
+  .hl-g{ color:var(--green); font-weight:700; }
+  footer{ font-size:10px; color:var(--sub); text-align:center; margin-top:14px; line-height:1.7; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="title">纳指定投 · <span class="hl">成本最低方案</span></div>
+  <div class="subtitle">结合「美股泡沫温度计」· 数据截至 2026-09-04 · 制定于 2026-09-06</div>
+</header>
+
+<div class="lead">
+  <span class="big">一句话结论：现在别买场内，走场外按净值买。</span>
+  当前纳指 ETF 场内溢价高达 <b>9%~25%</b>，是定投最大的成本项——比省下的那点费率（0.2%/年）大 <b>50 倍</b>。
+  正确姿势：场外（支付宝/天天基金）按净值日投，避开溢价；等溢价收敛到 2% 以内再考虑场内。
+</div>
+
+<div class="card">
+  <h2>一、当前状态快照</h2>
+  <div class="kv">
+    <div class="it"><div class="l">泡沫温度计</div><div class="v" style="color:var(--orange)">69.3</div><div class="l">偏高区上沿</div></div>
+    <div class="it"><div class="l">纳指100</div><div class="v">29,544</div><div class="l">年内 +15.2%</div></div>
+    <div class="it"><div class="l">场内溢价</div><div class="v" style="color:var(--red)">11.5%</div><div class="l">513100</div></div>
+    <div class="it"><div class="l">估值分位</div><div class="v" style="color:var(--red)">100</div><div class="l">历史最高档</div></div>
+  </div>
+  <p>八特征：估值 <b>100</b>（满格）、杠杆 <b>98</b>、情绪 66、预期 54、科技 48、新买家 42、货币 38、投机 50。
+  近 13 周分数变化 <b>-2.5</b>（未触发拐点预警）。</p>
+  <div class="note">解读：估值已在历史最高分位，杠杆接近满格，同时场内还叠了 11.5% 的溢价——<b>现在是"贵 + 溢价"双重不利的时点</b>，不适合重仓加码，但也不该完全停投（长期定投怕的是中断，不是波动）。</div>
+</div>
+
+<div class="card">
+  <h2>二、成本全景：钱到底花在哪</h2>
+  <p>以<b>投入 1 万元、持有 1 年</b>为例，把两条路径的真实成本摊开（数据截至 2026-09-04）：</p>
+  <table>
+    <tr><th>成本项</th><th class="num">场内 ETF（现溢价 11.5%）</th><th class="num">场外基金（按净值）</th></tr>
+    <tr><td><b>溢价成本</b><br><span style="color:var(--sub);font-size:11px">若溢价回归 0</span></td><td class="num hl-r">约 1,150 元</td><td class="num hl-g">0 元</td></tr>
+    <tr><td>买入成本</td><td class="num">佣金 0.5~5 元</td><td class="num">申购费 10~15 元</td></tr>
+    <tr><td>年运作费<br><span style="color:var(--sub);font-size:11px">管理+托管</span></td><td class="num">60~100 元</td><td class="num">60~105 元</td></tr>
+    <tr><td>赎回/卖出</td><td class="num">佣金（无赎回费）</td><td class="num">持有&lt;7天 1.5%，满 2 年通常 0</td></tr>
+    <tr><td><b>首年合计</b></td><td class="num hl-r">约 1,210~1,255 元</td><td class="num hl-g">约 70~120 元</td></tr>
+  </table>
+  <div class="warn"><b>核心认知：溢价是把"未来一年的收益"提前付掉了。</b>纳指 ETF 年内涨 16.7%（513100），而纳指指数本身只涨 15.2%——多出来的部分就来自溢价扩张和汇率，不是白捡的收益。溢价从 11% 回到 0，即使纳指原地不动，你也会亏 11%。</div>
+  <p><b>成本优先级（重要）：</b></p>
+  <ul>
+    <li><b>第 1 位：避开溢价</b>（0~25%，波动最大，可致命）</li>
+    <li><b>第 2 位：年运作费</b>（0.6%~1.05%，长期复利影响大）</li>
+    <li><b>第 3 位：申购费/佣金</b>（0.01%~0.15%，一次性，影响最小）</li>
+  </ul>
+  <div class="note">很多人纠结"申购费 0.12% 还是 0.15%"，却对 11% 的溢价视而不见——本末倒置。</div>
+</div>
+
+<div class="card">
+  <h2>三、标的选择：场内 vs 场外</h2>
+
+  <h3>场内 ETF（券商账户，实时交易，T+0）</h3>
+  <table>
+    <tr><th>代码</th><th>名称</th><th class="num">规模</th><th class="num">年费率</th><th class="num">当前溢价</th><th>评价</th></tr>
+    <tr><td>159501</td><td>纳指ETF嘉实</td><td class="num">约102亿</td><td class="num">0.60%</td><td class="num hl-r">12.5%</td><td><span class="tag b">费率最低</span></td></tr>
+    <tr><td>159696</td><td>纳指ETF易方达</td><td class="num">58亿</td><td class="num">0.60%</td><td class="num hl-r">9.8%</td><td><span class="tag b">费率低</span></td></tr>
+    <tr><td>513870</td><td>纳指ETF富国</td><td class="num">29亿</td><td class="num">0.60%</td><td class="num hl-r">9.2%</td><td><span class="tag b">费率低</span></td></tr>
+    <tr><td>513100</td><td>纳指ETF国泰</td><td class="num">210亿</td><td class="num">0.80%</td><td class="num hl-r">11.5%</td><td><span class="tag n">流动性最好</span></td></tr>
+    <tr><td>159941</td><td>纳指ETF广发</td><td class="num">375亿</td><td class="num">1.00%</td><td class="num hl-r">11.5%</td><td><span class="tag n">规模最大·费率最高</span></td></tr>
+    <tr><td>159509</td><td>纳指科技ETF景顺</td><td class="num">188亿</td><td class="num">—</td><td class="num hl-r">24.7%</td><td><span class="tag r">溢价离谱·回避</span></td></tr>
+  </table>
+  <div class="note">159509 跟踪的是"纳斯达克科技市值加权"，比纳指100更集中于大科技，波动更大，且溢价 24.7% 极端 —— 不适合定投。</div>
+
+  <h3>场外基金（支付宝/天天基金/基金公司APP，按净值，无溢价）</h3>
+  <table>
+    <tr><th>代码</th><th>名称</th><th class="num">单日限额</th><th>费率</th><th>推荐度</th></tr>
+    <tr><td>021773</td><td>汇添富纳指100联接 <b>E</b></td><td class="num">约2,000元</td><td>服务费 0.10%/年</td><td><span class="tag g">额度最大·首选</span></td></tr>
+    <tr><td>018043 / 018044</td><td>天弘纳指100 A / C</td><td class="num">100元</td><td>A申购0.10% / C服务0.20%年</td><td><span class="tag g">费率低·次选</span></td></tr>
+    <tr><td>160213</td><td>国泰纳斯达克100</td><td class="num">100元</td><td>申购 0.15%</td><td><span class="tag g">可用</span></td></tr>
+    <tr><td>018966 / 018967</td><td>汇添富纳指100联接 A / C</td><td class="num">10元</td><td>A申购0.12% / C服务0.40%年</td><td><span class="tag a">已收紧</span></td></tr>
+    <tr><td>016452 / 019172 等</td><td>南方/摩根/招商/大成/建信等 10 只</td><td class="num">各 10 元</td><td>A申购约0.12%</td><td><span class="tag a">凑额度用</span></td></tr>
+    <tr><td>270042 / 006479</td><td>广发纳指100联接 A / C</td><td class="num">5元</td><td>A申购0.13%</td><td><span class="tag n">额度太小</span></td></tr>
+  </table>
+  <div class="warn"><b>限购是动态的，且正在快速收紧。</b>汇添富联接额度 4 天内从 1 万 → 2,000 → 10 元（9/4 起 A/C 类）。<b>所有限额以你打开 APP 当天页面显示为准</b>，本表仅为 2026-09-02~04 的快照。</div>
+  <p><b>A 类还是 C 类？</b>临界点 ≈ 申购费 ÷ 年服务费 × 12 个月。例：A 申购 0.12% vs C 服务 0.20%/年 → 临界 7.2 个月。
+  <b>定投长期持有（&gt;1 年）→ 一律选 A 类</b>；只是短期试水才选 C。</p>
+</div>
+
+<div class="card">
+  <h2>四、三套购买方案（按资金量选）</h2>
+
+  <h3>方案 A｜零溢价日投法 <span class="tag g">推荐·月投 1000~3000</span></h3>
+  <p>适合：月薪定投、追求成本最低、能接受每天点一下 APP。</p>
+  <ol class="steps">
+    <li>在支付宝/天天基金开通场外基金账户（选申购费 1 折的平台）</li>
+    <li>选 <b>3~5 只</b>不同基金公司的纳指100 A 类，设置<b>每日自动定投</b>（不是每月！）</li>
+    <li>单日可投额度 ≈ 各只限额之和（当前约 300~2,500 元/日，动态）</li>
+    <li>红利方式选<b>红利再投资</b>（免申购费，复利）</li>
+    <li>每月检查一次限额变化，额度归零就换一只补上</li>
+  </ol>
+  <div class="ok"><b>优点</b>：零溢价，成本最低，全自动。<b>缺点</b>：QDII 赎回慢（T+5~T+7），急用钱不灵活；需盯限额。</div>
+
+  <h3>方案 B｜年终奖/大额分批法 <span class="tag b">年投 3~5 万</span></h3>
+  <p>适合：年底一次性奖金。核心难题是<b>场外日限 5~100 元，一次投不进去</b>。</p>
+  <ol class="steps">
+    <li><b>提前摊</b>：把年终奖拆成 3~6 个月，用方案 A 的日投方式逐月投入（每月 5,000~8,000）</li>
+    <li><b>等窗口</b>：如果期间溢价收敛到 <b>2% 以内</b>，剩余部分一次性在场内买入（T+0，无申购费，年费 0.6%）</li>
+    <li><b>不要为了"赶紧投完"在高溢价时买场内</b>——那等于一进门先亏 10%</li>
+    <li>若有美元（个人年 5 万换汇额度），可考虑美元份额，限购通常比人民币份额宽松</li>
+  </ol>
+
+  <h3>方案 C｜场内为主法 <span class="tag a">资金效率优先·5万以上</span></h3>
+  <p>适合：金额大、希望随时可卖、能耐心等溢价收敛。</p>
+  <ol class="steps">
+    <li>券商选<b>免 5 元最低佣金 + 万 0.5</b> 的互联网券商（大额定投能省不少）</li>
+    <li>只在<b>溢价 &lt;1%~2%</b> 时买入；溢价 1%~3% 只能小额定投；<b>&gt;3% 禁止买入</b></li>
+    <li>优先 159501 / 159696 / 513870（年费 0.60%，全场最低）；要流动性选 513100</li>
+    <li>用<b>限价单</b>挂买一价，别用市价吃买卖价差</li>
+    <li>溢价率可在本页面或券商 APP 的"场内基金溢价率"查看，也可看集思录</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h2>五、结合温度计：定投节奏怎么调</h2>
+  <p>把你的泡沫温度计分数直接映射成定投力度（<b>金额倍数</b>），避免"贵的时候还在猛买"：</p>
+  <table>
+    <tr><th>分数</th><th>状态</th><th>定投倍数</th><th>渠道选择</th></tr>
+    <tr><td>≥70</td><td><span class="tag r">高热区</span></td><td><b>0 倍</b>（暂停，考虑止盈）</td><td>任何渠道都不加仓</td></tr>
+    <tr><td>55~70</td><td><span class="tag o">偏高区</span></td><td><b>0.5 倍</b>（半速）</td><td><b>只走场外</b>（按净值），禁场内</td></tr>
+    <tr><td>45~55</td><td><span class="tag a">中性区</span></td><td><b>1 倍</b>（标准）</td><td>场外为主；溢价&lt;2% 可场内</td></tr>
+    <tr><td>≤45</td><td><span class="tag g">低估区</span></td><td><b>1.5~2 倍</b>（加码）</td><td>场外 + 溢价低时场内一起上</td></tr>
+  </table>
+  <p><b>叠加溢价规则（一票否决）：</b></p>
+  <ul>
+    <li>溢价 <b>&gt;3%</b> → 场内<b>绝对不买</b>，无论分数多低</li>
+    <li>溢价 <b>1%~3%</b> → 仅当分数 ≤55 时，小额定投场内</li>
+    <li>溢价 <b>&lt;1%</b> → 场内可正常买入</li>
+  </ul>
+  <div class="note">回测支撑（你自己的体系）：低分区（≤45）之后 52 周纳指平均收益 27.5%，高分区（≥70）之后仅 17.2%，IC = -0.29。分档定投不是玄学，是有统计依据的。但要注意：<b>倍数调整幅度不宜过大</b>，纳指长期向上，完全停投的踏空风险同样真实。</div>
+</div>
+
+<div class="card">
+  <h2>六、当前（2026-09-06）该怎么做</h2>
+  <div class="warn">
+    <b>温度计 69.3 分（偏高区上沿）+ 场内溢价 11.5% + 估值分位 100 满格</b>
+  </div>
+  <ol class="steps">
+    <li><b>不买场内任何纳指 ETF</b> —— 溢价 9%~25%，进场即承担两位数潜在损失</li>
+    <li><b>场外按净值日投，但只开半速</b>（方案 A × 0.5 倍），保持定投纪律不中断</li>
+    <li><b>已持有场内高溢价份额</b>：可考虑分批"卖出场内 → 场外申购"搬运，锁定约 11% 价差（注意 T+2 空窗，小额慢搬，别一次清）</li>
+    <li><b>加码条件（满足其一）</b>：①分数回落到 55 以下；②场内溢价收敛到 3% 以内</li>
+    <li><b>子弹留好</b>：把原本要投的钱先放货币基金/短债，等上面两个条件触发</li>
+  </ol>
+  <div class="note">这个建议的本质是：<b>不是看空纳指，而是拒绝为"额度稀缺"多付 11% 的入场费</b>。同一份资产，场外按净值就能买到，何必在场内溢价买单。</div>
+</div>
+
+<div class="card">
+  <h2>七、6 个省钱细节</h2>
+  <ul>
+    <li><b>红利再投资</b>：场外一律选"红利再投"，这部分份额免申购费，长期复利可观</li>
+    <li><b>多基金公司并行</b>：各家的 QDII 额度独立计算，12 家并行能把日投额度放大十余倍</li>
+    <li><b>别用市价单</b>：场内挂限价（买一价），省下 1~2 个价位的买卖价差</li>
+    <li><b>券商佣金</b>：选"免 5 元最低 + 万 0.5"的互联网券商，小额高频定投差别很大</li>
+    <li><b>持有满 2 年再赎</b>：多数 QDII 持有满 2 年赎回费为 0，&lt;7 天高达 1.5%</li>
+    <li><b>远离杠杆 ETF</b>：TQQQ（3 倍）、QLD（2 倍）有波动损耗，<b>绝对不适合定投</b>；也不要找"黄牛"代购 QDII 额度，合规风险极大</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>八、风险提示</h2>
+  <ul>
+    <li><b>溢价收敛风险</b>（最现实）：溢价从 11% 回到 0，即使纳指不跌也亏 11%</li>
+    <li><b>踏空风险</b>：纳指长期年化约 13%~17%，减半或暂停可能错过上涨</li>
+    <li><b>限购变动风险</b>：QDII 额度随时调整，可能突然从 2,000 降到 10 元，需准备备选产品</li>
+    <li><b>汇率风险</b>：人民币升值会侵蚀收益，贬值则增厚，QDII 净值已内含</li>
+    <li><b>集中度风险</b>：纳指100 前七大科技股占比极高，单押一个指数需控制总资产比例（建议海外权益不超过权益仓位的 30%~50%）</li>
+    <li><b>流动性风险</b>：场外 QDII 赎回 T+5~T+7 到账，急用钱不灵活</li>
+  </ul>
+</div>
+
+<footer>
+  数据来源：泡沫温度计（自建体系，2026-09-04）、腾讯自选股行情（2026-09-04 收盘）、格隆汇/和讯 ETF 溢价榜（2026-09-04）、各基金公司限购公告（2026-09-02~04）<br>
+  限额与溢价均为动态数据，实际操作前请以各平台当日页面显示为准<br>
+  本方案仅供研究参考，不构成投资建议。市场有风险，投资需谨慎。
+</footer>
+
+</div>
+</body>
+</html>

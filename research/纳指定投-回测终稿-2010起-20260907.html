@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="AtyOvRjbjMrTXThh7fIhu3">
+<head data-page-node-id="ibBBk9QWcCwzij8ttdFwff">
+<meta charset="UTF-8" data-page-node-id="OF30m9marLDf9EiYQp8wNi">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="PlCZblbmdZHv1tlqNRoSnJ">
+<title>纳指定投策略回测 · 终稿（2010 起满窗口径）</title>
+<style>
+  :root{ --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
+    --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb; --gray:#6b7280; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.68; padding:16px 12px 48px; font-size:13px; }
+  .wrap{ max-width:860px; margin:0 auto; }
+  header{ margin-bottom:14px; }
+  .title{ font-size:21px; font-weight:800; letter-spacing:.4px; }
+  .title .hl{ color:var(--blue); }
+  .subtitle{ font-size:11px; color:var(--sub); margin-top:4px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:12px; }
+  .card h2{ font-size:14px; font-weight:800; margin-bottom:9px; display:flex; align-items:center; gap:7px; }
+  .num{ background:var(--ink); color:#fff; width:19px; height:19px; border-radius:5px; font-size:10px; display:inline-flex; align-items:center; justify-content:center; flex:none; }
+  .card p{ font-size:12.5px; color:#2b313c; margin-bottom:8px; }
+  table{ width:100%; border-collapse:collapse; font-size:11.5px; margin:6px 0; }
+  th{ background:#f0f2f6; color:var(--sub); font-weight:700; text-align:right; padding:6px 7px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th:first-child{ text-align:left; }
+  td{ padding:6px 7px; border-bottom:1px solid #f0f1f4; text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td:first-child{ text-align:left; font-weight:600; }
+  tr.win td{ background:#ecfdf5; } tr.lose td{ background:#fef2f2; } tr.ref td{ background:#f8fafc; }
+  .pos{ color:var(--red); font-weight:700; } .neg{ color:var(--green); font-weight:700; } .mut{ color:var(--sub); }
+  .alert{ background:#fef2f2; border:1px solid #fecaca; border-left:3px solid var(--red); border-radius:8px; padding:11px 13px; margin-bottom:12px; }
+  .alert .h{ font-weight:800; color:var(--red); font-size:13px; margin-bottom:5px; }
+  .alert p{ font-size:12.5px; color:#3f1418; }
+  .ok{ background:#ecfdf5; border:1px solid #a7f3d0; border-left:3px solid var(--green); border-radius:8px; padding:11px 13px; margin-bottom:12px; }
+  .ok .h{ font-weight:800; color:var(--green); font-size:13px; margin-bottom:5px; }
+  .ok p{ font-size:12.5px; color:#0d3b2e; }
+  .note{ background:#fffbeb; border:1px solid #fde68a; border-left:3px solid var(--amber); border-radius:8px; padding:10px 12px; margin:8px 0; font-size:12px; color:#4a3708; }
+  ul{ margin:6px 0 6px 17px; font-size:12.5px; } li{ margin-bottom:4px; }
+  footer{ font-size:10.5px; color:var(--sub); text-align:center; margin-top:18px; line-height:1.7; }
+</style>
+</head>
+<body data-page-node-id="BqFxMjsZ5UWFwUQgttMyzt">
+<div class="wrap" data-page-node-id="3KXKnmEjJrPU7yplLbyyj5">
+
+<header data-page-node-id="CzvLzLWbdxE9lyMC3RQ4B8">
+  <div class="title" data-page-node-id="mJFB9N5hCWo5n4hD2Ja4Im">纳指定投策略回测 · <span class="hl" data-page-node-id="1GOIKSnMxSse6Ii913QyU4">终稿</span></div>
+  <div class="subtitle" data-page-node-id="GzYXCKWRMEHM07PRtgv7JM">正式口径：2010-01 ~ 2026-08（200 个月，温度满 10 年滚动窗）· 月投 1,000 · 2026-09-07</div>
+</header>
+
+<div class="alert" data-page-node-id="t0cAkZs0uVUupmNCrHTvft">
+  <div class="h" data-page-node-id="dW34irBtTNlxpwbA49u1Tp">口径声明（为何从 2010 起）</div>
+  <p data-page-node-id="LCmHBmThoLFqHvvySeChEq">温度 = 滚动 10 年分位，而数据 2000-01 才有 → <b data-page-node-id="W2TJ2xrlWLlQKyuGZ29IxQ">2000-2009 全部是"窗口积累期"的短窗分位</b>（2000 年甚至全年中性 50）。
+  用积累期温度做策略决策 = 数据污染。因此<b data-page-node-id="lBzfL6C4G0FY3HgZg56ZJa">正式结论一律以 2010-01 起（满 10 年窗）为口径</b>；2000-2009 曲线仅用于展示，不用于决策。
+  本稿同时修正此前回测脚本的资金池口径问题（详见 §05）。</p>
+</div>
+
+<div class="card" data-page-node-id="OvYE1ueD3aoEF4ycfLGtBT">
+  <h2 data-page-node-id="KdRwpKFUcJHY48kYuBZ6PP"><span class="num" data-page-node-id="OTqNCxMHLA8TEzBj5Ssyb0">01</span>主结果：六策略 · 2010-2026</h2>
+  <p data-page-node-id="qtcsct4HT5aILGGjR734rM">区间纳指 +1592%。正确口径：每月预算全额计入本金；未投的钱进资金池吃 2%；期末市值含全部池子。</p>
+  <table data-page-node-id="V7CHVmVmJ3s1DfFDsI9FY6">
+    <tr data-page-node-id="HuI0CxwaoJs3aFnCH68s6x"><th data-page-node-id="4wWJTrqRtS1dcx2VoE4684">策略</th><th data-page-node-id="rDjSDhYbRGJURxhuk9yWK4">期末市值</th><th data-page-node-id="uEsVd2wKTfzgTH9KFKetUs">总收益率</th><th data-page-node-id="mqvTSDT6D0Ip9GZgbRzgiq">vs ①</th><th data-page-node-id="jZ3e24CThXReVVarLyvtJe">XIRR</th><th data-page-node-id="toAMn8dmVOFitI6tRkhTT4">最大回撤</th></tr>
+    <tr class="win" data-page-node-id="TCxEPv6ropFJQFf1gIaIjl"><td data-page-node-id="jTH5eEWUHGEltcfrovQF5U">① 无脑定投</td><td data-page-node-id="2wQCrhAfAkzbBYSCNzV46i">1,147,279</td><td data-page-node-id="S2H4ua15dQpIDaMn9Mlm3w">473.6%</td><td class="mut" data-page-node-id="EAXrWP2xOvbE5zsGBiR8xj">基准</td><td data-page-node-id="fnpnZkHc5gavQPeehFGjDp">18.74%</td><td data-page-node-id="uwwr1UaSeijQEJ6A4TIvAs">-31.5%</td></tr>
+    <tr class="lose" data-page-node-id="6W4g1VEWTWWjPCCA4oRTwS"><td data-page-node-id="JRgEvYgu4y6SI5GFVXAJBm">② 温和节流（现版系数）</td><td data-page-node-id="Wh7Q7vvrqjsmYsn1iBdqKn">1,137,703</td><td data-page-node-id="9nErqCklakDDDmm6aoDeDT">468.9%</td><td class="neg" data-page-node-id="gX5FGqdqVtesEbZP0MDBah">-4.8pp</td><td data-page-node-id="VxNv31QGJqYQFxuhb9IiEw">18.66%</td><td data-page-node-id="PRWGzIQDJ4ncZaBSZhNoeS">-30.9%</td></tr>
+    <tr class="lose" data-page-node-id="MKFrORGeE8Ob6yilh7qvG3"><td data-page-node-id="BPvk9CFxwBFWdlG1zpGrUD">③ 只减不加速</td><td data-page-node-id="U2htCnH7w6hUz1X3NnC5LV">1,090,427</td><td data-page-node-id="DXCKCJHKiOVKqW4iChAGDh">445.2%</td><td class="neg" data-page-node-id="5xYgWEhDaJZG3yOZZXSI78">-28.4pp</td><td data-page-node-id="O6Ihj7jmEhmx0BsHvBwV7x">18.23%</td><td data-page-node-id="Can0eUNgGQSueAxM1SRwyt">-30.2%</td></tr>
+    <tr class="lose" data-page-node-id="MsEQhzDDKbCsvYSBZsJHHV"><td data-page-node-id="NpfVo4fOBoZTTIiWCDL9V8">④ 等 ≤55 才投</td><td data-page-node-id="KvP0Y5tNDJNbWPQ6HHfjfM">1,116,496</td><td data-page-node-id="56Vf62u6OxxtWkVJ3A7ehp">458.2%</td><td class="neg" data-page-node-id="fHjNZasA0YIaLaRwg3OztK">-15.4pp</td><td data-page-node-id="yYdKzB4IseIIfTyN8YHBRc">18.47%</td><td data-page-node-id="KPh39TSpqrehkKTbxJ9fow">-31.2%</td></tr>
+    <tr class="lose" data-page-node-id="jpA8PjHfMD6PYJiv2JsjXp"><td data-page-node-id="ShZNPdW0VjAPpYSFy58kpr">⑤ ≤55 + 18月熔断</td><td data-page-node-id="U2NiGWM4WQVAiEyHObiBw5">1,103,607</td><td data-page-node-id="cJ3dov1e6OBhbxXZyF5Ow8">451.8%</td><td class="neg" data-page-node-id="C5UX1I0PIwh51JU9tMgFbA">-21.8pp</td><td data-page-node-id="VNHZgz4swp6IViqYqsdqAT">18.35%</td><td data-page-node-id="ivA03EQLvMy801titOoRYf">-31.4%</td></tr>
+    <tr class="lose" data-page-node-id="XEGWnZh11j83vLLTebOhB6"><td data-page-node-id="tg8BBhvLAX9EWL2y6657kN">⑥ ≤50 + 24月熔断</td><td data-page-node-id="ECWL1AsCoiUU9nJmKbJLQQ">1,101,842</td><td data-page-node-id="TTjHPAtJafVvB8wsGxbgFi">450.9%</td><td class="neg" data-page-node-id="poNRpBvILxwyfaqOgmbK59">-22.7pp</td><td data-page-node-id="eu9WtLjTAvbFIbGp1QSFBq">18.33%</td><td data-page-node-id="9ETdR5D6QbwUShVxO8QBYJ">-31.3%</td></tr>
+  </table>
+  <p data-page-node-id="JGisdlQC60gCP4fvEW02cY"><b data-page-node-id="b2RlQdfABNoUrSEvFAVgTK">全部六个择时变体跑输无脑 4.8~28.4pp</b>；回撤无一实质改善（-30.2~-31.5%）。</p>
+</div>
+
+<div class="card" data-page-node-id="PHjxjo8JRiyA3udxABDt2R">
+  <h2 data-page-node-id="HGB25MkP5KpKFxAunCS088"><span class="num" data-page-node-id="HrFWQJOhdyRtnk2qOXjMln">02</span>多起点敏感性：结论不是单起点运气</h2>
+  <table data-page-node-id="QgU4xujLshfqObGSQEKRmW">
+    <tr data-page-node-id="jtfRjX9Ji4CsmVEsJU1qSX"><th data-page-node-id="dBKH20dvDayuzMgGfASCoZ">起点（至 2026-08）</th><th data-page-node-id="Jv4wrA1bq0vbStz2DTcm5B">月数</th><th data-page-node-id="IoyKJFqIxP51P8sFNAJDSC">① 无脑</th><th data-page-node-id="6e5kGWvtEKVqNaXWLwIdKM">② 节流 vs①</th><th data-page-node-id="52m8PbUlHypHIoBzMeCgaM">④ 等≤55 vs①</th></tr>
+    <tr data-page-node-id="HhNcWe8oGcfJ1NvO1AEoGM"><td data-page-node-id="nwAQfO2mp5x3XnVkn1iIV5">2010-01（正式）</td><td data-page-node-id="BkSb93v2dEqsAU2qhziZDM">200</td><td data-page-node-id="carF308P9ZvHhhD08a0ImN">473.6%</td><td class="neg" data-page-node-id="ekHPtCJuBFf3yqLYtzWVYV">-4.8pp</td><td class="neg" data-page-node-id="yLp8MnxO9ICoTXECuQRLgB">-15.4pp</td></tr>
+    <tr data-page-node-id="JbH6CuvBCMGacTFWHeTDGC"><td data-page-node-id="LNIiRKwzR8OF5Vh3k2UkC9">2012-01</td><td data-page-node-id="xQK8m6aCBQ1pFwH9twksnD">176</td><td data-page-node-id="ntD64vwvfFeQrMlyepJ8FM">360.4%</td><td class="neg" data-page-node-id="HDmQ3vmpIEk7d32CQ8qCmT">-5.5pp</td><td class="neg" data-page-node-id="7UVlPK14i1pzoATnEXBt5v">-20.2pp</td></tr>
+    <tr data-page-node-id="0bzoJORPvbTCvvaZ12Pf0N"><td data-page-node-id="6T1k1hhOZVFR4rIxakS6oE">2014-01</td><td data-page-node-id="3jLvWH09nBVXqdGQSXJgLN">152</td><td data-page-node-id="p0BD1LLlt74hMAgGYAsRP6">269.3%</td><td class="neg" data-page-node-id="aMJQSkzrzxzlRQoQRutxXo">-5.9pp</td><td class="neg" data-page-node-id="1uCxRUno6GzoW0WW2Pk8mv">-13.8pp</td></tr>
+    <tr data-page-node-id="nqZ4YEMKXoXcHy4ASzT7rk"><td data-page-node-id="FFzHr6nOWxwguUSbQ35OxC">2016-01</td><td data-page-node-id="HILnGtLtfcjHIFJFcYlg2S">128</td><td data-page-node-id="JqL86u5I96rkuSt3LEtUIJ">204.9%</td><td class="neg" data-page-node-id="IJmHLSAmI3sJxb0KbpadzH">-5.8pp</td><td class="neg" data-page-node-id="j8ivwhhlaei1jDT33vDsn9">-12.5pp</td></tr>
+    <tr data-page-node-id="IuzV3C1pr3PARvGBb40EsA"><td data-page-node-id="jtJl0Fz2RQXIKBhqXjdYp7">2018-01</td><td data-page-node-id="qWart4I6NLg0JEOeTohkHg">104</td><td data-page-node-id="gf29D2NuOepznxgcLkZ1h0">142.4%</td><td class="neg" data-page-node-id="0CWeIG9RZFVAWPUZjvAOwS">-0.5pp</td><td class="neg" data-page-node-id="F03secY684knhRkW1DsXaX">-6.8pp</td></tr>
+  </table>
+  <p data-page-node-id="e20FBAYtO3oCDmwzQVKyxn"><b data-page-node-id="GizDWqwiVvvet0ECrpKMa1">5 个起点，② 与 ④ 无一跑赢</b>——无脑最优在满窗口径下非常稳健。</p>
+</div>
+
+<div class="card" data-page-node-id="kegzdCf598uVAR6C9YHHVC">
+  <h2 data-page-node-id="eKtZ2swexW4rs6tqW1Nk8a"><span class="num" data-page-node-id="Zj8BLmeND2lqZ6T8QVVl0x">03</span>分阶段：崩盘保护微乎其微，牛市代价持续</h2>
+  <table data-page-node-id="QjBKV9G7J2OYjGyYhIZ6zM">
+    <tr data-page-node-id="jHR9mq2e2T678yAYki2fn5"><th data-page-node-id="GV5z2u46aGrIkpCQe0IUcC">阶段</th><th data-page-node-id="pikYNQw5Ac5GOQfti5Ta0U">① 无脑</th><th data-page-node-id="QRA1vMWS22aYFTZkIKSnJu">② 节流</th><th data-page-node-id="yHwUmnhYPjhV8N755jXNGu">④ 等≤55</th><th data-page-node-id="Tmqb99yLkY8CAp6c3RX2SB">赢家</th></tr>
+    <tr data-page-node-id="ry0YKHkr5eKLouxTUAV1KB"><td data-page-node-id="tVHDdbrASpENuT5lFB9uNB">2010-2021 慢牛+成长牛（+1204%*）</td><td data-page-node-id="VWk7VyYsSW2ZcFYj8PZtR8">302.1%</td><td class="neg" data-page-node-id="caRKACU0WpM83hyx0Lwdse">-4.7pp</td><td class="neg" data-page-node-id="CmInHRsnPEU7KPZBuOCbaT">-11.6pp</td><td class="win" data-page-node-id="7Coqtm5JGenpfCHkYaSrFD">无脑</td></tr>
+    <tr data-page-node-id="JetFIdhVE1k9hFh8y5kUkb"><td data-page-node-id="BIMEx6dBh4hWhrpZBE6BXP">2022 加息熊市（-27%）</td><td data-page-node-id="303SFz1nyuBB08QJkftxf3">-12.4%</td><td data-page-node-id="ZxX8xvjZNZ6XTCiRWis9Wt">0.0pp</td><td class="pos" data-page-node-id="kR8iIFPHyWjcxZwEjsjnVE">+1.0pp</td><td class="pos" data-page-node-id="KXAlurNxS6QrD9rLfwQIFd">等待微胜</td></tr>
+    <tr data-page-node-id="DlVcabRWwvVJC4BPxwRgeS"><td data-page-node-id="DNv8SsBpGLFr3IGKfJUJlN">2023-2026 AI 周期（+143%）</td><td data-page-node-id="NSWytSzpJV2cfNua73S7P6">53.6%</td><td class="neg" data-page-node-id="d9AM2y3rJy8Pv2uRcDw2We">-2.6pp</td><td class="neg" data-page-node-id="B1e4NAiQXZpVlMuQZnaqPo">-8.9pp</td><td class="win" data-page-node-id="6FoJoj3m9QgtJcYyRDxK0Q">无脑</td></tr>
+  </table>
+  <p style="margin-top:6px" data-page-node-id="wAeFS7Wg3eRHJQX6bt1SIY">*该段指数自 2010-01 起。唯一的正贡献 = 2022 熊市 +1.0pp；其余时段持续跑输。崩盘保护约 1pp/次，牛市踏空 3-12pp——不对称。</p>
+</div>
+
+<div class="card" data-page-node-id="FMXqcNTgqKSNZn0hTCSTGh">
+  <h2 data-page-node-id="wNVAr7YEFVElOUXJEEHXLU"><span class="num" data-page-node-id="XAf9ZmwYDdR6pQNIf1Kczz">04</span>闲钱对照（修正版）：预算外"等冷"在满窗样本同样跑输</h2>
+  <p data-page-node-id="g4i9JtmoFuq6SBGTyfbGso">结构：核心月投 1,000 无脑 + 闲钱 250/月（同总额公平比较：闲钱"到账即投" vs "等温度低才投"）。</p>
+  <table data-page-node-id="84GYF0ROpgX4WykflNlu5D">
+    <tr data-page-node-id="b6Qq5yW1q6KsCV5nvQyLwh"><th data-page-node-id="ZJXLh7E338hQ1ueGQgRrIx">闲钱策略</th><th data-page-node-id="YLm0W1wOxkQ9qA3GjldlC5">2010 起收益率</th><th data-page-node-id="kioVHLH6gT7AcJ4Td86Ecv">vs 即投</th><th data-page-node-id="2BxYkmDclA8ytSaHm2NiTW">最大回撤</th></tr>
+    <tr class="win" data-page-node-id="eU5dQB8dv0he3gTVDsnSFM"><td data-page-node-id="LgxaHtAi49NeHvbmZDNJZJ">到账即投（无脑）</td><td data-page-node-id="CPhu3LRQdtOzMJ8HCn4kJG">473.6%</td><td class="mut" data-page-node-id="FnZdXcCHa65QhKGsYsgVL1">基准</td><td data-page-node-id="1b4hXrldoCU5SEypKGU8Da">-31.5%</td></tr>
+    <tr class="lose" data-page-node-id="7AsIA6kpEo8mBrOyDG5QX4"><td data-page-node-id="yXOD1yGs7RHf6LWywCEb6m">等 ≤55 投光</td><td data-page-node-id="FqOBOLIxXHqJmLBn8u2g8A">470.6%</td><td class="neg" data-page-node-id="1kqCeZjjWuSTCmzBDv22Ar">-3.1pp</td><td data-page-node-id="KKkrkOj26ot1Q2vf4w1DSK">-31.4%</td></tr>
+    <tr class="lose" data-page-node-id="IeDAvfbkLDPfWiNklAMMUT"><td data-page-node-id="CZWYwpJ1IkMky9b1nYugQp">等 ≤50 投光</td><td data-page-node-id="9qrwBdpkkZtJkhp8aXbQqM">470.4%</td><td class="neg" data-page-node-id="RNVahLr2hZcG1tneSgttwM">-3.2pp</td><td data-page-node-id="kiLYjyarJtnnOni8Axsria">-31.3%</td></tr>
+    <tr class="lose" data-page-node-id="zBnzmZQrF2RAwBANravqMq"><td data-page-node-id="DFuwmNR1HU0vhBpYgnvmME">等 ≤40 投光</td><td data-page-node-id="cHGedN6LqlWLeji6QwWi8O">460.5%</td><td class="neg" data-page-node-id="tVwu9P0GJRuEEyR1dRMNwS">-13.1pp</td><td data-page-node-id="v6uCA2FcGsDzRUG24sRwzF">-31.0%</td></tr>
+  </table>
+  <div class="note" data-page-node-id="50AN0ORhu8wz39co1XbDqY"><b data-page-node-id="F1b1h0UA47P5kBuZl1nYae">勘误声明</b>：此前一版分析称"闲钱等 ≤40 跑赢 +21pp（20 年）/ +32pp（26.7 年）"，系脚本口径错误（未投资金池未计入市值、分母只计买入额）。
+  修正后：该结论仅在含 2005-2009 金融危机与 2000-2002 互联网崩盘的旧样本中出现；<b data-page-node-id="qTSU68mFYzcDyJUpAoE4KP">在 2010 年后的满窗现代样本中为 -3~-13pp</b>——"等极冷"的超额是历史危机事件撑起来的，对当下市场无复制性。</div>
+</div>
+
+<div class="card" data-page-node-id="bk1cPssXqreakS1WjGZRgO">
+  <h2 data-page-node-id="vVOZoVbcGvE9wedh3lWbuL"><span class="num" data-page-node-id="Fe8ZbKktffhK1lSMGocvRS">05</span>过程教训（为什么这版可信）</h2>
+  <ul data-page-node-id="VMTawOohgHFI0kJf3ccVT9">
+    <li data-page-node-id="SUgIbT1YiHLi4btWLfpte4">本轮研究经历了 <b data-page-node-id="aM2uG1JeotPeglOsyL1elC">三次回测口径 bug</b>，全部是"策略跑赢无脑"的诱人结论触发的自查：①分母不计入递延资金（虚高）；②资金池双重扣减（假暴跌）；③final 不含池 + tot 只计买入（闲钱假跑赢）。</li>
+    <li data-page-node-id="gVtoBGIHjVFirp1RCIY2Nx">本稿引擎自检通过与基准完全一致（naive 473.6% 等），并做了 5 起点敏感性验证。</li>
+    <li data-page-node-id="JPs8dRqb5PXTYwNu9N0k0X"><b data-page-node-id="mKMp4UCmLZUx1Pgpopfxb7">经验法则：任何回测出现"择时跑赢无脑"，先怀疑口径，再谈结论。</b></li>
+  </ul>
+</div>
+
+<div class="card" data-page-node-id="kl3F7HPzJmKInmuSlOHNjm">
+  <h2 data-page-node-id="94arYPAUFnDfT1yjlQPS1A"><span class="num" data-page-node-id="AcBH3Dp5gfvmizgwAIl3wk">06</span>换算到你的钱（月投 4,500，2010-2026，本金 90 万）</h2>
+  <table data-page-node-id="mNdrPWjAwFMNLUeBTPZS42">
+    <tr data-page-node-id="pNjA4TgESKDSBJNFzBuBhU"><th data-page-node-id="taJaMxAfmzDmGENn9srmRQ">策略</th><th data-page-node-id="rarI1f3O1ffbcRAdrltnGx">终值</th><th data-page-node-id="q0TGF8h6KQRiApBB518xNG">vs 无脑</th></tr>
+    <tr class="win" data-page-node-id="5ztjEJkB5Dl3Ayi1UUQpvZ"><td data-page-node-id="qwuuzbwTiY9pFhpUC9aei8">① 无脑定投</td><td data-page-node-id="4qOcfkxFUZPWfZ4xZXg0c8">516.3 万</td><td class="mut" data-page-node-id="P6j795WwDt63xiqALGApoz">基准</td></tr>
+    <tr class="lose" data-page-node-id="qa3ldaoR4d5Td3aFPJmVPW"><td data-page-node-id="tMe1R3huGO27dVCwZHdupU">② 温和节流</td><td data-page-node-id="2grrPmGg4SBIQ3jdHyztoL">512.0 万</td><td class="neg" data-page-node-id="rTGYCySkSsbk00C8P4VUOS">-4.3 万</td></tr>
+    <tr class="lose" data-page-node-id="4HhVK9fqIjUsvDFlWZkrbb"><td data-page-node-id="gaCvTLUeM1kUAN13cAyKpy">④ 等≤55</td><td data-page-node-id="t9UQA6xIayhZZTBbvhy1uK">502.4 万</td><td class="neg" data-page-node-id="IdUhthc6GnmZmIepODZGnA">-13.9 万</td></tr>
+    <tr class="lose" data-page-node-id="KhMxNpGyFUu0Fe8Gjw7Udj"><td data-page-node-id="roCFgfBxY0Zp5QSRe5bdcF">⑤ ≤55+18月</td><td data-page-node-id="qsIsgKpUksXXmjylslW7Ac">496.6 万</td><td class="neg" data-page-node-id="U766oUCFVOhuY71kdWFeRt">-19.7 万</td></tr>
+    <tr class="lose" data-page-node-id="c3EakAxenWonVMPVjxEdVH"><td data-page-node-id="YhDPQsJez3GbRUDoBF1K70">⑥ ≤50+24月</td><td data-page-node-id="uC4W2biF61Z9lxXPHOUsAV">495.8 万</td><td class="neg" data-page-node-id="WhsZQNhPwQ2Plg1C05G0wk">-20.5 万</td></tr>
+  </table>
+  <p style="margin-top:6px" data-page-node-id="WHCLiXt6F6AttpuiOaXCLd">策略差在 4-20 万量级（1-4%），主导变量仍是"投没投"。</p>
+</div>
+
+<div class="ok" data-page-node-id="WcTGyZAGmovfHCGWXJgtUW">
+  <div class="h" data-page-node-id="vYbKAFVeHPBvbvamhO8Oie">✓ 最终执行结论（三层方案不变）</div>
+  <p data-page-node-id="CfQobT3QODN49n5RCj4pOp">第一层 无脑月投：满窗 16.7 年样本 +473.6%（XIRR 18.74%）历史最优，继续执行。<br data-page-node-id="Lfwy0lqSm9EOyfGAd5alzK">
+  第二层 ≥85 刹车：历史上限附近从未触发，是防未知的保险丝，不是收益工具。<br data-page-node-id="AIWaWJqR1xyETRdlbpEteU">
+  第三层 闲钱等冷：修正后满窗期望 <b data-page-node-id="OLY9rLTwmxFhBU4zWAII1k">-3~-13pp</b>，不再推荐作为收益策略；闲钱并入无脑月投或仅当确定能等 3 年+极端危机时才保留（心理层面而非收益层面）。</p>
+</div>
+
+<footer data-page-node-id="tMvVsGO5cKKynDcqihChyA">
+  生成 2026-09-07 · 数据 scores_monthly.csv（2010-01 起满窗）· 引擎 bt_final.py（已自检）+ bt_2010.py<br data-page-node-id="WkW5IGachGu5lZ7jZrPgVe">
+  个人研究记录，不构成投资建议
+</footer>
+
+</div>
+</body>
+</html>

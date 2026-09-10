@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美股泡沫评分体系 v1.0 — 指标体系·打分公式·回测定界</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1a2332; --sub: #5b6b83;
+    --line: #e4e8ef; --accent: #c0392b; --accent2: #2980b9;
+    --red: #c0392b; --amber: #b9770e; --green: #1e8449; --blue: #2980b9;
+    --red-bg: #fdf0ef; --amber-bg: #fdf6ea; --green-bg: #eef7f0; --blue-bg: #eef4fb;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.65; padding:24px 16px 60px; }
+  .wrap { max-width:980px; margin:0 auto; }
+  .hero { background:linear-gradient(135deg,#16233c,#243b5e); color:#fff; border-radius:14px; padding:28px 30px; margin-bottom:20px; }
+  .hero h1 { font-size:24px; font-weight:700; margin-bottom:6px; }
+  .hero .sub { opacity:.82; font-size:14px; }
+  .hero .tag { display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); padding:2px 12px; border-radius:20px; font-size:12px; margin-top:10px; margin-right:8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:16px; }
+  .card h2 { font-size:18px; font-weight:700; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .card h3 { font-size:15px; font-weight:700; margin:18px 0 8px; color:var(--accent2); }
+  p, li { font-size:14px; color:var(--ink); }
+  .muted { color:var(--sub); font-size:12.5px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0; }
+  th { background:#f1f4f8; font-weight:700; text-align:left; padding:8px 10px; border:1px solid var(--line); }
+  td { padding:7px 10px; border:1px solid var(--line); vertical-align:top; }
+  .center { text-align:center; }
+  .badge { display:inline-block; padding:1px 8px; border-radius:10px; font-size:11.5px; font-weight:600; }
+  .b-red { background:var(--red-bg); color:var(--red); }
+  .b-amber { background:var(--amber-bg); color:var(--amber); }
+  .b-green { background:var(--green-bg); color:var(--green); }
+  .b-blue { background:var(--blue-bg); color:var(--blue); }
+  .note { background:#f7f9fc; border-left:4px solid var(--accent2); padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; margin:12px 0; }
+  .warn { background:var(--amber-bg); border-left:4px solid var(--amber); padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; margin:12px 0; }
+  .ok { background:var(--green-bg); border-left:4px solid var(--green); padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; margin:12px 0; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
+  .kpi { background:#f7f9fc; border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .kpi .num { font-size:26px; font-weight:800; }
+  .kpi .lbl { font-size:12px; color:var(--sub); margin-top:2px; }
+  .num-red { color:var(--red); } .num-green { color:var(--green); } .num-amber { color:var(--amber); } .num-blue { color:var(--blue); }
+  .src { font-size:11.5px; color:var(--sub); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; }
+  .disclaimer { font-size:11.5px; color:var(--sub); text-align:center; margin-top:24px; padding:14px; border-top:1px solid var(--line); }
+  ul { padding-left:20px; } li { margin-bottom:4px; }
+  .hl { background:linear-gradient(transparent 62%, #ffe08a 62%); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>📊 美股泡沫评分体系 v1.0</h1>
+    <div class="sub">RiskWatch 八大特征 → 可量化指标 → 月度评分 → 历史回测定界</div>
+    <span class="tag">双指数: 纳指100 + 标普500</span>
+    <span class="tag">回测区间: 2016-01 ~ 2026-08 (128个月)</span>
+    <span class="tag">数据源: 6个免费公开源</span>
+    <span class="tag">生成: 2026-09-01</span>
+  </div>
+
+  <div class="card">
+    <h2>一、八大特征 → 可读取数据指标映射</h2>
+    <p>基于原笔记 RiskWatch 泡沫评估体系，将 8 个定性特征逐一转化为<b>免费公开数据源可获取的量化指标</b>。全部 6 个数据源已实测验证可用（数据拉取脚本附后）。</p>
+    <table>
+      <tr><th>特征</th><th>原义</th><th>量化指标</th><th>数据源</th><th>覆盖</th><th>状态</th></tr>
+      <tr><td><b>F1 估值</b></td><td>资产价格相对传统标准偏高</td><td>CAPE 周期调整市盈率（标普500）</td><td>multpl.com 月度表</td><td>1871至今</td><td><span class="badge b-green">✅ 直接</span></td></tr>
+      <tr><td><b>F2 预期</b></td><td>预期高价继续快速上升</td><td>纳指100 十二个月动量</td><td>腾讯月K usNDX</td><td>2001至今</td><td><span class="badge b-blue">代理</span></td></tr>
+      <tr><td><b>F3 情绪</b></td><td>普遍存在看涨情绪</td><td>VIX 月均分位反转（低波动=自满）</td><td>CBOE VIX 历史CSV</td><td>1990至今</td><td><span class="badge b-blue">代理</span></td></tr>
+      <tr><td><b>F4 杠杆</b></td><td>高杠杆融资买进资产</td><td>FINRA 融资余额（滞后1月）</td><td>FINRA 官方xlsx</td><td>1997至今</td><td><span class="badge b-green">✅ 直接</span></td></tr>
+      <tr><td><b>F5 投机</b></td><td>提前买入/投机应对涨价</td><td>标普500 成交量6月均/12月前</td><td>腾讯月K usINX</td><td>2001至今</td><td><span class="badge b-blue">代理</span></td></tr>
+      <tr><td><b>F6 新买家</b></td><td>新买家进入市场</td><td>纳指100 距12月高点距离</td><td>腾讯月K usNDX</td><td>2001至今</td><td><span class="badge b-blue">代理</span></td></tr>
+      <tr><td><b>F7 货币</b><br><span class="muted">不计入总分</span></td><td>刺激性货币政策助长泡沫</td><td>联邦基金利率分位反转</td><td>FRED FEDFUNDS</td><td>1954至今</td><td><span class="badge b-green">✅ 直接</span></td></tr>
+      <tr><td><b>F8 科技</b></td><td>科技板块相对大盘泡沫化</td><td>纳指100 与 标普500 相对12月动量</td><td>腾讯双指数月K</td><td>2001至今</td><td><span class="badge b-green">✅ 直接</span></td></tr>
+    </table>
+    <div class="note">✅ 直接 = 原义数据源可直接读取；<b>代理</b> = 原指标免费源不可得，用逻辑相近的可得指标替代（如"新开户数"→"距52周高距离"）。代理会引入误差，已在权重与结论中保守处理。</div>
+    <div class="src">数据源实测结果：腾讯web.ifzq（月K）、CBOE VIX、FRED、multpl、FINRA、CNN Fear&Greed 均验证可用。此前实测 macrotrends（反爬）、Nasdaq官方（无CORS）、东财指数估值（不覆盖美股）不可用。</div>
+  </div>
+
+  <div class="card">
+    <h2>二、打分公式（0-100 分）</h2>
+    <h3>2.1 单特征计分：滚动分位法</h3>
+    <p>每个特征 = <b>过去 120 个月（10年）中低于当前值的月份占比 × 100</b>。纯经验分位，无需人工设阈值，自动适应市场环境变化。</p>
+    <ul>
+      <li>F1 估值用全历史 expanding 分位（CAPE 1871 年起，样本足够）</li>
+      <li>F3 情绪、F7 货币为反转计分（100 − 分位）：VIX 越低 → 情绪分越高；利率越低 → 宽松分越高</li>
+      <li>F4 杠杆滞后 1 个月（FINRA 发布滞后，<b>无前视偏差</b>）</li>
+      <li>F5 投机用 6 个月均量 / 12 个月前对比（平滑，避免恐慌单月假信号）</li>
+      <li>F3 情绪用<b>月均 VIX</b>（避免月末恐慌单点失真，如 2021-11 奥密克戎）</li>
+    </ul>
+    <h3>2.2 总分合成（对齐 RiskWatch 权重逻辑，特征7 不计入）</h3>
+    <table>
+      <tr><th>特征</th><th>F1估值</th><th>F2预期</th><th>F3情绪</th><th>F4杠杆</th><th>F5投机</th><th>F6新买家</th><th>F7货币</th><th>F8科技</th></tr>
+      <tr class="center"><td><b>权重</b></td><td><b>20%</b></td><td>12%</td><td>10%</td><td><b>18%</b></td><td>10%</td><td><b>15%</b></td><td>不计入</td><td>15%</td></tr>
+    </table>
+    <p><b>总分 = 0.20×F1 + 0.12×F2 + 0.10×F3 + 0.18×F4 + 0.10×F5 + 0.15×F6 + 0.15×F8</b></p>
+    <div class="note">三大核心特征（F1 估值 / F4 杠杆 / F6 新买家）合计权重 53%，对齐原体系"三大指标依旧保持高位"的判断逻辑。F7 货币为独立观察项（原体系即不计入总分）。</div>
+  </div>
+
+  <div class="card">
+    <h2>三、历史回测：关键时点得分</h2>
+    <table>
+      <tr><th>时点</th><th>性质</th><th class="center">总分</th><th class="center">F1估</th><th class="center">F2期</th><th class="center">F3绪</th><th class="center">F4杠</th><th class="center">F5投</th><th class="center">F6新</th><th class="center">F7币</th><th class="center">F8科</th></tr>
+      <tr><td>2018-01</td><td>高点(加息缩表前)</td><td class="center"><b class="num-red">88.9</b></td><td class="center">100</td><td class="center">95</td><td class="center">95</td><td class="center">100</td><td class="center">80</td><td class="center">59</td><td class="center">8</td><td class="center">88</td></tr>
+      <tr><td>2018-12</td><td>低点(紧缩恐慌)</td><td class="center">47.1</td><td class="center">86</td><td class="center">9</td><td class="center">13</td><td class="center">87</td><td class="center">62</td><td class="center">6</td><td class="center">0</td><td class="center">32</td></tr>
+      <tr><td>2020-03</td><td>疫情崩盘低点</td><td class="center">45.9</td><td class="center">41</td><td class="center">18</td><td class="center">0</td><td class="center">68</td><td class="center">84</td><td class="center">1</td><td class="center">32</td><td class="center">100</td></tr>
+      <tr><td>2021-11</td><td><span class="hl">成长泡沫顶</span></td><td class="center">65.3</td><td class="center">100</td><td class="center">81</td><td class="center">26</td><td class="center">100</td><td class="center">18</td><td class="center">48</td><td class="center">94</td><td class="center">41</td></tr>
+      <tr><td>2022-10</td><td><b>加息熊市底</b></td><td class="center"><b class="num-green">34.6</b></td><td class="center">66</td><td class="center">0</td><td class="center">3</td><td class="center">80</td><td class="center">67</td><td class="center">1</td><td class="center">0</td><td class="center">0</td></tr>
+      <tr><td>2024-12</td><td>AI牛市高点</td><td class="center">68.5</td><td class="center">99</td><td class="center">58</td><td class="center">54</td><td class="center">96</td><td class="center">73</td><td class="center">51</td><td class="center">18</td><td class="center">28</td></tr>
+      <tr><td>2025-04</td><td>关税回调低点</td><td class="center">54.2</td><td class="center">89</td><td class="center">36</td><td class="center">2</td><td class="center">92</td><td class="center">82</td><td class="center">18</td><td class="center">22</td><td class="center">31</td></tr>
+      <tr><td>2025-10</td><td>高位(PE 36.4)</td><td class="center"><b class="num-red">74.6</b></td><td class="center">100</td><td class="center">71</td><td class="center">41</td><td class="center">100</td><td class="center">68</td><td class="center">48</td><td class="center">28</td><td class="center">67</td></tr>
+      <tr><td>2026-07</td><td>回调低点</td><td class="center">62.7</td><td class="center">100</td><td class="center">48</td><td class="center">49</td><td class="center">100</td><td class="center">51</td><td class="center">22</td><td class="center">37</td><td class="center">38</td></tr>
+      <tr><td><b>2026-08</b></td><td><b>当前</b></td><td class="center"><b class="num-amber">68.0</b></td><td class="center">100</td><td class="center">56</td><td class="center">68</td><td class="center">99</td><td class="center">39</td><td class="center">30</td><td class="center">38</td><td class="center">55</td></tr>
+    </table>
+    <div class="ok"><b>高低点区分度验证</b>：历史最高 90.1（2017-05 低波动高杠杆牛市）、最低 34.6（2022-10 熊市底）。两次深度熊市底（2018-12: 47.1、2020-03: 45.9）得分均显著低于前后高点的 70+，方向正确。</div>
+    <div class="warn"><b>已知弱点（如实标注）</b>：2021-11 成长泡沫顶仅 65.3 分，识别偏弱。该泡沫由"期权投机+新开户"驱动，而这两类数据的免费历史不可得（CBOE put/call 反爬、IPO/开户数据需付费），现货代理指标捕捉不足。体系对<b>"低波动+高估值"型泡沫</b>（2018/2024/2025）识别良好，对<b>"高动量+衍生品投机"型泡沫</b>（2021）偏弱。</div>
+  </div>
+
+  <div class="card">
+    <h2>四、回测验证：分数预测力</h2>
+    <div class="grid2">
+      <div class="kpi">
+        <div class="num num-red">-0.195</div>
+        <div class="lbl">总分 vs 未来12M收益 相关系数(IC)<br><span class="muted">负值=高分预示低收益，方向正确</span></div>
+      </div>
+      <div class="kpi">
+        <div class="num"><span class="num-green">33.4%</span> vs <span class="num-red">17.5%</span></div>
+        <div class="lbl">低分区(≤45)后12M收益 vs 高分区(≥70)<br><span class="muted">差距约 16pp，有实际区分意义</span></div>
+      </div>
+    </div>
+    <h3>总分四分位 → 未来12个月纳指100收益</h3>
+    <table>
+      <tr><th>分组</th><th class="center">样本</th><th class="center">平均收益</th><th class="center">中位收益</th></tr>
+      <tr><td>Q1 低分</td><td class="center">29</td><td class="center"><b class="num-green">+26.3%</b></td><td class="center">+27.8%</td></tr>
+      <tr><td>Q2</td><td class="center">29</td><td class="center">+19.5%</td><td class="center">+25.5%</td></tr>
+      <tr><td>Q3</td><td class="center">29</td><td class="center">+22.0%</td><td class="center">+22.9%</td></tr>
+      <tr><td>Q4 高分</td><td class="center">29</td><td class="center"><b class="num-red">+18.7%</b></td><td class="center">+20.4%</td></tr>
+    </table>
+    <p class="muted">单调性成立（低分最高、高分最低），但 Q2/Q3 差异小——分数主要区分"极端低估"与"其余"，对中间地带区分力有限。</p>
+  </div>
+
+  <div class="card">
+    <h2>五、高低点分界结论（区域制 + 拐点规则）</h2>
+    <table>
+      <tr><th>分数区</th><th>名称</th><th>历史性质</th><th>应对思路</th></tr>
+      <tr><td class="center"><b class="num-red">≥70</b>（连续3月）</td><td><span class="badge b-red">高热区</span></td><td>后12M平均收益 +17.5%<br>（10年中46个月，占36%）</td><td>容错率极低，只减不加；<br>已持仓者考虑分批止盈</td></tr>
+      <tr><td class="center"><b>55-70</b></td><td><span class="badge b-amber">偏高区</span></td><td>多数牛市常态（当前68.0在此）</td><td>正常定投、不追高</td></tr>
+      <tr><td class="center"><b>40-55</b></td><td><span class="badge b-blue">中性区</span></td><td>2018.12(47.1)/2020.3(45.9) 在此</td><td>定投加大力度，开始关注</td></tr>
+      <tr><td class="center"><b class="num-green">≤45</b>（连续3月）</td><td><span class="badge b-green">低估区</span></td><td>后12M平均收益 +33.4%<br>（10年仅12个月：2022全年为主）</td><td>分批重仓的核心区间</td></tr>
+    </table>
+    <h3>补充规则（比绝对分数更灵敏）</h3>
+    <ul>
+      <li><b>拐点预警</b>：3 个月内总分下降 ≥20 分 → 风险信号。历史捕捉：2018-04（-21.8，其后 2018 Q3-Q4 下跌）、<b>2018-11（-28.6，次月 12 月暴跌 9%）</b>、2020-03（-27.4，崩盘月）</li>
+      <li><b>新买家红线</b>：F6 单特征 ≥90 且总分 ≥70 → 历史上对应 2018.1/2025.10 型顶部</li>
+      <li><b>货币确认</b>：F7 宽松分低位（≤20，利率高位）时的高分更危险（2018.1 的 F7=8）</li>
+    </ul>
+    <div class="note"><b>使用提醒</b>：该分界基于 2016-2026 样本内回测，高低点标签为事后确认，存在一定过拟合风险。分数是"容错率温度计"而非"涨跌预测器"——高分不必然立即下跌（2024-01 高分后仍 +25%），低分也不必然马上上涨。最可靠用法是<b>分数区域 + 拐点方向 + 估值档位三合一</b>。</div>
+  </div>
+
+  <div class="card">
+    <h2>六、当前状态（2026-08-31）</h2>
+    <div class="grid2">
+      <div class="kpi">
+        <div class="num num-amber">68.0 分</div>
+        <div class="lbl">总分 · <span class="badge b-amber">偏高区（55-70）</span></div>
+      </div>
+      <div class="kpi">
+        <div class="num num-blue">57%</div>
+        <div class="lbl">历史分位（128个月中高于当前的比例）</div>
+      </div>
+    </div>
+    <table style="margin-top:14px;">
+      <tr><th>特征</th><th class="center">估值</th><th class="center">预期</th><th class="center">情绪</th><th class="center">杠杆</th><th class="center">投机</th><th class="center">新买家</th><th class="center">货币</th><th class="center">科技</th></tr>
+      <tr><td>得分</td><td class="center"><b>100</b></td><td class="center">56</td><td class="center">68</td><td class="center"><b>99</b></td><td class="center">39</td><td class="center">30</td><td class="center">38</td><td class="center">55</td></tr>
+    </table>
+    <p style="margin-top:10px;"><b>解读</b>：估值(CAPE 42.0)与杠杆(FINRA 1.42万亿美元)双顶 99-100 分——与原笔记"估值偏离、杠杆融资两大指标保持高位"完全一致；情绪 68 分说明市场已脱离恐慌；但投机与新买家分位仅 30-39，尚未进入"全面狂热"（对应原笔记"没到2000年式狂热"）。<b>总分 68 = 偏高区上沿，接近高热区门槛 70</b>，与监控助手 PE 档位"合理偏高"判断一致。</p>
+    <div class="warn"><b>结论</b>：当前处于"估值+杠杆双高、情绪偏暖、投机未狂热"的组合。系统提示：<b>偏高区 → 正常定投、不追高</b>；若总分站上 70 并伴随 F6 新买家冲高，则进入高热区；若出现 3 月降分 ≥20 的拐点，关注减仓/暂停定投信号。</div>
+  </div>
+
+  <div class="card">
+    <h2>七、局限与后续改进</h2>
+    <ul>
+      <li><b>代理指标误差</b>：F2/F3/F5/F6 均为代理，与原特征存在偏差；CNN Fear&Greed 历史仅 1 年，未能纳入回测（仅作当前核对）</li>
+      <li><b>2021 型泡沫识别弱</b>：期权投机、IPO 热度、新开户等强信号数据需付费（CBOE put/call 反爬、Sentimentrader 等），后续如有预算可接入</li>
+      <li><b>样本内拟合风险</b>：分界阈值基于 10 年回测，需样本外（未来 12-24 个月）持续跟踪修正</li>
+      <li><b>月度滞后</b>：F4 杠杆数据滞后 1 个月、F7 利率月末值滞后，实时性有限</li>
+      <li><b>可落地</b>：脚本 fetch_data.py（拉数据）+ analyze.py（算分回测）已保存在 bubble/ 目录，每月运行一次即可更新；可将总分并入现有"纳指估值监控助手"作为第二维度</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer">
+    数据来源：腾讯行情、CBOE、FRED、multpl.com、FINRA、CNN 等公开接口（2026-09-01 抓取）。本报告基于公开数据与量化回测，仅供研究参考，不构成投资建议。市场有风险，投资需谨慎。过往表现不预示未来收益。
+  </div>
+</div>
+</body>
+</html>

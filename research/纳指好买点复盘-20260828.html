@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳斯达克10年好买点复盘：市盈率还是市净率？</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+  :root { --bg:#f7f8fa; --card:#ffffff; --ink:#1a1d24; --sub:#5a6472; --line:#e6e8ec; --accent:#2563eb; --red:#dc2626; --green:#059669; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; padding:32px 16px; }
+  .wrap { max-width:1040px; margin:0 auto; }
+  h1 { font-size:26px; margin-bottom:6px; }
+  .subtitle { color:var(--sub); font-size:14px; margin-bottom:24px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:24px 28px; margin-bottom:20px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .card h2 { font-size:18px; margin-bottom:14px; padding-left:10px; border-left:4px solid var(--accent); }
+  .tldr { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+  .tldr .item { background:#f2f6ff; border-radius:10px; padding:16px; border:1px solid #dbe6ff; }
+  .tldr .num { font-size:24px; font-weight:700; color:var(--accent); }
+  .tldr .lbl { font-size:13px; color:var(--sub); margin-top:4px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin-top:10px; }
+  th,td { border:1px solid var(--line); padding:9px 12px; text-align:left; vertical-align:top; }
+  th { background:#f2f4f7; font-weight:600; white-space:nowrap; }
+  .chart { width:100%; height:380px; margin-top:6px; }
+  .src { color:var(--sub); font-size:12px; margin-top:10px; }
+  .tag { display:inline-block; padding:2px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+  .tag.best { background:#ecfdf5; color:var(--green); border:1px solid #a7f3d0; }
+  .tag.mid { background:#fef3c7; color:#b45309; border:1px solid #fde68a; }
+  .tag.worst { background:#fef2f2; color:var(--red); border:1px solid #fecaca; }
+  .star { color:#f59e0b; letter-spacing:1px; }
+  .callout { background:#fff7ed; border:1px solid #fed7aa; border-radius:10px; padding:14px 16px; margin-top:14px; font-size:14px; }
+  .callout b { color:#c2410c; }
+  .disclaimer { font-size:12px; color:var(--sub); margin-top:18px; padding-top:14px; border-top:1px dashed var(--line); }
+  .hl { color:var(--red); font-weight:700; }
+  .hlg { color:var(--green); font-weight:700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>纳斯达克 10 年好买点复盘：该看市盈率、市净率，还是别的？</h1>
+  <div class="subtitle">数据基准：纳斯达克100指数（NDX，US）PE-TTM口径 · 复盘区间 2016—2026 · 数据截至 2026-08-28</div>
+
+  <!-- ===== 结论先行 ===== -->
+  <div class="card">
+    <h2>核心结论</h2>
+    <div class="tldr">
+      <div class="item"><div class="num">20~25 倍</div><div class="lbl">纳指100 历史深度回调底部的 PE-TTM 铁底区间（2018 / 2020 / 2022 三次大底全部命中）</div></div>
+      <div class="item"><div class="num">PE</div><div class="lbl">近十年唯一可靠的单维估值锚；PB / 股息率在纳指上基本失效</div></div>
+      <div class="item"><div class="num">28.4 倍</div><div class="lbl">近十年 PE 中枢（中位数），随成分股盈利质量抬升，不能刻舟求剑用几十年前的均值</div></div>
+      <div class="item"><div class="num">8.95 倍</div><div class="lbl">当前纳指100 PB（约95%分位）——PB 持续创新高，作为"贵/便宜"刻度已无参考意义</div></div>
+    </div>
+    <div class="callout">
+      <b>一句话回答：</b>看市盈率（优先 PE-TTM 做底线、前瞻 PE 做先行信号），不用市净率；再叠加 <b>货币政策拐点 + VIX 恐慌极值</b> 两个辅助信号。过去十年纳指好的买点高度一致——<b>"回撤超 20% 且 PE-TTM 回到 20~25 倍"</b> 同时出现。
+    </div>
+  </div>
+
+  <!-- ===== 近十年估值全景 ===== -->
+  <div class="card">
+    <h2>一、近十年估值全景：中枢已系统性抬升</h2>
+    <div id="chartPe" class="chart"></div>
+    <table>
+      <tr><th>统计项</th><th>数值</th><th>时点</th><th>含义</th></tr>
+      <tr><td>PE-TTM 十年最高</td><td>约 42.9 倍</td><td>2021年末（AI 第一轮估值狂热）</td><td>约100%分位，历史极值区</td></tr>
+      <tr><td>PE-TTM 十年最低</td><td>约 20.1 倍</td><td>2022年12月（加息熊市底部）</td><td>0%分位，极限重仓区</td></tr>
+      <tr><td>PE 十年中枢（中位数）</td><td>约 28.4 倍</td><td>2016—2026</td><td>判断高低估的锚，非旧认知的 16~20 倍</td></tr>
+      <tr><td>当前（2026-08）</td><td>PE-TTM 约 28.9~30.7 倍</td><td>2026-08-22前后</td><td>约 66~70% 分位，偏高但非极值</td></tr>
+      <tr><td>当前前瞻 PE</td><td>约 22.4~23.8 倍</td><td>2026-08</td><td>已回落至"有吸引力"区间边缘</td></tr>
+      <tr><td>当前 PB / 股息率</td><td>约 8.95 倍 / 0.42%</td><td>2026-08</td><td>PB 处95%分位、股息率极低，两者参考意义有限</td></tr>
+    </table>
+    <div class="src">来源：综合雪球、东方财富财富号、今日头条、Nasdaq 官方 Index 资料等公开数据二次整理（非一手来源，需核实原文）；PE 口径为 TTM（不同来源口径差异约 1~2 倍，已取区间）。</div>
+  </div>
+
+  <!-- ===== 历次好买点复盘 ===== -->
+  <div class="card">
+    <h2>二、过去 10 年五轮大回撤：每次底部 PE 都落在哪</h2>
+    <div id="chartDrawdown" class="chart"></div>
+    <table>
+      <tr>
+        <th>回撤阶段</th><th>触发原因</th><th>最大跌幅</th><th>底部 PE-TTM</th><th>修复回前高时间</th><th>买点性质</th>
+      </tr>
+      <tr>
+        <td>2018.09—2018.12</td>
+        <td>美联储加息缩表 + 中美贸易摩擦</td>
+        <td>约 -23%</td>
+        <td class="hl">约 20 倍（前瞻 16.6 倍）</td>
+        <td>约 4~5 个月</td>
+        <td>政策/流动性驱动，修复快</td>
+      </tr>
+      <tr>
+        <td>2020.02—2020.03</td>
+        <td>新冠疫情全球熔断</td>
+        <td>约 -30%~-33%</td>
+        <td class="hl">约 19.5~20.5 倍</td>
+        <td>约 5~6 个月（当年 +44%）</td>
+        <td>黑天鹅 + 流动性危机，V 型"黄金坑"</td>
+      </tr>
+      <tr>
+        <td>2021.11—2022.10/12</td>
+        <td>美联储激进加息 + 高通胀 + 俄乌冲突</td>
+        <td>约 -33%~-36%</td>
+        <td class="hl">约 19~25 倍（滚动低点 20.1 倍）</td>
+        <td>约 12~18 个月（2023 全年 +55%）</td>
+        <td>十年最典型估值大底，0% 分位</td>
+      </tr>
+      <tr>
+        <td>2025.02—2025.04</td>
+        <td>"对等关税" + AI 盈利担忧</td>
+        <td>约 -23%</td>
+        <td class="hl">约 21.8 倍（前瞻一度 20.4 倍）</td>
+        <td>约半年~1 年（当年 +21%）</td>
+        <td>事件驱动急跌，盈利强则修复快</td>
+      </tr>
+      <tr>
+        <td>2026.06—2026.08（进行中）</td>
+        <td>滞胀恐慌 + 地缘冲突 + AI 回报质疑</td>
+        <td>约 -10%（截至 08 月）</td>
+        <td>约 28.9~30.7 倍（已自 34~36 倍回落）</td>
+        <td>—</td>
+        <td>尚未触及 20~25 倍历史底部区</td>
+      </tr>
+    </table>
+    <div class="callout">
+      <b>关键规律：</b>凡跌幅超过 20% 的深度回撤，底部 PE-TTM 几乎无一例外落在 <b>20~25 倍</b>；而 PE 跌破 20 倍（2018、2022）则对应十年内确定性最高的重仓区。跌幅越大、顶部 PE 越高（如 2021 年末 42.9 倍），后续杀估值越狠、修复越慢。
+    </div>
+    <div class="src">来源：综合雪球（xueqiu.com 纳指100牛熊复盘）、Motley Fool、今日头条、同花顺等公开资料二次整理（需核实原文）；跌幅与修复时间取各来源常见区间值。</div>
+  </div>
+
+  <!-- ===== 买点特征规律 ===== -->
+  <div class="card">
+    <h2>三、好买点的四条共性特征</h2>
+    <div id="chartRepair" class="chart"></div>
+    <table>
+      <tr><th>#</th><th>特征</th><th>量化标准</th><th>历史验证</th></tr>
+      <tr><td>1</td><td><b>估值铁底</b></td><td>PE-TTM ≤ 20 倍 = 极限重仓区；20~25 倍 = 高性价比布局区</td><td>2018.12 / 2020.3 / 2022.10 三底全部命中</td></tr>
+      <tr><td>2</td><td><b>政策拐点</b></td><td>降息周期确立 / 流动性宽松预期形成</td><td>2020 QE、2023 AI 行情均由政策转向开启</td></tr>
+      <tr><td>3</td><td><b>情绪极值</b></td><td>VIX 飙升至极端（2020 年 82.7、2025 年 VXN 52.2）</td><td>恐慌指数往往是情绪底部反指</td></tr>
+      <tr><td>4</td><td><b>修复速度分层</b></td><td>跌幅 20~30% 修复以月计；跌幅 >50% 修复以年计</td><td>2018/2020 修复 4~6 个月；2022 约 1~1.5 年；2000 年需 15 年</td></tr>
+    </table>
+    <div class="callout">
+      <b>反向声音（务必注意）：</b>不要机械等待"PE 跌到 20 倍再买"。纳指100 成分股盈利质量已系统性提升（指数 ROE 高达 29%+），估值中枢已从十几年前的 16~20 倍抬升至 <b>28~30 倍</b>——2025 年 4 月 PE-TTM 只回到 29.99 倍（前瞻 20.4 倍）便见底反弹。在盈利高增长环境下，<b>前瞻 PE 往往比 PE-TTM 更能提前识别买点</b>；等死板的 20 倍可能永远等不到。
+    </div>
+  </div>
+
+  <!-- ===== 指标选择 ===== -->
+  <div class="card">
+    <h2>四、核心问题：该看市盈率、市净率，还是其他指标？</h2>
+    <table>
+      <tr><th>指标</th><th>有效性</th><th>结论</th></tr>
+      <tr>
+        <td><b>PE-TTM（市盈率）</b></td>
+        <td><span class="star">★★★★★</span></td>
+        <td><span class="tag best">首选</span> 近十年三次深度熊市底部全部落在 20~25 倍，锚定作用最强、最可量化。判断底线：<b>&lt;25 倍进入低估、&gt;33~35 倍进入风险区</b>。</td>
+      </tr>
+      <tr>
+        <td><b>前瞻 PE（Forward PE）</b></td>
+        <td><span class="star">★★★★☆</span></td>
+        <td><span class="tag best">优先参考</span> 用分析师对当年盈利的预测计算，比 TTM 平滑，能提前反映盈利高增长对估值的消化（2025.4 前瞻 20.4 倍已提示买点）。</td>
+      </tr>
+      <tr>
+        <td><b>PB（市净率）</b></td>
+        <td><span class="star">★★☆☆☆</span></td>
+        <td><span class="tag worst">不推荐</span> 纳指成分股以轻资产科技股为主，账面净资产与盈利能力关系弱（ROE 29%+），PB 中枢从 2016 年 3.5 倍一路抬升到当前 8.95 倍（95% 分位），<b>无法作为"贵/便宜"的底部锚</b>。</td>
+      </tr>
+      <tr>
+        <td><b>股息率</b></td>
+        <td><span class="star">★☆☆☆☆</span></td>
+        <td><span class="tag worst">无效</span> 纳指100 股息率仅约 0.42%，防御资金保护意义有限，无法充当估值标尺。</td>
+      </tr>
+      <tr>
+        <td><b>VIX / VXN 恐慌指数</b></td>
+        <td><span class="star">★★★☆☆</span></td>
+        <td><span class="tag mid">辅助</span> 情绪底部反指，须配合估值信号使用，单独使用误判率高。</td>
+      </tr>
+      <tr>
+        <td><b>货币政策（利率）</b></td>
+        <td><span class="star">★★★★☆</span></td>
+        <td><span class="tag mid">辅助</span> 加息周期初期杀估值、降息周期初期估值抬升，是纳指定价的宏观锚（2022 加息 -36%、2020 降息 V 型反转）。</td>
+      </tr>
+    </table>
+    <div class="callout">
+      <b>指标使用框架：</b><br>
+      ① <b>底线判定</b>用 PE-TTM：&lt;20 倍重仓 / 20~25 倍分批布局 / 25~33 倍持有 / &gt;33~35 倍警惕；<br>
+      ② <b>买点先行</b>用前瞻 PE：若盈利高增长使前瞻 PE 先回到 20 倍附近而 TTM 仍在 25 倍以上，通常已是较好布局窗口；<br>
+      ③ <b>择时叠加</b>看 VIX 极值 + 美联储政策转向预期；<br>
+      ④ <b>放弃</b>PB 与股息率这两个在纳指上失效的指标。
+    </div>
+    <div class="src">来源：PE/PB/股息率数据综合 agentic_search 检索结果（雪球、东方财富、今日头条、Macrotrends 等公开来源二次整理，需核实原文）；有效性评价为主观分析结论。</div>
+  </div>
+
+  <!-- ===== 当前定位 ===== -->
+  <div class="card">
+    <h2>五、当前定位（2026-08-28，含实时行情）</h2>
+    <table>
+      <tr><th>指数</th><th>最新收盘</th><th>当日</th><th>52周高</th><th>距高点</th><th>年内涨幅</th></tr>
+      <tr><td>纳斯达克100（NDX）</td><td>29,641.56</td><td>+1.43%</td><td>30,762.20</td><td>-3.6%</td><td>+17.4%</td></tr>
+      <tr><td>纳斯达克综合（IXIC）</td><td>26,541.35</td><td>+1.57%</td><td>27,190.21</td><td>-2.4%</td><td>+14.2%</td></tr>
+    </table>
+    <p style="margin-top:12px">纳指100 当前 PE-TTM 约 <b>28.9~30.7 倍</b>（约 66~70% 分位）、前瞻 PE 约 22.4~23.8 倍、PB 约 8.95 倍（95% 分位）。年内节奏：3月低点 22,841 后一路反弹至 6月高点 30,762，7月回调约 -12% 至 27,176，8月已收复大半回到 29,641。<span class="hl">估值回到中枢附近，但尚未进入 20~25 倍的历史底部区域</span>；当前更接近"合理偏高、分批参与"而非"极限低估"位置。</p>
+    <div class="src">行情来源：腾讯自选股 westock 实时行情（2026-08-27 美股收盘，北京时间 2026-08-28）；估值口径为公开资料二次整理（需核实原文），不同来源差异约 1~2 倍，判断应以单一口径连续追踪。</div>
+  </div>
+
+  <!-- ===== 历史规律 → 条件式布局框架 ===== -->
+  <div class="card">
+    <h2>六、历史规律 → 条件式布局框架（把你的复盘变成动作）</h2>
+    <p style="font-size:14px;color:var(--sub)"><b>使用前提（先看这个）：</b>下面所有档位都是"历史规律给的性质判断"，不是给你的操作指令。实际怎么动取决于你的<b>风险偏好、资金期限、已有仓位</b>——比如你已满仓套牢和空仓等待，应对完全不同。请先确认这三件事，再对照表格。</p>
+    <table>
+      <tr>
+        <th>PE-TTM 档位</th><th>历史对应点位*</th><th>历史性质</th><th>历史案例</th><th>应对思路（定性）</th>
+      </tr>
+      <tr>
+        <td class="hl">&lt; 20 倍</td><td>约 19,900 点（-33%）</td><td>极限重仓区（10年0%分位）</td><td>2018.12 / 2022.10</td><td>十年确定性最高的位置，历史上该位置买入后续 12 个月胜率高</td>
+      </tr>
+      <tr>
+        <td class="hl">20 ~ 25 倍</td><td>约 19,900 ~ 24,900 点（-16%~-33%）</td><td>高性价比布局区</td><td>2020.3 / 2025.4（前瞻口径）</td><td>历史上分批买入的核心区间</td>
+      </tr>
+      <tr>
+        <td>25 ~ 28 倍</td><td>约 24,900 ~ 27,900 点（-6%~-16%）</td><td>开始有吸引力</td><td>2019 / 2024年初</td><td>正常定投 + 适度加大力度</td>
+      </tr>
+      <tr>
+        <td>28 ~ 30 倍</td><td>约 27,900 ~ 29,900 点（≈现价）</td><td>合理偏高（当前所在）</td><td>2026.08</td><td>正常定投保持参与，不追高</td>
+      </tr>
+      <tr>
+        <td>30 ~ 35 倍</td><td>约 29,900 ~ 34,900 点（+1%~+18%）</td><td>偏贵 / 风险区</td><td>2025.10（36.4倍）</td><td>小额定投或暂停新增</td>
+      </tr>
+      <tr>
+        <td>&gt; 35 倍</td><td>约 34,900 点以上</td><td>高危区（历史极值）</td><td>2021末（42.9倍）</td><td>只减不加，警惕杀估值</td>
+      </tr>
+    </table>
+    <div class="callout">
+      <b>框架怎么用（举例）：</b>假设你目标是分批建仓，历史规律支持的做法是——<b>当前（28~30倍）先小额定投打底，跌到 25 倍以下逐档加大，20 倍附近把子弹打光</b>。反过来如果跌到 35 倍以上而你手里还有货，历史上那是减仓而非加仓的位置。<br>
+      <b>关键提醒：</b>点位是<b>按当前盈利静态估算的近似值</b>（隐含 TTM EPS≈995），盈利增长会让同样 PE 对应的点位抬升（2025.4 的 PE-TTM 只回到 30 倍就反弹就是例证）——所以盯<b>估值档位</b>，别死盯点位。
+    </div>
+    <div class="src">* 点位估算：以 2026-08-27 收盘 29,641 点、隐含 TTM EPS≈995（PE-TTM≈29.8 倍反推）计算，仅供粗略对照；盈利动态变化时点位映射会整体移动。历史案例与性质判断来自第一至四部分复盘。</div>
+  </div>
+
+  <div class="disclaimer">
+    免责声明：以上内容基于公开数据和量化分析，仅供参考，不构成投资建议。市场有风险，投资需谨慎。任何投资决策应结合个人风险承受能力、资金状况和投资目标独立判断，必要时咨询持牌专业机构。过往表现不预示未来收益。
+  </div>
+</div>
+
+<script>
+var chartPe = echarts.init(document.getElementById('chartPe'));
+chartPe.setOption({
+  tooltip: { trigger: 'axis' },
+  legend: { data: ['PE-TTM', '十年中枢', '低估线', '风险线'] },
+  grid: { left: 48, right: 20, top: 40, bottom: 50 },
+  xAxis: { type: 'category', data: ['2018.08','2018.12','2020.02','2020.03','2020.09','2021.12','2022.06','2022.12','2023.12','2024.12','2025.04','2025.10','2026.03','2026.08'] },
+  yAxis: { type: 'value', name: 'PE-TTM（倍）', min: 15, max: 45 },
+  series: [{
+    name: 'PE-TTM',
+    type: 'line',
+    smooth: true,
+    data: [30.2, 20.0, 28.6, 20.0, 35.0, 42.9, 22.8, 24.0, 30.3, 32.4, 21.8, 36.4, 31.8, 29.8],
+    markLine: {
+      symbol: 'none',
+      data: [
+        { yAxis: 28.4, name: '十年中枢', lineStyle: { type: 'dashed', color: '#2563eb' } },
+        { yAxis: 25, name: '低估线', lineStyle: { type: 'dashed', color: '#059669' } },
+        { yAxis: 33, name: '风险线', lineStyle: { type: 'dashed', color: '#dc2626' } }
+      ]
+    }
+  }]
+});
+
+var chartDraw = echarts.init(document.getElementById('chartDrawdown'));
+chartDraw.setOption({
+  tooltip: { trigger: 'axis' },
+  legend: { data: ['回撤深度(%)', '底部 PE-TTM(倍)'] },
+  grid: { left: 48, right: 48, top: 40, bottom: 50 },
+  xAxis: { type: 'category', data: ['2018.12','2020.03','2022.10','2025.04','2026.03','2026.08'] },
+  yAxis: [
+    { type: 'value', name: '最大跌幅(%)', min: 0, max: 45 },
+    { type: 'value', name: '底部PE(倍)', min: 0, max: 45 }
+  ],
+  series: [
+    { name: '回撤深度(%)', type: 'bar', barWidth: 28, data: [23, 32, 36, 23, 5, 10], itemStyle: { color: '#dc2626' } },
+    { name: '底部 PE-TTM(倍)', type: 'line', yAxisIndex: 1, data: [20.0, 20.0, 20.1, 21.8, 31.8, 29.8], itemStyle: { color: '#2563eb' } }
+  ]
+});
+
+var chartRep = echarts.init(document.getElementById('chartRepair'));
+chartRep.setOption({
+  tooltip: { trigger: 'item' },
+  legend: { data: ['回撤事件'] },
+  grid: { left: 48, right: 20, top: 40, bottom: 50 },
+  xAxis: { type: 'value', name: '修复回前高时间（月）', min: 0 },
+  yAxis: { type: 'value', name: '最大回撤(%)', max: 90, inverse: true },
+  series: [{
+    name: '回撤事件',
+    type: 'scatter',
+    symbolSize: 18,
+    data: [
+      [4.5, 23, '2018'],
+      [5.5, 32, '2020'],
+      [14, 36, '2022'],
+      [8, 23, '2025.4'],
+      [36, 55, '2008'],
+      [180, 83, '2000']
+    ],
+    label: { show: true, formatter: function(p){ return p.data[2]; }, position: 'top' },
+    itemStyle: { color: '#2563eb' }
+  }]
+});
+</script>
+</body>
+</html>

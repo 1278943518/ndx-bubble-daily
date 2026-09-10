@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="BLBtUDIGnilEAIhuA0KadC">
+<head data-page-node-id="DsEh8BjwcUNDSsRuMvI853">
+<meta charset="UTF-8" data-page-node-id="lgWrMIx1pL1IAik6y6gTyC">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="pnhiDsu6amJ9oPHj3fqRzH">
+<title>美股泡沫评分体系 v2.0 — 优化：新增投机狂热指标，识别2021型泡沫</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --card: #ffffff; --ink: #1a2332; --sub: #5b6b83;
+    --line: #e4e8ef; --accent: #c0392b; --accent2: #2980b9;
+    --red: #c0392b; --amber: #b9770e; --green: #1e8449; --blue: #2980b9;
+    --red-bg: #fdf0ef; --amber-bg: #fdf6ea; --green-bg: #eef7f0; --blue-bg: #eef4fb;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.65; padding:24px 16px 60px; }
+  .wrap { max-width:980px; margin:0 auto; }
+  .hero { background:linear-gradient(135deg,#16233c,#243b5e); color:#fff; border-radius:14px; padding:28px 30px; margin-bottom:20px; }
+  .hero h1 { font-size:24px; font-weight:700; margin-bottom:6px; }
+  .hero .sub { opacity:.82; font-size:14px; }
+  .hero .tag { display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); padding:2px 12px; border-radius:20px; font-size:12px; margin-top:10px; margin-right:8px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:22px 24px; margin-bottom:16px; }
+  .card h2 { font-size:18px; font-weight:700; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--line); }
+  .card h3 { font-size:15px; font-weight:700; margin:18px 0 8px; color:var(--accent2); }
+  p, li { font-size:14px; color:var(--ink); }
+  .muted { color:var(--sub); font-size:12.5px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0; }
+  th { background:#f1f4f8; font-weight:700; text-align:left; padding:8px 10px; border:1px solid var(--line); }
+  td { padding:7px 10px; border:1px solid var(--line); vertical-align:top; }
+  .center { text-align:center; }
+  .badge { display:inline-block; padding:1px 8px; border-radius:10px; font-size:11.5px; font-weight:600; }
+  .b-red { background:var(--red-bg); color:var(--red); }
+  .b-amber { background:var(--amber-bg); color:var(--amber); }
+  .b-green { background:var(--green-bg); color:var(--green); }
+  .b-blue { background:var(--blue-bg); color:var(--blue); }
+  .note { background:#f7f9fc; border-left:4px solid var(--accent2); padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; margin:12px 0; }
+  .warn { background:var(--amber-bg); border-left:4px solid var(--amber); padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; margin:12px 0; }
+  .ok { background:var(--green-bg); border-left:4px solid var(--green); padding:10px 14px; border-radius:0 8px 8px 0; font-size:13px; margin:12px 0; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:760px){ .grid2 { grid-template-columns:1fr; } }
+  .kpi { background:#f7f9fc; border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .kpi .num { font-size:26px; font-weight:800; }
+  .kpi .lbl { font-size:12px; color:var(--sub); margin-top:2px; }
+  .num-red { color:var(--red); } .num-green { color:var(--green); } .num-amber { color:var(--amber); } .num-blue { color:var(--blue); }
+  .src { font-size:11.5px; color:var(--sub); margin-top:8px; border-top:1px dashed var(--line); padding-top:8px; }
+  .disclaimer { font-size:11.5px; color:var(--sub); text-align:center; margin-top:24px; padding:14px; border-top:1px solid var(--line); }
+  ul { padding-left:20px; } li { margin-bottom:4px; }
+  .hl { background:linear-gradient(transparent 62%, #ffe08a 62%); font-weight:600; }
+  .new { background:linear-gradient(transparent 62%, #b8e6c0 62%); font-weight:600; }
+</style>
+</head>
+<body data-page-node-id="B0iS6T2i4JPY0xWEHjVAFs">
+<div class="wrap" data-page-node-id="1ehDhSE9iyoBtS02vm8LqH">
+
+  <div class="hero" data-page-node-id="vHRVkQ3oVGvqEKN2YbFpbC">
+    <h1 data-page-node-id="XW7PCvPF5JgwPwuAXBZSl1">📊 美股泡沫评分体系 v2.0 <span style="font-size:14px;opacity:.75" data-page-node-id="kjjzpCjv8Hrp93tvACMzIQ">(v1.0 优化版)</span></h1>
+    <div class="sub" data-page-node-id="CKCG2ZpJDvgxaISdusRAKV">RiskWatch 特征 → 量化指标 → 月度评分 → 回测定界 · <b style="color:#ffe08a" data-page-node-id="PXooMUYJyTPhNHTC5d4NC0">新增 F5 投机狂热指标，解决 2021 型泡沫识别弱点</b></div>
+    <span class="tag" data-page-node-id="tDAKvEZpTU7qR9r6qQEHBn">双指数: 纳指100 + 标普500</span>
+    <span class="tag" data-page-node-id="DXLHaK6ph57x5M4X3l0P5h">回测区间: 2016-01 ~ 2026-08 (128个月)</span>
+    <span class="tag" data-page-node-id="PVmWaxJsYue87KGil7q40D">数据源: 7个免费公开源</span>
+    <span class="tag" data-page-node-id="A3iLgn2WyaY4rJ9QrJQ5jA">生成: 2026-09-01</span>
+  </div>
+
+  <div class="card" data-page-node-id="w21W3lo3SBBfxkagMJrtwb">
+    <h2 data-page-node-id="jOeWQqxPJMBuA4uVGn3aZz">⚡ 本次优化核心（v1.0 → v2.0）</h2>
+    <p data-page-node-id="eTqFJiwDD6qPTJLTK2FN6P"><b data-page-node-id="K3vF5s2YNjjN3UHN3t6yiB">问题</b>：v1.0 已知弱点——2021 年成长泡沫顶（2021-11）识别偏弱，仅 65.3 分。根因是原 F5（成交量放大）在 2021 年严重失真：2021 年成交量并未极端放大（2021-11 仅 18 分），且 IC 检验仅 +0.054，几乎无预测力。</p>
+    <p style="margin-top:8px;" data-page-node-id="yxlQxVTuitPCGRNvHTGImz"><b data-page-node-id="OUmAI62J4m9l5K4fffMZG9">解法</b>：引入 <span class="new" data-page-node-id="nmupxGYgCYlVZLGXZ9XCnn">ARKK（方舟创新ETF）相对纳指100 的 12 个月动量</span>作为新的"投机狂热"特征，替换原 F5 成交量。ARKK 是 2021 年投机成长狂热的代表标的——2021-02 见顶（比纳指顶早 9 个月），其相对动量极端高时即投机泡沫信号。</p>
+    <table style="margin-top:12px;" data-page-node-id="WCoQfw1l5CyE9mIUD7xADr">
+      <tr data-page-node-id="Ddn97XkrwnADlHczRCgHFl"><th data-page-node-id="ZBMqCJOCGVX3p7VK7fjJ66">版本</th><th data-page-node-id="JvdJMDOMGnBfCM8Eh5tFKM">F5 定义</th><th data-page-node-id="jzJhHVTkiADOTBRp1kCbUK">IC（预测力）</th><th data-page-node-id="9nsDo1KDQUd3A5yCQvzRHk">2021-02 投机顶</th><th data-page-node-id="Z5okCpihsWbLEnxqWhjoUe">2021-11 纳指顶</th></tr>
+      <tr data-page-node-id="2DAh1iJYkbbpgF2egLhW0s"><td data-page-node-id="kDuuis9Y69nZ2zCC9DRofU">v1.0</td><td data-page-node-id="X4gvVPlbhhPh7U0eOAgjxp">成交量 6月均/12月前</td><td class="center" data-page-node-id="u35w8h1W7norAjQt2ujsPK">-0.195</td><td class="center" data-page-node-id="3XBnEsWjrmHEOaCRNOGeQW">77.0 分（未触发高热）</td><td class="center" data-page-node-id="Z0JotkHG83eG2xjDlGOkej">65.3 分（偏弱）</td></tr>
+      <tr data-page-node-id="s8aiY9K9ou4aM7ZR73Qaet"><td data-page-node-id="YiENqrLgX6csqa4D1ezj50"><b data-page-node-id="C5Xp5ZIN9FLwH39XFI0J7s">v2.0</b></td><td data-page-node-id="ab8Spvxv5q6rP9nbu1gkG1"><b data-page-node-id="GKMglgNxQZh57PUlWgRIw6">ARKK 相对纳指 12M 动量</b></td><td class="center" data-page-node-id="Vj2cZTXXGcoOsZv8XyUF6x"><b class="num-green" data-page-node-id="k4uwbIha2sSPOBbTftrRZ6">-0.235</b></td><td class="center" data-page-node-id="8RO1SM7PWT6FiImOAUr61y"><b class="num-red" data-page-node-id="WOGEQ4xGyCf73qxiJTiZWr">82.0 分（高热区，提前9个月预警）</b></td><td class="center" data-page-node-id="HGPyKv99rocuH73KahbLFM">63.5 分（投机已消退）</td></tr>
+    </table>
+    <div class="ok" data-page-node-id="SbOof6boEVxQ8GOKVCfzG5"><b data-page-node-id="ulypRu9ZZCS3AWuSZesnUe">优化效果</b>：IC 从 -0.195 提升至 -0.235（预测力增强 20%）；2021-02 投机顶被成功识别为高热区（82.0 分），比 2021-11 纳指顶<b data-page-node-id="E4GmFe7L1bSH8GF4EpAgoV">提前 9 个月</b>给出泡沫预警——这正是 v1.0 缺失的能力。</div>
+    <div class="warn" data-page-node-id="z0MXAXm7stI93zuaKBJWEe"><b data-page-node-id="BoSw8b4xn7BW6uxGcXeRpN">设计细节：单向加分</b>。ARKK 相对动量分位 <50 时 F5 计 0 分（投机消退不拖累总分），≥50 时线性放大到 100。避免 ARKK 崩盘后（2021-11 分位=0）反向拉低总分、制造"泡沫已消失"的错觉。</div>
+  </div>
+
+  <div class="card" data-page-node-id="fAE1alB1nb4GzLpeNqmFG4">
+    <h2 data-page-node-id="4x5FiWHDpZ6GycfRNX9fI4">一、八大特征 → 可读取数据指标映射（v2.0）</h2>
+    <p data-page-node-id="XemyykoTm0JILLhTkrrm81">基于原笔记 RiskWatch 泡沫评估体系，将 8 个定性特征逐一转化为<b data-page-node-id="XnDS8Un1hU7G3RyTn6K97M">免费公开数据源可获取的量化指标</b>。v2.0 中 F5 由"成交量代理"升级为"ARKK 投机狂热代理"。</p>
+    <table data-page-node-id="pDSN7zAoNJU4eFSwS5VoBc">
+      <tr data-page-node-id="lLsAMuccn6ej9kEyGZP336"><th data-page-node-id="aZyrJUBloWJHotlRHjSFUl">特征</th><th data-page-node-id="auC2nvU9R7mR0ExhmWuOOO">原义</th><th data-page-node-id="NwatBNUveGCZBrmBPIOM2N">量化指标</th><th data-page-node-id="57I4uFFTxhKG8qnyLpnzdg">数据源</th><th data-page-node-id="vS6GIx8ZE0kXb1VBbFz7TW">覆盖</th><th data-page-node-id="BV5LsG95z7T7K56G6ktmJh">状态</th></tr>
+      <tr data-page-node-id="93TjF1iWJIteegcdmjRfjl"><td data-page-node-id="x5SHDtoXEv5yhp9lBH6u5b"><b data-page-node-id="GdEAsvPBFt0UavrCSiA5G0">F1 估值</b></td><td data-page-node-id="LPPVGXHRahPdxDvYcAARcb">资产价格相对传统标准偏高</td><td data-page-node-id="XmyHAB4lLqbPMKdMlwCrlU">CAPE 周期调整市盈率（标普500）</td><td data-page-node-id="fHAKqeEyiMJUpaEEaAD3fB">multpl.com 月度表</td><td data-page-node-id="xslQhDfNSFGfOY8N7oSh0H">1871至今</td><td data-page-node-id="ZxdmLcLHFxqsbXnnSCMMh1"><span class="badge b-green" data-page-node-id="aLtiBzTWEdCKWDAc33dvaQ">✅ 直接</span></td></tr>
+      <tr data-page-node-id="uJ4KyqHOFFLQH6ihhdjHj8"><td data-page-node-id="8hBfo7EMRV1Wb39QgqTOBg"><b data-page-node-id="ZMYHHSEWwidhd8TufinfOh">F2 预期</b></td><td data-page-node-id="G1oJOLEw2rgFzQAJsjhYGC">预期高价继续快速上升</td><td data-page-node-id="4Dn6BpHfFhenRPSoEQznOT">纳指100 十二个月动量</td><td data-page-node-id="1QKDmLHMlphrMVNuDAFEzR">腾讯月K usNDX</td><td data-page-node-id="ixzKuyoMg1ufReaHtHTCPB">2001至今</td><td data-page-node-id="EVvKBrFnTE9n1id5FQ5zOy"><span class="badge b-blue" data-page-node-id="ZANUkF7K5D1qrEdF5Z6gxL">代理</span></td></tr>
+      <tr data-page-node-id="ZThS4Sl3IRvHxpIpaZ6mPT"><td data-page-node-id="cgqiNuIMyT3K9zOulvsIZX"><b data-page-node-id="EDtymZt68bFVDOOYtW7BNr">F3 情绪</b></td><td data-page-node-id="csd59LorZ3mfI0Fm4jQGaO">普遍存在看涨情绪</td><td data-page-node-id="0BHzf1FnSuffUCD8asYxVp">VIX 月均分位反转（低波动=自满）</td><td data-page-node-id="UbFRLaBMF9L1mFyH0EqMci">CBOE VIX 历史CSV</td><td data-page-node-id="kHhi5jQZ74Fku9JKpjJBDb">1990至今</td><td data-page-node-id="ZIW3qBbC9DV0aEW8V0uZFU"><span class="badge b-blue" data-page-node-id="Cc9i9fXoAutuRSJHvGTf0T">代理</span></td></tr>
+      <tr data-page-node-id="tKXieyoiB6c4JsePn78fcA"><td data-page-node-id="dsPxsYrgAON2r7zratiIj9"><b data-page-node-id="tXwf0FzeoKApHp4n2qxoBV">F4 杠杆</b></td><td data-page-node-id="7KWs6I7QwqOOIIpBLmN09c">高杠杆融资买进资产</td><td data-page-node-id="fPnVx6xEywSeEFVSxShkbO">FINRA 融资余额（滞后1月）</td><td data-page-node-id="76yGz0XJW4BaTjqFYnaAmZ">FINRA 官方xlsx</td><td data-page-node-id="QNmzNfTF8Wo7SMJBbDCHmz">1997至今</td><td data-page-node-id="FunpZpEYSVzfHiCjFQFOdz"><span class="badge b-green" data-page-node-id="6LMpZ0ieLN8ZB09YlUtPF3">✅ 直接</span></td></tr>
+      <tr data-page-node-id="dZj7lHttLtSmEraCgEGcHA"><td data-page-node-id="mn8MpnpvlZjLGQ284yBQBD"><b data-page-node-id="aeraw2SCFv5yaYrAT3GK5s">F5 投机</b><br data-page-node-id="rampZj3ZqFBEBLzeFrJDPe"><span class="muted" data-page-node-id="yrI0E1A2FTive0twAPpO3u">v2.0 升级</span></td><td data-page-node-id="F1TVCTzEIiZ58glOxAx7kI">提前买入/投机应对涨价</td><td data-page-node-id="T6RX3Utz3Mp7pPXMVBLOhC"><b data-page-node-id="wHAjoedqNzh55bmi4sG5Vf">ARKK 相对纳指100 的12月动量</b>（投机狂热代理）</td><td data-page-node-id="yGeCOJxAhvaqVeyVyXNfqQ">东财美股月K 107.ARKK</td><td data-page-node-id="vRQmKE6AhdFfxbQnl0DJrx">2015至今</td><td data-page-node-id="jqmXGFYZreFrtQ1mHdCih2"><span class="badge b-green" data-page-node-id="4bJNqIpWZbuc4itI4E0Vzm">✅ 直接</span></td></tr>
+      <tr data-page-node-id="0YHT19Em74ouTQSSUwDWk5"><td data-page-node-id="9dl2UzvMwGhF4AVB9S8DZb"><b data-page-node-id="jP2KKK03OWMA3FQOF8kzVx">F6 新买家</b></td><td data-page-node-id="QbViZnUYE8i01v7i4dMs9G">新买家进入市场</td><td data-page-node-id="8641DKfDSG7lBhCmpYlxNK">纳指100 距12月高点距离</td><td data-page-node-id="lhkOjVcwRj5I1xmCYfNujO">腾讯月K usNDX</td><td data-page-node-id="o1Tto33d0VlnN2u8RzU8G4">2001至今</td><td data-page-node-id="vECbPU5VO5rqHyUmce2J9d"><span class="badge b-blue" data-page-node-id="RFyEPAO4YPKZPTTgY43UG6">代理</span></td></tr>
+      <tr data-page-node-id="fdPP0GgjU2lqAPkB39wVKD"><td data-page-node-id="5r7mx17zyegr6qk6vNRreJ"><b data-page-node-id="xCj0A4BzfPapzfAGLHFMwI">F7 货币</b><br data-page-node-id="qzG9Wm3MqLyW1aAfCc1Ly3"><span class="muted" data-page-node-id="D8DjrRVQQ5Ps5ZJ3LoPCK9">不计入总分</span></td><td data-page-node-id="RHWmM6R586x6YY1DWRHkru">刺激性货币政策助长泡沫</td><td data-page-node-id="dWU3xT1LeREkA0DJdQVaLH">联邦基金利率分位反转</td><td data-page-node-id="hVf9AKGnEOtXmoHHz0htfk">FRED FEDFUNDS</td><td data-page-node-id="FroQSQADXIrHcZDzliJF59">1954至今</td><td data-page-node-id="IgGzafa2xA5QzgrdNT6xAu"><span class="badge b-green" data-page-node-id="7DTlBF6G99f4SQ4SERoM3t">✅ 直接</span></td></tr>
+      <tr data-page-node-id="SI73Jsa4wxVSFkFF1RpXnn"><td data-page-node-id="X2gEezWJ5M00h1DWAh6teb"><b data-page-node-id="zSw2c8LMe53Txn84JpYgni">F8 科技</b></td><td data-page-node-id="EtK7RKIUY2dyEY7WTlJmR2">科技板块相对大盘泡沫化</td><td data-page-node-id="CN5ztaSNRdlY1uJY2BDrr7">纳指100 与 标普500 相对12月动量</td><td data-page-node-id="BxtbM8BBE5tIUSyi2He9xW">腾讯双指数月K</td><td data-page-node-id="FxoNnBwSKsLgOlMnSRUdrb">2001至今</td><td data-page-node-id="1O0iUVNSj3D2CUPHR6iswQ"><span class="badge b-green" data-page-node-id="0lWCwnxoSpNd5zK4BFlY1y">✅ 直接</span></td></tr>
+    </table>
+    <div class="note" data-page-node-id="0Gk2kcTy0gca9j70xGfGz7">✅ 直接 = 原义数据源可直接读取；<b data-page-node-id="sbUpc0IDuLd0NfNdyiTmhj">代理</b> = 原指标免费源不可得，用逻辑相近的可得指标替代。v2.0 将 F5 从"成交量"升级为"ARKK 相对动量"——ARKK 是 2021 投机狂热的标志性标的（2020 年涨 152%、2021-02 见顶后跌 80%+），其相对纳指的超额动量直接度量"投机性成长股 vs 大盘"的偏离程度。</div>
+    <div class="src" data-page-node-id="BfAWagsjizFfiEhAFB2qIf">数据源实测结果：腾讯web.ifzq（指数月K）、CBOE VIX、FRED、multpl、FINRA、CNN Fear&Greed、东财push2his（美股ETF月K）均验证可用。ARKK 数据 2015-03 起，覆盖 2021 泡沫全程。</div>
+  </div>
+
+  <div class="card" data-page-node-id="8OFF7PiB8DFbcd55cBWjqY">
+    <h2 data-page-node-id="X1FeRFAGXjqG5zDqQPb5qa">二、打分公式（0-100 分）</h2>
+    <h3 data-page-node-id="6ZeBWYPl5gqraD3DEgnv6k">2.1 单特征计分：滚动分位法</h3>
+    <p data-page-node-id="GG8nTql3sz4Ern44dasyIF">每个特征 = <b data-page-node-id="l18C9HgANtjHUYI524w9iM">过去 120 个月（10年）中低于当前值的月份占比 × 100</b>。纯经验分位，无需人工设阈值，自动适应市场环境变化。</p>
+    <ul data-page-node-id="X0SbEYnasJ7ZU5I1ioaM7v">
+      <li data-page-node-id="5EaXjLMLOzVncUYzc41Gna">F1 估值用全历史 expanding 分位（CAPE 1871 年起，样本足够）</li>
+      <li data-page-node-id="QozKq6WwNxHeR4qOpoa3oC">F3 情绪、F7 货币为反转计分（100 − 分位）：VIX 越低 → 情绪分越高；利率越低 → 宽松分越高</li>
+      <li data-page-node-id="nZXFCBV6kuW6WHaIE6ZiIZ">F4 杠杆滞后 1 个月（FINRA 发布滞后，<b data-page-node-id="F5mwRWHCZkrhn8fKzX5X6f">无前视偏差</b>）</li>
+      <li data-page-node-id="aXhfRmJK9J4V11owTIlGbl"><span class="new" data-page-node-id="04UAp7Nwt1CNEFBO77GFkz"><b data-page-node-id="bLPTYrwKcLLDWkLx8Gajlx">F5 投机（v2.0）</b>：ARKK 相对纳指 12M 动量 → 滚动分位 → <b data-page-node-id="BuGfW3xFJ5orJPJAmUKcH1">单向加分</b>：分位 &lt;50 记 0 分，≥50 按 (分位−50)×2 放大至 100</span>（投机消退不拖累，狂热极端敏感）</li>
+      <li data-page-node-id="wf31fft6hHZ9xHxIYZN6lE">F3 情绪用<b data-page-node-id="Lx1uOLm3gJAv6HFxfFroLs">月均 VIX</b>（避免月末恐慌单点失真，如 2021-11 奥密克戎）</li>
+    </ul>
+    <h3 data-page-node-id="2PBgq1Zd8XPW1JLlvrHSmf">2.2 总分合成（对齐 RiskWatch 权重逻辑，特征7 不计入）</h3>
+    <table data-page-node-id="auI04zNtae0jCkfb8DD4YV">
+      <tr data-page-node-id="fAVTdgRVPaOfodrzdDJf7n"><th data-page-node-id="z16GPMSQyle7z0EawHtG33">特征</th><th data-page-node-id="R9vuQbfu3P6HH5TxUZ4sU2">F1估值</th><th data-page-node-id="MLwgFuh9aIVAy483Xo0U9G">F2预期</th><th data-page-node-id="9FVgWTOIZ1QybgOKEMkXrM">F3情绪</th><th data-page-node-id="syuS8i9sQ34Lvat196p1FO">F4杠杆</th><th data-page-node-id="olpFO3wZPZbIrkj01xM0Ex">F5投机</th><th data-page-node-id="oZLzqfGtTwSBpFFPHuMM5g">F6新买家</th><th data-page-node-id="zbCtOqlKeZiIgG4WaKs47O">F7货币</th><th data-page-node-id="ZGZtdfAp34BpxR5QxyACjG">F8科技</th></tr>
+      <tr class="center" data-page-node-id="artDr7QGp9qnUdPKnc06Fj"><td data-page-node-id="QCNGNtwZKI3cosUHVtE74N"><b data-page-node-id="A8CVEATmfFxcaP7TUZyhCr">权重</b></td><td data-page-node-id="6MKi665yHm0mYJd93ygkAT"><b data-page-node-id="b0B5wsQ7fjefsJ91iv9X29">20%</b></td><td data-page-node-id="eDjKASEsnuCmhdElOdf6EV">12%</td><td data-page-node-id="wrnYWFlQMYzNuwpIpR1Yqt">10%</td><td data-page-node-id="rHuNHHB6jxh9aqt3iiddVX"><b data-page-node-id="jA5AvBEZwhABXjIEPoG8Ig">18%</b></td><td data-page-node-id="5oN5rPp3LlknuCMeDVsz1A">10%</td><td data-page-node-id="pGbMEBUJtxuulaHkbXQpDz"><b data-page-node-id="TFHSduzIl7crfDaRrKVxKH">15%</b></td><td data-page-node-id="b2qDrJ0RI9k4yjZ8qCvln7">不计入</td><td data-page-node-id="gkY9gLmi9e3gQ0NavNo5q4">15%</td></tr>
+    </table>
+    <p data-page-node-id="2cO8tWajNG8CWnG9NJ9k7A"><b data-page-node-id="jWR8dsAyvv8TEunK4gdomG">总分 = 0.20×F1 + 0.12×F2 + 0.10×F3 + 0.18×F4 + 0.10×F5 + 0.15×F6 + 0.15×F8</b></p>
+    <div class="note" data-page-node-id="0DR7k195jOvDAtZPg4z6V1">三大核心特征（F1 估值 / F4 杠杆 / F6 新买家）合计权重 53%，对齐原体系"三大指标依旧保持高位"的判断逻辑。F5 投机权重 10% 与 v1.0 一致（仅替换底层指标）。</div>
+  </div>
+
+  <div class="card" data-page-node-id="HZUPHEmskHpTdzFBDleCfj">
+    <h2 data-page-node-id="8gw5LmjPbEES7rNYc9qt5X">三、历史回测：关键时点得分（v2.0）</h2>
+    <table data-page-node-id="1sqLX1aWWYgyL8EbDvPGg2">
+      <tr data-page-node-id="PtrXHcI4sGj54SpIHUTF1x"><th data-page-node-id="GHCYeRUp4XuiMITLxOjaad">时点</th><th data-page-node-id="eLFyG7rCwU4NFIom3ucfou">性质</th><th class="center" data-page-node-id="A39UXAUf5TBeRJ728YE7C9">总分</th><th class="center" data-page-node-id="L6Z08zlevNxNINKxsrAuDH">F1估</th><th class="center" data-page-node-id="7dcaPRnZe0ng2FeWM5zOac">F2期</th><th class="center" data-page-node-id="c6AHY1GFDk6xmrzLmudbiA">F3绪</th><th class="center" data-page-node-id="BEA8d7FyI3Wc06lAvAScjE">F4杠</th><th class="center" data-page-node-id="vSVYaRg66mli5WyzlZQvY8">F5狂</th><th class="center" data-page-node-id="6TYbWQcReaa5nAhYoE5vYr">F6新</th><th class="center" data-page-node-id="p45xp6TfcFJwLWoGGNWIn8">F7币</th><th class="center" data-page-node-id="1B6JmQjwlZ40L6jFwFSeIj">F8科</th></tr>
+      <tr data-page-node-id="8sXHli6m1fyU50IEom9wxr"><td data-page-node-id="nT9TJ5bGe2L9D8Y7KielWD">2018-01</td><td data-page-node-id="Qazh710AzgVSlyj5cUfMFX">高点(加息缩表前)</td><td class="center" data-page-node-id="bHMC55SrKyJsCJqBimXHCM"><b class="num-red" data-page-node-id="BTU0uIbhBhlM4zDvWaudmw">90.0</b></td><td class="center" data-page-node-id="QGGSgLVJBVtcUvIdUYVIk9">100</td><td class="center" data-page-node-id="aeRXNnQonwXChht7mXUBi8">95</td><td class="center" data-page-node-id="LL4tAbXhG0qVBEDO130fBp">95</td><td class="center" data-page-node-id="ciu6cdUEddtsGkYaobFTn8">100</td><td class="center" data-page-node-id="I1Lys0ko7tm49YOt63N3iO">91</td><td class="center" data-page-node-id="ORzcsf0SXCe5Z78DKaojRD">59</td><td class="center" data-page-node-id="8UmViAqwef2zZSH16J3w72">8</td><td class="center" data-page-node-id="Q2HL0BL6UJqWFYPlgB6sze">88</td></tr>
+      <tr data-page-node-id="MH0bAJFdcq9MCsYX4EU8rz"><td data-page-node-id="AF09UPg5UPYz8ZAHMYtLTN">2018-12</td><td data-page-node-id="JdBFJEFABM05mpAFlCmHkZ">低点(紧缩恐慌)</td><td class="center" data-page-node-id="h4oJvU0ouCoNH6Remf1u8G">40.9</td><td class="center" data-page-node-id="OhR2R8PvkwMAHhe8FmATQb">86</td><td class="center" data-page-node-id="NCARHSFbn8EG0iWvFzC2wC">9</td><td class="center" data-page-node-id="xTbRbJ4uH3ReRAG21FBaLR">13</td><td class="center" data-page-node-id="4j0mIw3FwNNeD8jQ8XGNHG">87</td><td class="center" data-page-node-id="80y7S4HGMhaAvwZQ1qnbIO">0</td><td class="center" data-page-node-id="PPKsrP2V8hJvXX5DcnOQ7G">6</td><td class="center" data-page-node-id="EAN7DZlN4vm7zqJ9rePMd4">0</td><td class="center" data-page-node-id="BGHv1gcWUKDoq1thElKAM8">32</td></tr>
+      <tr data-page-node-id="uBHTuk1BrOZMAhR2eSMoDj"><td data-page-node-id="R2cBMhH4oKwHguzlSrDqlx">2020-03</td><td data-page-node-id="2lup590Ah9LCCzf5rWjrlf">疫情崩盘低点</td><td class="center" data-page-node-id="VZzCshbdHLPV3ZDXIt1SCs">37.5</td><td class="center" data-page-node-id="dWkxnvZYMB2tHvTQRsb7Qf">41</td><td class="center" data-page-node-id="W7dqw9sxWvrNY0YSb4mbG2">18</td><td class="center" data-page-node-id="NwwGzLaVimhRdnnBNxzDzg">0</td><td class="center" data-page-node-id="cW57XofQvIPYdi18mI22OB">68</td><td class="center" data-page-node-id="c5lOY6XtyDZUZFQ6LAYCq1">0</td><td class="center" data-page-node-id="Mv0YKWu6ZVkrb4Gf6P7R7n">1</td><td class="center" data-page-node-id="LhpkRuxNogN4X4JGsogzDS">32</td><td class="center" data-page-node-id="0pQmLZe6CYUOE1SmAdK0qw">100</td></tr>
+      <tr data-page-node-id="LQovgt1G6cZHcPbxdinozq"><td data-page-node-id="3ZHm8VvhWQ4cAigHxiUkyV"><b data-page-node-id="z3aqm4uZw0ladgTuRwFSOk">2021-02</b></td><td data-page-node-id="5ETBHoCSq9YIXyDrPi8mQw"><span class="hl" data-page-node-id="chPz3HyIxFm0zVKMuRye50">投机成长顶（ARKK见顶）</span></td><td class="center" data-page-node-id="DYEpBEXEBuww0GpZD9BVc8"><b class="num-red" data-page-node-id="AyEdUBIyNo9aoD43vTf6V7">82.0</b></td><td class="center" data-page-node-id="azVQkVtddGt7TbfZLB1bKC">100</td><td class="center" data-page-node-id="815jWf9u7YXTEcvM9WGcCz">99</td><td class="center" data-page-node-id="MSJxQnwMnni3w9EJLP0lNK">12</td><td class="center" data-page-node-id="7BtFB9mzZkmGUVaXM5UEAj">100</td><td class="center" data-page-node-id="z6nIq5RDMDAhK5iUEE8OU0"><b class="num-red" data-page-node-id="ERcDkfXiDl5iQUpuSHiDtb">93</b></td><td class="center" data-page-node-id="W8GAgTNHOscqvzmd24SFp1">51</td><td class="center" data-page-node-id="xkjh2BjckGEITgeAKonAQx">90</td><td class="center" data-page-node-id="iVTL5wMAcJdQkuJKRX3pzq">93</td></tr>
+      <tr data-page-node-id="qQWGzJJPNO3BOKlBnGOGYF"><td data-page-node-id="MaIL0pcdA0XuTHWtcU4pnh">2021-11</td><td data-page-node-id="lrwZfa2R39bVWGyZKkHOO9">纳指顶(成长泡沫)<br data-page-node-id="guIlYU1Pgb0ukWSVlJn1uM"><span class="muted" data-page-node-id="rv4ijRQBbQdZhWzCzFngfy">投机已消退</span></td><td class="center" data-page-node-id="EtcgmrEMsADaF0L2swMG1k">63.5</td><td class="center" data-page-node-id="giPxWv6v4WBtg4E0hetqB7">100</td><td class="center" data-page-node-id="j5WAytLu31H3oAtcTPZT7X">81</td><td class="center" data-page-node-id="3CJA9yobDml81NkrqgMe01">26</td><td class="center" data-page-node-id="MU7ht5u5BF16Wtj0r48CMJ">100</td><td class="center" data-page-node-id="HvyntdpplxD4l3h6RoYCHu">0</td><td class="center" data-page-node-id="aCp5JwBO1uZmhey7A0ePYA">48</td><td class="center" data-page-node-id="C78CKBJltLVIDDRZ9aQEFO">94</td><td class="center" data-page-node-id="XEVpXBaOuxtBdAYdfmOSgf">41</td></tr>
+      <tr data-page-node-id="LuE0xXoQTj522cfCYf8yHs"><td data-page-node-id="P997iU2qX9Mk5O5Xj6VeBa">2022-10</td><td data-page-node-id="e8lJGjvHlgyMmp4W9fe8R2"><b data-page-node-id="I2ZnOz8OOc9u7CkCviTkUq">加息熊市底</b></td><td class="center" data-page-node-id="FKNPDJLnAQpGv94b2SjiH3"><b class="num-green" data-page-node-id="X9hzGUz420Bc6BY290RkGd">28.0</b></td><td class="center" data-page-node-id="uN3ItRFVBcExy2hyQQR6Eg">66</td><td class="center" data-page-node-id="0cZyoAjzswJFuGjK5boBAw">0</td><td class="center" data-page-node-id="c5miVReTU2fC5FFu9vg4qM">3</td><td class="center" data-page-node-id="8c1bw1J2OgOiXZCCP2rgrF">80</td><td class="center" data-page-node-id="EQKvr5BPAUzycrlTcHmkuH">0</td><td class="center" data-page-node-id="6cw3fGscaLpC1WGy4QHYBD">1</td><td class="center" data-page-node-id="al4NFcbrq1pTlleZd2dtck">0</td><td class="center" data-page-node-id="nrzx0DXq4m6PET00CAsuFT">0</td></tr>
+      <tr data-page-node-id="lOvEFuZ3nb4zg1ZABIj8QV"><td data-page-node-id="TGewDMxEH84PAdqnvjpEph">2024-12</td><td data-page-node-id="kigQ6B9gfjgUaBIz7Wc08f">AI牛市高点</td><td class="center" data-page-node-id="PHiW8cg3xNI3CVLM4X8JNH">61.2</td><td class="center" data-page-node-id="nhZnQnfapvbYDlNUCyqtr7">99</td><td class="center" data-page-node-id="tZtUSmpMehhjhGdNtRGGAA">58</td><td class="center" data-page-node-id="Y9xfBXgAcqFLASvT5F4BaZ">54</td><td class="center" data-page-node-id="tnEYtajTAoDjPD25goa7Ub">96</td><td class="center" data-page-node-id="nUzEkzpvnYuWilKzYyr4Un">0</td><td class="center" data-page-node-id="G5bz1buBfNjEM7sDPsVPzE">51</td><td class="center" data-page-node-id="VFd4JSvqt85wxYbwXKQizn">18</td><td class="center" data-page-node-id="NBxWPfUzi4TyZUguLAAtjV">28</td></tr>
+      <tr data-page-node-id="TUJejIwiifayQF3n0g1N1Y"><td data-page-node-id="xmsxNwY7Jlb9cv7JV8vy0W">2025-04</td><td data-page-node-id="v9oaF0Uf0Y2FjuAbSJz2WI">关税回调低点</td><td class="center" data-page-node-id="cJnywKcAIXgWcgJN7a56sx">48.3</td><td class="center" data-page-node-id="LNWlR9V5R4GosGAGseHFqy">89</td><td class="center" data-page-node-id="pAByalYmi0v5VakwERllEN">36</td><td class="center" data-page-node-id="xFQDrGA4knP5wMUlyCXRGY">2</td><td class="center" data-page-node-id="SHOT3RNhBhW3BMbVjdHRsn">92</td><td class="center" data-page-node-id="Qxw2GXWkMnzmQWqpZx6hGq">23</td><td class="center" data-page-node-id="8AJ29jCvxfA8CfJ02xKwNI">18</td><td class="center" data-page-node-id="SFCxZsCDNnGB3sQGMSrhBW">22</td><td class="center" data-page-node-id="oW6dD0wn1Ackrep1v7KYNB">31</td></tr>
+      <tr data-page-node-id="4HJURhskB7F0jhKxxVXBHL"><td data-page-node-id="0XNDGJhRqiRSNsB7ShE0YV">2025-10</td><td data-page-node-id="1LjCbaCwQSwPk3e1PaYFUA">高位(PE 36.4)</td><td class="center" data-page-node-id="2aX9LozniOafFEgffEv2ym"><b class="num-red" data-page-node-id="dRivStZSjAbQqzAbewHCRM">76.4</b></td><td class="center" data-page-node-id="6bUPx15ku0DAGGgWM8cWME">100</td><td class="center" data-page-node-id="II0Cw0KGwF8IK8UrTBfYbO">71</td><td class="center" data-page-node-id="ZsaWuAaS1q4ySyxUcgP4xb">41</td><td class="center" data-page-node-id="XXYuCb8fmEyJnLM0H8wRBP">100</td><td class="center" data-page-node-id="D5aAP1w1sw1pG95nBNE8iX"><b class="num-red" data-page-node-id="peHq0NasxCEgqA4IVEsyeN">86</b></td><td class="center" data-page-node-id="SpvJui6X4iJwFJPugMwU6a">48</td><td class="center" data-page-node-id="jBsFQFDFeouxYLwqV1Jjn9">28</td><td class="center" data-page-node-id="fMBHC59z1cLhT5BskEQvJH">67</td></tr>
+      <tr data-page-node-id="NEkhmyvAXYNKO6G0ICy6z0"><td data-page-node-id="jpi2sZY7X6h7WAAjFnon53">2026-07</td><td data-page-node-id="1u3XKTNPnhTfPlyell8bb6">回调低点</td><td class="center" data-page-node-id="60fdtc1FpBOoskeBQwIGxc">57.6</td><td class="center" data-page-node-id="AyXLyXBAuoSDPlVigciQdV">100</td><td class="center" data-page-node-id="GqCoao4qCANoOHm2EFvfgG">48</td><td class="center" data-page-node-id="lmEzUQmYxesDxtNMfCubSN">49</td><td class="center" data-page-node-id="B0rXJKGCvxczUtFzGJd5XG">100</td><td class="center" data-page-node-id="QVfai2ZfJrY4anDGNGlj85">0</td><td class="center" data-page-node-id="ZYnxtMl34V8MjQrNXWLKLo">22</td><td class="center" data-page-node-id="BtRdJsfGrhyfnVPYrp8R8b">37</td><td class="center" data-page-node-id="QLUAPw6rqWQorXSLLToYMx">38</td></tr>
+      <tr data-page-node-id="CjTpbyaVSv4uby8Fpd9Gkr"><td data-page-node-id="ViRTtZ3GDntJUmAY6gjSlx"><b data-page-node-id="Z2cDONSgE3FPINwRLUGeIf">2026-08</b></td><td data-page-node-id="78c9Io7EdHPCGZaob1hVkD"><b data-page-node-id="ZkFaTivRTNOel6AEGA3Cs1">当前</b></td><td class="center" data-page-node-id="hEJzwzLdR9RjnbhMq8GuCB"><b class="num-amber" data-page-node-id="KFcJ3tzNcG0DNQeyoidgko">64.1</b></td><td class="center" data-page-node-id="5Mu4MdzEXQsPiR3GofKyjK">100</td><td class="center" data-page-node-id="zmQXan6ldQaF7QumdoqYE5">56</td><td class="center" data-page-node-id="AxrFe7vwjSBXauwAibbGy5">68</td><td class="center" data-page-node-id="hQFrECpTVmr3xzFu2NBttJ">99</td><td class="center" data-page-node-id="3VT3sbjXHHfFmd3yfrcWOv">0</td><td class="center" data-page-node-id="wNPXqt8wxVwl0Z4S4mybAv">30</td><td class="center" data-page-node-id="TIXdyvfqGjinvEspwvR3RG">38</td><td class="center" data-page-node-id="mMmWDGZSwJCRWt5NtlFPZL">55</td></tr>
+    </table>
+    <div class="ok" data-page-node-id="biiqNZLjGgmXZ6ZwyJwOhY"><b data-page-node-id="inUlbtNOQMFeNm4hjauP3Z">2021 泡沫识别升级（本次优化核心成果）</b>：<b data-page-node-id="QdRF95IODu5nFFxfHBcdRo">2021-02 投机成长顶被准确识别为 82.0 分高热区</b>（F5=93、F1=100、F2=99、F4=100 四高共振），比纳指实际见顶（2021-11）<b data-page-node-id="UnCHrHIjzaaJ7UmcF5lWg4">提前 9 个月</b>。v1.0 时该时点仅 77.0 分未触发高热预警。投机狂热消退后（ARKK 崩盘，F5=0），总分自然回落至 63.5——反映"投机已死、大盘惯性冲顶"的泡沫尾声特征。</div>
+    <div class="warn" data-page-node-id="mZG98bCksmBb5m3cPTHaZf"><b data-page-node-id="OpigHD2B2FErr7QGkcNPXV">方向解读</b>：2021-02 的 82 分是<b data-page-node-id="tjRZEEha7Eq5JqkJImH0x7">更早、更有效</b>的预警（让投资者在投机狂热顶峰减仓），而非 2021-11 的 63.5 分"漏报"——v2.0 的总分在 2021 年 2-6 月持续处于 80+ 高热区，完整覆盖泡沫破裂前的最危险时段。</div>
+  </div>
+
+  <div class="card" data-page-node-id="GEAdNkiuzy5MjostiHFCkJ">
+    <h2 data-page-node-id="tztwmee0aC3jCGdmTKdVRM">四、回测验证：分数预测力（v2.0 vs v1.0）</h2>
+    <div class="grid2" data-page-node-id="XZBmCfBiFEIPBqFhyaEiso">
+      <div class="kpi" data-page-node-id="XCvNCqCM54V0NilD8u9Bwz">
+        <div class="num" data-page-node-id="QWlr3o7IRodDT305tSAB8L"><span class="num-green" data-page-node-id="yMYdimIs0KatiMrc0zqEx7">-0.235</span> <span class="muted" style="font-size:14px" data-page-node-id="qQZQstpC5vWI4JeDOytkUi">(v1.0: -0.195)</span></div>
+        <div class="lbl" data-page-node-id="MQ1VfbB1vprygcfxeVHDO8">总分 vs 未来12M收益 相关系数(IC)<br data-page-node-id="LgdjuYNJHZPKgsEJqhoJlK"><span class="muted" data-page-node-id="WnccaC0CuUNrM3ZyrU4UPk">负值=高分预示低收益，越负预测力越强（+20%）</span></div>
+      </div>
+      <div class="kpi" data-page-node-id="DpbR11q1dMcBcHVluXQorI">
+        <div class="num" data-page-node-id="uaNFZ5mK1X1zeL9sz2UbRo"><span class="num-green" data-page-node-id="ymRIo0zbAYKoV0c4qf2VkE">27.7%</span> vs <span class="num-red" data-page-node-id="owBCAqsurpp263e26xC7ec">13.9%</span></div>
+        <div class="lbl" data-page-node-id="DzRu5qogrepZ7YUCEiF72n">低分区(≤45)后12M收益 vs 高分区(≥70)<br data-page-node-id="YJoj2XAtjEJVen2mT0Bldc"><span class="muted" data-page-node-id="JOWCvX4YkL5MEd7w6cNzHa">差距约 14pp，有实际区分意义</span></div>
+      </div>
+    </div>
+    <h3 data-page-node-id="LNCcKRRVsX94talX6ChUeN">总分四分位 → 未来12个月纳指100收益（v2.0）</h3>
+    <table data-page-node-id="94iIEoKVJI8HA7BNxJ0sJs">
+      <tr data-page-node-id="82li83kCYPMCirDijCEoqc"><th data-page-node-id="icS6kDY04XgkSHahEhQ2Dh">分组</th><th class="center" data-page-node-id="pixAxZsdUVeKxBLqCKjv5l">样本</th><th class="center" data-page-node-id="NotG5PQ8aHodOhqR8bv9Tm">平均收益</th><th class="center" data-page-node-id="l7FGuOHkZQKt6LMksuolb4">中位收益</th></tr>
+      <tr data-page-node-id="usr3ABQZzHsbbmagV98ygO"><td data-page-node-id="8i6BYnivG9oiK8Vwx04E4y">Q1 低分</td><td class="center" data-page-node-id="m250KxzmxzgM7cqFnw8eOT">29</td><td class="center" data-page-node-id="FjqpFPDgNv2JtPwErfQFuz"><b class="num-green" data-page-node-id="Zcpzdi3ZgiFekh4j6ZfzWU">+27.5%</b></td><td class="center" data-page-node-id="WTmi6w5Ct5tp0guxvAP0Yx">+28.6%</td></tr>
+      <tr data-page-node-id="L1M7xaoOUNytnm3VopBPZt"><td data-page-node-id="FMeFR7F5EYYVGxn0opEKsV">Q2</td><td class="center" data-page-node-id="L4QPRsxFVWnv6Y5v3XDfDi">28</td><td class="center" data-page-node-id="GbTjPdG27MUaLiFLAhv8bw">+21.3%</td><td class="center" data-page-node-id="IT2poChE8Dg2LodT3VhhKT">+24.9%</td></tr>
+      <tr data-page-node-id="iRXl1fFq6NteggmKGLTeTK"><td data-page-node-id="2M2yzdV6xJGKCoGdF35MVX">Q3</td><td class="center" data-page-node-id="69FUHDNdG7DdCSAUE0xiL9">28</td><td class="center" data-page-node-id="6T9Q4hfEdLaFEaIPrk501H">+20.4%</td><td class="center" data-page-node-id="MHCFaeXGJ3U1L7DCtLWrEG">+22.3%</td></tr>
+      <tr data-page-node-id="y70lVPWpJSWdAEjA6gvuTd"><td data-page-node-id="l4hLQyMnNFPfbmcKmhncKZ">Q4 高分</td><td class="center" data-page-node-id="1C6jyTagiHfDOLmflGhowf">29</td><td class="center" data-page-node-id="4MTbbuJzPkUXfqQHhFPV6O"><b class="num-red" data-page-node-id="6H2nkEnlOyERdyhG59h7xi">+17.2%</b></td><td class="center" data-page-node-id="9aFFuxIQ6baTpthpLFZpKU">+18.3%</td></tr>
+    </table>
+    <p class="muted" data-page-node-id="wBVjjCkOcVspLN92mPEA7z">四分位单调性在 v2.0 下更干净：Q1→Q4 平均收益 27.5% / 21.3% / 20.4% / 17.2% 严格递减（v1.0 时 Q2/Q3 有倒挂）。极端低估区（≤45）与高热区（≥70）的收益差仍保持 14pp 以上。</p>
+  </div>
+
+  <div class="card" data-page-node-id="p9k5EWgTLBZLFcCHPSUqjX">
+    <h2 data-page-node-id="fV5JqX9jDvFAiLCdWH33TA">五、高低点分界结论（区域制 + 拐点规则）</h2>
+    <table data-page-node-id="o0R6ce0NmHtOpVltSfsict">
+      <tr data-page-node-id="ykKnrcTezT0yhYOVPuQeqG"><th data-page-node-id="7lRBKKgHjECXjLXp7Jo8ya">分数区</th><th data-page-node-id="ovsYFI9fa3UVEXHknwpZH3">名称</th><th data-page-node-id="aEAXffvOWr3XLfzHNFR9OZ">历史性质（v2.0）</th><th data-page-node-id="swCgwpXsHY0o1FTmIqnCRq">应对思路</th></tr>
+      <tr data-page-node-id="64AFTgmNYTk9tA5JYlb8kd"><td class="center" data-page-node-id="nJCNT6zRCAZumDnhNAI2Sw"><b class="num-red" data-page-node-id="cIYiY5yogmhOJ9HnCfWcVG">≥70</b>（连续3月）</td><td data-page-node-id="SNBSk1Jd8dlwQpSkoo8UDP"><span class="badge b-red" data-page-node-id="Rkq0Q51BwSkBKBdkt8omw7">高热区</span></td><td data-page-node-id="CtAi0RLFIs9Q4GQoxfOE4f">后12M平均收益 +13.9%<br data-page-node-id="CJgt74FIhgmYIeWx8cZHAD">（10年中36个月，占28%）</td><td data-page-node-id="iLSpUdZ7HRzrwBa2l7aMfE">容错率极低，只减不加；<br data-page-node-id="lR2b6aIw1NmsHGV9IQaK3m">已持仓者考虑分批止盈</td></tr>
+      <tr data-page-node-id="gdotT9qztCwHiBpkRqOhfX"><td class="center" data-page-node-id="PFszxsEl8S5RaGZfUJ8Kpy"><b data-page-node-id="U1On12fsowCd1Ic4zCt59h">55-70</b></td><td data-page-node-id="dwro5BCLzAzu8CQMzMxm0D"><span class="badge b-amber" data-page-node-id="ZimDJMrjIvtVYGliMHzT5X">偏高区</span></td><td data-page-node-id="q13X10DzJwtzZeFttYWuk4">多数牛市常态（当前64.1在此）</td><td data-page-node-id="pkCLJCFHCyumWwbHFWTpZb">正常定投、不追高</td></tr>
+      <tr data-page-node-id="5TDue6dsE5JwSrTwbTVy3V"><td class="center" data-page-node-id="faFeB6KVbGndd5yxW4BFBE"><b data-page-node-id="8JNe1uHpRnCO94508T16vI">40-55</b></td><td data-page-node-id="awXcGV8lcErAcMNX0BWt8f"><span class="badge b-blue" data-page-node-id="h6BxsI46SdAfZuOXCOmR8u">中性区</span></td><td data-page-node-id="H0EpaTQUK5OPYOtlV6UhYF">2018.12(40.9)/2025.4(48.3) 在此</td><td data-page-node-id="yIfTTj9OmILuUfFiHGxuwf">定投加大力度，开始关注</td></tr>
+      <tr data-page-node-id="YVnjGcfqfdd5idMBn9D9lq"><td class="center" data-page-node-id="KaJPxkVLju7a8rhZnzaw5t"><b class="num-green" data-page-node-id="8HGJxt1H2rWQn4WXBHkl04">≤45</b>（连续3月）</td><td data-page-node-id="y4KBqqiJSYap5wMe06NMyP"><span class="badge b-green" data-page-node-id="i3B02N6Npef5cxRMU2JPuF">低估区</span></td><td data-page-node-id="4SlNWvahgie6p2LUcZFz4b">后12M平均收益 +27.7%<br data-page-node-id="lCgbJ3zLrCSnCbfTipC0oQ">（10年18个月：2022/2019/2026.3）</td><td data-page-node-id="3nAhFCcrwPP7wiiHfMCAuL">分批重仓的核心区间</td></tr>
+    </table>
+    <h3 data-page-node-id="RC1ZTlpgyXd5qgzVqOpMcW">补充规则（比绝对分数更灵敏）</h3>
+    <ul data-page-node-id="7En9iD3gKhJw6DkDEDnAFE">
+      <li data-page-node-id="wsoJM3z94BWD6JCltc0D0B"><b data-page-node-id="KjA2VFn4j12uCngvBjE7Dj">拐点预警</b>：3 个月内总分下降 ≥20 分 → 风险信号。v2.0 捕捉：2018-03（-23.0）、2018-10（-22.4）、<b data-page-node-id="RJ5CJk0HNebQ260Do7O3b7">2020-03（-32.3，崩盘月）</b>、2022-02（-23.1）</li>
+      <li data-page-node-id="JLUwobRAF0IfSer6c5bWmB"><b data-page-node-id="HtY0Gwz7hjEJazta1Pl3U4">投机狂热红线</b>：F5 单特征 ≥85 且总分 ≥75 → 历史上对应 2021-02（ARKK 顶）与 2025-10（AI 投机）型顶部，v1.0 无法识别前者</li>
+      <li data-page-node-id="xxJprAFrdJqqFRaJWPIxdW"><b data-page-node-id="r9CfHgWnJxYTuxMxjGwEk9">货币确认</b>：F7 宽松分低位（≤20，利率高位）时的高分更危险（2018.1 的 F7=8）</li>
+    </ul>
+    <div class="note" data-page-node-id="qahGz405xePNtupoUjdcLI"><b data-page-node-id="cI3KZeOqkeWFTKI63cOfVf">使用提醒</b>：该分界基于 2016-2026 样本内回测，高低点标签为事后确认，存在一定过拟合风险。分数是"容错率温度计"而非"涨跌预测器"——高分不必然立即下跌，低分也不必然马上上涨。最可靠用法是<b data-page-node-id="nB2utB8tCsCYreHV84tOcM">分数区域 + 拐点方向 + 估值档位三合一</b>。</div>
+  </div>
+
+  <div class="card" data-page-node-id="AyQ3NNd25AX1UGIahU8PAw">
+    <h2 data-page-node-id="3chZjHdFrDexmCoVoQEsef">六、当前状态（2026-08-31）</h2>
+    <div class="grid2" data-page-node-id="mbp7J3ra55sIcDjGkctEDK">
+      <div class="kpi" data-page-node-id="OkhSBalhyIEh1Roa2t7amg">
+        <div class="num num-amber" data-page-node-id="C8dCmHTpIE9T2BNVOk062G">64.1 分</div>
+        <div class="lbl" data-page-node-id="6RPoEpaWDZQo6z1PgzgNn2">总分 · <span class="badge b-amber" data-page-node-id="UvFLA10o7NgUIEFkPW26JN">偏高区（55-70）</span><br data-page-node-id="h70iI49uV9DjC0sLNDjXHF"><span class="muted" data-page-node-id="M2i3MCtat9v2kT9KLxEegW">v1.0 时为 68.0（F5 口径不同）</span></div>
+      </div>
+      <div class="kpi" data-page-node-id="TNL2ElGAR6hi9GVCrun7Se">
+        <div class="num num-blue" data-page-node-id="KmFcXHNyWMFvJWfku9BArP">54%</div>
+        <div class="lbl" data-page-node-id="bNFB7tOjs4ZGxm9begJSc3">历史分位（128个月中高于当前的比例）</div>
+      </div>
+    </div>
+    <table style="margin-top:14px;" data-page-node-id="Rmx3w83OQlg6COPDdZIaWQ">
+      <tr data-page-node-id="dWaX0yl4EQTNeQlPgwlFzL"><th data-page-node-id="R4XUyL0HHdnn0WocQ5xOTU">特征</th><th class="center" data-page-node-id="Td3q2ZqLbXl2SUotGfOcOv">估值</th><th class="center" data-page-node-id="7rRb9Sy2H3xsSuF9mA6EjA">预期</th><th class="center" data-page-node-id="IUUnKVe9RO4o3dc0gHrYTv">情绪</th><th class="center" data-page-node-id="wE6GXqhSKe8DMsMzjic1eu">杠杆</th><th class="center" data-page-node-id="3sbFXKmI6OK9fxESM4hbrR">投机狂热</th><th class="center" data-page-node-id="25zNkmHR7MNh2vcjaZigz7">新买家</th><th class="center" data-page-node-id="KZ71i7aTgimb6mxUea0PyO">货币</th><th class="center" data-page-node-id="QiwGS85maLPxXo1EXOlEq9">科技</th></tr>
+      <tr data-page-node-id="zlOWLYwsJnVLBM3hnCXMJW"><td data-page-node-id="1kyzsg72hAauAHD6mzSdwm">得分</td><td class="center" data-page-node-id="CQpqCRnXpybGCSeikXdiFt"><b data-page-node-id="PgBdeLBorilQ6YpwzvdWAS">100</b></td><td class="center" data-page-node-id="Iq5FcEnZEwzHVv2zeBdggD">56</td><td class="center" data-page-node-id="m1vmMk9SKBHUBql7CfRqWN">68</td><td class="center" data-page-node-id="Jr1BIMtV3mDsBn8mxDIpCb"><b data-page-node-id="BqoK1BDjxMVBk7Ll9Cy8xd">99</b></td><td class="center" data-page-node-id="gtK0dLz9iaHjQBgHEj5paZ">0</td><td class="center" data-page-node-id="MCeq9XzZLpsmbLw9FSCvUI">30</td><td class="center" data-page-node-id="TqoxNf2VyK4kJQI733UNWn">38</td><td class="center" data-page-node-id="lBsAZLhZlDlMQkW1xeT4wT">55</td></tr>
+    </table>
+    <p style="margin-top:10px;" data-page-node-id="xUK2NitfKXP7QXwoC0XxnR"><b data-page-node-id="jZt4dxFt1RAtByoaQi9BVG">解读</b>：估值(CAPE 42.0)与杠杆(FINRA 1.42万亿美元)双顶 99-100 分——与原笔记"估值偏离、杠杆融资两大指标保持高位"完全一致；情绪 68 分说明市场已脱离恐慌；<b data-page-node-id="QyxfwRquFJUUT52AMZStJM">投机狂热 0 分（ARKK 相对动量分位 28，投机资金已撤出高估值成长）</b>、新买家 30 分，尚未进入"全面狂热"。<b data-page-node-id="4YjO3mPk0CJnA8SqRpJhvX">总分 64.1 = 偏高区</b>，与监控助手 PE 档位"合理偏高"判断一致。</p>
+    <div class="warn" data-page-node-id="J7z6p3PLAq9NkIDKFL1nYB"><b data-page-node-id="zUUuM8kHAPF7SSItrYfjG2">结论</b>：当前处于"估值+杠杆双高、情绪偏暖、投机未狂热"的组合。系统提示：<b data-page-node-id="QrC7iprYM77ubAxr3I5gdZ">偏高区 → 正常定投、不追高</b>；若总分站上 70 且 F5 投机狂热重新冲高（如 AI 投机重演 2021 剧本），则进入高热区；若出现 3 月降分 ≥20 的拐点，关注减仓/暂停定投信号。</div>
+  </div>
+
+  <div class="card" data-page-node-id="LWVkKaKT2qEeLSAmsPEGrA">
+    <h2 data-page-node-id="zPplJbO7Mq3EkdyaVOnGZz">七、局限与后续改进</h2>
+    <ul data-page-node-id="4uOF0MlIudkrkZqxLS9OrS">
+      <li data-page-node-id="SI0qoisoGLcpKZiEBNN8s2"><b data-page-node-id="AmB3FvCRDPktE9bvepDrdv">ARKK 样本起点 2015-03</b>：F5 投机特征在 2016-2018 前期滚动分位样本不足（<36个月），早期得分参考性较弱；2020 年后样本充分，可靠性高</li>
+      <li data-page-node-id="tUfy0j8GgGAIqk0IFSPPgR"><b data-page-node-id="XHPT5EBEB7lfxTaUOCKeuI">ARKK 本身属性漂移</b>：2022 年后 ARKK 持仓变化（减仓特斯拉等），作为"投机狂热"代理的纯度下降；若未来出现新投机标杆（如新的高估值创新ETF），可替换标的</li>
+      <li data-page-node-id="FE22eNJopZ7BHCQjK1spZk"><b data-page-node-id="DPnckFah3Ib0eglZfvSsrn">代理指标误差</b>：F2/F3/F6 仍为代理，与原特征存在偏差；CNN Fear&Greed 历史仅 1 年，未能纳入回测（仅作当前核对）</li>
+      <li data-page-node-id="E16dCLz0bOngkHZvVkjOml"><b data-page-node-id="4DiELuM460jnsCLp9oRP59">样本内拟合风险</b>：分界阈值基于 10 年回测，需样本外（未来 12-24 个月）持续跟踪修正</li>
+      <li data-page-node-id="JsyRt4cDmo3i5N9ixa77mu"><b data-page-node-id="5hZCpmV3MLFXDQYlqYWcC0">月度滞后</b>：F4 杠杆数据滞后 1 个月、F7 利率月末值滞后，实时性有限</li>
+      <li data-page-node-id="rQ9kXS80ubXn0ucEEzJEf0"><b data-page-node-id="BSspVBnPTbb9OcO6RbUEd5">可落地</b>：脚本 fetch_data.py + fetch_arkk.py（拉数据）+ analyze.py（算分回测）已保存在 bubble/ 目录，每月运行一次即可更新；可将总分并入现有"纳指估值监控助手"作为第二维度</li>
+    </ul>
+  </div>
+
+  <div class="disclaimer" data-page-node-id="VbdTCwAMTmwgOlgE7PNu8l">
+    数据来源：腾讯行情、CBOE、FRED、multpl.com、FINRA、CNN、东方财富（ARKK）等公开接口（2026-09-01 抓取）。本报告基于公开数据与量化回测，仅供研究参考，不构成投资建议。市场有风险，投资需谨慎。过往表现不预示未来收益。
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="kIIaivwbqTXjqp8gJK3t7Q">
+<head data-page-node-id="dyYnICCTFrehSbH8WE7tlS">
+<meta charset="UTF-8" data-page-node-id="YQU2R6RQ0tLpHCPEZPpze5">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="p0KMX0TEOfCzC91W3UHNFc">
+<title>纳指定投 · 逐月执行计划 v3（到手10500 + 奖金3万）</title>
+<style>
+  :root{ --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
+    --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb; --gray:#6b7280; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.68; padding:16px 12px 48px; font-size:13px; }
+  .wrap{ max-width:780px; margin:0 auto; }
+  header{ margin-bottom:14px; }
+  .title{ font-size:21px; font-weight:800; letter-spacing:.4px; }
+  .title .hl{ color:var(--blue); }
+  .subtitle{ font-size:11px; color:var(--sub); margin-top:4px; }
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:14px; padding:15px 16px; margin-bottom:13px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .card h2{ font-size:14.5px; font-weight:800; margin-bottom:11px; padding-left:9px; border-left:4px solid var(--blue); }
+  .card h2 .n{ color:var(--blue); }
+  .card h3{ font-size:13px; font-weight:700; margin:14px 0 6px; color:#1f2937; }
+  .card h3:first-child{ margin-top:0; }
+  p{ margin-bottom:8px; }
+  .lead{ background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:13px 15px; margin-bottom:13px; }
+  .lead .big{ font-size:15px; font-weight:800; color:#1e40af; display:block; margin-bottom:5px; line-height:1.5; }
+  .lead .sm{ font-size:12.5px; color:#1e3a8a; }
+  .warn{ background:#fef2f2; border:1px solid #fecaca; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#991b1b; font-size:12.5px; }
+  .warn b{ color:#7f1d1d; }
+  .ok{ background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#065f46; font-size:12.5px; }
+  .note{ background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:12px 14px; margin-bottom:13px; color:#92400e; font-size:12.5px; }
+  table{ width:100%; border-collapse:collapse; font-size:12px; margin:8px 0; }
+  th,td{ border-bottom:1px solid var(--line); padding:6px 5px; text-align:left; vertical-align:top; }
+  th{ background:#f8fafc; font-weight:700; color:var(--sub); font-size:11px; }
+  tr:last-child td{ border-bottom:none; }
+  td.c,th.c{ text-align:center; }
+  td.r,th.r{ text-align:right; font-variant-numeric:tabular-nums; }
+  .tag{ display:inline-block; font-size:10px; font-weight:700; color:#fff; border-radius:4px; padding:1px 6px; white-space:nowrap; }
+  .tag.g{ background:var(--green); } .tag.a{ background:var(--amber); }
+  .tag.o{ background:var(--orange); } .tag.r{ background:var(--red); }
+  .tag.b{ background:var(--blue); } .tag.n{ background:var(--gray); }
+  ul{ margin:4px 0 8px 18px; } li{ margin-bottom:5px; }
+  ol{ margin:4px 0 8px 20px; } ol li{ margin-bottom:5px; }
+  .kv{ display:flex; gap:8px; flex-wrap:wrap; margin:9px 0; }
+  .kv .it{ flex:1; min-width:96px; background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:9px 11px; }
+  .kv .it .l{ font-size:10.5px; color:var(--sub); }
+  .kv .it .v{ font-size:17px; font-weight:800; line-height:1.35; }
+  .kv .it .v small{ font-size:11px; font-weight:600; color:var(--sub); }
+  .steps{ counter-reset:s; margin:8px 0 0 0; padding:0; list-style:none; }
+  .steps li{ position:relative; padding-left:27px; margin-bottom:10px; counter-increment:s; }
+  .steps li:before{ content:counter(s); position:absolute; left:0; top:1px; width:19px; height:19px; border-radius:50%;
+    background:var(--blue); color:#fff; font-size:11px; font-weight:800; text-align:center; line-height:19px; }
+  .steps li b{ display:block; color:#111827; }
+  .steps li span{ font-size:12.5px; color:var(--sub); }
+  .split{ display:flex; gap:8px; flex-wrap:wrap; margin:9px 0; }
+  .split .seg{ padding:8px 10px; border-radius:10px; font-size:11.5px; line-height:1.5; text-align:center; color:#fff; font-weight:700; }
+  .split .seg small{ display:block; font-weight:600; opacity:.9; font-size:10.5px; }
+  .chk{ list-style:none; margin-left:0; }
+  .chk li{ padding-left:22px; position:relative; margin-bottom:6px; }
+  .chk li:before{ content:"☐"; position:absolute; left:0; color:var(--blue); font-size:14px; }
+  .foot{ font-size:11px; color:var(--sub); text-align:center; margin-top:16px; line-height:1.7; }
+  .hl-r{ color:var(--red); font-weight:700; }
+  .hl-g{ color:var(--green); font-weight:700; }
+  .big-num{ font-size:22px; font-weight:800; color:var(--blue); font-variant-numeric:tabular-nums; }
+  tr.hl-row td{ background:#fffbeb; font-weight:700; }
+</style>
+</head>
+<body data-page-node-id="SXaTrqILlHAyLDIBGgdChf">
+<div class="wrap" data-page-node-id="fyZHcRgUwuTmSPwspNxRYZ">
+
+<header data-page-node-id="s5PlKzlFEV7QejgvIe1v03">
+  <div class="title" data-page-node-id="2CU3HJE0a6L67MGMLBk1j2">纳指定投 · <span class="hl" data-page-node-id="1lD7xSh5igngD0fTeaKlKJ">逐月执行计划 v3</span></div>
+  <div class="subtitle" data-page-node-id="KcLsDiO7Uap8VHU1YLZAQd">到手 10,500/月 + 上半年奖 1 万 + 年末奖 2 万 · 未婚 · 长钱 · 2026-09-06</div>
+</header>
+
+<div class="lead" data-page-node-id="M6acGUC16bqcuvZEt2oeQS">
+  <span class="big" data-page-node-id="ETqwivc8RA5uqBpPyJqQeg">全年到手 15.6 万，按 6,000 元/月支出测算，<b data-page-node-id="bRnfEj0FNl6GlmawNkLCb3">每年可投 8.4 万，储蓄率 54%。</b></span>
+  <div class="sm" data-page-node-id="NIeAp63FTqNbHrp6H9aBDL">
+    这个数字很关键：<b data-page-node-id="tGOfpWB9kKg865gxJBcsKq">你的海外部分峰值日投只有 89 元/只基金，刚好卡在 100 元额度线内</b> ——
+    意味着你不需要抢额度、不需要开十几家账户，<b data-page-node-id="Fu8DjkeM4Oc57chCDjMbkL">4 只基金 + 自动定投就能跑完全套计划</b>。<br data-page-node-id="309DilsShYtYAQBFTTr6ve"><br data-page-node-id="FswexnMFK8bS6udeogxmqF">
+    下面这张 12 个月的表是核心，其余章节都是它的注脚。
+  </div>
+</div>
+
+<!-- ============ 1 现金流 ============ -->
+<div class="card" data-page-node-id="eQqHmVO7HDHz00JywEPTNm">
+  <h2 data-page-node-id="NWaxFhefTDqC6f92xeS3He"><span class="n" data-page-node-id="FH9Doxm6A6uI4QzgSyb3oK">01</span> 你的现金流</h2>
+  <div class="kv" data-page-node-id="C3NBMNk2gxRvt3gwwz6XUA">
+    <div class="it" data-page-node-id="QcZTnLgTFIlqkhR94Y16Z9"><div class="l" data-page-node-id="6suaMCrcAcqwbkpiQsbPAg">月到手</div><div class="v" data-page-node-id="yUOYoRA9YPap29G4BMZHEb">10,500</div></div>
+    <div class="it" data-page-node-id="Ed0iCquS95UsA8kR4iL6Tg"><div class="l" data-page-node-id="9BLcbQVN3hEehwZBLm4YwH">上半年奖</div><div class="v" data-page-node-id="7WDd2BldtVZum87GAjKNVT">1 <small data-page-node-id="DFpW9lxBIUfj6hKgk4E9Vp">万</small></div></div>
+    <div class="it" data-page-node-id="ODZjbH4XCdNOrFBz8CGlRU"><div class="l" data-page-node-id="1ikxmE3jerQKmtCbbRb0j0">年末奖</div><div class="v" data-page-node-id="b14rEEjlfV9xpbWqyTvtDn">2 <small data-page-node-id="No1fkonuEN9dV08T4HiiyY">万</small></div></div>
+    <div class="it" data-page-node-id="Op2kqeoA8PMKXBvVOZdUxz"><div class="l" data-page-node-id="FZuUEiWNoupcaGW98wcDlA">全年到手</div><div class="v" style="color:var(--blue)" data-page-node-id="5nkVndU91aSaLKmHpvRei7">15.6 <small data-page-node-id="5IggddRP9gt6jcyQGTmxjs">万</small></div></div>
+  </div>
+
+  <table data-page-node-id="CcT5XFx5yVZETNQV8nyoHa">
+    <tr data-page-node-id="9nWnqlz9sHwY2Uto4pER2t"><th data-page-node-id="moGr5AFaqzGYJGLOiZcNjs">月支出假设</th><th class="r" data-page-node-id="MepSfYLcP1HPzuVa6YR7s2">月结余</th><th class="r" data-page-node-id="F7Lx9hbJJuivKxTeXI4Gnj">全年可投</th><th class="r" data-page-node-id="bNNhgZwLdgHrb9MFwiV7Jn">储蓄率</th><th data-page-node-id="X5PHvATfEKpEMdZ440eFwK">评价</th></tr>
+    <tr data-page-node-id="WmN2jaHocqYSuiy9DgwmG8"><td data-page-node-id="Baw113apj8TDXLTFRgujii">5,500</td><td class="r" data-page-node-id="YyWN6h15FQ5FvTxPCPX3uX">5,000</td><td class="r" data-page-node-id="rsSv9Wvjixx5hck42P9XWS">9.0 万</td><td class="r" data-page-node-id="ArkZbjnpdRtPdfqaw3nfEr">57.7%</td><td data-page-node-id="3Y0EGbPlFx8iS6CD9XFKrm">偏紧，难长期坚持</td></tr>
+    <tr class="hl-row" data-page-node-id="R0MHQ5p5Au6pd9DPllHbNx"><td data-page-node-id="tfjqbdHdnI5FGoiVeL8mqp"><b data-page-node-id="67NqCrNesFHdwZ3gsQkVbZ">6,000（本方案采用）</b></td><td class="r" data-page-node-id="CT1w9kfg4nwhd5JfEYTtZf"><b data-page-node-id="GiDX2SEYyw7pZuHE69ecnd">4,500</b></td><td class="r" data-page-node-id="uo3rFRb97hFTjtIh5KhhIm"><b data-page-node-id="KyzWQ3amZuJGdtHBdYtl8X">8.4 万</b></td><td class="r" data-page-node-id="HLvWbMH6aA77rQA4yUJO2A"><b data-page-node-id="BduKRRiGVfESIAPvFBuow4">53.8%</b></td><td data-page-node-id="jWNUozHIPlbPol5ntcRj4f"><b data-page-node-id="PSfB0MbD1GzJdZBj8cmy6n">可持续，推荐</b></td></tr>
+    <tr data-page-node-id="7Ob4EBlaRIjDsuczQusuus"><td data-page-node-id="YDkFHvFADC7US1NEXCThKM">6,500</td><td class="r" data-page-node-id="jkDIwJjGoz5JYVrxooXkEl">4,000</td><td class="r" data-page-node-id="xpFBYi9FKzNk8T4gCRgN3w">7.8 万</td><td class="r" data-page-node-id="Z0bVXR0ByQvCRJosnLmudb">50.0%</td><td data-page-node-id="9CmBbzWU6dmx7jmhsuV8HF">舒适，也不错</td></tr>
+    <tr data-page-node-id="80PB8QRrS578DCdBAfjTVG"><td data-page-node-id="W5IV6ggrTYEbkmVHWkQqC5">7,000</td><td class="r" data-page-node-id="x6wZH1kvN0InVvDhBUzlpK">3,500</td><td class="r" data-page-node-id="2jlCD9B4lRKEQhRXLKtqs6">7.2 万</td><td class="r" data-page-node-id="MaZH53aTXfrxe7vw5UYHPy">46.2%</td><td data-page-node-id="jYSVXvNPVppW1F0hvkWvwf">偏松，建议压缩</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)" data-page-node-id="FIjE08bn1z9ns1Wplh3sGX">
+    <b data-page-node-id="EbpbUcuSTBt5Gk8TmzB1HZ">支出是我假设的（房租 2,500 + 生活 3,500）。</b>请替换成你的真实数字，
+    然后套这个公式：<b data-page-node-id="aofmydtNlTKht1hq4BvC41">月结余 = 10,500 − 实际支出</b>，后面所有金额按同比例缩放即可。
+  </p>
+</div>
+
+<!-- ============ 2 逐月执行表 ============ -->
+<div class="card" data-page-node-id="6nJDH7rxHeHpH8HpRvHpQb">
+  <h2 data-page-node-id="YAIhjvFC7OLfSwIGOibvok"><span class="n" data-page-node-id="ZxStivyRKXz5E2kcNIFdc5">02</span> 核心：12 个月执行表（照抄即可）</h2>
+  <p data-page-node-id="fAMzDDhkAeYTbIEooVYWiq"><b data-page-node-id="Hz8FOCddv3f7bHgUN6qX4V">规则很简单：</b>每月工资发下来投 4,500；两笔奖金到账后<b data-page-node-id="PIPIg9jx10Ces8kNPyxHTP">不一次性投入</b>，
+  上半年 1 万分 <b data-page-node-id="N3NatMH88Tql4L8F1oRU20">3 个月</b>、年末 2 万分 <b data-page-node-id="pVED3baGdPLf7dLXPb52Tw">6 个月</b>，都正好是每月 <b data-page-node-id="KND8Cq9UtUjc0RVrXI8UWq">3,333 元</b>。</p>
+
+  <table data-page-node-id="g1MPQ8GdIHL8GIT3B9bLp2">
+    <tr data-page-node-id="NyVoFuysp8Euqz06gApgxq"><th class="c" data-page-node-id="wYUm9YKfVz7mQp5POjxdf4">月</th><th class="r" data-page-node-id="HHZQjGejBBckKUwM6Pse5M">常规</th><th class="r" data-page-node-id="bkGQhdtpL0lFjCRvY44PmE">奖金</th><th class="r" data-page-node-id="uphdES7lrXUJyCaaBkCDkX">本月合计</th><th class="r" data-page-node-id="KoV5MdYEqhoWsB1j34bxLX">海外 50%</th><th class="r" data-page-node-id="QceTvtQDIdtIR843iynnf5">A股 25%</th><th class="r" data-page-node-id="tC3DtnYLq6tRmESXGHhnpg">债券 25%</th><th data-page-node-id="Epw97HmABDcTx5qHLt5Mum">备注</th></tr>
+    <tr data-page-node-id="I8Dh7XTDVcYD2CN2WxM0Hn"><td class="c" data-page-node-id="poVm5ofEGbGrFtCHX91Pc5">1</td><td class="r" data-page-node-id="wwak3EBVucQqGmWctz3Dz9">4,500</td><td class="r" data-page-node-id="luKkA4Xaqbmnr57xDfUQSw">3,333</td><td class="r" data-page-node-id="oLRnWquXJS5HPvE8WQ2fde"><b data-page-node-id="L5A7ocwyBmYRMCzDfAQPwB">7,833</b></td><td class="r" data-page-node-id="6FrrhVmKNMGIoJQ2nFpMeg">3,917</td><td class="r" data-page-node-id="JzynDWn9zOCAiMMLB8J2hh">1,958</td><td class="r" data-page-node-id="BQlWIYGuw71iHdgNmNQxKb">1,958</td><td data-page-node-id="u46hMrLebyL5QE4SzntOGb">年末奖 2/6</td></tr>
+    <tr data-page-node-id="cEFJxxGbWfjy3pylOH5fws"><td class="c" data-page-node-id="QS4bhCys4wZLayH3VtwOGK">2</td><td class="r" data-page-node-id="pRufceWFUqEc8KT64zbUiB">4,500</td><td class="r" data-page-node-id="b4J0Lz7dSyuBeLB37boNOa">3,333</td><td class="r" data-page-node-id="MRGtCTtJ1l5GsiTxcklA89"><b data-page-node-id="lxUvYM63z3Z9HEk1zECEB6">7,833</b></td><td class="r" data-page-node-id="bYcL3qXulyktVSIaEoONVF">3,917</td><td class="r" data-page-node-id="Z2ODrbcRHYRutHkWvuN7lo">1,958</td><td class="r" data-page-node-id="fQkxKI6W14rU2G0hNMlgxi">1,958</td><td data-page-node-id="cK4CLDGMxK2FXF4xs4jrYX">年末奖 3/6</td></tr>
+    <tr data-page-node-id="kA9rVprwZoWSLJXu90WoAd"><td class="c" data-page-node-id="6gAijgrGE0AsaKlle8o8Cv">3</td><td class="r" data-page-node-id="ZDa4d49AzEmCaNUKyAlC9K">4,500</td><td class="r" data-page-node-id="QByFwKp8ILIinq0dSIWKFI">3,333</td><td class="r" data-page-node-id="t4TU79gAq9PqoISFBcdmra"><b data-page-node-id="nsXchQydnhcn2db4qDmJ1B">7,833</b></td><td class="r" data-page-node-id="XyBMY3Jx2XvofgCXQ8iKwt">3,917</td><td class="r" data-page-node-id="Mpg2DgvxiCf4kshTcEc3O6">1,958</td><td class="r" data-page-node-id="txQ1JzSJfAdxmPQ7MiinSc">1,958</td><td data-page-node-id="JmN6OmQrOClkJdw7XsR7HN">年末奖 4/6</td></tr>
+    <tr data-page-node-id="LpQsUGiDhBcFxohGjatiPd"><td class="c" data-page-node-id="QAFeWciQObKY7PYswuR7Fr">4</td><td class="r" data-page-node-id="L4GZGCB0osbGFLMskjgPsz">4,500</td><td class="r" data-page-node-id="pA3wrZU2wHJT0yTheMS3dM">3,333</td><td class="r" data-page-node-id="2weBaIvioYlIU6hMy6InGS"><b data-page-node-id="Vb33wZ9qVDZzBAaOfocCKz">7,833</b></td><td class="r" data-page-node-id="VhbaTFQezg032BPLvvtrmY">3,917</td><td class="r" data-page-node-id="giPu6qpMpqcn4DIzEIPjqI">1,958</td><td class="r" data-page-node-id="LHeywbFmgqWdpj1XUVDdhW">1,958</td><td data-page-node-id="NgqCl5Tb2lQnp7yu8zlNap">年末奖 5/6</td></tr>
+    <tr data-page-node-id="0gR6jBaScDpYspyj2yE4Ty"><td class="c" data-page-node-id="pv4qOpTeDNcJAtqdXKapwG">5</td><td class="r" data-page-node-id="ZX9WfDWsXnDGIPK12KJMjO">4,500</td><td class="r" data-page-node-id="CkV7Bx86qfxJ3Xx6ZyNgwE">3,333</td><td class="r" data-page-node-id="MpQYgLICq8c0TSkApnkiMK"><b data-page-node-id="dbSk5tJSWClSfeXkcibd0x">7,833</b></td><td class="r" data-page-node-id="ih2A4BwIoMSrYBmZDkdGLc">3,917</td><td class="r" data-page-node-id="gfTFvlpOrW4QYQrL2lqgAn">1,958</td><td class="r" data-page-node-id="afBN9xcKf6aSLGL9j2R0Iu">1,958</td><td data-page-node-id="rbmZEjWD9YULCKYfbkHoxL">年末奖 6/6</td></tr>
+    <tr data-page-node-id="q9mYsZD6tAr36lmBVN5KMP"><td class="c" data-page-node-id="QhDPYhnRi7D8n3VJnPyZen">6</td><td class="r" data-page-node-id="18CCMjwizVzXNK7msZN82a">4,500</td><td class="r" data-page-node-id="XJ8FIj9KnuazuRfCLI9XXs">3,333</td><td class="r" data-page-node-id="Pvi5szvVHPsrFalV6QnKxP"><b data-page-node-id="HoEkvgWgXDiPnDtqvHP6QA">7,833</b></td><td class="r" data-page-node-id="QNQmz5zPHyiMQhLFCsobcy">3,917</td><td class="r" data-page-node-id="R2wYmsAzqCHEDwtYpPrUyj">1,958</td><td class="r" data-page-node-id="dKU1psW1O8xXhCqwL3ye75">1,958</td><td data-page-node-id="0Nz6NijD7WNt5GIWxTddTn">上半年奖 1/3（6月到账）</td></tr>
+    <tr data-page-node-id="JZZwL83yD0gBCBfHA8khZd"><td class="c" data-page-node-id="5ieBaLMS5wsAt3jZrhREbQ">7</td><td class="r" data-page-node-id="eueI7ze1QTL2FJdQihPeu4">4,500</td><td class="r" data-page-node-id="UH3Er1WxXdAYxtWFlFwymn">3,333</td><td class="r" data-page-node-id="rwaF5HPW48S53rNtzSdPhE"><b data-page-node-id="E27cZ1AsexGB80NBEYlzH9">7,833</b></td><td class="r" data-page-node-id="KZag3oaPR6vvFBmpK7pYCb">3,917</td><td class="r" data-page-node-id="GkNuT6IXqiI3JqS9p3gDsR">1,958</td><td class="r" data-page-node-id="9a0TZgjupv7VEyAgVVtrCM">1,958</td><td data-page-node-id="8f9i6exHi1kxfThGFk3VBX">上半年奖 2/3</td></tr>
+    <tr data-page-node-id="3TVuxmpwEHWNvI9ezERF0z"><td class="c" data-page-node-id="EOLCCuE2bHBBhFr0GSCMbB">8</td><td class="r" data-page-node-id="UF0DbciIaaAs9hX7XJjAYY">4,500</td><td class="r" data-page-node-id="KMHs4LvLmj0SShEaxd3NeR">3,333</td><td class="r" data-page-node-id="UdWCwykuvPbJMPRfVL2cRT"><b data-page-node-id="Zx57ZdrvzPitvxBTsN9pYL">7,833</b></td><td class="r" data-page-node-id="Dd5TR0LGBwH4PF04hC6qi0">3,917</td><td class="r" data-page-node-id="JBKlgxpW8YnGOqngaHg7YS">1,958</td><td class="r" data-page-node-id="Tf0ayYuOzulJWec8FNR5ym">1,958</td><td data-page-node-id="0bPtAjzTOhvEJgvV1eoaiA">上半年奖 3/3</td></tr>
+    <tr data-page-node-id="b1QJAXlDyVVnFw1bWATYel"><td class="c" data-page-node-id="9xqZrOzTIO4nnnaSlgDjl9">9</td><td class="r" data-page-node-id="WcDzgmQyN44o2gXOyDmeCg">4,500</td><td class="r" data-page-node-id="PnuTM8UT1HAvsMiiFeruYL">—</td><td class="r" data-page-node-id="93bOSJJ9qh8pxLInz5Z9s2"><b data-page-node-id="bIwGHrcTAq8tnZMm41Ffu8">4,500</b></td><td class="r" data-page-node-id="gtGgIkZF5Cq6s6vnJrA7Xk">2,250</td><td class="r" data-page-node-id="KbUtChsgNuHY3BV50ccqg4">1,125</td><td class="r" data-page-node-id="pAHg8NUFvw1IO8RkuaTxdO">1,125</td><td data-page-node-id="szBKlt12G0HgGNu1ZtZ8oD">空白月</td></tr>
+    <tr data-page-node-id="bKgm22lpJeuE82TPVOPFax"><td class="c" data-page-node-id="ou8IWKBPGpUuwETxHZZjH2">10</td><td class="r" data-page-node-id="ihIIEvVVXxScI6pOcDirLv">4,500</td><td class="r" data-page-node-id="MVgCsygArBVgYWHqvXkpeK">—</td><td class="r" data-page-node-id="svW8ir5abhOIeFasJilXCN"><b data-page-node-id="k0t9soVBKeTMK3uHYmNJIj">4,500</b></td><td class="r" data-page-node-id="MzJe3zLcLW33fjsvAP9aQs">2,250</td><td class="r" data-page-node-id="k1PNFzzfDmxKcAeSTUVJNW">1,125</td><td class="r" data-page-node-id="ltwnZFgATLDQlnEaskNKLa">1,125</td><td data-page-node-id="n9bwBoGHQkQ9PiowoBSjPx">空白月</td></tr>
+    <tr data-page-node-id="pZhE2VvYd9OcbrdLBpqGMg"><td class="c" data-page-node-id="RKg6OfwpYyLJ6sAG4z5XHC">11</td><td class="r" data-page-node-id="SLDv9PgJJ2ichJXylizH9F">4,500</td><td class="r" data-page-node-id="G9yRSIdDm6pfzOdH2FKPHE">—</td><td class="r" data-page-node-id="160ai5EFomhJOe67rxL1Xs"><b data-page-node-id="c2XpvB5FGJhjqYKP1wpy6B">4,500</b></td><td class="r" data-page-node-id="9513KSerQfxZCsbRPwxVjt">2,250</td><td class="r" data-page-node-id="FctHualEhnio8yxtZhtlJG">1,125</td><td class="r" data-page-node-id="3GU1t4C6qwVtRZ61bE84zg">1,125</td><td data-page-node-id="EjLx8zu4nHcQdxogFzNEzQ">空白月</td></tr>
+    <tr data-page-node-id="3qhLP5z9iEWiXHltujBuHo"><td class="c" data-page-node-id="7NkRQ4Qrb6G5HZqmS6MUDx">12</td><td class="r" data-page-node-id="jZoolnBquzfpZ1O4alWBhz">4,500</td><td class="r" data-page-node-id="6tyS988tdfUFaGe4V1yeag">3,333</td><td class="r" data-page-node-id="jLi0oXW4OW1Hahx4WYATVH"><b data-page-node-id="wDzknb5pPN1pgpVzT5YYGV">7,833</b></td><td class="r" data-page-node-id="0sEGHEVLssN3h0WQ3dAGEX">3,917</td><td class="r" data-page-node-id="qIWBUBtVfREohHSCkkNmnh">1,958</td><td class="r" data-page-node-id="C8xL363kSpO9U5DcHEmCzH">1,958</td><td data-page-node-id="7ZkhBqFKA8YSBVNJMqbgwe">年末奖 1/6（12月到账）</td></tr>
+    <tr style="background:#ecfdf5" data-page-node-id="fnw8QHiZUZsjXuBe0Pij2W"><td class="c" data-page-node-id="uS7tLob1HTKgPFcC6r6mXY"><b data-page-node-id="xwdgFx5AoNgpGM7CC8JbNg">合计</b></td><td class="r" data-page-node-id="s9gheA0cPHH9O5OjtJ04h9"><b data-page-node-id="F7IssoFudPJqetxV4ntLao">54,000</b></td><td class="r" data-page-node-id="kjC9OtHj02yj7svOz4v46A"><b data-page-node-id="Unc3PEF4X6NNil4GxgEB6j">30,000</b></td><td class="r" data-page-node-id="7PHYfhdoDnHlkWyMT0Bbik"><b data-page-node-id="zK7GESORv2BTzvIS4oz8w6">84,000</b></td><td class="r" data-page-node-id="m6E62ahmrENydKDp1RXmcD"><b data-page-node-id="tLZIWmKp0UPtCBYu4KP9i6">42,000</b></td><td class="r" data-page-node-id="4ijZRuDUukb99EjpqWNXxa"><b data-page-node-id="flHFrRJiJCZxEhkbLck9zm">21,000</b></td><td class="r" data-page-node-id="i7L0XVHQBjdpwYwcxP4yDr"><b data-page-node-id="TeF9EDVF0mZqDI6rjhMZDr">21,000</b></td><td data-page-node-id="bcJvP12fuZqUSt3gvreT9o">—</td></tr>
+  </table>
+
+  <div class="ok" data-page-node-id="a3RWGmFnJb3x2H3GSuNWsY">
+    <b data-page-node-id="AwTK8t4ORZKOIlGGXB5WIq">为什么奖金要分批而不是一次性？</b>两个原因：<br data-page-node-id="kRRrYrle2hMqA9Mx5EWsup">
+    ① <b data-page-node-id="Fbau8wwpb4UZgqQspoq6h5">降低时点风险。</b>3 万一次性砸在单月，若遇回调会很难受；分成 6 个月，成本自然摊平。<br data-page-node-id="SK015rBUjFJp4JeMmGySfz">
+    ② <b data-page-node-id="OIKvFGFoSFbu828dNuVwED">正好匹配额度节奏。</b>后面会看到，一次性买入会把日投顶到 400 元以上，远超 100 元的场外额度，反而买不进去 —— <b data-page-node-id="EgYvFszYri4UrHlqaQJoJw">分批是唯一现实可行的做法</b>。
+  </div>
+
+  <h3 data-page-node-id="v411qpqrE2rsJWIyGahgH4">奖金投放期数怎么定（用你的温度计）</h3>
+  <table data-page-node-id="VKSRRQtTCgiUddKJCarY3j">
+    <tr data-page-node-id="HK9EHkfS76J1zFa3FZwYDs"><th data-page-node-id="CU8LsQ4Qa2E8H6PEjnl98L">奖金到账时的月读数</th><th data-page-node-id="JngVgDzn1c5Wau99p3mDGL">上半年 1 万</th><th data-page-node-id="JkLGZgRQODiNHVsU3BJrMV">年末 2 万</th></tr>
+    <tr data-page-node-id="sssELRnTFG30RYpl8GvDPA"><td data-page-node-id="RNw3T3AmzpZIb38N9QZfjO">≤ 55 偏冷</td><td data-page-node-id="VicSG94yCAPR07hXb758cE">2 个月（5,000/月）</td><td data-page-node-id="Kcxwps9EL1rlV0m2EKnb6A">3 个月（6,667/月）</td></tr>
+    <tr class="hl-row" data-page-node-id="3V1Rt0w4emOMkJD1q6ZgOt"><td data-page-node-id="nzR5Ujk2qehEF5bCJnN9j0"><b data-page-node-id="t9vcSAFdUXChGvGjjUlR7i">56–85 ← 当前 69</b></td><td data-page-node-id="J7oDsnQVrxSFfUQ5p4uCPZ"><b data-page-node-id="FNWz10669pYedYbx1luA2S">3 个月（3,333/月）</b></td><td data-page-node-id="qRKQaKojCWKnWBfG2QEg55"><b data-page-node-id="zfkqmLOsyMMcvCkL7IJnXw">6 个月（3,333/月）</b></td></tr>
+    <tr data-page-node-id="96fFqAW0GMjA1pW4nOEvEl"><td data-page-node-id="GnyGvF6tUVWP1SOIo6ektT">≥ 85 极端泡沫</td><td data-page-node-id="fAXkeNTWYCyyvd02MVIAFF">6 个月（1,667/月）</td><td data-page-node-id="dOXBFc5NDEAnCeOIyWZ3Wy">12 个月（1,667/月）</td></tr>
+  </table>
+</div>
+
+<!-- ============ 3 买什么 ============ -->
+<div class="card" data-page-node-id="Fe4bSQ1xgttonlDMZ0CAid">
+  <h2 data-page-node-id="q6aHBnuY7YiWsghpFJ2rCH"><span class="n" data-page-node-id="0pSyHhjIleyDDYsdOXlgE5">03</span> 买什么：4 只基金，日投金额直接抄</h2>
+  <p data-page-node-id="RRjTdrnr3u1fgibBNDe6ry">每个指数配 <b data-page-node-id="mGLHwdkKyu4A7ShxOA1rb4">2 只基金</b>、金额对半分 —— 目的是<b data-page-node-id="nZhDVG6MQKkBDJ7f9Uk9Qw">防止单只基金突然限购导致断供</b>（汇添富曾 3 天内从 1 万降到 10 元，这种事随时会重演）。</p>
+
+  <table data-page-node-id="T4HyLrAWTYnHsIzQi4hgzP">
+    <tr data-page-node-id="OR5LEgTkbBxb51NDViQa0Z"><th data-page-node-id="li1REcribPORvpaWd8nvTG">指数</th><th data-page-node-id="waMEQq8CDEDAZJhsk4k9qK">基金（A 类）</th><th data-page-node-id="F607D8jJ1KCi2b5mP7u18i">代码</th><th class="r" data-page-node-id="qHh9mLOGS2BMGTjLlyZVCd">日额度</th><th class="r" data-page-node-id="KcVCEVfnxUqtBGDZHMVd70">稳态日投</th><th class="r" data-page-node-id="DDh05oODzKqrfIxYY2G1fT">奖金期日投</th></tr>
+    <tr data-page-node-id="YPx9wiwlZFRRjwFxZtN7J9"><td rowspan="2" data-page-node-id="ayKYISuWFstKUmtZW9CFLi"><b data-page-node-id="l9DtJWfc7OyH14AFklklPm">纳指 100</b></td><td data-page-node-id="B1Ue0ONKPlk6kRhhphpQNp">天弘纳斯达克100指数发起</td><td data-page-node-id="rq8BPJSFaq9OqU77dEJ3lw"><b data-page-node-id="1BwJfJ5asInSx5tFl0NCgI">018043</b></td><td class="r" data-page-node-id="w4BMLWBbzjZ3OXjgNR3C6V">100 元</td><td class="r" data-page-node-id="StC6FCdjFFSKbxJMsQknlC"><b data-page-node-id="1ylRzEOsg43UrYSoMmXCUu">26 元</b></td><td class="r" data-page-node-id="09COczzS79NY84d5CLrJAQ"><b data-page-node-id="YFSWJRdn5I12YGQP420jhA">45 元</b></td></tr>
+    <tr data-page-node-id="GBmgTWv5stLOAa0Tyya8tR"><td data-page-node-id="Ywu46L5w9YRVJql73hd9KA">国泰纳斯达克100指数</td><td data-page-node-id="7oIlFGyeievCwmSbERpi2Z"><b data-page-node-id="JoVA6pZEknmBS0z65fm2TY">160213</b></td><td class="r" data-page-node-id="8Rdg3ifDhyhDN4gu5bA2b1">100 元</td><td class="r" data-page-node-id="Ddp2Ck4OeeyFxldziSUOWF"><b data-page-node-id="FT6LWBD9Jw9xQAwPA8lKDG">26 元</b></td><td class="r" data-page-node-id="UTKh1HwtV8nk2aq0POIX1f"><b data-page-node-id="GatptVEDDH27YBNXNe9Ffn">45 元</b></td></tr>
+    <tr data-page-node-id="O0uy1Mejc6jyicnCfO1mOa"><td rowspan="2" data-page-node-id="fJo4WsA8eUGxlXhEP59986"><b data-page-node-id="ooG4ECNW6xAp8qSeWgVCQx">标普 500</b></td><td data-page-node-id="CSS7nJnAdZJHSFChJzROLh">天弘标普500发起(QDII-FOF)</td><td data-page-node-id="G51NdzFN6987MFW3Ud9aHE"><b data-page-node-id="sppi6nhafwihDHgTVr91LH">007721</b></td><td class="r" data-page-node-id="6Tr1RFBLnBzbBgCSXhLBlV">100 元</td><td class="r" data-page-node-id="5vT6PfeYwVy2ma0ZNHKxHd"><b data-page-node-id="H5Z3hjOBRNOi6psAa5mZMM">26 元</b></td><td class="r" data-page-node-id="hm9ZkXT62wWVirEatLXg5r"><b data-page-node-id="9DCJHmHXlbCFOLYuU6DAB1">45 元</b></td></tr>
+    <tr data-page-node-id="p8SsjMzeqWTgSmerd2df0L"><td data-page-node-id="xtJYcMyErc2aIilLCkdCez">华夏标普500ETF联接 / 博时标普500联接</td><td data-page-node-id="6ZJmjDaCrj26cBlF0cKviA"><b data-page-node-id="aG1bVjgBdqANHdyZdDGsYi">018064</b> / <b data-page-node-id="dAeuTujtlDADNxvstpFDGF">050025</b></td><td class="r" data-page-node-id="ZCLhWosu291AXJIrt4KwnS">100 元级</td><td class="r" data-page-node-id="rXLvclzmZCdc3PXmKiFShW"><b data-page-node-id="L6RK5Kj4CFXzBdpAsU4UJp">26 元</b></td><td class="r" data-page-node-id="gefTeE4GbsuzTG1JX8K6p4"><b data-page-node-id="P2l8yGuQdwOsnvg7ZhoU3B">45 元</b></td></tr>
+    <tr style="background:#f8fafc" data-page-node-id="AYnvroB6bq3RCLKUtBNohp"><td colspan="3" style="color:var(--sub)" data-page-node-id="kgQKsW7f2GyiM9tsuCIlJY">A 股宽基（场外，无限购问题）</td><td class="r" data-page-node-id="J62lL1VJHVfBzlIpA5HXqq">—</td><td class="r" data-page-node-id="gaCv2rHA9awthM0uRFSQEM"><b data-page-node-id="3dFyrLVKizNQ6JtjkgtT0w">51 元</b></td><td class="r" data-page-node-id="DtKC0EGZLg1y70nWnSX6Ki"><b data-page-node-id="dY3y97Vofs9PHbT9DQMPCs">89 元</b></td></tr>
+    <tr data-page-node-id="7AcFbDOrrZmV7dFz8FF82L"><td colspan="7" style="background:#fffbeb;font-size:11.5px;color:#92400e" data-page-node-id="H1CzH8LGekS7pVdwpBKAM9">
+      <b data-page-node-id="xlC4AruAt6XdordXvEKEiD">日投怎么算出来的：</b>稳态海外 2,250 元/月 ÷ 22 个交易日 = 102 元/日 → 纳指、标普各 51 元 →
+      每个指数再对半分给 2 只基金 = <b data-page-node-id="mbsboIOn47JpHp4xb3X5cU">每只 26 元</b>。奖金期 3,917 ÷ 22 = 178 元/日 → 各指数 89 元 →
+      <b data-page-node-id="BNkGIlFHCqckvR5hRpdSSx">每只 45 元</b>。<b data-page-node-id="GreQDNV3Zu8BrDvtmSzibK">都远低于 100 元额度线，安全垫充足。</b>
+    </td></tr>
+  </table>
+
+  <div class="ok" data-page-node-id="E3Z7WnCPmP9ybfCu3Auzfo">
+    <b data-page-node-id="F9ujyQNnb1hH0AoLDPSe3f">最省事的设置方式：</b>在支付宝 / 天天基金 / 理财通里，给这 4 只基金各设一个<b data-page-node-id="43NDfFJKXTkCavNsDLjF8T">「每日自动定投」</b>——
+    稳态 26 元 × 4 只 = 104 元/天。奖金到账那个月，手动把每只改成 45 元（或直接在 App 里改定投金额），
+    到期再改回来。<b data-page-node-id="Zeo7LgmFiXUJ501Of9IEVE">一年只需操作 4 次</b>（两笔奖金的开始和结束）。
+  </div>
+
+  <div class="note" data-page-node-id="oBTHYcFBMBCN73qQC1xXVD">
+    <b data-page-node-id="l0jhnkEAwbnhLaGmkCa5B5">为什么每个指数配 2 只？</b>天弘和国泰的额度池是独立的。假设天弘某天突然把额度从 100 元降到 10 元，
+    国泰还能接住；反过来也一样。<b data-page-node-id="c2KmSsEGEXG7LfpijSqqGm">多开一只基金的成本是 0，但能避免定投断供</b> —— 对"必须长期不间断"的定投来说，这个冗余很值得。
+  </div>
+
+  <h3 data-page-node-id="boCjh1mC1hkxyMhfIIG0f8">A 股宽基买什么</h3>
+  <p data-page-node-id="14tOI8PaW3INIZv1LqRUeU">沪深300 或 中证A500 的场外指数基金，<b data-page-node-id="6L497Dab0HrDcABUDM5ZUj">选管理费 0.15% + 托管费 0.05% 那一档的低费率产品</b>（各家都有，平台搜"沪深300指数"按费率排序）。
+  A 股部分没有 QDII 额度问题，不用分批，每月固定日买入即可。</p>
+</div>
+
+<!-- ============ 4 起步期 ============ -->
+<div class="card" data-page-node-id="4AiPHeuGkwhp9CKxsH9uRb">
+  <h2 data-page-node-id="biHidccX3rW555jVpyvBIc"><span class="n" data-page-node-id="52QcsFLEeuVwiEs26WxjM5">04</span> 起步：先用 7 个月把应急金建满 3 万</h2>
+  <div class="warn" data-page-node-id="r00tYoNUw2SBxwb810HSAi">
+    <b data-page-node-id="OdOdazDLPm2eH5w2AHddOr">这一步不能跳。</b>应急金不是投资，是让你在 -30% 的年份里<b data-page-node-id="KmEtSY3XODKWVKJI1twgGz">不被迫割肉</b>的底气。
+    没有它，再精密的定投计划都会在最坏的时刻崩掉 —— 而"最坏的时刻"恰恰是定投收益最高的时刻。
+  </div>
+
+  <table data-page-node-id="cIVkKUV8eC8DcLtCSdCfCv">
+    <tr data-page-node-id="H28Xaf5Xyvt5B0AQKlkeBv"><th data-page-node-id="tWwOU702IE7kyGL7lqSP9V">阶段</th><th data-page-node-id="ZJGwgInpFviE7uVutKL7Ia">时间</th><th data-page-node-id="A1eq9wRUVJeAVcQXKkp9JQ">每月动作</th><th data-page-node-id="7FuY3uzamETXLzUplyiO5K">目标</th></tr>
+    <tr data-page-node-id="wVhZHa6WP4mwIf02HdtwdJ">
+      <td data-page-node-id="dpH2tEeDD4bzg0wFQC9mDf"><span class="tag a" data-page-node-id="XzRdAciwIIMJM9AZCXJqgA">起步期</span></td><td data-page-node-id="RbONVPJfl5rdiJyeS3WuWD">2026/9 – 2027/3<br data-page-node-id="ELGRIFYCy3JBe2tpntUP8E">（7 个月）</td>
+      <td data-page-node-id="svTWcMzX9z4AwGBnyOiYvw">应急金 <b data-page-node-id="9yUqGxeYeHw0I4qBDRPLAT">2,500</b>（货币基金 / 同业存单指数）<br data-page-node-id="aMHB63l0sgw2Ys92oPeYfE">海外 <b data-page-node-id="ZX9qbPnHhgX2bj6aV1HlIC">1,000</b>（4 只各 11 元/日）<br data-page-node-id="0uDV2mNh7IXHMLNN9Goscc">A 股宽基 <b data-page-node-id="FSXzF2FfL8S5pFhXnluxPX">500</b></td>
+      <td data-page-node-id="0HjBr1M3gIT48D737vMIGr">2026 年末奖 2 万中拨 <b data-page-node-id="COKIXlgIDaqNTePIRE9JHk">1.5 万</b><br data-page-node-id="sqHDq39pxbzkk0Y8yRHSsQ">＋ 月存 2,500×6 = 1.5 万<br data-page-node-id="vKt2oy22X8tzJfJaoqdRXv"><b data-page-node-id="82oo7gAbT6zx8XyoAse2af">= 应急金 3 万（5 个月支出）</b></td>
+    </tr>
+    <tr data-page-node-id="vxiT0vvx92cbAvA3ZbYAp5">
+      <td data-page-node-id="dxMpn9sHwOBYPIC9vvWCew"><span class="tag g" data-page-node-id="fKP7Rb7r8iUPw2Eq1unYZE">满速期</span></td><td data-page-node-id="Gw9ZAQElkWoBwCSu5i7XyR">2027/4 起</td>
+      <td data-page-node-id="7ieiDh353kG1lzEigAgjDZ">按第 02 节逐月表全额执行</td>
+      <td data-page-node-id="2R5KTvXTh2u7oXwUJ3mkW5">年投 8.4 万</td>
+    </tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)" data-page-node-id="9LH0aFv9b2NmL0HNKYDgJ6">
+    起步期海外日投只有 11 元/只，看起来很少 —— 但<b data-page-node-id="QZI4YmdCq2c4y0uJqahEBx">定投的价值在"不间断"，不在"金额大"</b>。
+    这 7 个月的重点是把账户、自动定投、应急金全部建好，为后面 20 年打地基。
+  </p>
+</div>
+
+<!-- ============ 5 税务 ============ -->
+<div class="card" data-page-node-id="irLS8Ruy2KhgjVbxwStJsK">
+  <h2 data-page-node-id="BTxn45SGb3NrX8a6o1SWnf"><span class="n" data-page-node-id="uPpMegFDS2VGMkglhwJq2y">05</span> 税务：年末那笔 2 万，能省 1,400 元</h2>
+  <p data-page-node-id="rvYMPftNYj3J9Y3M8h7Vo4">按你月到手 10,500 反推，税前月薪约 12,000，<b data-page-node-id="0LKUkE63DvG8FY10c4ucZG">边际税率落在 10% 档</b>（年应纳税所得约 5.04 万）。
+  这个税率决定了两件事：</p>
+
+  <h3 data-page-node-id="9S7bwoB53Ii7QJKXVpxmrw">① 年末奖 2 万 → 选"单独计税"</h3>
+  <table data-page-node-id="lat4mVonSEbjC4c05MboD8">
+    <tr data-page-node-id="Ep0e1cHqjr7qGmXBufi13P"><th data-page-node-id="YDfTUUYFnln3gYvERZ2WI0">方式</th><th data-page-node-id="95rBWX2sGSe7gfUfx4jZiJ">计算</th><th class="r" data-page-node-id="WEic9E3riE0QiKLzpWul4Y">这笔奖金的税</th></tr>
+    <tr data-page-node-id="mHBcEC45O88XUmqm3bfaYL"><td data-page-node-id="QxxaWM1AshUGlBnd091V7h"><span class="tag g" data-page-node-id="vYwLc0BJL7n3oXsbL6fTtA">单独计税 ✅</span></td><td data-page-node-id="sWiEJdkPTjDP4B1dEq9oYV">20,000 ÷ 12 = 1,667 → 3% 档（速算扣除 0）</td><td class="r hl-g" data-page-node-id="DfVrwmnoz9IbAcz0ZbHM9o"><b data-page-node-id="mc4IYqEzEW6hu1S90QftBy">600</b></td></tr>
+    <tr data-page-node-id="zy6nIOaHf3ck0obX3FF9QD"><td data-page-node-id="PKGkKvTr9qBYqQoveHOmEl"><span class="tag r" data-page-node-id="HQaLNurzfxbnoNjfcVAuqg">并入综合所得</span></td><td data-page-node-id="OEmWufPPJ21MDG5jECtHDk">按你 10% 的边际税率计入</td><td class="r hl-r" data-page-node-id="STJ8P1BFqScmbYG6sEhIzC">约 2,000</td></tr>
+  </table>
+  <p data-page-node-id="B9uz5BnxBZHjltVlqfPE24"><b data-page-node-id="QaNWIEePWbHyMcqNTRpsfy">选单独计税，省约 1,400 元。</b>次年个税 APP 汇算清缴时系统会让你二选一，<b data-page-node-id="fB4xdnyubtc2NXsGOTYheo">两种都试算一遍再提交</b>。
+  注意：<b data-page-node-id="JS5xP1cO0miOZJpyqnhnY1">一年只能用一次</b>这个优惠，所以要用在金额更大的年末那笔，别用在半年的 1 万上。</p>
+
+  <h3 data-page-node-id="lotGA3fnAxwAslEDqbYcQc">② 上半年 1 万 → 只能并入</h3>
+  <p data-page-node-id="Rh3MvRj2sT8UMdplccOhOS">半年奖 / 季度奖不属于"全年一次性奖金"，<b data-page-node-id="r9wgCFuU6sSqGtYpr7oKKd">必须并入当月工资计税</b>，约缴 1,000 元。这笔没有优化空间，接受即可。</p>
+
+  <h3 data-page-node-id="xf1xG1I4wPA8P7igJzaTbC">③ 个人养老金：这次值得考虑了，但排在第二年</h3>
+  <table data-page-node-id="Bck4jazEHruQ2kcGHuM2dR">
+    <tr data-page-node-id="I6qX23kyrP6JlXrT0DaG12"><th data-page-node-id="jOD6VxzCfUwwXHQQqaena0">你的边际税率</th><th class="r" data-page-node-id="ZZknrBxtq2OUfTzpFfTBAg">年缴 12,000 当年省</th><th class="r" data-page-node-id="9XDI9AjCgDifbWYVa1vEZE">领取时缴 3%</th><th class="r" data-page-node-id="sWPIxB8ZEBSuBnDJgXL49I">净省</th><th data-page-node-id="l8vg4ci8kCpNDqymBO6XTH">建议</th></tr>
+    <tr data-page-node-id="uWOw8lHkBZ9C1GVIOQKBRo"><td data-page-node-id="0jpHcnDepd43x7344jp29a">3%</td><td class="r" data-page-node-id="douwCmEjAuWA7OGBImMzPz">360</td><td class="r" data-page-node-id="x3DFelwk7XpC7PvJujS5QK">360</td><td class="r hl-r" data-page-node-id="cZoMAEqVFTQwZHuBlZtmDv">0</td><td data-page-node-id="g5AGEMsOAwF9Uic2fFHiRv">别开</td></tr>
+    <tr class="hl-row" data-page-node-id="2JvYHIvFB1RGmSxqYaK8DN"><td data-page-node-id="3lpZttCgW22HXSjMslzPkQ"><b data-page-node-id="aTuEYUrmYbkKHAzu1imtYL">10% ← 你大概率在这档</b></td><td class="r" data-page-node-id="ul22U9jrdaRxS3srrY6swQ"><b data-page-node-id="Z0EXZJN27Jb88lZ8vl0zUT">1,200</b></td><td class="r" data-page-node-id="scVUQVIyN89BUhCD3ODREA"><b data-page-node-id="U6EoSSNQm50TuKCvNMMOBQ">360</b></td><td class="r hl-g" data-page-node-id="GnSnxblRUhOpdLcEGsjfzT"><b data-page-node-id="7KOG6r35ItCi9f4bavBm4C">840</b></td><td data-page-node-id="NLvfMFmFXAX5cpYn5P3fvK"><b data-page-node-id="DAUv2tjI6xs8Sh5YWsgsuS">值得开</b></td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)" data-page-node-id="gQ8Miznaat8ZCcgJVM5I00">
+    <b data-page-node-id="LNR3OVhZanxksa5Pl1ejZR">840 元 ÷ 12,000 元 = 7% 的即时回报率</b>，这个数字其实相当不错。但代价是<b data-page-node-id="vGBL1RX6jqzhyOYWKxpzoM">钱锁到退休</b>，
+    而你正处于职业上升期、未来可能买房结婚 —— 流动性很值钱。<br data-page-node-id="CqGm3Yw1Y4R7XbSik3UwXO">
+    <b data-page-node-id="N2DXht8mxu4McNdA8aucvL">建议：第 2 年（2027 年）起，在应急金满 3 万、定投运转 3 个月确认无压力后，再开。</b>
+    用 A 股宽基那部分（每月 1,750 元）来承接，年缴满 12,000 即可。
+    <b data-page-node-id="fYWs478MtbqaqR6rfl7R7p">注意：个人养老金名录里没有 QDII，买不到纳指/标普，只能配 A 股指数。</b>
+  </p>
+  <div class="note" data-page-node-id="QGzNiUA4E2IjrKEkxhFo4j">
+    <b data-page-node-id="xI9lDgaSSSsxhRIVQP6GXX">先确认一件事：</b>打开个税 APP → 查看收入纳税明细 → 看你的<b data-page-node-id="GdiihSFSnHRYbuJWjrTrRk">「税率/预扣率」</b>显示是 3% 还是 10%。
+    如果是 3%（比如你专项附加扣除很多），那上面"单独计税省 1,400"和"个人养老金净省 840"两个结论都要打折，个人养老金就别开了。
+  </div>
+</div>
+
+<!-- ============ 6 温度计 ============ -->
+<div class="card" data-page-node-id="OXg3VtS697AcNvHg7xm7bu">
+  <h2 data-page-node-id="P2AU0tzeqYtB2GzEva3MaG"><span class="n" data-page-node-id="quj6eoV50CImsLe86aFXYx">06</span> 温度计调节规则（一句话版）</h2>
+  <table data-page-node-id="37HDQPhmP1C3qJAWaTsaME">
+    <tr data-page-node-id="0motytugXCT5xc2pfwBC0w"><th data-page-node-id="Ln92na1D5xpk7ftnjLMpPs">月读数</th><th data-page-node-id="BzgSBqqxWHBIiRIRPMpSHz">区间</th><th class="c" data-page-node-id="U3CC7uhcOFFfFkL72u6aqV">系数</th><th data-page-node-id="Iy0iCHNHR4laENbRJvHtLW">动作</th></tr>
+    <tr data-page-node-id="dsmd3ONJ8E0bekkCZMl0UA"><td data-page-node-id="UchZmeS2X731FWQfnQqjkp">≥ 85</td><td data-page-node-id="vNkZRjnvvyqXHXl3WPqAF9"><span class="tag r" data-page-node-id="XmrLQHo3AQMMDNE1uQOfc1">极端泡沫</span></td><td class="c" data-page-node-id="kXMRBHoRpFEqEaB1TN1tcp"><b data-page-node-id="PUH7lPmYWVcTjEdDs1KQmA">0.2×</b></td><td data-page-node-id="vttOE2XMRe7B5ozSLYqSVw">基本停投，钱停货基备作弹药</td></tr>
+    <tr data-page-node-id="gUjB9hhIzKyUbxI6GGmilw"><td data-page-node-id="2jHAgHnJFgEyoW6j1vQU1g">75–85</td><td data-page-node-id="SKlZ0aQoPmvAUCJGXXW8tk"><span class="tag o" data-page-node-id="nEmSnRMihTnyzrZGU7x3MI">高位</span></td><td class="c" data-page-node-id="ngpH5Abf6nbymUzqNzdyn0"><b data-page-node-id="Ds57qvGldFu7EajgbJiowJ">0.7×</b></td><td data-page-node-id="WO9XWw90DPDVnBq0VBgHIb">减速</td></tr>
+    <tr class="hl-row" data-page-node-id="KT9OAKlluJEP1XNzlO8aXe"><td data-page-node-id="ul7TYCAOOQGmH3eu4DQCwq"><b data-page-node-id="BXLlhitKOEigR4SaQ6Sdk3">65–75</b></td><td data-page-node-id="0lYMO5CQcFFa9DQQo37QwE"><span class="tag a" data-page-node-id="pCVel1798tf3jt7Ay45cY3">偏高 ← 当前 69.0</span></td><td class="c" data-page-node-id="LPmCGYTPC1KrZtj6OCGFzQ"><b data-page-node-id="uVfDb3Rw1DGCc4rwlZQycW">0.85×</b></td><td data-page-node-id="moh5CxMvLvqsMrCvBGV4YC"><b data-page-node-id="hvrSRCnCvdeXvcHl6It8nr">正常投，别停</b>；省下 15% 转储备</td></tr>
+    <tr data-page-node-id="FOzx23B0HDU6QvgvCksAve"><td data-page-node-id="86uJyjhEJAhAv9xXoeJZTq">55–65</td><td data-page-node-id="DwTDRSg7i2picrwOJZYk0V"><span class="tag b" data-page-node-id="Jyjb8CuSJy0j0iEHdSEXqL">中性</span></td><td class="c" data-page-node-id="hlibxSRpYqFckLF1JQSFkS"><b data-page-node-id="ps6D31cfI0CHijBPOwSBNr">1.0×</b></td><td data-page-node-id="9UZ4i7mQaLgMhSFH9D6zq1">标准速度</td></tr>
+    <tr data-page-node-id="TnxshHC9Q9KVbIsOM7218p"><td data-page-node-id="ObB7xF7RJz0oWsJv3xRCNr">40–55</td><td data-page-node-id="dSu1q4cbkBHPpcdelbxBto"><span class="tag g" data-page-node-id="rRlymkAxU3kAg3u2Al0GlU">偏冷</span></td><td class="c" data-page-node-id="gFlyH42NSkw0RrR5fMAYiP"><b data-page-node-id="ledLdIaQFEMn2kYLrhC19A">1.3×</b></td><td data-page-node-id="ycwAWQCXKD7Mv94yeBA3kn">加速，动用储备金</td></tr>
+    <tr data-page-node-id="6xxkHMu8e89w0im6BHhlY1"><td data-page-node-id="9hCFITQIDVyNs0DB86sehc">≤ 40</td><td data-page-node-id="zuNSubEEZd7gmtrs6X347w"><span class="tag g" data-page-node-id="A9vcjaH0NwC234L3R8zfFr">恐慌</span></td><td class="c" data-page-node-id="bQfqm1hGFQdTBqatbof20F"><b data-page-node-id="aacWuGJ2pstp6RebNaU9Yt">1.8×</b></td><td data-page-node-id="djuE0rdZVaM9lvEgGkw8j4">重仓，储备金一次性打出</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--sub)" data-page-node-id="y0nA58XagsTK1KQ7DlIvqa">
+    <b data-page-node-id="DSN4L4BAJaWkHpD1DB8bEs">这条规则是用回测选出来的。</b>用你的 data.json（555 周 / 126 个月）测了四种规则：
+    无脑定投近 10 年 +192.9%、<b data-page-node-id="9FUtLTM6tzTX5MCBFQXRE7">本规则 +192.2%</b>、旧版"≥70 停投" +184.9%、"只在 ≤55 买" +176.9%。
+    <b data-page-node-id="tk5Ygone4yEbwBYutwVG5W">本规则几乎不损失收益，但保留了极端泡沫时的保护</b> —— 这是个"免费的安全垫"，没有理由不用。
+  </p>
+  <div class="note" data-page-node-id="WHvwPmhpjfUbGE33lAdRFr">
+    <b data-page-node-id="ALpuF9PmwBFJYKjA9RHyPR">三条纪律：</b>① <b data-page-node-id="hzf0xdNran79bYOqHzXK4r">只调增量不调存量</b>，永远不因为高分卖出已有仓位；
+    ② 系数是连续函数，69 分和 70 分没本质区别，别在阈值附近横跳；
+    ③ <b data-page-node-id="eduEjqzintpOffDpzXoIes">每月只看一次月末读数</b>，周频数据看趋势用，不用来择时。
+  </div>
+</div>
+
+<!-- ============ 7 长期 ============ -->
+<div class="card" data-page-node-id="XNp8XxJavFyDmZR69aPVCU">
+  <h2 data-page-node-id="VnY1bbQERjEehhUAvTD6MH"><span class="n" data-page-node-id="j1heg5OJIyUtqZVzh1BBFp">07</span> 长期测算</h2>
+  <p data-page-node-id="Er3vcF7cFSAIEJ2HSSEFxO">假设：海外年化 10%、A 股 8%、债券 3%；年投 8.4 万（起步期略少）。</p>
+  <table data-page-node-id="JViCqHdVz3vgs3htIanAb8">
+    <tr data-page-node-id="ATOdDKv3CAppSzN8rSKDJu"><th data-page-node-id="7L2EQeZZVAUiMFaQl9Xz6o">年限</th><th class="r" data-page-node-id="Mv4bCP6cRbhDCzXkoufbv9">海外</th><th class="r" data-page-node-id="La8wPr1wDrC9KhL9NFNgKG">A 股</th><th class="r" data-page-node-id="goTLDGLh62xRc5ylZ6tDFL">债券</th><th class="r" data-page-node-id="9YAnMpX0TbAm8Llt6BM6iI">合计</th><th class="r" data-page-node-id="ArCxKlwao8ijfOpfwDyY8H">累计本金</th></tr>
+    <tr data-page-node-id="qpVhe3WWHo00XATglvF5wH"><td data-page-node-id="DZsgUkSNhm00cCxpQFvKYa">5 年</td><td class="r" data-page-node-id="9vzqhWqWmHPypSKNrFgJti">27 万</td><td class="r" data-page-node-id="oy8OetxnKtdZnb1YfGJL5m">13 万</td><td class="r" data-page-node-id="oXukMlnRHggPuATwGigh2t">11 万</td><td class="r" data-page-node-id="8dE5rfH5vHQB5WUmD8IrOV"><b data-page-node-id="rw6TWHETT2dn5L1MUotBt0">51 万</b></td><td class="r" data-page-node-id="8lG0eew0CL6D6fFAE4Sa5i">42 万</td></tr>
+    <tr data-page-node-id="J6TqIPvmiYO95elZtS0YQd"><td data-page-node-id="Hph0zybrdx6YjvBOQop7ss">10 年</td><td class="r" data-page-node-id="uMelT2FDLJ0BKhAPZuNub8">70 万</td><td class="r" data-page-node-id="N2zQnNmsljuAV471LJXzjL">32 万</td><td class="r" data-page-node-id="9iTYLXbzdvyYBH7Z7kQXAr">24 万</td><td class="r" data-page-node-id="iRVqxf0G7bAF0ONKSHKzl9"><b data-page-node-id="ZjoTSlGjLSd7PUOQ6PhoTB">126 万</b></td><td class="r" data-page-node-id="P7DsqxTK6IhRW3b2WXLYnZ">84 万</td></tr>
+    <tr data-page-node-id="RZhCIXaVAtCWOzCMSD781p"><td data-page-node-id="RfKRdJiOAkGLCft5eie7yy">15 年</td><td class="r" data-page-node-id="RJtsW526g6uzJCqcDA3L8L">139 万</td><td class="r" data-page-node-id="LE3JlQK7ieETeiSGwXTvUe">59 万</td><td class="r" data-page-node-id="zJ4dQxvb3oxtfsGPxnE4VD">40 万</td><td class="r" data-page-node-id="AOtD4BtE63giNuPGKjyXh0"><b data-page-node-id="SoDnBXaixWo4g10UvDCAUt">238 万</b></td><td class="r" data-page-node-id="gaAS0JgAgXIOAJnM3twqtR">126 万</td></tr>
+    <tr style="background:#eff6ff" data-page-node-id="ncw7DK2TGbut0q85tcLRhF"><td data-page-node-id="BjpP2PD8gkiFZb8MuFgQRG"><b data-page-node-id="DkH5AcLiO3yO1Fh48HIWoX">20 年</b></td><td class="r" data-page-node-id="9CJo77x5xzuhHJAF0jMpiK">251 万</td><td class="r" data-page-node-id="DIXJ1BlfDiA0vvSzk0dWQj">100 万</td><td class="r" data-page-node-id="QvOY2XA9hgQApeCuDVxNlg">57 万</td><td class="r" data-page-node-id="AIPlMfhUSCYsMqiMBSZMrZ"><b data-page-node-id="Plx6ZHBS7NwLBDEhlBeJKg">408 万</b></td><td class="r" data-page-node-id="oya8B9AMMqc9CiiMHxQtvk">168 万</td></tr>
+    <tr data-page-node-id="mxeKcoIO881BQrDSBUiW88"><td data-page-node-id="IYSmzVGjKOk0mN4TXuJtBb">30 年</td><td class="r" data-page-node-id="pbFMM7uCr1gZTNKiFlBc07">722 万</td><td class="r" data-page-node-id="CCrlq0AcDhmePl38cPqhjT">246 万</td><td class="r" data-page-node-id="MtX7p7K2o0pJF1rumaPALX">101 万</td><td class="r" data-page-node-id="JMYsP5Yf7shRVBu5bqn8KJ"><b data-page-node-id="4FBebq78mP2bjqekzXBWdn">1,070 万</b></td><td class="r" data-page-node-id="RjiVxidA2BDP1oq4e6ZqHg">252 万</td></tr>
+  </table>
+  <p style="font-size:11.5px;color:var(--sub)" data-page-node-id="LfMTo4BzutMJXb3UbEzk9J"><b data-page-node-id="Tb6FK1kFAfqmaxA0lVv7fa">这是假设年化的线性外推，不是预测，也不构成收益承诺。</b>
+  真实结果取决于未来走势、汇率、QDII 政策、你未来收入和支出的变化。若计入起步期（第 1 年只投 5.4 万），10 年约 120 万、20 年约 394 万。</p>
+
+  <div class="warn" data-page-node-id="pven3WUSJ4rZtPmtGrGrKz">
+    <b data-page-node-id="hVK0eDAaQ69jyhXdFgpDfk">最后一条最重要的提醒：</b>你手上已有<b data-page-node-id="IW54EWEob3AtgF5i21I4Th">兆易创新、士兰微、风华高科、中际旭创</b>（全是 A 股半导体 / AI 硬件），
+    而纳指 100 的英伟达+博通+苹果+微软+Meta 权重超过四成，也是 AI 算力。
+    <b data-page-node-id="bd2FKR0d5ssEIm28ytHVE7">表面是"A股+美股"两地分散，实质是同一条产业链买了两遍。</b><br data-page-node-id="2HSAIcuzBroE0HvUPQuthp">
+    本方案把海外内部做成 <b data-page-node-id="A4EhYA2hcvIA9nbj8CJ5sV">纳指 100 : 标普 500 = 5 : 5</b>，就是为了让标普的金融、医疗、消费稀释这种重叠。
+    另外建议：<b data-page-node-id="7n5duEGHbI6pAKpIa2DDx0">设一条硬线 —— 单一市场权益敞口不超过总金融资产的 50%</b>，把现有个股市值一起算进去。
+  </div>
+</div>
+
+<!-- ============ 8 清单 ============ -->
+<div class="card" data-page-node-id="TazUZAvPWHqq70FEKmZcbG">
+  <h2 data-page-node-id="lfj77A0SNCRrIwM9DaA5Al"><span class="n" data-page-node-id="O20Fi5YnLCxX5AVelHMiTG">08</span> 今天就能做完的 6 件事</h2>
+  <ul class="chk" data-page-node-id="eFPp20PRCn4z0A2NJXnGCT">
+    <li data-page-node-id="B3NvzyD7R1x7KeHdsIm1c3"><b data-page-node-id="rasOomMXSdn5zsOUZ33MV3">算出你的真实月支出</b>（翻一下近 3 个月账单）→ 用「10,500 − 支出」替换方案里的 4,500</li>
+    <li data-page-node-id="pZFIIc6P4J8ARfI7JUJ8lh">在常用平台开好场外基金账户（支付宝 / 天天基金 / 理财通任选一个）</li>
+    <li data-page-node-id="Tot3g9Hj5tFEAwPQNnhm9Z">设 4 个自动日投：018043、160213、007721、018064（或 050025），<b data-page-node-id="uz1bZDLKJyHgjAbGNW4Uhz">各 26 元/日</b></li>
+    <li data-page-node-id="9y4A01MCbXQWS3li8kYbqR">单独开一个应急金账户（货币基金 / 同业存单指数），设<b data-page-node-id="wjDLCpR5GQcwpBKvMFb1yD">每月发薪日自动转入 2,500</b></li>
+    <li data-page-node-id="aTiA4plC7osHKUBlf2FZQn">打开个税 APP 确认你的<b data-page-node-id="cDEN2Bw6jmnr3WDNFykb4Z">边际税率是 3% 还是 10%</b>（决定个人养老金开不开、奖金计税省多少）</li>
+    <li data-page-node-id="Auuf7S9maLFfFnxAHrUH6S">把温度计小程序链接存到手机桌面，<b data-page-node-id="oxLSpent8AEJLzqg3LQGYG">每月最后一天看一次读数</b></li>
+  </ul>
+
+  <h3 data-page-node-id="romYU6bDNWqj62NULCLsZR">每月（10 分钟，月末一次）</h3>
+  <ul class="chk" data-page-node-id="Wbuzsp7twi3gccvnwZaUCD">
+    <li data-page-node-id="jIxxA2s1dfqRnQ9mDB1GjW">看月度温度计读数 → 确认下月系数（当前 69.0 → 0.85×，即月投约 6,650 而非 7,833）</li>
+    <li data-page-node-id="nxyFBQT9wFh0WkTQf4CZ9c">核对当月 4 只基金是否都扣款成功，失败就换备用基金</li>
+    <li data-page-node-id="aE38b4QJDibfvBoWOEMSpY">查一次纳指 ETF 场内溢价：<b data-page-node-id="g9FHvZiDPHboRvk62PBs28">&gt; 10% 不碰</b>（当前中位数 10.09%，所以现在全走场外）</li>
+  </ul>
+
+  <h3 data-page-node-id="zPtYrHFL2wxHaltuquszL9">每年（2 次）</h3>
+  <ul class="chk" data-page-node-id="9MzzEcCejLXV3GkH8s5Kzq">
+    <li data-page-node-id="jq8dMKJbv0A9hECZTDNcTL"><b data-page-node-id="XccHPtmTOBHLshZMnGyYAe">个税汇算清缴：</b>年末奖 2 万务必试算"单独计税"（可省约 1,400 元）</li>
+    <li data-page-node-id="EAV1TCPKoVX3yLIvD2ykeF">再平衡：海外 / A 股 / 债券 回到 50 / 25 / 25；重算应急金是否还够 5 个月支出</li>
+  </ul>
+</div>
+
+<!-- ============ 9 风险 ============ -->
+<div class="card" data-page-node-id="uqFTsd2iFY9jtrhsg4E8IQ">
+  <h2 data-page-node-id="GdmBBAiWrmrAjH54GuusVR"><span class="n" data-page-node-id="NIjfaxlRKSizBcwqTMFBEV">09</span> 风险提示（必读）</h2>
+  <ul data-page-node-id="ABKf5ZdVolFBQ6Znb3ecTA">
+    <li data-page-node-id="3F0mUi6r8pzku0EV3GvvXS"><b data-page-node-id="kAHwXIxuNWLXHasAjURMSq">不构成投资建议。</b>本方案为基于你提供信息的财务规划参考，实际操作前建议与持证理财顾问确认。</li>
+    <li data-page-node-id="ErK9Ke4QmpoPUpOvXqDgsD"><b data-page-node-id="ZVgdsxeSfmCilrH8Yyx8RY">场内溢价是当前第一大成本。</b>纳指 ETF 溢价中位数 10.09%（9/5 数据），溢价归零即亏 9.09%。本方案全部走场外按净值申购，正是为了规避它。<b data-page-node-id="nLZ8VlF0gBEFb6gJTvgpHe">任何时候溢价 &gt; 10% 都不要买场内。</b></li>
+    <li data-page-node-id="UCGOgJU6w7XMxHYCjPwmtN"><b data-page-node-id="ySEAkmkKTqdCtxCArWOHK1">额度风险。</b>你的日投量（峰值 45 元/只）远低于 100 元额度线，安全垫充足；但 QDII 政策可能整体收紧（汇添富曾 3 天内从 1 万回到 10 元）。这就是每只指数配 2 只基金的原因。</li>
+    <li data-page-node-id="ANUeoLktkwcxF5viTtWhSC"><b data-page-node-id="LsCsCNoCX1RKAfu0bPryXS">汇率风险。</b>QDII 以人民币申购折算美元投资，人民币升值侵蚀收益、贬值增厚。不可预测，不应作为择时依据。</li>
+    <li data-page-node-id="jKw4pszNp62eSWEBAHJpZH"><b data-page-node-id="uj1Cf3nTRUDTH6VLgaSsp4">回测局限。</b>温度计规则基于 2016 年至今 126 个月度样本，<b data-page-node-id="eHCWMD8o7BMeAkW6TCQnw8">未包含 2000 年互联网泡沫级别的极端事件</b>；样本期内美股整体上行，任何"看分数减仓"策略在此环境下都会被惩罚。规则价值在极端保护，不在日常增厚。</li>
+    <li data-page-node-id="1YitN9yzMCwzmEHrBtL6HQ"><b data-page-node-id="SXefprXp8EAdx9YZYSq04s">集中度风险。</b>你现有 A 股持仓与纳指高度相关，实际风险敞口大于账面感受（见第 07 节）。</li>
+    <li data-page-node-id="zybhIHi9aENd00y7wsTBz9"><b data-page-node-id="KH46TaPxA5jXpFyK6r8SD1">流动性风险。</b>QDII 赎回通常 T+7 至 T+10 到账，急用钱不灵活 —— 这是必须先建 3 万应急金的原因。</li>
+    <li data-page-node-id="PNIfGnRh0x8tPdJ2P0FiCC"><b data-page-node-id="3yjhMfKipu25IaBcDh8Wir">税收政策风险。</b>全年一次性奖金单独计税政策现行有效期至 2027-12-31，后续是否延续未知；每年汇算请以当年政策为准，复杂情况建议咨询税务师。</li>
+    <li data-page-node-id="EjAg5YgLx2lYhTFPE2yocj"><b data-page-node-id="k0sGMfaeU1UmmRb8uVKOMt">KYC 提示。</b>本方案假设你未婚、无子女、无房贷、风险承受能力强、投资期限 20 年以上。<b data-page-node-id="e5gNs0d2zPv3rLiOm0abKa">若这些假设有变化（如购房、结婚、职业变动），方案需整体重做。</b></li>
+  </ul>
+</div>
+
+<div class="foot" data-page-node-id="COBH9y7JGQE9z1cDWzC93y">
+  v3 依据：月到手 10,500 + 上半年奖 1 万 + 年末奖 2 万（均按到手口径；若奖金为税前，见第 05 节计税调整）。<br data-page-node-id="hGpK9CNc5i6xDLehi08SBJ">
+  数据来源：纳指泡沫温度计 data.json（2026-09-04 更新，555 周 / 126 月样本）· 各基金公司限购公告（2026-09-01~09-05）· 场内溢价统计（2026-09-05）<br data-page-node-id="mG1MZFVM56F8ZehDnj6uja">
+  生成时间：2026-09-06（v3）· 前两版（v1 口径错误、v2 奖金口径不全）已作废，以本版为准。
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,15195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+
+@font-face{font-family:concourse_ot_3_book;font-style:normal;font-weight:400;font-stretch:normal;font-display:swap;src:url("/static/fonts/concourse_ot_3_book.woff2") format("woff2")}@font-face{font-family:concourse_ot_3_book;font-style:italic;font-weight:400;font-stretch:normal;font-display:swap;src:url("/static/fonts/concourse_ot_3_book_italic.woff2") format("woff2")}a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,caption,center,cite,code,dd,del,details,dfn,div,dl,dt,em,embed,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,iframe,img,ins,kbd,label,legend,li,mark,menu,nav,object,ol,output,p,pre,q,ruby,s,samp,section,small,span,strike,strong,sub,summary,sup,table,tbody,td,tfoot,th,thead,time,tr,tt,u,ul,var,video{margin:0;padding:0;border:0;font:inherit;font-size:100%;vertical-align:baseline}html{line-height:1}ol,ul{list-style:none}table{border-collapse:collapse;border-spacing:0}caption,td,th{text-align:left;font-weight:400;vertical-align:middle}blockquote,q{quotes:none}blockquote:after,blockquote:before,q:after,q:before{content:"";content:none}a img{border:none}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}:root{--layout_width:780px;--link_color:#307EB6;--hr_color:#e0e0ee}html{font-size:100%;line-height:1.5em}body{background-color:#fff;color:#111;font-family:concourse_ot_3_book,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}#box{min-width:890px;margin:0 auto;position:relative}#box,#container,#content{height:auto}h1{font-size:2em;line-height:1.5em;margin-top:24px;margin-botom:24px;color:#222}h1 a,h1 a:focus,h1 a:hover,h1 a:visited{color:#222;text-decoration:none}h1 a:hover{text-decoration:none;color:var(--link_color)}a{color:var(--link_color);text-decoration:none}a:focus,a:hover{text-decoration:underline}#head{width:var(--layout_width);margin:0 auto;margin-bottom:1.5em}#container{position:relative}#container #ads{width:var(--layout_width);margin:0 auto;margin-bottom:1.5em}.responsive_horizontal{height:90px}img{display:block}.current,b{font-weight:700}p{margin-bottom:1.5em}#footer{width:780px;margin:0 auto;margin-top:23px;border-top:1px solid var(--hr_color);padding-top:23px;font-size:.75em;margin-bottom:2em;color:#666;text-align:center;position:relative}#footer #footer-nav{text-align:center;list-style-type:none;padding:0;margin:0;display:flex;justify-content:center}#footer #footer-nav li{margin:0 8px;display:inline-block;vertical-align:middle}.clear{clear:both}table{font-variant-numeric:tabular-nums}ul{list-style:circle}form.donate{display:inline}input.donate{position:absolute;margin-top:-1px}div.donate-space{width:92px;float:right}ul.see-also{margin-top:1.5em}h3{font-weight:700}#globalheader{width:100%;background:#666;display:block}#gh-content{width:100%;max-width:980px;min-width:var(--layout_width);margin:0 auto}#globalnav{display:block;margin:0 8px;position:relative;font-size:.75em;line-height:1em}#gnavlist:after{content:'';width:100%;display:inline-block;font-size:0;line-height:0}#gnavlist:before{content:'';width:100%;display:inline-block}#gnavlist{width:auto;text-justify:distribute-all-lines;text-align:justify}#gnavlist .current{opacity:.5;font-weight:400}#gnavlist .current a:hover{opacity:1}#gnavlist li{display:inline-block;position:relative}#gnavlist li a{color:#fff;transition:opacity .2s cubic-bezier(.645, .045, .355, 1)}#gnavlist li a:hover{text-decoration:none;opacity:.66;transition:opacity .2s cubic-bezier(.645, .045, .355, 1)}#globalnav div.logo{display:inline}#globalnav div.logo a{font-size:16px;line-height:1.5em}#globalnav div.logo a:hover{text-decoration:none}#mobile{display:none}ul.nav li{display:inline-block;position:relative;padding:0 2px 0 8px}ul.nav li:first-child{padding-left:0}ul.nav li:first-child:after{content:none}ul.nav li:after{content:'';background:#e0e0ee;height:16px;left:1px;margin-top:-8px;position:absolute;top:50%;width:1px}#subnav{margin-top:1.5em;margin-bottom:1.5em}#subnav .share{float:right;background:url("/static/icon_facebook_blue_2x.png") 8px 2px no-repeat;background-size:20px auto;padding:0 0 0 34px;vertical-align:baseline}@media only screen and (max-device-width:779px){:root{--standard_margin:8px;--nav_padding:16px}html{width:100%}#box{min-width:initial;margin:0 var(--standard_margin);position:relative}h1{font-size:20px;font-weight:700;border:0}#head{width:100%}#container #ads{width:100%}#footer{width:100%;font-size:16px;margin-bottom:16px}#footer #footer-nav{display:initial;justify-content:initial}#footer #footer-nav li{display:block;vertical-align:middle;border-bottom:1px solid;border-color:var(--hr_color);padding:var(--nav_padding) 0}#footer #footer-nav .donate-space{display:none}#footer #footer-nav input.donate{position:initial;margin:initial}#globalheader{opacity:1!important}#gh-content{max-width:initial;min-width:initial;position:relative}#globalnav{margin:0 auto!important;width:100%!important;height:44px}#globalnav a{color:#fff}#gnavlist{display:none}#mobile{display:block}#mobile .menu{display:block;position:absolute;top:14px;right:var(--standard_margin);height:100%;font-size:16px}#mobile div.logo{display:block;position:relative;text-align:center;font-size:16px;top:5px;letter-spacing:2px}.see-also h3{padding-bottom:10px;text-transform:uppercase}.see-also li:last-child a{border-bottom:1px solid;border-color:var(--hr_color)}.see-also a{display:block;padding:10px 0;border-top:1px solid;border-color:var(--hr_color)}.see-also .sa-col{float:none;width:auto}.see-also .sa-col:first-child li:last-child a{border-bottom:0}}#table{width:var(--layout_width);margin:0 auto}#tablenav{margin-bottom:1.5em}#tablenav div:first-child{float:left;margin-right:8px}#_table #table-ads,#_table #table-responsive-ads{margin-top:1.5em;margin-bottom:1.5em}#_table #table-responsive-ads .adsbygoogle{display:inline-block;width:336px;height:280px}@media only screen and (max-device-width:335px){#_table #table-responsive-ads .adsbygoogle{display:inline-block;width:300px;height:250px}}#_table .tcol{float:left;width:50%}#_table .rcol{float:right;width:50%}#_table table#datatable{border-collapse:separate;border:1px solid #d7d7d7;margin-bottom:23px;box-shadow:0 1px 3px rgba(0,0,0,.45)}#_table table#datatable th{text-align:center;font-weight:700}#datatable abbr{text-decoration:none}#datatable th,#datatable tr.even{background-color:#f4f4f4}#datatable tr{line-height:3}#_table table#datatable th,#datatable td{border-right:1px solid #fff;border-left:1px solid #eaeaea;padding:0 12px}#datatable td{text-align:right}#datatable caption{text-align:right}#datatable2 th{padding-bottom:1.5em;text-align:right}#datatable2 td{text-align:right}#datatable2 td:last-child{padding-left:calc(2*1.5em)}@media only screen and (max-device-width:779px){#table{width:100%}#_table{width:100%}#_table #table-ads,#_table #table-responsive-ads{text-align:center}#_table .tcol{margin-right:0!important;float:none!important}#_table .rcol,#_table .tcol{width:100%}#datatable{width:99%}#datatable th .title{display:none}#datatable th{text-align:center!important}#datatable td{text-align:center!important}#datatable caption{padding-right:3em}}
+
+</style>
+<title>Shiller PE Ratio by Month - Multpl</title>
+<meta name="viewport" content="initial-scale=1" />
+<meta property="og:site_name" content="Multpl" />
+
+
+<meta name="description" content="Shiller PE Ratio table by month, historic, and current data. Current Shiller PE Ratio is 42.04, a change of -0.13 from previous market close." />
+<link rel="canonical"
+href="https://www.multpl.com/shiller-pe/table/by-month">
+<link rel="alternate" type="application/rss+xml"
+title="Shiller PE Ratio by Month"
+href="/shiller-pe/atom" />
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G68NEHRYCR"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-G68NEHRYCR');
+</script>
+<div id="globalheader">
+<div id="gh-content">
+<div id="globalnav">
+<ul id="gnavlist" role="navigation">
+
+<li><a href="/s-p-500-pe-ratio">S&amp;P 500 PE Ratio</a></li>
+<li class="current"><a href="/shiller-pe">Shiller PE Ratio</a></li>
+<li>
+<a href="/10-year-treasury-rate">10 Year Treasury Rate</a>
+</li>
+<li><a href="/s-p-500-dividend-yield">S&amp;P 500 Dividend Yield</a></li>
+<li><a href="/s-p-500-earnings">S&amp;P 500 Earnings</a></li>
+<li>
+<a href="/s-p-500-historical-prices">S&amp;P 500 Historical Prices</a>
+</li>
+<li><a href="/sitemap">more</a></li>
+<li>
+<div class="logo">
+<a href="/">multpl</a>
+</div>
+</li>
+</ul>
+<div id="mobile">
+<div class="logo" style="text-align:left !important;">
+<a href="/">
+<svg xmlns="http://www.w3.org/2000/svg" height=18 viewBox="0 0 309.74 71" style="margin-top:8px; margin-left: 10px"><defs><style>.cls-1,.cls-2,.cls-3{fill:#fff;} .cls-2,.cls-3{stroke:#666;stroke-miterlimit:10;}.cls-3{stroke-width:4px;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M77.54,47.2h5.32V25.66a1.39,1.39,0,0,0-1.58-1.51h-4.1V17.31h9.57c3.24,0,4.83,1.52,4.83,4.11v1.65a9.75,9.75,0,0,1-.15,1.59h.15c1.87-3.75,6.48-8.21,12.53-8.21,5.11,0,8.78,2.38,10.22,8h.15a14.29,14.29,0,0,1,12.74-8c7.42,0,11.81,4.32,11.81,14V47.2h5.33V54H129.88V32.15c0-4.18-.79-7.35-5-7.35-6.26,0-9.36,6.27-9.36,13V47.2h5.33V54h-14.4V32.15c0-4-.65-7.35-5-7.35C95,24.8,92,31.64,92,38.27V47.2h5.26V54H77.54Z"/><path class="cls-1" d="M152.78,24.15h-5.69V17.31h14.83v22c0,4.39,1.15,7.41,5.76,7.41,6.34,0,10.16-6.48,10.16-13.1V24.15h-5.62V17.31H187V45.68a1.44,1.44,0,0,0,1.58,1.59h3.53V54H183c-3.24,0-4.75-1.52-4.75-4.11V48.56c0-.93.07-1.73.07-1.73h-.15c-.43,1.23-4.17,8.07-13.39,8.07-7.34,0-12-4-12-14Z"/><path class="cls-1" d="M199.29,9.75H193.6V2.91h14.76V41.79c0,3.32.72,5,3.75,5,1,0,1.72-.07,1.72-.07v7.35a26.89,26.89,0,0,1-3.31.21c-5.83,0-11.23-1.94-11.23-12Z"/><path class="cls-1" d="M222.62,24.15H217V17.31h5.91V7.3h8.85v10h8.35v6.84h-8.35V39.63c0,6.27,4.75,7.13,7.35,7.13,1,0,1.65-.07,1.65-.07v7.49a16.51,16.51,0,0,1-2.81.22c-5.18,0-15.33-1.52-15.33-13.83Z"/><path class="cls-1" d="M250.77,61.6V25.74a1.45,1.45,0,0,0-1.59-1.59h-4.1V17.31h9.43c3.39,0,4.54,1.59,4.54,3.46V21c0,.86-.07,1.65-.07,1.65h.14s3.17-6.19,11.81-6.19c9.94,0,16.27,7.85,16.27,19.22,0,11.67-7.12,19.23-16.77,19.23a12.81,12.81,0,0,1-10.59-5.18h-.14a21.73,21.73,0,0,1,.21,3.16V61.6h5.33v6.84h-19.8V61.6Zm18-14.4c5,0,9.22-4.11,9.22-11.38,0-7-3.75-11.52-9.15-11.52-4.75,0-9.21,3.45-9.21,11.59C259.63,41.58,262.79,47.2,268.77,47.2Z"/><path class="cls-1" d="M295.19,9.75H289.5V2.91h14.77V41.79c0,3.32.72,5,3.74,5,1,0,1.73-.07,1.73-.07v7.35a26.89,26.89,0,0,1-3.31.21c-5.84,0-11.24-1.94-11.24-12Z"/><circle class="cls-2" cx="35.5" cy="35.5" r="35"/><path class="cls-3" d="M2.65,54.58l22-33.79L44.93,47.58S68.16,16,66.69,14.45"/><circle class="cls-3" cx="25" cy="21" r="5"/><circle class="cls-3" cx="45" cy="47" r="5"/><circle class="cls-3" cx="64" cy="19" r="5"/><circle class="cls-3" cx="7" cy="49" r="5"/></g></g></svg>
+</a>
+</div>
+
+<div class="menu">
+<a href="/sitemap">menu</a>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<div id="box">
+<div id="head">
+
+<h1><a href="/shiller-pe"
+>Shiller PE Ratio by Month</a></h1>
+
+
+</div>
+<div id="container">
+
+<div id="ads">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2952384934569318"
+crossorigin="anonymous"></script>
+<!-- responsive_horizontal -->
+<ins class="adsbygoogle responsive_horizontal"
+style="display:block; max-height: 90px"
+data-ad-client="ca-pub-2952384934569318"
+data-ad-slot="3376157749"
+
+</ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<div id="content">
+
+<div id="table">
+
+<div id="subnav">
+<ul role="navigation" class="nav">
+<li><a href="/shiller-pe"
+
+>Chart</a></li>
+<li><a href="/shiller-pe/table/by-year"
+
+class="current"
+
+>Table</a></li>
+
+
+<li><a href="/shiller-pe/faq"
+
+>FAQ</a></li>
+
+<a id="fb-link" href="https://www.facebook.com/dialog/share?app_id=890838620959848&display=popup&href=https://www.multpl.com/shiller-pe/table/by-month&redirect_uri=https://www.multpl.com/shiller-pe/table/by-month">
+<li class="share">
+Share
+</li>
+</a>
+</ul>
+</div>
+
+<div id="tablenav">
+<div><b>Show:</b></div>
+<ul class="nav">
+<li>
+<a href="/shiller-pe/table/by-year"
+
+>By Year</a>
+</li>
+<li>
+<a href="/shiller-pe/table/by-month"
+
+class="current"
+
+>By Month</a>
+</li>
+</ul>
+</div>
+
+<div>
+<div id="_table">
+
+<div class="tcol">
+
+<table id="datatable">
+
+<tr>
+<th>Date</th>
+<th>Value</th>
+</tr>
+
+
+<tr class="odd">
+<td>Aug 31, 2026</td>
+<td>
+&#x2002;
+42.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2026</td>
+<td>
+&#x2002;
+40.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2026</td>
+<td>
+&#x2002;
+40.50
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2026</td>
+<td>
+&#x2002;
+40.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2026</td>
+<td>
+&#x2002;
+38.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2026</td>
+<td>
+&#x2002;
+37.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2026</td>
+<td>
+&#x2002;
+39.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2026</td>
+<td>
+&#x2002;
+39.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2025</td>
+<td>
+&#x2002;
+39.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2025</td>
+<td>
+&#x2002;
+39.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2025</td>
+<td>
+&#x2002;
+39.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2025</td>
+<td>
+&#x2002;
+38.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2025</td>
+<td>
+&#x2002;
+37.85
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2025</td>
+<td>
+&#x2002;
+37.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2025</td>
+<td>
+&#x2002;
+36.12
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2025</td>
+<td>
+&#x2002;
+35.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2025</td>
+<td>
+&#x2002;
+32.63
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2025</td>
+<td>
+&#x2002;
+34.79
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2025</td>
+<td>
+&#x2002;
+37.19
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2025</td>
+<td>
+&#x2002;
+37.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2024</td>
+<td>
+&#x2002;
+37.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2024</td>
+<td>
+&#x2002;
+37.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2024</td>
+<td>
+&#x2002;
+36.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2024</td>
+<td>
+&#x2002;
+35.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2024</td>
+<td>
+&#x2002;
+35.08
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2024</td>
+<td>
+&#x2002;
+35.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2024</td>
+<td>
+&#x2002;
+34.81
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2024</td>
+<td>
+&#x2002;
+33.78
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2024</td>
+<td>
+&#x2002;
+33.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2024</td>
+<td>
+&#x2002;
+33.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2024</td>
+<td>
+&#x2002;
+33.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2024</td>
+<td>
+&#x2002;
+31.97
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2023</td>
+<td>
+&#x2002;
+31.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2023</td>
+<td>
+&#x2002;
+30.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2023</td>
+<td>
+&#x2002;
+28.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2023</td>
+<td>
+&#x2002;
+29.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2023</td>
+<td>
+&#x2002;
+30.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2023</td>
+<td>
+&#x2002;
+30.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2023</td>
+<td>
+&#x2002;
+29.94
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2023</td>
+<td>
+&#x2002;
+28.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2023</td>
+<td>
+&#x2002;
+28.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2023</td>
+<td>
+&#x2002;
+27.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2023</td>
+<td>
+&#x2002;
+28.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2023</td>
+<td>
+&#x2002;
+28.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2022</td>
+<td>
+&#x2002;
+28.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2022</td>
+<td>
+&#x2002;
+28.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2022</td>
+<td>
+&#x2002;
+27.08
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2022</td>
+<td>
+&#x2002;
+28.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2022</td>
+<td>
+&#x2002;
+30.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2022</td>
+<td>
+&#x2002;
+29.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2022</td>
+<td>
+&#x2002;
+29.05
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2022</td>
+<td>
+&#x2002;
+30.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2022</td>
+<td>
+&#x2002;
+33.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2022</td>
+<td>
+&#x2002;
+34.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2022</td>
+<td>
+&#x2002;
+35.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2022</td>
+<td>
+&#x2002;
+36.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2021</td>
+<td>
+&#x2002;
+38.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2021</td>
+<td>
+&#x2002;
+38.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2021</td>
+<td>
+&#x2002;
+37.25
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2021</td>
+<td>
+&#x2002;
+37.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2021</td>
+<td>
+&#x2002;
+37.97
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2021</td>
+<td>
+&#x2002;
+37.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2021</td>
+<td>
+&#x2002;
+36.70
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2021</td>
+<td>
+&#x2002;
+36.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2021</td>
+<td>
+&#x2002;
+36.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2021</td>
+<td>
+&#x2002;
+35.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2021</td>
+<td>
+&#x2002;
+35.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2021</td>
+<td>
+&#x2002;
+34.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2020</td>
+<td>
+&#x2002;
+33.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2020</td>
+<td>
+&#x2002;
+32.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2020</td>
+<td>
+&#x2002;
+31.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2020</td>
+<td>
+&#x2002;
+30.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2020</td>
+<td>
+&#x2002;
+31.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2020</td>
+<td>
+&#x2002;
+29.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2020</td>
+<td>
+&#x2002;
+28.84
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2020</td>
+<td>
+&#x2002;
+27.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2020</td>
+<td>
+&#x2002;
+25.93
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2020</td>
+<td>
+&#x2002;
+24.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2020</td>
+<td>
+&#x2002;
+30.73
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2020</td>
+<td>
+&#x2002;
+30.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2019</td>
+<td>
+&#x2002;
+30.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2019</td>
+<td>
+&#x2002;
+29.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2019</td>
+<td>
+&#x2002;
+28.84
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2019</td>
+<td>
+&#x2002;
+29.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2019</td>
+<td>
+&#x2002;
+28.71
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2019</td>
+<td>
+&#x2002;
+29.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2019</td>
+<td>
+&#x2002;
+29.28
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2019</td>
+<td>
+&#x2002;
+29.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2019</td>
+<td>
+&#x2002;
+30.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2019</td>
+<td>
+&#x2002;
+29.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2019</td>
+<td>
+&#x2002;
+29.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2019</td>
+<td>
+&#x2002;
+28.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2018</td>
+<td>
+&#x2002;
+28.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2018</td>
+<td>
+&#x2002;
+30.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2018</td>
+<td>
+&#x2002;
+31.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2018</td>
+<td>
+&#x2002;
+32.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2018</td>
+<td>
+&#x2002;
+32.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2018</td>
+<td>
+&#x2002;
+31.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2018</td>
+<td>
+&#x2002;
+31.63
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2018</td>
+<td>
+&#x2002;
+31.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2018</td>
+<td>
+&#x2002;
+30.97
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2018</td>
+<td>
+&#x2002;
+31.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2018</td>
+<td>
+&#x2002;
+32.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2018</td>
+<td>
+&#x2002;
+33.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2017</td>
+<td>
+&#x2002;
+32.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2017</td>
+<td>
+&#x2002;
+31.30
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2017</td>
+<td>
+&#x2002;
+30.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2017</td>
+<td>
+&#x2002;
+30.17
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2017</td>
+<td>
+&#x2002;
+29.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2017</td>
+<td>
+&#x2002;
+30.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2017</td>
+<td>
+&#x2002;
+29.75
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2017</td>
+<td>
+&#x2002;
+29.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2017</td>
+<td>
+&#x2002;
+28.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2017</td>
+<td>
+&#x2002;
+29.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2017</td>
+<td>
+&#x2002;
+28.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2017</td>
+<td>
+&#x2002;
+28.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2016</td>
+<td>
+&#x2002;
+27.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2016</td>
+<td>
+&#x2002;
+26.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2016</td>
+<td>
+&#x2002;
+26.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2016</td>
+<td>
+&#x2002;
+26.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2016</td>
+<td>
+&#x2002;
+26.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2016</td>
+<td>
+&#x2002;
+26.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2016</td>
+<td>
+&#x2002;
+25.84
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2016</td>
+<td>
+&#x2002;
+25.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2016</td>
+<td>
+&#x2002;
+25.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2016</td>
+<td>
+&#x2002;
+25.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2016</td>
+<td>
+&#x2002;
+24.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2016</td>
+<td>
+&#x2002;
+24.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2015</td>
+<td>
+&#x2002;
+25.97
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2015</td>
+<td>
+&#x2002;
+26.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2015</td>
+<td>
+&#x2002;
+25.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2015</td>
+<td>
+&#x2002;
+24.50
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2015</td>
+<td>
+&#x2002;
+25.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2015</td>
+<td>
+&#x2002;
+26.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2015</td>
+<td>
+&#x2002;
+26.50
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2015</td>
+<td>
+&#x2002;
+26.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2015</td>
+<td>
+&#x2002;
+26.79
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2015</td>
+<td>
+&#x2002;
+26.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2015</td>
+<td>
+&#x2002;
+27.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2015</td>
+<td>
+&#x2002;
+26.49
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2014</td>
+<td>
+&#x2002;
+26.79
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2014</td>
+<td>
+&#x2002;
+26.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2014</td>
+<td>
+&#x2002;
+25.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2014</td>
+<td>
+&#x2002;
+25.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2014</td>
+<td>
+&#x2002;
+25.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2014</td>
+<td>
+&#x2002;
+25.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2014</td>
+<td>
+&#x2002;
+25.56
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2014</td>
+<td>
+&#x2002;
+24.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2014</td>
+<td>
+&#x2002;
+24.79
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2014</td>
+<td>
+&#x2002;
+24.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2014</td>
+<td>
+&#x2002;
+24.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2014</td>
+<td>
+&#x2002;
+24.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2013</td>
+<td>
+&#x2002;
+24.86
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2013</td>
+<td>
+&#x2002;
+24.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2013</td>
+<td>
+&#x2002;
+23.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2013</td>
+<td>
+&#x2002;
+23.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2013</td>
+<td>
+&#x2002;
+23.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2013</td>
+<td>
+&#x2002;
+23.49
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2013</td>
+<td>
+&#x2002;
+22.93
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2013</td>
+<td>
+&#x2002;
+23.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2013</td>
+<td>
+&#x2002;
+22.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2013</td>
+<td>
+&#x2002;
+22.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2013</td>
+<td>
+&#x2002;
+22.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2013</td>
+<td>
+&#x2002;
+21.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2012</td>
+<td>
+&#x2002;
+21.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2012</td>
+<td>
+&#x2002;
+20.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2012</td>
+<td>
+&#x2002;
+21.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2012</td>
+<td>
+&#x2002;
+21.78
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2012</td>
+<td>
+&#x2002;
+21.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2012</td>
+<td>
+&#x2002;
+21.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2012</td>
+<td>
+&#x2002;
+20.55
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2012</td>
+<td>
+&#x2002;
+20.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2012</td>
+<td>
+&#x2002;
+21.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2012</td>
+<td>
+&#x2002;
+22.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2012</td>
+<td>
+&#x2002;
+21.80
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2012</td>
+<td>
+&#x2002;
+21.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2011</td>
+<td>
+&#x2002;
+20.52
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2011</td>
+<td>
+&#x2002;
+20.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2011</td>
+<td>
+&#x2002;
+20.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2011</td>
+<td>
+&#x2002;
+19.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2011</td>
+<td>
+&#x2002;
+20.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2011</td>
+<td>
+&#x2002;
+22.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2011</td>
+<td>
+&#x2002;
+22.10
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2011</td>
+<td>
+&#x2002;
+23.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2011</td>
+<td>
+&#x2002;
+23.14
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2011</td>
+<td>
+&#x2002;
+22.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2011</td>
+<td>
+&#x2002;
+23.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2011</td>
+<td>
+&#x2002;
+22.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2010</td>
+<td>
+&#x2002;
+22.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2010</td>
+<td>
+&#x2002;
+21.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2010</td>
+<td>
+&#x2002;
+21.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2010</td>
+<td>
+&#x2002;
+20.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2010</td>
+<td>
+&#x2002;
+19.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2010</td>
+<td>
+&#x2002;
+19.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2010</td>
+<td>
+&#x2002;
+19.74
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2010</td>
+<td>
+&#x2002;
+20.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2010</td>
+<td>
+&#x2002;
+21.80
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2010</td>
+<td>
+&#x2002;
+21.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2010</td>
+<td>
+&#x2002;
+19.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2010</td>
+<td>
+&#x2002;
+20.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2009</td>
+<td>
+&#x2002;
+20.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2009</td>
+<td>
+&#x2002;
+19.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2009</td>
+<td>
+&#x2002;
+19.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2009</td>
+<td>
+&#x2002;
+18.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2009</td>
+<td>
+&#x2002;
+18.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2009</td>
+<td>
+&#x2002;
+16.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2009</td>
+<td>
+&#x2002;
+16.38
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2009</td>
+<td>
+&#x2002;
+16.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2009</td>
+<td>
+&#x2002;
+14.98
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2009</td>
+<td>
+&#x2002;
+13.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2009</td>
+<td>
+&#x2002;
+14.12
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2009</td>
+<td>
+&#x2002;
+15.17
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2008</td>
+<td>
+&#x2002;
+15.38
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2008</td>
+<td>
+&#x2002;
+15.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2008</td>
+<td>
+&#x2002;
+16.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2008</td>
+<td>
+&#x2002;
+20.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2008</td>
+<td>
+&#x2002;
+21.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2008</td>
+<td>
+&#x2002;
+20.91
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2008</td>
+<td>
+&#x2002;
+22.42
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2008</td>
+<td>
+&#x2002;
+23.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2008</td>
+<td>
+&#x2002;
+23.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2008</td>
+<td>
+&#x2002;
+22.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2008</td>
+<td>
+&#x2002;
+23.50
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2008</td>
+<td>
+&#x2002;
+24.02
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2007</td>
+<td>
+&#x2002;
+25.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2007</td>
+<td>
+&#x2002;
+25.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2007</td>
+<td>
+&#x2002;
+27.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2007</td>
+<td>
+&#x2002;
+26.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2007</td>
+<td>
+&#x2002;
+26.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2007</td>
+<td>
+&#x2002;
+27.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2007</td>
+<td>
+&#x2002;
+27.42
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2007</td>
+<td>
+&#x2002;
+27.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2007</td>
+<td>
+&#x2002;
+26.98
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2007</td>
+<td>
+&#x2002;
+26.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2007</td>
+<td>
+&#x2002;
+27.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2007</td>
+<td>
+&#x2002;
+27.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2006</td>
+<td>
+&#x2002;
+27.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2006</td>
+<td>
+&#x2002;
+26.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2006</td>
+<td>
+&#x2002;
+26.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2006</td>
+<td>
+&#x2002;
+25.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2006</td>
+<td>
+&#x2002;
+25.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2006</td>
+<td>
+&#x2002;
+24.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2006</td>
+<td>
+&#x2002;
+24.75
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2006</td>
+<td>
+&#x2002;
+25.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2006</td>
+<td>
+&#x2002;
+26.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2006</td>
+<td>
+&#x2002;
+26.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2006</td>
+<td>
+&#x2002;
+26.25
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2006</td>
+<td>
+&#x2002;
+26.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2005</td>
+<td>
+&#x2002;
+26.44
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2005</td>
+<td>
+&#x2002;
+25.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2005</td>
+<td>
+&#x2002;
+24.88
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2005</td>
+<td>
+&#x2002;
+25.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2005</td>
+<td>
+&#x2002;
+26.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2005</td>
+<td>
+&#x2002;
+26.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2005</td>
+<td>
+&#x2002;
+26.07
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2005</td>
+<td>
+&#x2002;
+25.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2005</td>
+<td>
+&#x2002;
+25.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2005</td>
+<td>
+&#x2002;
+26.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2005</td>
+<td>
+&#x2002;
+26.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2005</td>
+<td>
+&#x2002;
+26.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2004</td>
+<td>
+&#x2002;
+27.14
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2004</td>
+<td>
+&#x2002;
+26.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2004</td>
+<td>
+&#x2002;
+25.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2004</td>
+<td>
+&#x2002;
+25.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2004</td>
+<td>
+&#x2002;
+25.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2004</td>
+<td>
+&#x2002;
+25.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2004</td>
+<td>
+&#x2002;
+26.40
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2004</td>
+<td>
+&#x2002;
+25.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2004</td>
+<td>
+&#x2002;
+26.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2004</td>
+<td>
+&#x2002;
+26.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2004</td>
+<td>
+&#x2002;
+27.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2004</td>
+<td>
+&#x2002;
+27.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2003</td>
+<td>
+&#x2002;
+26.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2003</td>
+<td>
+&#x2002;
+25.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2003</td>
+<td>
+&#x2002;
+25.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2003</td>
+<td>
+&#x2002;
+25.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2003</td>
+<td>
+&#x2002;
+24.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2003</td>
+<td>
+&#x2002;
+24.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2003</td>
+<td>
+&#x2002;
+24.83
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2003</td>
+<td>
+&#x2002;
+23.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2003</td>
+<td>
+&#x2002;
+22.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2003</td>
+<td>
+&#x2002;
+21.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2003</td>
+<td>
+&#x2002;
+21.21
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2003</td>
+<td>
+&#x2002;
+22.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2002</td>
+<td>
+&#x2002;
+23.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2002</td>
+<td>
+&#x2002;
+23.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2002</td>
+<td>
+&#x2002;
+21.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2002</td>
+<td>
+&#x2002;
+22.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2002</td>
+<td>
+&#x2002;
+23.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2002</td>
+<td>
+&#x2002;
+23.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2002</td>
+<td>
+&#x2002;
+26.39
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2002</td>
+<td>
+&#x2002;
+28.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2002</td>
+<td>
+&#x2002;
+29.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2002</td>
+<td>
+&#x2002;
+30.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2002</td>
+<td>
+&#x2002;
+29.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2002</td>
+<td>
+&#x2002;
+30.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2001</td>
+<td>
+&#x2002;
+30.50
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2001</td>
+<td>
+&#x2002;
+30.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2001</td>
+<td>
+&#x2002;
+28.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2001</td>
+<td>
+&#x2002;
+27.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2001</td>
+<td>
+&#x2002;
+31.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2001</td>
+<td>
+&#x2002;
+32.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2001</td>
+<td>
+&#x2002;
+33.07
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2001</td>
+<td>
+&#x2002;
+34.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2001</td>
+<td>
+&#x2002;
+32.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2001</td>
+<td>
+&#x2002;
+32.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2001</td>
+<td>
+&#x2002;
+35.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2001</td>
+<td>
+&#x2002;
+36.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 2000</td>
+<td>
+&#x2002;
+37.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 2000</td>
+<td>
+&#x2002;
+38.78
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 2000</td>
+<td>
+&#x2002;
+39.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 2000</td>
+<td>
+&#x2002;
+41.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 2000</td>
+<td>
+&#x2002;
+42.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 2000</td>
+<td>
+&#x2002;
+42.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 2000</td>
+<td>
+&#x2002;
+42.78
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 2000</td>
+<td>
+&#x2002;
+41.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 2000</td>
+<td>
+&#x2002;
+43.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 2000</td>
+<td>
+&#x2002;
+43.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 2000</td>
+<td>
+&#x2002;
+42.18
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 2000</td>
+<td>
+&#x2002;
+43.77
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1999</td>
+<td>
+&#x2002;
+44.19
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1999</td>
+<td>
+&#x2002;
+43.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1999</td>
+<td>
+&#x2002;
+40.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1999</td>
+<td>
+&#x2002;
+41.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1999</td>
+<td>
+&#x2002;
+41.93
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1999</td>
+<td>
+&#x2002;
+43.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1999</td>
+<td>
+&#x2002;
+42.18
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1999</td>
+<td>
+&#x2002;
+42.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1999</td>
+<td>
+&#x2002;
+42.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1999</td>
+<td>
+&#x2002;
+41.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1999</td>
+<td>
+&#x2002;
+40.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1999</td>
+<td>
+&#x2002;
+40.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1998</td>
+<td>
+&#x2002;
+38.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1998</td>
+<td>
+&#x2002;
+37.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1998</td>
+<td>
+&#x2002;
+33.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1998</td>
+<td>
+&#x2002;
+33.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1998</td>
+<td>
+&#x2002;
+35.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1998</td>
+<td>
+&#x2002;
+38.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1998</td>
+<td>
+&#x2002;
+36.80
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1998</td>
+<td>
+&#x2002;
+36.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1998</td>
+<td>
+&#x2002;
+37.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1998</td>
+<td>
+&#x2002;
+36.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1998</td>
+<td>
+&#x2002;
+34.71
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1998</td>
+<td>
+&#x2002;
+32.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1997</td>
+<td>
+&#x2002;
+33.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1997</td>
+<td>
+&#x2002;
+32.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1997</td>
+<td>
+&#x2002;
+32.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1997</td>
+<td>
+&#x2002;
+32.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1997</td>
+<td>
+&#x2002;
+32.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1997</td>
+<td>
+&#x2002;
+32.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1997</td>
+<td>
+&#x2002;
+31.25
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1997</td>
+<td>
+&#x2002;
+29.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1997</td>
+<td>
+&#x2002;
+27.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1997</td>
+<td>
+&#x2002;
+28.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1997</td>
+<td>
+&#x2002;
+29.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1997</td>
+<td>
+&#x2002;
+28.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1996</td>
+<td>
+&#x2002;
+27.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1996</td>
+<td>
+&#x2002;
+27.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1996</td>
+<td>
+&#x2002;
+26.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1996</td>
+<td>
+&#x2002;
+25.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1996</td>
+<td>
+&#x2002;
+25.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1996</td>
+<td>
+&#x2002;
+24.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1996</td>
+<td>
+&#x2002;
+25.96
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1996</td>
+<td>
+&#x2002;
+25.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1996</td>
+<td>
+&#x2002;
+25.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1996</td>
+<td>
+&#x2002;
+25.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1996</td>
+<td>
+&#x2002;
+25.97
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1996</td>
+<td>
+&#x2002;
+24.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1995</td>
+<td>
+&#x2002;
+25.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1995</td>
+<td>
+&#x2002;
+24.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1995</td>
+<td>
+&#x2002;
+23.93
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1995</td>
+<td>
+&#x2002;
+23.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1995</td>
+<td>
+&#x2002;
+23.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1995</td>
+<td>
+&#x2002;
+23.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1995</td>
+<td>
+&#x2002;
+22.72
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1995</td>
+<td>
+&#x2002;
+22.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1995</td>
+<td>
+&#x2002;
+21.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1995</td>
+<td>
+&#x2002;
+21.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1995</td>
+<td>
+&#x2002;
+20.80
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1995</td>
+<td>
+&#x2002;
+20.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1994</td>
+<td>
+&#x2002;
+19.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1994</td>
+<td>
+&#x2002;
+20.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1994</td>
+<td>
+&#x2002;
+20.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1994</td>
+<td>
+&#x2002;
+20.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1994</td>
+<td>
+&#x2002;
+20.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1994</td>
+<td>
+&#x2002;
+20.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1994</td>
+<td>
+&#x2002;
+20.29
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1994</td>
+<td>
+&#x2002;
+20.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1994</td>
+<td>
+&#x2002;
+20.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1994</td>
+<td>
+&#x2002;
+20.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1994</td>
+<td>
+&#x2002;
+21.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1994</td>
+<td>
+&#x2002;
+21.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1993</td>
+<td>
+&#x2002;
+21.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1993</td>
+<td>
+&#x2002;
+21.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1993</td>
+<td>
+&#x2002;
+21.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1993</td>
+<td>
+&#x2002;
+20.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1993</td>
+<td>
+&#x2002;
+20.81
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1993</td>
+<td>
+&#x2002;
+20.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1993</td>
+<td>
+&#x2002;
+20.61
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1993</td>
+<td>
+&#x2002;
+20.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1993</td>
+<td>
+&#x2002;
+20.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1993</td>
+<td>
+&#x2002;
+20.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1993</td>
+<td>
+&#x2002;
+20.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1993</td>
+<td>
+&#x2002;
+20.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1992</td>
+<td>
+&#x2002;
+20.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1992</td>
+<td>
+&#x2002;
+19.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1992</td>
+<td>
+&#x2002;
+19.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1992</td>
+<td>
+&#x2002;
+19.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1992</td>
+<td>
+&#x2002;
+19.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1992</td>
+<td>
+&#x2002;
+19.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1992</td>
+<td>
+&#x2002;
+19.31
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1992</td>
+<td>
+&#x2002;
+19.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1992</td>
+<td>
+&#x2002;
+19.30
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1992</td>
+<td>
+&#x2002;
+19.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1992</td>
+<td>
+&#x2002;
+19.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1992</td>
+<td>
+&#x2002;
+19.77
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1991</td>
+<td>
+&#x2002;
+18.44
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1991</td>
+<td>
+&#x2002;
+18.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1991</td>
+<td>
+&#x2002;
+18.35
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1991</td>
+<td>
+&#x2002;
+18.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1991</td>
+<td>
+&#x2002;
+18.51
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1991</td>
+<td>
+&#x2002;
+18.10
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1991</td>
+<td>
+&#x2002;
+18.01
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1991</td>
+<td>
+&#x2002;
+18.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1991</td>
+<td>
+&#x2002;
+18.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1991</td>
+<td>
+&#x2002;
+17.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1991</td>
+<td>
+&#x2002;
+17.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1991</td>
+<td>
+&#x2002;
+15.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1990</td>
+<td>
+&#x2002;
+15.85
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1990</td>
+<td>
+&#x2002;
+15.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1990</td>
+<td>
+&#x2002;
+14.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1990</td>
+<td>
+&#x2002;
+15.30
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1990</td>
+<td>
+&#x2002;
+16.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1990</td>
+<td>
+&#x2002;
+17.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1990</td>
+<td>
+&#x2002;
+17.82
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1990</td>
+<td>
+&#x2002;
+17.39
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1990</td>
+<td>
+&#x2002;
+16.81
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1990</td>
+<td>
+&#x2002;
+16.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1990</td>
+<td>
+&#x2002;
+16.51
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1990</td>
+<td>
+&#x2002;
+17.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1989</td>
+<td>
+&#x2002;
+17.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1989</td>
+<td>
+&#x2002;
+17.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1989</td>
+<td>
+&#x2002;
+17.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1989</td>
+<td>
+&#x2002;
+17.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1989</td>
+<td>
+&#x2002;
+17.73
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1989</td>
+<td>
+&#x2002;
+17.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1989</td>
+<td>
+&#x2002;
+16.64
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1989</td>
+<td>
+&#x2002;
+16.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1989</td>
+<td>
+&#x2002;
+15.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1989</td>
+<td>
+&#x2002;
+15.30
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1989</td>
+<td>
+&#x2002;
+15.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1989</td>
+<td>
+&#x2002;
+15.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1988</td>
+<td>
+&#x2002;
+14.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1988</td>
+<td>
+&#x2002;
+14.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1988</td>
+<td>
+&#x2002;
+14.81
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1988</td>
+<td>
+&#x2002;
+14.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1988</td>
+<td>
+&#x2002;
+14.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1988</td>
+<td>
+&#x2002;
+14.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1988</td>
+<td>
+&#x2002;
+14.77
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1988</td>
+<td>
+&#x2002;
+14.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1988</td>
+<td>
+&#x2002;
+14.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1988</td>
+<td>
+&#x2002;
+14.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1988</td>
+<td>
+&#x2002;
+14.30
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1988</td>
+<td>
+&#x2002;
+13.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1987</td>
+<td>
+&#x2002;
+13.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1987</td>
+<td>
+&#x2002;
+13.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1987</td>
+<td>
+&#x2002;
+15.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1987</td>
+<td>
+&#x2002;
+17.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1987</td>
+<td>
+&#x2002;
+18.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1987</td>
+<td>
+&#x2002;
+17.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1987</td>
+<td>
+&#x2002;
+16.83
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1987</td>
+<td>
+&#x2002;
+16.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1987</td>
+<td>
+&#x2002;
+16.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1987</td>
+<td>
+&#x2002;
+16.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1987</td>
+<td>
+&#x2002;
+15.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1987</td>
+<td>
+&#x2002;
+14.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1986</td>
+<td>
+&#x2002;
+14.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1986</td>
+<td>
+&#x2002;
+13.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1986</td>
+<td>
+&#x2002;
+13.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1986</td>
+<td>
+&#x2002;
+13.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1986</td>
+<td>
+&#x2002;
+13.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1986</td>
+<td>
+&#x2002;
+13.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1986</td>
+<td>
+&#x2002;
+13.89
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1986</td>
+<td>
+&#x2002;
+13.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1986</td>
+<td>
+&#x2002;
+13.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1986</td>
+<td>
+&#x2002;
+13.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1986</td>
+<td>
+&#x2002;
+12.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1986</td>
+<td>
+&#x2002;
+11.72
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1985</td>
+<td>
+&#x2002;
+11.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1985</td>
+<td>
+&#x2002;
+11.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1985</td>
+<td>
+&#x2002;
+10.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1985</td>
+<td>
+&#x2002;
+10.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1985</td>
+<td>
+&#x2002;
+10.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1985</td>
+<td>
+&#x2002;
+11.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1985</td>
+<td>
+&#x2002;
+10.81
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1985</td>
+<td>
+&#x2002;
+10.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1985</td>
+<td>
+&#x2002;
+10.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1985</td>
+<td>
+&#x2002;
+10.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1985</td>
+<td>
+&#x2002;
+10.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1985</td>
+<td>
+&#x2002;
+10.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1984</td>
+<td>
+&#x2002;
+9.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1984</td>
+<td>
+&#x2002;
+9.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1984</td>
+<td>
+&#x2002;
+9.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1984</td>
+<td>
+&#x2002;
+9.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1984</td>
+<td>
+&#x2002;
+9.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1984</td>
+<td>
+&#x2002;
+8.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1984</td>
+<td>
+&#x2002;
+9.01
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1984</td>
+<td>
+&#x2002;
+9.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1984</td>
+<td>
+&#x2002;
+9.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1984</td>
+<td>
+&#x2002;
+9.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1984</td>
+<td>
+&#x2002;
+9.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1984</td>
+<td>
+&#x2002;
+9.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1983</td>
+<td>
+&#x2002;
+9.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1983</td>
+<td>
+&#x2002;
+9.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1983</td>
+<td>
+&#x2002;
+10.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1983</td>
+<td>
+&#x2002;
+9.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1983</td>
+<td>
+&#x2002;
+9.73
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1983</td>
+<td>
+&#x2002;
+10.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1983</td>
+<td>
+&#x2002;
+10.00
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1983</td>
+<td>
+&#x2002;
+9.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1983</td>
+<td>
+&#x2002;
+9.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1983</td>
+<td>
+&#x2002;
+9.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1983</td>
+<td>
+&#x2002;
+8.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1983</td>
+<td>
+&#x2002;
+8.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1982</td>
+<td>
+&#x2002;
+8.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1982</td>
+<td>
+&#x2002;
+8.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1982</td>
+<td>
+&#x2002;
+8.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1982</td>
+<td>
+&#x2002;
+7.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1982</td>
+<td>
+&#x2002;
+6.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1982</td>
+<td>
+&#x2002;
+6.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1982</td>
+<td>
+&#x2002;
+6.69
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1982</td>
+<td>
+&#x2002;
+7.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1982</td>
+<td>
+&#x2002;
+7.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1982</td>
+<td>
+&#x2002;
+6.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1982</td>
+<td>
+&#x2002;
+7.18
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1982</td>
+<td>
+&#x2002;
+7.39
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1981</td>
+<td>
+&#x2002;
+7.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1981</td>
+<td>
+&#x2002;
+7.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1981</td>
+<td>
+&#x2002;
+7.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1981</td>
+<td>
+&#x2002;
+7.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1981</td>
+<td>
+&#x2002;
+8.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1981</td>
+<td>
+&#x2002;
+8.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1981</td>
+<td>
+&#x2002;
+8.77
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1981</td>
+<td>
+&#x2002;
+8.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1981</td>
+<td>
+&#x2002;
+9.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1981</td>
+<td>
+&#x2002;
+9.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1981</td>
+<td>
+&#x2002;
+8.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1981</td>
+<td>
+&#x2002;
+9.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1980</td>
+<td>
+&#x2002;
+9.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1980</td>
+<td>
+&#x2002;
+9.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1980</td>
+<td>
+&#x2002;
+9.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1980</td>
+<td>
+&#x2002;
+9.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1980</td>
+<td>
+&#x2002;
+9.07
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1980</td>
+<td>
+&#x2002;
+8.88
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1980</td>
+<td>
+&#x2002;
+8.51
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1980</td>
+<td>
+&#x2002;
+8.10
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1980</td>
+<td>
+&#x2002;
+7.84
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1980</td>
+<td>
+&#x2002;
+8.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1980</td>
+<td>
+&#x2002;
+9.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1980</td>
+<td>
+&#x2002;
+8.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1979</td>
+<td>
+&#x2002;
+8.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1979</td>
+<td>
+&#x2002;
+8.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1979</td>
+<td>
+&#x2002;
+8.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1979</td>
+<td>
+&#x2002;
+9.11
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1979</td>
+<td>
+&#x2002;
+9.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1979</td>
+<td>
+&#x2002;
+8.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1979</td>
+<td>
+&#x2002;
+8.85
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1979</td>
+<td>
+&#x2002;
+8.79
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1979</td>
+<td>
+&#x2002;
+9.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1979</td>
+<td>
+&#x2002;
+9.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1979</td>
+<td>
+&#x2002;
+9.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1979</td>
+<td>
+&#x2002;
+9.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1978</td>
+<td>
+&#x2002;
+9.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1978</td>
+<td>
+&#x2002;
+8.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1978</td>
+<td>
+&#x2002;
+9.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1978</td>
+<td>
+&#x2002;
+9.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1978</td>
+<td>
+&#x2002;
+10.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1978</td>
+<td>
+&#x2002;
+9.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1978</td>
+<td>
+&#x2002;
+9.55
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1978</td>
+<td>
+&#x2002;
+9.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1978</td>
+<td>
+&#x2002;
+9.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1978</td>
+<td>
+&#x2002;
+8.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1978</td>
+<td>
+&#x2002;
+9.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1978</td>
+<td>
+&#x2002;
+9.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1977</td>
+<td>
+&#x2002;
+9.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1977</td>
+<td>
+&#x2002;
+9.77
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1977</td>
+<td>
+&#x2002;
+9.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1977</td>
+<td>
+&#x2002;
+10.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1977</td>
+<td>
+&#x2002;
+10.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1977</td>
+<td>
+&#x2002;
+10.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1977</td>
+<td>
+&#x2002;
+10.53
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1977</td>
+<td>
+&#x2002;
+10.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1977</td>
+<td>
+&#x2002;
+10.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1977</td>
+<td>
+&#x2002;
+10.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1977</td>
+<td>
+&#x2002;
+11.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1977</td>
+<td>
+&#x2002;
+11.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1976</td>
+<td>
+&#x2002;
+11.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1976</td>
+<td>
+&#x2002;
+11.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1976</td>
+<td>
+&#x2002;
+11.35
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1976</td>
+<td>
+&#x2002;
+11.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1976</td>
+<td>
+&#x2002;
+11.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1976</td>
+<td>
+&#x2002;
+11.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1976</td>
+<td>
+&#x2002;
+11.54
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1976</td>
+<td>
+&#x2002;
+11.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1976</td>
+<td>
+&#x2002;
+11.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1976</td>
+<td>
+&#x2002;
+11.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1976</td>
+<td>
+&#x2002;
+11.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1976</td>
+<td>
+&#x2002;
+11.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1975</td>
+<td>
+&#x2002;
+10.25
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1975</td>
+<td>
+&#x2002;
+10.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1975</td>
+<td>
+&#x2002;
+10.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1975</td>
+<td>
+&#x2002;
+9.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1975</td>
+<td>
+&#x2002;
+10.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1975</td>
+<td>
+&#x2002;
+10.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1975</td>
+<td>
+&#x2002;
+11.01
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1975</td>
+<td>
+&#x2002;
+10.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1975</td>
+<td>
+&#x2002;
+10.23
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1975</td>
+<td>
+&#x2002;
+10.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1975</td>
+<td>
+&#x2002;
+9.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1975</td>
+<td>
+&#x2002;
+8.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1974</td>
+<td>
+&#x2002;
+8.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1974</td>
+<td>
+&#x2002;
+8.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1974</td>
+<td>
+&#x2002;
+8.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1974</td>
+<td>
+&#x2002;
+8.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1974</td>
+<td>
+&#x2002;
+9.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1974</td>
+<td>
+&#x2002;
+10.39
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1974</td>
+<td>
+&#x2002;
+11.89
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1974</td>
+<td>
+&#x2002;
+12.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1974</td>
+<td>
+&#x2002;
+12.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1974</td>
+<td>
+&#x2002;
+13.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1974</td>
+<td>
+&#x2002;
+12.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1974</td>
+<td>
+&#x2002;
+13.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1973</td>
+<td>
+&#x2002;
+13.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1973</td>
+<td>
+&#x2002;
+14.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1973</td>
+<td>
+&#x2002;
+15.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1973</td>
+<td>
+&#x2002;
+15.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1973</td>
+<td>
+&#x2002;
+15.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1973</td>
+<td>
+&#x2002;
+15.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1973</td>
+<td>
+&#x2002;
+15.81
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1973</td>
+<td>
+&#x2002;
+16.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1973</td>
+<td>
+&#x2002;
+16.94
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1973</td>
+<td>
+&#x2002;
+17.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1973</td>
+<td>
+&#x2002;
+17.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1973</td>
+<td>
+&#x2002;
+18.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1972</td>
+<td>
+&#x2002;
+18.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1972</td>
+<td>
+&#x2002;
+18.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1972</td>
+<td>
+&#x2002;
+17.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1972</td>
+<td>
+&#x2002;
+17.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1972</td>
+<td>
+&#x2002;
+17.94
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1972</td>
+<td>
+&#x2002;
+17.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1972</td>
+<td>
+&#x2002;
+17.64
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1972</td>
+<td>
+&#x2002;
+17.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1972</td>
+<td>
+&#x2002;
+17.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1972</td>
+<td>
+&#x2002;
+17.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1972</td>
+<td>
+&#x2002;
+17.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1972</td>
+<td>
+&#x2002;
+17.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1971</td>
+<td>
+&#x2002;
+16.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1971</td>
+<td>
+&#x2002;
+15.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1971</td>
+<td>
+&#x2002;
+16.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1971</td>
+<td>
+&#x2002;
+16.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1971</td>
+<td>
+&#x2002;
+16.52
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1971</td>
+<td>
+&#x2002;
+16.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1971</td>
+<td>
+&#x2002;
+17.08
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1971</td>
+<td>
+&#x2002;
+17.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1971</td>
+<td>
+&#x2002;
+17.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1971</td>
+<td>
+&#x2002;
+17.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1971</td>
+<td>
+&#x2002;
+17.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1971</td>
+<td>
+&#x2002;
+16.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1970</td>
+<td>
+&#x2002;
+15.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1970</td>
+<td>
+&#x2002;
+14.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1970</td>
+<td>
+&#x2002;
+15.06
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1970</td>
+<td>
+&#x2002;
+14.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1970</td>
+<td>
+&#x2002;
+14.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1970</td>
+<td>
+&#x2002;
+13.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1970</td>
+<td>
+&#x2002;
+13.80
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1970</td>
+<td>
+&#x2002;
+13.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1970</td>
+<td>
+&#x2002;
+15.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1970</td>
+<td>
+&#x2002;
+16.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1970</td>
+<td>
+&#x2002;
+16.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1970</td>
+<td>
+&#x2002;
+17.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1969</td>
+<td>
+&#x2002;
+17.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1969</td>
+<td>
+&#x2002;
+18.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1969</td>
+<td>
+&#x2002;
+18.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1969</td>
+<td>
+&#x2002;
+18.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1969</td>
+<td>
+&#x2002;
+18.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1969</td>
+<td>
+&#x2002;
+18.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1969</td>
+<td>
+&#x2002;
+19.71
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1969</td>
+<td>
+&#x2002;
+20.97
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1969</td>
+<td>
+&#x2002;
+20.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1969</td>
+<td>
+&#x2002;
+20.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1969</td>
+<td>
+&#x2002;
+20.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1969</td>
+<td>
+&#x2002;
+21.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1968</td>
+<td>
+&#x2002;
+22.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1968</td>
+<td>
+&#x2002;
+22.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1968</td>
+<td>
+&#x2002;
+22.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1968</td>
+<td>
+&#x2002;
+21.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1968</td>
+<td>
+&#x2002;
+21.14
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1968</td>
+<td>
+&#x2002;
+21.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1968</td>
+<td>
+&#x2002;
+22.00
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1968</td>
+<td>
+&#x2002;
+21.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1968</td>
+<td>
+&#x2002;
+21.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1968</td>
+<td>
+&#x2002;
+19.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1968</td>
+<td>
+&#x2002;
+20.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1968</td>
+<td>
+&#x2002;
+21.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1967</td>
+<td>
+&#x2002;
+21.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1967</td>
+<td>
+&#x2002;
+21.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1967</td>
+<td>
+&#x2002;
+22.07
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1967</td>
+<td>
+&#x2002;
+22.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1967</td>
+<td>
+&#x2002;
+22.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1967</td>
+<td>
+&#x2002;
+21.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1967</td>
+<td>
+&#x2002;
+21.55
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1967</td>
+<td>
+&#x2002;
+21.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1967</td>
+<td>
+&#x2002;
+21.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1967</td>
+<td>
+&#x2002;
+21.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1967</td>
+<td>
+&#x2002;
+21.07
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1967</td>
+<td>
+&#x2002;
+20.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1966</td>
+<td>
+&#x2002;
+19.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1966</td>
+<td>
+&#x2002;
+19.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1966</td>
+<td>
+&#x2002;
+18.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1966</td>
+<td>
+&#x2002;
+19.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1966</td>
+<td>
+&#x2002;
+19.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1966</td>
+<td>
+&#x2002;
+21.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1966</td>
+<td>
+&#x2002;
+21.56
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1966</td>
+<td>
+&#x2002;
+21.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1966</td>
+<td>
+&#x2002;
+23.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1966</td>
+<td>
+&#x2002;
+22.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1966</td>
+<td>
+&#x2002;
+23.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1966</td>
+<td>
+&#x2002;
+24.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1965</td>
+<td>
+&#x2002;
+23.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1965</td>
+<td>
+&#x2002;
+23.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1965</td>
+<td>
+&#x2002;
+23.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1965</td>
+<td>
+&#x2002;
+23.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1965</td>
+<td>
+&#x2002;
+22.67
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1965</td>
+<td>
+&#x2002;
+22.30
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1965</td>
+<td>
+&#x2002;
+22.39
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1965</td>
+<td>
+&#x2002;
+23.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1965</td>
+<td>
+&#x2002;
+23.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1965</td>
+<td>
+&#x2002;
+23.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1965</td>
+<td>
+&#x2002;
+23.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1965</td>
+<td>
+&#x2002;
+23.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1964</td>
+<td>
+&#x2002;
+22.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1964</td>
+<td>
+&#x2002;
+23.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1964</td>
+<td>
+&#x2002;
+23.21
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1964</td>
+<td>
+&#x2002;
+22.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1964</td>
+<td>
+&#x2002;
+22.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1964</td>
+<td>
+&#x2002;
+22.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1964</td>
+<td>
+&#x2002;
+22.30
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1964</td>
+<td>
+&#x2002;
+22.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1964</td>
+<td>
+&#x2002;
+22.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1964</td>
+<td>
+&#x2002;
+22.17
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1964</td>
+<td>
+&#x2002;
+21.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1964</td>
+<td>
+&#x2002;
+21.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1963</td>
+<td>
+&#x2002;
+21.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1963</td>
+<td>
+&#x2002;
+20.72
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1963</td>
+<td>
+&#x2002;
+20.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1963</td>
+<td>
+&#x2002;
+20.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1963</td>
+<td>
+&#x2002;
+20.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1963</td>
+<td>
+&#x2002;
+19.97
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1963</td>
+<td>
+&#x2002;
+20.38
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1963</td>
+<td>
+&#x2002;
+20.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1963</td>
+<td>
+&#x2002;
+20.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1963</td>
+<td>
+&#x2002;
+19.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1963</td>
+<td>
+&#x2002;
+19.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1963</td>
+<td>
+&#x2002;
+19.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1962</td>
+<td>
+&#x2002;
+18.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1962</td>
+<td>
+&#x2002;
+17.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1962</td>
+<td>
+&#x2002;
+16.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1962</td>
+<td>
+&#x2002;
+17.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1962</td>
+<td>
+&#x2002;
+17.57
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1962</td>
+<td>
+&#x2002;
+17.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1962</td>
+<td>
+&#x2002;
+16.83
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1962</td>
+<td>
+&#x2002;
+19.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1962</td>
+<td>
+&#x2002;
+20.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1962</td>
+<td>
+&#x2002;
+21.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1962</td>
+<td>
+&#x2002;
+21.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1962</td>
+<td>
+&#x2002;
+21.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1961</td>
+<td>
+&#x2002;
+22.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1961</td>
+<td>
+&#x2002;
+21.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1961</td>
+<td>
+&#x2002;
+20.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1961</td>
+<td>
+&#x2002;
+20.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1961</td>
+<td>
+&#x2002;
+20.94
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1961</td>
+<td>
+&#x2002;
+20.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1961</td>
+<td>
+&#x2002;
+20.33
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1961</td>
+<td>
+&#x2002;
+20.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1961</td>
+<td>
+&#x2002;
+20.38
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1961</td>
+<td>
+&#x2002;
+19.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1961</td>
+<td>
+&#x2002;
+19.23
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1961</td>
+<td>
+&#x2002;
+18.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1960</td>
+<td>
+&#x2002;
+17.56
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1960</td>
+<td>
+&#x2002;
+17.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1960</td>
+<td>
+&#x2002;
+16.61
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1960</td>
+<td>
+&#x2002;
+17.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1960</td>
+<td>
+&#x2002;
+17.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1960</td>
+<td>
+&#x2002;
+17.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1960</td>
+<td>
+&#x2002;
+17.82
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1960</td>
+<td>
+&#x2002;
+17.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1960</td>
+<td>
+&#x2002;
+17.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1960</td>
+<td>
+&#x2002;
+17.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1960</td>
+<td>
+&#x2002;
+17.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1960</td>
+<td>
+&#x2002;
+18.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1959</td>
+<td>
+&#x2002;
+18.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1959</td>
+<td>
+&#x2002;
+18.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1959</td>
+<td>
+&#x2002;
+18.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1959</td>
+<td>
+&#x2002;
+18.12
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1959</td>
+<td>
+&#x2002;
+18.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1959</td>
+<td>
+&#x2002;
+19.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1959</td>
+<td>
+&#x2002;
+18.45
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1959</td>
+<td>
+&#x2002;
+18.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1959</td>
+<td>
+&#x2002;
+18.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1959</td>
+<td>
+&#x2002;
+18.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1959</td>
+<td>
+&#x2002;
+17.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1959</td>
+<td>
+&#x2002;
+17.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1958</td>
+<td>
+&#x2002;
+17.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1958</td>
+<td>
+&#x2002;
+16.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1958</td>
+<td>
+&#x2002;
+16.56
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1958</td>
+<td>
+&#x2002;
+15.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1958</td>
+<td>
+&#x2002;
+15.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1958</td>
+<td>
+&#x2002;
+14.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1958</td>
+<td>
+&#x2002;
+14.64
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1958</td>
+<td>
+&#x2002;
+14.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1958</td>
+<td>
+&#x2002;
+13.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1958</td>
+<td>
+&#x2002;
+13.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1958</td>
+<td>
+&#x2002;
+13.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1958</td>
+<td>
+&#x2002;
+13.79
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1957</td>
+<td>
+&#x2002;
+13.67
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1957</td>
+<td>
+&#x2002;
+13.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1957</td>
+<td>
+&#x2002;
+14.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1957</td>
+<td>
+&#x2002;
+15.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1957</td>
+<td>
+&#x2002;
+15.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1957</td>
+<td>
+&#x2002;
+16.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1957</td>
+<td>
+&#x2002;
+16.73
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1957</td>
+<td>
+&#x2002;
+16.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1957</td>
+<td>
+&#x2002;
+16.12
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1957</td>
+<td>
+&#x2002;
+15.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1957</td>
+<td>
+&#x2002;
+15.84
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1957</td>
+<td>
+&#x2002;
+16.72
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1956</td>
+<td>
+&#x2002;
+17.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1956</td>
+<td>
+&#x2002;
+17.12
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1956</td>
+<td>
+&#x2002;
+17.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1956</td>
+<td>
+&#x2002;
+17.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1956</td>
+<td>
+&#x2002;
+18.67
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1956</td>
+<td>
+&#x2002;
+18.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1956</td>
+<td>
+&#x2002;
+18.16
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1956</td>
+<td>
+&#x2002;
+18.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1956</td>
+<td>
+&#x2002;
+19.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1956</td>
+<td>
+&#x2002;
+19.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1956</td>
+<td>
+&#x2002;
+18.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1956</td>
+<td>
+&#x2002;
+18.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1955</td>
+<td>
+&#x2002;
+18.94
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1955</td>
+<td>
+&#x2002;
+18.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1955</td>
+<td>
+&#x2002;
+17.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1955</td>
+<td>
+&#x2002;
+18.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1955</td>
+<td>
+&#x2002;
+18.22
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1955</td>
+<td>
+&#x2002;
+18.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1955</td>
+<td>
+&#x2002;
+17.37
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1955</td>
+<td>
+&#x2002;
+16.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1955</td>
+<td>
+&#x2002;
+16.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1955</td>
+<td>
+&#x2002;
+16.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1955</td>
+<td>
+&#x2002;
+16.44
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1955</td>
+<td>
+&#x2002;
+15.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1954</td>
+<td>
+&#x2002;
+15.79
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1954</td>
+<td>
+&#x2002;
+15.12
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1954</td>
+<td>
+&#x2002;
+14.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1954</td>
+<td>
+&#x2002;
+14.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1954</td>
+<td>
+&#x2002;
+14.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1954</td>
+<td>
+&#x2002;
+13.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1954</td>
+<td>
+&#x2002;
+13.36
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1954</td>
+<td>
+&#x2002;
+13.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1954</td>
+<td>
+&#x2002;
+12.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1954</td>
+<td>
+&#x2002;
+12.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1954</td>
+<td>
+&#x2002;
+12.22
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1954</td>
+<td>
+&#x2002;
+12.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1953</td>
+<td>
+&#x2002;
+11.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1953</td>
+<td>
+&#x2002;
+11.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1953</td>
+<td>
+&#x2002;
+11.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1953</td>
+<td>
+&#x2002;
+11.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1953</td>
+<td>
+&#x2002;
+11.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1953</td>
+<td>
+&#x2002;
+11.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1953</td>
+<td>
+&#x2002;
+11.62
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1953</td>
+<td>
+&#x2002;
+12.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1953</td>
+<td>
+&#x2002;
+12.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1953</td>
+<td>
+&#x2002;
+12.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1953</td>
+<td>
+&#x2002;
+12.86
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1953</td>
+<td>
+&#x2002;
+13.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1952</td>
+<td>
+&#x2002;
+12.93
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1952</td>
+<td>
+&#x2002;
+12.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1952</td>
+<td>
+&#x2002;
+12.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1952</td>
+<td>
+&#x2002;
+12.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1952</td>
+<td>
+&#x2002;
+12.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1952</td>
+<td>
+&#x2002;
+12.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1952</td>
+<td>
+&#x2002;
+12.45
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1952</td>
+<td>
+&#x2002;
+12.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1952</td>
+<td>
+&#x2002;
+12.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1952</td>
+<td>
+&#x2002;
+12.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1952</td>
+<td>
+&#x2002;
+12.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1952</td>
+<td>
+&#x2002;
+12.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1951</td>
+<td>
+&#x2002;
+12.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1951</td>
+<td>
+&#x2002;
+11.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1951</td>
+<td>
+&#x2002;
+12.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1951</td>
+<td>
+&#x2002;
+12.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1951</td>
+<td>
+&#x2002;
+12.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1951</td>
+<td>
+&#x2002;
+11.78
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1951</td>
+<td>
+&#x2002;
+11.62
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1951</td>
+<td>
+&#x2002;
+11.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1951</td>
+<td>
+&#x2002;
+11.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1951</td>
+<td>
+&#x2002;
+11.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1951</td>
+<td>
+&#x2002;
+12.14
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1951</td>
+<td>
+&#x2002;
+11.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1950</td>
+<td>
+&#x2002;
+11.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1950</td>
+<td>
+&#x2002;
+11.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1950</td>
+<td>
+&#x2002;
+11.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1950</td>
+<td>
+&#x2002;
+11.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1950</td>
+<td>
+&#x2002;
+11.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1950</td>
+<td>
+&#x2002;
+10.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1950</td>
+<td>
+&#x2002;
+11.55
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1950</td>
+<td>
+&#x2002;
+11.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1950</td>
+<td>
+&#x2002;
+11.18
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1950</td>
+<td>
+&#x2002;
+10.91
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1950</td>
+<td>
+&#x2002;
+10.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1950</td>
+<td>
+&#x2002;
+10.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1949</td>
+<td>
+&#x2002;
+10.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1949</td>
+<td>
+&#x2002;
+10.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1949</td>
+<td>
+&#x2002;
+10.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1949</td>
+<td>
+&#x2002;
+9.88
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1949</td>
+<td>
+&#x2002;
+9.85
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1949</td>
+<td>
+&#x2002;
+9.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1949</td>
+<td>
+&#x2002;
+9.07
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1949</td>
+<td>
+&#x2002;
+9.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1949</td>
+<td>
+&#x2002;
+9.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1949</td>
+<td>
+&#x2002;
+9.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1949</td>
+<td>
+&#x2002;
+9.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1949</td>
+<td>
+&#x2002;
+10.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1948</td>
+<td>
+&#x2002;
+10.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1948</td>
+<td>
+&#x2002;
+10.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1948</td>
+<td>
+&#x2002;
+10.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1948</td>
+<td>
+&#x2002;
+10.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1948</td>
+<td>
+&#x2002;
+10.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1948</td>
+<td>
+&#x2002;
+11.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1948</td>
+<td>
+&#x2002;
+11.58
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1948</td>
+<td>
+&#x2002;
+11.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1948</td>
+<td>
+&#x2002;
+10.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1948</td>
+<td>
+&#x2002;
+10.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1948</td>
+<td>
+&#x2002;
+10.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1948</td>
+<td>
+&#x2002;
+10.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1947</td>
+<td>
+&#x2002;
+10.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1947</td>
+<td>
+&#x2002;
+10.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1947</td>
+<td>
+&#x2002;
+11.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1947</td>
+<td>
+&#x2002;
+10.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1947</td>
+<td>
+&#x2002;
+11.34
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1947</td>
+<td>
+&#x2002;
+11.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1947</td>
+<td>
+&#x2002;
+11.08
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1947</td>
+<td>
+&#x2002;
+10.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1947</td>
+<td>
+&#x2002;
+10.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1947</td>
+<td>
+&#x2002;
+11.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1947</td>
+<td>
+&#x2002;
+11.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1947</td>
+<td>
+&#x2002;
+11.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1946</td>
+<td>
+&#x2002;
+11.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1946</td>
+<td>
+&#x2002;
+11.11
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1946</td>
+<td>
+&#x2002;
+11.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1946</td>
+<td>
+&#x2002;
+11.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1946</td>
+<td>
+&#x2002;
+13.98
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1946</td>
+<td>
+&#x2002;
+14.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1946</td>
+<td>
+&#x2002;
+15.77
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1946</td>
+<td>
+&#x2002;
+16.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1946</td>
+<td>
+&#x2002;
+16.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1946</td>
+<td>
+&#x2002;
+15.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1946</td>
+<td>
+&#x2002;
+15.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1946</td>
+<td>
+&#x2002;
+15.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1945</td>
+<td>
+&#x2002;
+15.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1945</td>
+<td>
+&#x2002;
+14.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1945</td>
+<td>
+&#x2002;
+14.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1945</td>
+<td>
+&#x2002;
+13.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1945</td>
+<td>
+&#x2002;
+12.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1945</td>
+<td>
+&#x2002;
+12.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1945</td>
+<td>
+&#x2002;
+13.13
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1945</td>
+<td>
+&#x2002;
+13.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1945</td>
+<td>
+&#x2002;
+12.63
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1945</td>
+<td>
+&#x2002;
+12.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1945</td>
+<td>
+&#x2002;
+12.34
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1945</td>
+<td>
+&#x2002;
+11.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1944</td>
+<td>
+&#x2002;
+11.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1944</td>
+<td>
+&#x2002;
+11.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1944</td>
+<td>
+&#x2002;
+11.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1944</td>
+<td>
+&#x2002;
+11.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1944</td>
+<td>
+&#x2002;
+11.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1944</td>
+<td>
+&#x2002;
+11.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1944</td>
+<td>
+&#x2002;
+11.53
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1944</td>
+<td>
+&#x2002;
+11.10
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1944</td>
+<td>
+&#x2002;
+10.94
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1944</td>
+<td>
+&#x2002;
+11.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1944</td>
+<td>
+&#x2002;
+10.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1944</td>
+<td>
+&#x2002;
+11.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1943</td>
+<td>
+&#x2002;
+10.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1943</td>
+<td>
+&#x2002;
+10.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1943</td>
+<td>
+&#x2002;
+11.19
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1943</td>
+<td>
+&#x2002;
+11.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1943</td>
+<td>
+&#x2002;
+11.21
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1943</td>
+<td>
+&#x2002;
+11.77
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1943</td>
+<td>
+&#x2002;
+11.52
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1943</td>
+<td>
+&#x2002;
+11.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1943</td>
+<td>
+&#x2002;
+11.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1943</td>
+<td>
+&#x2002;
+10.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1943</td>
+<td>
+&#x2002;
+10.71
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1943</td>
+<td>
+&#x2002;
+10.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1942</td>
+<td>
+&#x2002;
+9.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1942</td>
+<td>
+&#x2002;
+9.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1942</td>
+<td>
+&#x2002;
+9.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1942</td>
+<td>
+&#x2002;
+9.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1942</td>
+<td>
+&#x2002;
+9.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1942</td>
+<td>
+&#x2002;
+9.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1942</td>
+<td>
+&#x2002;
+8.91
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1942</td>
+<td>
+&#x2002;
+8.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1942</td>
+<td>
+&#x2002;
+8.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1942</td>
+<td>
+&#x2002;
+9.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1942</td>
+<td>
+&#x2002;
+9.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1942</td>
+<td>
+&#x2002;
+10.10
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1941</td>
+<td>
+&#x2002;
+10.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1941</td>
+<td>
+&#x2002;
+10.91
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1941</td>
+<td>
+&#x2002;
+11.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1941</td>
+<td>
+&#x2002;
+12.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1941</td>
+<td>
+&#x2002;
+12.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1941</td>
+<td>
+&#x2002;
+12.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1941</td>
+<td>
+&#x2002;
+12.16
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1941</td>
+<td>
+&#x2002;
+12.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1941</td>
+<td>
+&#x2002;
+12.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1941</td>
+<td>
+&#x2002;
+12.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1941</td>
+<td>
+&#x2002;
+13.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1941</td>
+<td>
+&#x2002;
+13.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1940</td>
+<td>
+&#x2002;
+13.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1940</td>
+<td>
+&#x2002;
+14.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1940</td>
+<td>
+&#x2002;
+14.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1940</td>
+<td>
+&#x2002;
+14.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1940</td>
+<td>
+&#x2002;
+13.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1940</td>
+<td>
+&#x2002;
+13.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1940</td>
+<td>
+&#x2002;
+12.84
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1940</td>
+<td>
+&#x2002;
+14.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1940</td>
+<td>
+&#x2002;
+16.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1940</td>
+<td>
+&#x2002;
+16.17
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1940</td>
+<td>
+&#x2002;
+16.22
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1940</td>
+<td>
+&#x2002;
+16.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1939</td>
+<td>
+&#x2002;
+16.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1939</td>
+<td>
+&#x2002;
+16.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1939</td>
+<td>
+&#x2002;
+16.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1939</td>
+<td>
+&#x2002;
+16.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1939</td>
+<td>
+&#x2002;
+15.12
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1939</td>
+<td>
+&#x2002;
+15.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1939</td>
+<td>
+&#x2002;
+14.83
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1939</td>
+<td>
+&#x2002;
+14.50
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1939</td>
+<td>
+&#x2002;
+13.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1939</td>
+<td>
+&#x2002;
+15.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1939</td>
+<td>
+&#x2002;
+15.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1939</td>
+<td>
+&#x2002;
+15.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1938</td>
+<td>
+&#x2002;
+15.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1938</td>
+<td>
+&#x2002;
+16.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1938</td>
+<td>
+&#x2002;
+16.06
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1938</td>
+<td>
+&#x2002;
+14.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1938</td>
+<td>
+&#x2002;
+14.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1938</td>
+<td>
+&#x2002;
+14.77
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1938</td>
+<td>
+&#x2002;
+12.29
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1938</td>
+<td>
+&#x2002;
+11.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1938</td>
+<td>
+&#x2002;
+11.79
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1938</td>
+<td>
+&#x2002;
+12.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1938</td>
+<td>
+&#x2002;
+13.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1938</td>
+<td>
+&#x2002;
+13.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1937</td>
+<td>
+&#x2002;
+13.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1937</td>
+<td>
+&#x2002;
+13.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1937</td>
+<td>
+&#x2002;
+14.36
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1937</td>
+<td>
+&#x2002;
+16.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1937</td>
+<td>
+&#x2002;
+19.81
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1937</td>
+<td>
+&#x2002;
+19.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1937</td>
+<td>
+&#x2002;
+18.71
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1937</td>
+<td>
+&#x2002;
+19.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1937</td>
+<td>
+&#x2002;
+20.56
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1937</td>
+<td>
+&#x2002;
+22.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1937</td>
+<td>
+&#x2002;
+22.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1937</td>
+<td>
+&#x2002;
+21.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1936</td>
+<td>
+&#x2002;
+21.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1936</td>
+<td>
+&#x2002;
+21.50
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1936</td>
+<td>
+&#x2002;
+20.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1936</td>
+<td>
+&#x2002;
+19.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1936</td>
+<td>
+&#x2002;
+19.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1936</td>
+<td>
+&#x2002;
+19.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1936</td>
+<td>
+&#x2002;
+18.39
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1936</td>
+<td>
+&#x2002;
+17.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1936</td>
+<td>
+&#x2002;
+18.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1936</td>
+<td>
+&#x2002;
+18.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1936</td>
+<td>
+&#x2002;
+18.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1936</td>
+<td>
+&#x2002;
+17.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1935</td>
+<td>
+&#x2002;
+16.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1935</td>
+<td>
+&#x2002;
+16.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1935</td>
+<td>
+&#x2002;
+14.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1935</td>
+<td>
+&#x2002;
+14.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1935</td>
+<td>
+&#x2002;
+14.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1935</td>
+<td>
+&#x2002;
+13.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1935</td>
+<td>
+&#x2002;
+12.54
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1935</td>
+<td>
+&#x2002;
+11.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1935</td>
+<td>
+&#x2002;
+11.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1935</td>
+<td>
+&#x2002;
+10.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1935</td>
+<td>
+&#x2002;
+11.09
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1935</td>
+<td>
+&#x2002;
+11.50
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1934</td>
+<td>
+&#x2002;
+11.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1934</td>
+<td>
+&#x2002;
+11.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1934</td>
+<td>
+&#x2002;
+11.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1934</td>
+<td>
+&#x2002;
+10.91
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1934</td>
+<td>
+&#x2002;
+11.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1934</td>
+<td>
+&#x2002;
+11.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1934</td>
+<td>
+&#x2002;
+12.29
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1934</td>
+<td>
+&#x2002;
+12.18
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1934</td>
+<td>
+&#x2002;
+13.52
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1934</td>
+<td>
+&#x2002;
+13.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1934</td>
+<td>
+&#x2002;
+13.93
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1934</td>
+<td>
+&#x2002;
+13.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1933</td>
+<td>
+&#x2002;
+12.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1933</td>
+<td>
+&#x2002;
+12.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1933</td>
+<td>
+&#x2002;
+11.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1933</td>
+<td>
+&#x2002;
+12.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1933</td>
+<td>
+&#x2002;
+13.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1933</td>
+<td>
+&#x2002;
+13.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1933</td>
+<td>
+&#x2002;
+13.10
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1933</td>
+<td>
+&#x2002;
+11.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1933</td>
+<td>
+&#x2002;
+8.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1933</td>
+<td>
+&#x2002;
+7.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1933</td>
+<td>
+&#x2002;
+7.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1933</td>
+<td>
+&#x2002;
+8.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1932</td>
+<td>
+&#x2002;
+8.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1932</td>
+<td>
+&#x2002;
+8.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1932</td>
+<td>
+&#x2002;
+8.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1932</td>
+<td>
+&#x2002;
+9.76
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1932</td>
+<td>
+&#x2002;
+8.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1932</td>
+<td>
+&#x2002;
+5.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1932</td>
+<td>
+&#x2002;
+5.57
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1932</td>
+<td>
+&#x2002;
+6.39
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1932</td>
+<td>
+&#x2002;
+7.19
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1932</td>
+<td>
+&#x2002;
+9.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1932</td>
+<td>
+&#x2002;
+9.34
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1932</td>
+<td>
+&#x2002;
+9.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1931</td>
+<td>
+&#x2002;
+9.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1931</td>
+<td>
+&#x2002;
+11.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1931</td>
+<td>
+&#x2002;
+11.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1931</td>
+<td>
+&#x2002;
+12.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1931</td>
+<td>
+&#x2002;
+15.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1931</td>
+<td>
+&#x2002;
+15.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1931</td>
+<td>
+&#x2002;
+15.06
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1931</td>
+<td>
+&#x2002;
+15.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1931</td>
+<td>
+&#x2002;
+16.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1931</td>
+<td>
+&#x2002;
+18.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1931</td>
+<td>
+&#x2002;
+18.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1931</td>
+<td>
+&#x2002;
+16.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1930</td>
+<td>
+&#x2002;
+16.06
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1930</td>
+<td>
+&#x2002;
+16.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1930</td>
+<td>
+&#x2002;
+18.21
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1930</td>
+<td>
+&#x2002;
+21.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1930</td>
+<td>
+&#x2002;
+21.30
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1930</td>
+<td>
+&#x2002;
+21.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1930</td>
+<td>
+&#x2002;
+21.87
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1930</td>
+<td>
+&#x2002;
+24.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1930</td>
+<td>
+&#x2002;
+25.84
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1930</td>
+<td>
+&#x2002;
+24.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1930</td>
+<td>
+&#x2002;
+23.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1930</td>
+<td>
+&#x2002;
+22.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1929</td>
+<td>
+&#x2002;
+22.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1929</td>
+<td>
+&#x2002;
+21.17
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1929</td>
+<td>
+&#x2002;
+28.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1929</td>
+<td>
+&#x2002;
+32.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1929</td>
+<td>
+&#x2002;
+31.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1929</td>
+<td>
+&#x2002;
+29.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1929</td>
+<td>
+&#x2002;
+27.94
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1929</td>
+<td>
+&#x2002;
+27.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1929</td>
+<td>
+&#x2002;
+27.57
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1929</td>
+<td>
+&#x2002;
+27.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1929</td>
+<td>
+&#x2002;
+27.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1929</td>
+<td>
+&#x2002;
+27.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1928</td>
+<td>
+&#x2002;
+25.30
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1928</td>
+<td>
+&#x2002;
+25.12
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1928</td>
+<td>
+&#x2002;
+23.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1928</td>
+<td>
+&#x2002;
+23.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1928</td>
+<td>
+&#x2002;
+21.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1928</td>
+<td>
+&#x2002;
+21.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1928</td>
+<td>
+&#x2002;
+20.91
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1928</td>
+<td>
+&#x2002;
+21.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1928</td>
+<td>
+&#x2002;
+21.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1928</td>
+<td>
+&#x2002;
+19.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1928</td>
+<td>
+&#x2002;
+18.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1928</td>
+<td>
+&#x2002;
+18.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1927</td>
+<td>
+&#x2002;
+18.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1927</td>
+<td>
+&#x2002;
+18.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1927</td>
+<td>
+&#x2002;
+17.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1927</td>
+<td>
+&#x2002;
+17.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1927</td>
+<td>
+&#x2002;
+16.86
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1927</td>
+<td>
+&#x2002;
+15.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1927</td>
+<td>
+&#x2002;
+15.12
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1927</td>
+<td>
+&#x2002;
+15.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1927</td>
+<td>
+&#x2002;
+14.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1927</td>
+<td>
+&#x2002;
+14.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1927</td>
+<td>
+&#x2002;
+13.63
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1927</td>
+<td>
+&#x2002;
+13.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1926</td>
+<td>
+&#x2002;
+13.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1926</td>
+<td>
+&#x2002;
+12.62
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1926</td>
+<td>
+&#x2002;
+12.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1926</td>
+<td>
+&#x2002;
+12.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1926</td>
+<td>
+&#x2002;
+12.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1926</td>
+<td>
+&#x2002;
+11.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1926</td>
+<td>
+&#x2002;
+11.20
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1926</td>
+<td>
+&#x2002;
+10.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1926</td>
+<td>
+&#x2002;
+10.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1926</td>
+<td>
+&#x2002;
+10.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1926</td>
+<td>
+&#x2002;
+11.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1926</td>
+<td>
+&#x2002;
+11.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1925</td>
+<td>
+&#x2002;
+11.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1925</td>
+<td>
+&#x2002;
+10.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1925</td>
+<td>
+&#x2002;
+10.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1925</td>
+<td>
+&#x2002;
+10.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1925</td>
+<td>
+&#x2002;
+10.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1925</td>
+<td>
+&#x2002;
+9.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1925</td>
+<td>
+&#x2002;
+9.80
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1925</td>
+<td>
+&#x2002;
+9.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1925</td>
+<td>
+&#x2002;
+9.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1925</td>
+<td>
+&#x2002;
+9.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1925</td>
+<td>
+&#x2002;
+9.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1925</td>
+<td>
+&#x2002;
+9.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1924</td>
+<td>
+&#x2002;
+9.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1924</td>
+<td>
+&#x2002;
+8.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1924</td>
+<td>
+&#x2002;
+8.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1924</td>
+<td>
+&#x2002;
+8.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1924</td>
+<td>
+&#x2002;
+8.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1924</td>
+<td>
+&#x2002;
+8.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1924</td>
+<td>
+&#x2002;
+8.05
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1924</td>
+<td>
+&#x2002;
+7.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1924</td>
+<td>
+&#x2002;
+7.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1924</td>
+<td>
+&#x2002;
+8.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1924</td>
+<td>
+&#x2002;
+8.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1924</td>
+<td>
+&#x2002;
+8.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1923</td>
+<td>
+&#x2002;
+7.81
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1923</td>
+<td>
+&#x2002;
+7.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1923</td>
+<td>
+&#x2002;
+7.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1923</td>
+<td>
+&#x2002;
+7.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1923</td>
+<td>
+&#x2002;
+7.44
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1923</td>
+<td>
+&#x2002;
+7.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1923</td>
+<td>
+&#x2002;
+7.67
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1923</td>
+<td>
+&#x2002;
+8.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1923</td>
+<td>
+&#x2002;
+8.37
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1923</td>
+<td>
+&#x2002;
+8.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1923</td>
+<td>
+&#x2002;
+8.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1923</td>
+<td>
+&#x2002;
+8.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1922</td>
+<td>
+&#x2002;
+7.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1922</td>
+<td>
+&#x2002;
+8.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1922</td>
+<td>
+&#x2002;
+8.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1922</td>
+<td>
+&#x2002;
+8.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1922</td>
+<td>
+&#x2002;
+8.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1922</td>
+<td>
+&#x2002;
+7.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1922</td>
+<td>
+&#x2002;
+7.56
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1922</td>
+<td>
+&#x2002;
+7.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1922</td>
+<td>
+&#x2002;
+7.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1922</td>
+<td>
+&#x2002;
+6.82
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1922</td>
+<td>
+&#x2002;
+6.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1922</td>
+<td>
+&#x2002;
+6.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1921</td>
+<td>
+&#x2002;
+6.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1921</td>
+<td>
+&#x2002;
+5.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1921</td>
+<td>
+&#x2002;
+5.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1921</td>
+<td>
+&#x2002;
+5.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1921</td>
+<td>
+&#x2002;
+5.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1921</td>
+<td>
+&#x2002;
+5.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1921</td>
+<td>
+&#x2002;
+5.22
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1921</td>
+<td>
+&#x2002;
+5.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1921</td>
+<td>
+&#x2002;
+5.30
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1921</td>
+<td>
+&#x2002;
+5.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1921</td>
+<td>
+&#x2002;
+5.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1921</td>
+<td>
+&#x2002;
+5.12
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1920</td>
+<td>
+&#x2002;
+4.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1920</td>
+<td>
+&#x2002;
+5.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1920</td>
+<td>
+&#x2002;
+5.35
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1920</td>
+<td>
+&#x2002;
+5.30
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1920</td>
+<td>
+&#x2002;
+5.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1920</td>
+<td>
+&#x2002;
+5.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1920</td>
+<td>
+&#x2002;
+5.04
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1920</td>
+<td>
+&#x2002;
+5.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1920</td>
+<td>
+&#x2002;
+5.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1920</td>
+<td>
+&#x2002;
+5.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1920</td>
+<td>
+&#x2002;
+5.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1920</td>
+<td>
+&#x2002;
+5.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1919</td>
+<td>
+&#x2002;
+6.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1919</td>
+<td>
+&#x2002;
+6.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1919</td>
+<td>
+&#x2002;
+6.79
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1919</td>
+<td>
+&#x2002;
+6.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1919</td>
+<td>
+&#x2002;
+6.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1919</td>
+<td>
+&#x2002;
+7.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1919</td>
+<td>
+&#x2002;
+7.02
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1919</td>
+<td>
+&#x2002;
+6.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1919</td>
+<td>
+&#x2002;
+6.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1919</td>
+<td>
+&#x2002;
+6.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1919</td>
+<td>
+&#x2002;
+6.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1919</td>
+<td>
+&#x2002;
+6.10
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1918</td>
+<td>
+&#x2002;
+6.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1918</td>
+<td>
+&#x2002;
+6.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1918</td>
+<td>
+&#x2002;
+6.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1918</td>
+<td>
+&#x2002;
+6.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1918</td>
+<td>
+&#x2002;
+6.30
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1918</td>
+<td>
+&#x2002;
+6.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1918</td>
+<td>
+&#x2002;
+6.50
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1918</td>
+<td>
+&#x2002;
+6.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1918</td>
+<td>
+&#x2002;
+6.52
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1918</td>
+<td>
+&#x2002;
+6.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1918</td>
+<td>
+&#x2002;
+6.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1918</td>
+<td>
+&#x2002;
+6.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1917</td>
+<td>
+&#x2002;
+6.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1917</td>
+<td>
+&#x2002;
+6.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1917</td>
+<td>
+&#x2002;
+7.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1917</td>
+<td>
+&#x2002;
+7.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1917</td>
+<td>
+&#x2002;
+8.57
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1917</td>
+<td>
+&#x2002;
+9.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1917</td>
+<td>
+&#x2002;
+9.15
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1917</td>
+<td>
+&#x2002;
+9.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1917</td>
+<td>
+&#x2002;
+9.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1917</td>
+<td>
+&#x2002;
+10.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1917</td>
+<td>
+&#x2002;
+10.06
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1917</td>
+<td>
+&#x2002;
+10.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1916</td>
+<td>
+&#x2002;
+11.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1916</td>
+<td>
+&#x2002;
+12.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1916</td>
+<td>
+&#x2002;
+12.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1916</td>
+<td>
+&#x2002;
+11.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1916</td>
+<td>
+&#x2002;
+11.73
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1916</td>
+<td>
+&#x2002;
+11.79
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1916</td>
+<td>
+&#x2002;
+12.00
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1916</td>
+<td>
+&#x2002;
+12.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1916</td>
+<td>
+&#x2002;
+11.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1916</td>
+<td>
+&#x2002;
+12.18
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1916</td>
+<td>
+&#x2002;
+12.35
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1916</td>
+<td>
+&#x2002;
+12.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1915</td>
+<td>
+&#x2002;
+12.88
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1915</td>
+<td>
+&#x2002;
+12.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1915</td>
+<td>
+&#x2002;
+12.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1915</td>
+<td>
+&#x2002;
+12.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1915</td>
+<td>
+&#x2002;
+11.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1915</td>
+<td>
+&#x2002;
+11.11
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1915</td>
+<td>
+&#x2002;
+11.15
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1915</td>
+<td>
+&#x2002;
+11.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1915</td>
+<td>
+&#x2002;
+11.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1915</td>
+<td>
+&#x2002;
+10.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1915</td>
+<td>
+&#x2002;
+10.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1915</td>
+<td>
+&#x2002;
+10.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1914</td>
+<td>
+&#x2002;
+10.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1914</td>
+<td>
+&#x2002;
+10.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1914</td>
+<td>
+&#x2002;
+10.61
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1914</td>
+<td>
+&#x2002;
+10.50
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1914</td>
+<td>
+&#x2002;
+10.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1914</td>
+<td>
+&#x2002;
+10.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1914</td>
+<td>
+&#x2002;
+11.43
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1914</td>
+<td>
+&#x2002;
+11.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1914</td>
+<td>
+&#x2002;
+11.52
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1914</td>
+<td>
+&#x2002;
+11.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1914</td>
+<td>
+&#x2002;
+11.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1914</td>
+<td>
+&#x2002;
+11.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1913</td>
+<td>
+&#x2002;
+11.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1913</td>
+<td>
+&#x2002;
+11.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1913</td>
+<td>
+&#x2002;
+11.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1913</td>
+<td>
+&#x2002;
+11.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1913</td>
+<td>
+&#x2002;
+11.85
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1913</td>
+<td>
+&#x2002;
+11.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1913</td>
+<td>
+&#x2002;
+11.49
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1913</td>
+<td>
+&#x2002;
+12.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1913</td>
+<td>
+&#x2002;
+12.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1913</td>
+<td>
+&#x2002;
+12.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1913</td>
+<td>
+&#x2002;
+12.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1913</td>
+<td>
+&#x2002;
+13.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1912</td>
+<td>
+&#x2002;
+13.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1912</td>
+<td>
+&#x2002;
+13.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1912</td>
+<td>
+&#x2002;
+13.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1912</td>
+<td>
+&#x2002;
+13.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1912</td>
+<td>
+&#x2002;
+13.99
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1912</td>
+<td>
+&#x2002;
+13.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1912</td>
+<td>
+&#x2002;
+13.78
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1912</td>
+<td>
+&#x2002;
+13.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1912</td>
+<td>
+&#x2002;
+13.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1912</td>
+<td>
+&#x2002;
+13.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1912</td>
+<td>
+&#x2002;
+13.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1912</td>
+<td>
+&#x2002;
+13.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1911</td>
+<td>
+&#x2002;
+13.93
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1911</td>
+<td>
+&#x2002;
+13.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1911</td>
+<td>
+&#x2002;
+13.07
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1911</td>
+<td>
+&#x2002;
+13.00
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1911</td>
+<td>
+&#x2002;
+13.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1911</td>
+<td>
+&#x2002;
+15.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1911</td>
+<td>
+&#x2002;
+15.33
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1911</td>
+<td>
+&#x2002;
+15.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1911</td>
+<td>
+&#x2002;
+14.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1911</td>
+<td>
+&#x2002;
+14.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1911</td>
+<td>
+&#x2002;
+14.73
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1911</td>
+<td>
+&#x2002;
+14.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1910</td>
+<td>
+&#x2002;
+13.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1910</td>
+<td>
+&#x2002;
+14.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1910</td>
+<td>
+&#x2002;
+13.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1910</td>
+<td>
+&#x2002;
+12.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1910</td>
+<td>
+&#x2002;
+12.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1910</td>
+<td>
+&#x2002;
+12.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1910</td>
+<td>
+&#x2002;
+13.01
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1910</td>
+<td>
+&#x2002;
+13.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1910</td>
+<td>
+&#x2002;
+13.56
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1910</td>
+<td>
+&#x2002;
+14.04
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1910</td>
+<td>
+&#x2002;
+14.00
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1910</td>
+<td>
+&#x2002;
+14.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1909</td>
+<td>
+&#x2002;
+14.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1909</td>
+<td>
+&#x2002;
+14.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1909</td>
+<td>
+&#x2002;
+14.99
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1909</td>
+<td>
+&#x2002;
+15.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1909</td>
+<td>
+&#x2002;
+15.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1909</td>
+<td>
+&#x2002;
+15.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1909</td>
+<td>
+&#x2002;
+15.04
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1909</td>
+<td>
+&#x2002;
+14.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1909</td>
+<td>
+&#x2002;
+14.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1909</td>
+<td>
+&#x2002;
+14.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1909</td>
+<td>
+&#x2002;
+14.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1909</td>
+<td>
+&#x2002;
+14.77
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1908</td>
+<td>
+&#x2002;
+14.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1908</td>
+<td>
+&#x2002;
+14.44
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1908</td>
+<td>
+&#x2002;
+13.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1908</td>
+<td>
+&#x2002;
+13.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1908</td>
+<td>
+&#x2002;
+13.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1908</td>
+<td>
+&#x2002;
+13.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1908</td>
+<td>
+&#x2002;
+13.05
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1908</td>
+<td>
+&#x2002;
+13.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1908</td>
+<td>
+&#x2002;
+12.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1908</td>
+<td>
+&#x2002;
+11.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1908</td>
+<td>
+&#x2002;
+11.56
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1908</td>
+<td>
+&#x2002;
+11.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1907</td>
+<td>
+&#x2002;
+11.34
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1907</td>
+<td>
+&#x2002;
+10.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1907</td>
+<td>
+&#x2002;
+10.84
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1907</td>
+<td>
+&#x2002;
+12.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1907</td>
+<td>
+&#x2002;
+12.51
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1907</td>
+<td>
+&#x2002;
+13.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1907</td>
+<td>
+&#x2002;
+13.14
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1907</td>
+<td>
+&#x2002;
+13.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1907</td>
+<td>
+&#x2002;
+14.68
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1907</td>
+<td>
+&#x2002;
+14.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1907</td>
+<td>
+&#x2002;
+16.22
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1907</td>
+<td>
+&#x2002;
+17.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1906</td>
+<td>
+&#x2002;
+17.67
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1906</td>
+<td>
+&#x2002;
+18.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1906</td>
+<td>
+&#x2002;
+18.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1906</td>
+<td>
+&#x2002;
+19.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1906</td>
+<td>
+&#x2002;
+18.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1906</td>
+<td>
+&#x2002;
+18.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1906</td>
+<td>
+&#x2002;
+18.18
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1906</td>
+<td>
+&#x2002;
+18.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1906</td>
+<td>
+&#x2002;
+18.87
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1906</td>
+<td>
+&#x2002;
+19.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1906</td>
+<td>
+&#x2002;
+19.86
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1906</td>
+<td>
+&#x2002;
+20.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1905</td>
+<td>
+&#x2002;
+19.57
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1905</td>
+<td>
+&#x2002;
+19.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1905</td>
+<td>
+&#x2002;
+19.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1905</td>
+<td>
+&#x2002;
+19.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1905</td>
+<td>
+&#x2002;
+19.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1905</td>
+<td>
+&#x2002;
+19.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1905</td>
+<td>
+&#x2002;
+18.73
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1905</td>
+<td>
+&#x2002;
+18.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1905</td>
+<td>
+&#x2002;
+19.49
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1905</td>
+<td>
+&#x2002;
+19.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1905</td>
+<td>
+&#x2002;
+19.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1905</td>
+<td>
+&#x2002;
+18.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1904</td>
+<td>
+&#x2002;
+18.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1904</td>
+<td>
+&#x2002;
+18.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1904</td>
+<td>
+&#x2002;
+17.63
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1904</td>
+<td>
+&#x2002;
+16.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1904</td>
+<td>
+&#x2002;
+16.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1904</td>
+<td>
+&#x2002;
+16.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1904</td>
+<td>
+&#x2002;
+15.47
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1904</td>
+<td>
+&#x2002;
+15.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1904</td>
+<td>
+&#x2002;
+15.56
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1904</td>
+<td>
+&#x2002;
+15.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1904</td>
+<td>
+&#x2002;
+15.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1904</td>
+<td>
+&#x2002;
+15.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1903</td>
+<td>
+&#x2002;
+16.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1903</td>
+<td>
+&#x2002;
+15.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1903</td>
+<td>
+&#x2002;
+15.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1903</td>
+<td>
+&#x2002;
+15.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1903</td>
+<td>
+&#x2002;
+16.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1903</td>
+<td>
+&#x2002;
+16.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1903</td>
+<td>
+&#x2002;
+17.83
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1903</td>
+<td>
+&#x2002;
+18.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1903</td>
+<td>
+&#x2002;
+18.99
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1903</td>
+<td>
+&#x2002;
+19.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1903</td>
+<td>
+&#x2002;
+20.11
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1903</td>
+<td>
+&#x2002;
+20.32
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1902</td>
+<td>
+&#x2002;
+19.64
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1902</td>
+<td>
+&#x2002;
+20.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1902</td>
+<td>
+&#x2002;
+20.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1902</td>
+<td>
+&#x2002;
+22.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1902</td>
+<td>
+&#x2002;
+23.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1902</td>
+<td>
+&#x2002;
+22.40
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1902</td>
+<td>
+&#x2002;
+21.97
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1902</td>
+<td>
+&#x2002;
+22.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1902</td>
+<td>
+&#x2002;
+22.83
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1902</td>
+<td>
+&#x2002;
+22.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1902</td>
+<td>
+&#x2002;
+22.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1902</td>
+<td>
+&#x2002;
+22.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1901</td>
+<td>
+&#x2002;
+21.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1901</td>
+<td>
+&#x2002;
+22.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1901</td>
+<td>
+&#x2002;
+22.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1901</td>
+<td>
+&#x2002;
+22.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1901</td>
+<td>
+&#x2002;
+23.07
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1901</td>
+<td>
+&#x2002;
+23.15
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1901</td>
+<td>
+&#x2002;
+25.23
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1901</td>
+<td>
+&#x2002;
+23.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1901</td>
+<td>
+&#x2002;
+24.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1901</td>
+<td>
+&#x2002;
+22.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1901</td>
+<td>
+&#x2002;
+21.69
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1901</td>
+<td>
+&#x2002;
+20.97
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1900</td>
+<td>
+&#x2002;
+20.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1900</td>
+<td>
+&#x2002;
+19.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1900</td>
+<td>
+&#x2002;
+18.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1900</td>
+<td>
+&#x2002;
+17.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1900</td>
+<td>
+&#x2002;
+18.07
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1900</td>
+<td>
+&#x2002;
+17.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1900</td>
+<td>
+&#x2002;
+17.99
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1900</td>
+<td>
+&#x2002;
+18.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1900</td>
+<td>
+&#x2002;
+18.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1900</td>
+<td>
+&#x2002;
+18.78
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1900</td>
+<td>
+&#x2002;
+18.71
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1900</td>
+<td>
+&#x2002;
+18.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1899</td>
+<td>
+&#x2002;
+18.51
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1899</td>
+<td>
+&#x2002;
+20.21
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1899</td>
+<td>
+&#x2002;
+20.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1899</td>
+<td>
+&#x2002;
+20.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1899</td>
+<td>
+&#x2002;
+21.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1899</td>
+<td>
+&#x2002;
+21.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1899</td>
+<td>
+&#x2002;
+21.20
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1899</td>
+<td>
+&#x2002;
+22.10
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1899</td>
+<td>
+&#x2002;
+23.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1899</td>
+<td>
+&#x2002;
+23.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1899</td>
+<td>
+&#x2002;
+23.04
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1899</td>
+<td>
+&#x2002;
+22.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1898</td>
+<td>
+&#x2002;
+21.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1898</td>
+<td>
+&#x2002;
+20.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1898</td>
+<td>
+&#x2002;
+19.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1898</td>
+<td>
+&#x2002;
+20.45
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1898</td>
+<td>
+&#x2002;
+20.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1898</td>
+<td>
+&#x2002;
+19.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1898</td>
+<td>
+&#x2002;
+19.53
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1898</td>
+<td>
+&#x2002;
+17.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1898</td>
+<td>
+&#x2002;
+17.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1898</td>
+<td>
+&#x2002;
+18.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1898</td>
+<td>
+&#x2002;
+18.91
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1898</td>
+<td>
+&#x2002;
+19.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1897</td>
+<td>
+&#x2002;
+18.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1897</td>
+<td>
+&#x2002;
+18.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1897</td>
+<td>
+&#x2002;
+19.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1897</td>
+<td>
+&#x2002;
+19.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1897</td>
+<td>
+&#x2002;
+18.99
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1897</td>
+<td>
+&#x2002;
+18.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1897</td>
+<td>
+&#x2002;
+17.85
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1897</td>
+<td>
+&#x2002;
+17.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1897</td>
+<td>
+&#x2002;
+16.71
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1897</td>
+<td>
+&#x2002;
+16.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1897</td>
+<td>
+&#x2002;
+16.90
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1897</td>
+<td>
+&#x2002;
+17.03
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1896</td>
+<td>
+&#x2002;
+16.50
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1896</td>
+<td>
+&#x2002;
+17.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1896</td>
+<td>
+&#x2002;
+16.44
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1896</td>
+<td>
+&#x2002;
+16.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1896</td>
+<td>
+&#x2002;
+15.70
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1896</td>
+<td>
+&#x2002;
+16.64
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1896</td>
+<td>
+&#x2002;
+17.78
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1896</td>
+<td>
+&#x2002;
+17.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1896</td>
+<td>
+&#x2002;
+17.65
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1896</td>
+<td>
+&#x2002;
+17.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1896</td>
+<td>
+&#x2002;
+17.50
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1896</td>
+<td>
+&#x2002;
+16.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1895</td>
+<td>
+&#x2002;
+16.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1895</td>
+<td>
+&#x2002;
+17.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1895</td>
+<td>
+&#x2002;
+17.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1895</td>
+<td>
+&#x2002;
+18.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1895</td>
+<td>
+&#x2002;
+18.08
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1895</td>
+<td>
+&#x2002;
+17.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1895</td>
+<td>
+&#x2002;
+17.21
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1895</td>
+<td>
+&#x2002;
+17.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1895</td>
+<td>
+&#x2002;
+16.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1895</td>
+<td>
+&#x2002;
+16.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1895</td>
+<td>
+&#x2002;
+16.32
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1895</td>
+<td>
+&#x2002;
+16.51
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1894</td>
+<td>
+&#x2002;
+16.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1894</td>
+<td>
+&#x2002;
+16.55
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1894</td>
+<td>
+&#x2002;
+16.51
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1894</td>
+<td>
+&#x2002;
+16.53
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1894</td>
+<td>
+&#x2002;
+16.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1894</td>
+<td>
+&#x2002;
+16.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1894</td>
+<td>
+&#x2002;
+16.60
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1894</td>
+<td>
+&#x2002;
+16.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1894</td>
+<td>
+&#x2002;
+17.42
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1894</td>
+<td>
+&#x2002;
+17.18
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1894</td>
+<td>
+&#x2002;
+16.19
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1894</td>
+<td>
+&#x2002;
+15.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1893</td>
+<td>
+&#x2002;
+15.62
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1893</td>
+<td>
+&#x2002;
+15.93
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1893</td>
+<td>
+&#x2002;
+15.27
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1893</td>
+<td>
+&#x2002;
+15.02
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1893</td>
+<td>
+&#x2002;
+14.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1893</td>
+<td>
+&#x2002;
+14.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1893</td>
+<td>
+&#x2002;
+15.42
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1893</td>
+<td>
+&#x2002;
+15.79
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1893</td>
+<td>
+&#x2002;
+17.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1893</td>
+<td>
+&#x2002;
+16.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1893</td>
+<td>
+&#x2002;
+17.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1893</td>
+<td>
+&#x2002;
+17.65
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1892</td>
+<td>
+&#x2002;
+18.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1892</td>
+<td>
+&#x2002;
+18.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1892</td>
+<td>
+&#x2002;
+19.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1892</td>
+<td>
+&#x2002;
+18.69
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1892</td>
+<td>
+&#x2002;
+19.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1892</td>
+<td>
+&#x2002;
+19.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1892</td>
+<td>
+&#x2002;
+19.77
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1892</td>
+<td>
+&#x2002;
+19.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1892</td>
+<td>
+&#x2002;
+19.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1892</td>
+<td>
+&#x2002;
+19.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1892</td>
+<td>
+&#x2002;
+19.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1892</td>
+<td>
+&#x2002;
+19.01
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1891</td>
+<td>
+&#x2002;
+18.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1891</td>
+<td>
+&#x2002;
+17.66
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1891</td>
+<td>
+&#x2002;
+17.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1891</td>
+<td>
+&#x2002;
+17.72
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1891</td>
+<td>
+&#x2002;
+16.16
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1891</td>
+<td>
+&#x2002;
+15.61
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1891</td>
+<td>
+&#x2002;
+15.66
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1891</td>
+<td>
+&#x2002;
+15.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1891</td>
+<td>
+&#x2002;
+15.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1891</td>
+<td>
+&#x2002;
+15.06
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1891</td>
+<td>
+&#x2002;
+15.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1891</td>
+<td>
+&#x2002;
+15.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1890</td>
+<td>
+&#x2002;
+14.44
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1890</td>
+<td>
+&#x2002;
+14.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1890</td>
+<td>
+&#x2002;
+15.48
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1890</td>
+<td>
+&#x2002;
+16.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1890</td>
+<td>
+&#x2002;
+16.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1890</td>
+<td>
+&#x2002;
+17.58
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1890</td>
+<td>
+&#x2002;
+17.68
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1890</td>
+<td>
+&#x2002;
+17.78
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1890</td>
+<td>
+&#x2002;
+17.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1890</td>
+<td>
+&#x2002;
+16.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1890</td>
+<td>
+&#x2002;
+17.03
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1890</td>
+<td>
+&#x2002;
+17.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1889</td>
+<td>
+&#x2002;
+16.61
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1889</td>
+<td>
+&#x2002;
+16.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1889</td>
+<td>
+&#x2002;
+17.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1889</td>
+<td>
+&#x2002;
+17.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1889</td>
+<td>
+&#x2002;
+17.14
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1889</td>
+<td>
+&#x2002;
+16.89
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1889</td>
+<td>
+&#x2002;
+17.22
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1889</td>
+<td>
+&#x2002;
+16.92
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1889</td>
+<td>
+&#x2002;
+16.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1889</td>
+<td>
+&#x2002;
+16.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1889</td>
+<td>
+&#x2002;
+16.19
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1889</td>
+<td>
+&#x2002;
+15.81
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1888</td>
+<td>
+&#x2002;
+14.94
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1888</td>
+<td>
+&#x2002;
+15.22
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1888</td>
+<td>
+&#x2002;
+15.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1888</td>
+<td>
+&#x2002;
+15.98
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1888</td>
+<td>
+&#x2002;
+15.60
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1888</td>
+<td>
+&#x2002;
+15.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1888</td>
+<td>
+&#x2002;
+15.08
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1888</td>
+<td>
+&#x2002;
+15.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1888</td>
+<td>
+&#x2002;
+15.02
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1888</td>
+<td>
+&#x2002;
+14.80
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1888</td>
+<td>
+&#x2002;
+15.41
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1888</td>
+<td>
+&#x2002;
+15.36
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1887</td>
+<td>
+&#x2002;
+15.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1887</td>
+<td>
+&#x2002;
+15.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1887</td>
+<td>
+&#x2002;
+15.88
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1887</td>
+<td>
+&#x2002;
+16.67
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1887</td>
+<td>
+&#x2002;
+16.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1887</td>
+<td>
+&#x2002;
+17.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1887</td>
+<td>
+&#x2002;
+17.71
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1887</td>
+<td>
+&#x2002;
+18.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1887</td>
+<td>
+&#x2002;
+17.82
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1887</td>
+<td>
+&#x2002;
+17.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1887</td>
+<td>
+&#x2002;
+17.12
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1887</td>
+<td>
+&#x2002;
+17.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1886</td>
+<td>
+&#x2002;
+18.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1886</td>
+<td>
+&#x2002;
+18.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1886</td>
+<td>
+&#x2002;
+18.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1886</td>
+<td>
+&#x2002;
+18.14
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1886</td>
+<td>
+&#x2002;
+17.72
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1886</td>
+<td>
+&#x2002;
+17.85
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1886</td>
+<td>
+&#x2002;
+17.82
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1886</td>
+<td>
+&#x2002;
+16.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1886</td>
+<td>
+&#x2002;
+16.81
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1886</td>
+<td>
+&#x2002;
+16.84
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1886</td>
+<td>
+&#x2002;
+17.01
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1886</td>
+<td>
+&#x2002;
+16.70
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1885</td>
+<td>
+&#x2002;
+16.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1885</td>
+<td>
+&#x2002;
+16.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1885</td>
+<td>
+&#x2002;
+15.98
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1885</td>
+<td>
+&#x2002;
+15.11
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1885</td>
+<td>
+&#x2002;
+15.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1885</td>
+<td>
+&#x2002;
+14.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1885</td>
+<td>
+&#x2002;
+13.97
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1885</td>
+<td>
+&#x2002;
+13.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1885</td>
+<td>
+&#x2002;
+13.54
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1885</td>
+<td>
+&#x2002;
+13.74
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1885</td>
+<td>
+&#x2002;
+13.39
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1885</td>
+<td>
+&#x2002;
+13.13
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1884</td>
+<td>
+&#x2002;
+13.43
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1884</td>
+<td>
+&#x2002;
+13.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1884</td>
+<td>
+&#x2002;
+13.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1884</td>
+<td>
+&#x2002;
+13.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1884</td>
+<td>
+&#x2002;
+13.86
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1884</td>
+<td>
+&#x2002;
+13.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1884</td>
+<td>
+&#x2002;
+12.90
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1884</td>
+<td>
+&#x2002;
+13.46
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1884</td>
+<td>
+&#x2002;
+14.35
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1884</td>
+<td>
+&#x2002;
+14.73
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1884</td>
+<td>
+&#x2002;
+14.80
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1884</td>
+<td>
+&#x2002;
+14.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1883</td>
+<td>
+&#x2002;
+14.89
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1883</td>
+<td>
+&#x2002;
+15.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1883</td>
+<td>
+&#x2002;
+15.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1883</td>
+<td>
+&#x2002;
+15.49
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1883</td>
+<td>
+&#x2002;
+15.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1883</td>
+<td>
+&#x2002;
+15.96
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1883</td>
+<td>
+&#x2002;
+15.91
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1883</td>
+<td>
+&#x2002;
+15.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1883</td>
+<td>
+&#x2002;
+15.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1883</td>
+<td>
+&#x2002;
+15.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1883</td>
+<td>
+&#x2002;
+14.75
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1883</td>
+<td>
+&#x2002;
+15.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1882</td>
+<td>
+&#x2002;
+15.38
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1882</td>
+<td>
+&#x2002;
+15.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1882</td>
+<td>
+&#x2002;
+15.76
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1882</td>
+<td>
+&#x2002;
+16.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1882</td>
+<td>
+&#x2002;
+15.53
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1882</td>
+<td>
+&#x2002;
+15.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1882</td>
+<td>
+&#x2002;
+14.33
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1882</td>
+<td>
+&#x2002;
+14.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1882</td>
+<td>
+&#x2002;
+14.92
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1882</td>
+<td>
+&#x2002;
+15.08
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1882</td>
+<td>
+&#x2002;
+15.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1882</td>
+<td>
+&#x2002;
+15.68
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1881</td>
+<td>
+&#x2002;
+15.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1881</td>
+<td>
+&#x2002;
+16.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1881</td>
+<td>
+&#x2002;
+16.25
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1881</td>
+<td>
+&#x2002;
+16.72
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1881</td>
+<td>
+&#x2002;
+17.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1881</td>
+<td>
+&#x2002;
+18.11
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1881</td>
+<td>
+&#x2002;
+19.04
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1881</td>
+<td>
+&#x2002;
+18.88
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1881</td>
+<td>
+&#x2002;
+17.95
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1881</td>
+<td>
+&#x2002;
+18.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1881</td>
+<td>
+&#x2002;
+18.15
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1881</td>
+<td>
+&#x2002;
+18.47
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1880</td>
+<td>
+&#x2002;
+17.33
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1880</td>
+<td>
+&#x2002;
+16.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1880</td>
+<td>
+&#x2002;
+16.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1880</td>
+<td>
+&#x2002;
+15.86
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1880</td>
+<td>
+&#x2002;
+16.10
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1880</td>
+<td>
+&#x2002;
+15.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1880</td>
+<td>
+&#x2002;
+14.95
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1880</td>
+<td>
+&#x2002;
+14.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1880</td>
+<td>
+&#x2002;
+15.46
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1880</td>
+<td>
+&#x2002;
+15.23
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1880</td>
+<td>
+&#x2002;
+15.12
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1880</td>
+<td>
+&#x2002;
+14.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1879</td>
+<td>
+&#x2002;
+14.77
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1879</td>
+<td>
+&#x2002;
+15.26
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1879</td>
+<td>
+&#x2002;
+15.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1879</td>
+<td>
+&#x2002;
+14.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1879</td>
+<td>
+&#x2002;
+14.61
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1879</td>
+<td>
+&#x2002;
+14.54
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1879</td>
+<td>
+&#x2002;
+14.45
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1879</td>
+<td>
+&#x2002;
+14.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1879</td>
+<td>
+&#x2002;
+13.66
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1879</td>
+<td>
+&#x2002;
+13.09
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1879</td>
+<td>
+&#x2002;
+13.18
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1879</td>
+<td>
+&#x2002;
+12.87
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1878</td>
+<td>
+&#x2002;
+12.58
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1878</td>
+<td>
+&#x2002;
+12.37
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1878</td>
+<td>
+&#x2002;
+12.28
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1878</td>
+<td>
+&#x2002;
+12.30
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1878</td>
+<td>
+&#x2002;
+12.06
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1878</td>
+<td>
+&#x2002;
+12.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1878</td>
+<td>
+&#x2002;
+12.21
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1878</td>
+<td>
+&#x2002;
+11.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1878</td>
+<td>
+&#x2002;
+11.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1878</td>
+<td>
+&#x2002;
+10.88
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1878</td>
+<td>
+&#x2002;
+10.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1878</td>
+<td>
+&#x2002;
+10.57
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1877</td>
+<td>
+&#x2002;
+10.25
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1877</td>
+<td>
+&#x2002;
+10.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1877</td>
+<td>
+&#x2002;
+10.22
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1877</td>
+<td>
+&#x2002;
+9.99
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1877</td>
+<td>
+&#x2002;
+9.29
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1877</td>
+<td>
+&#x2002;
+8.35
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1877</td>
+<td>
+&#x2002;
+8.05
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1877</td>
+<td>
+&#x2002;
+8.18
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1877</td>
+<td>
+&#x2002;
+8.31
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1877</td>
+<td>
+&#x2002;
+9.20
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1877</td>
+<td>
+&#x2002;
+9.23
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1877</td>
+<td>
+&#x2002;
+9.52
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1876</td>
+<td>
+&#x2002;
+9.74
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1876</td>
+<td>
+&#x2002;
+9.94
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1876</td>
+<td>
+&#x2002;
+10.20
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1876</td>
+<td>
+&#x2002;
+10.42
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1876</td>
+<td>
+&#x2002;
+11.18
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1876</td>
+<td>
+&#x2002;
+11.75
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1876</td>
+<td>
+&#x2002;
+11.88
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1876</td>
+<td>
+&#x2002;
+11.63
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1876</td>
+<td>
+&#x2002;
+11.63
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1876</td>
+<td>
+&#x2002;
+11.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1876</td>
+<td>
+&#x2002;
+11.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1876</td>
+<td>
+&#x2002;
+11.79
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1875</td>
+<td>
+&#x2002;
+11.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1875</td>
+<td>
+&#x2002;
+11.34
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1875</td>
+<td>
+&#x2002;
+11.06
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1875</td>
+<td>
+&#x2002;
+11.24
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1875</td>
+<td>
+&#x2002;
+11.24
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1875</td>
+<td>
+&#x2002;
+11.29
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1875</td>
+<td>
+&#x2002;
+11.28
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1875</td>
+<td>
+&#x2002;
+11.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1875</td>
+<td>
+&#x2002;
+11.51
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1875</td>
+<td>
+&#x2002;
+11.48
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1875</td>
+<td>
+&#x2002;
+11.35
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1875</td>
+<td>
+&#x2002;
+11.41
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1874</td>
+<td>
+&#x2002;
+11.45
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1874</td>
+<td>
+&#x2002;
+11.56
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1874</td>
+<td>
+&#x2002;
+11.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1874</td>
+<td>
+&#x2002;
+11.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1874</td>
+<td>
+&#x2002;
+11.14
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1874</td>
+<td>
+&#x2002;
+11.07
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1874</td>
+<td>
+&#x2002;
+11.19
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1874</td>
+<td>
+&#x2002;
+11.02
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1874</td>
+<td>
+&#x2002;
+11.26
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1874</td>
+<td>
+&#x2002;
+11.43
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1874</td>
+<td>
+&#x2002;
+11.63
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1874</td>
+<td>
+&#x2002;
+11.33
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1873</td>
+<td>
+&#x2002;
+10.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1873</td>
+<td>
+&#x2002;
+10.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1873</td>
+<td>
+&#x2002;
+10.40
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1873</td>
+<td>
+&#x2002;
+11.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1873</td>
+<td>
+&#x2002;
+12.12
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1873</td>
+<td>
+&#x2002;
+12.16
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1873</td>
+<td>
+&#x2002;
+12.22
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1873</td>
+<td>
+&#x2002;
+12.05
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1873</td>
+<td>
+&#x2002;
+11.78
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1873</td>
+<td>
+&#x2002;
+11.95
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1873</td>
+<td>
+&#x2002;
+12.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1873</td>
+<td>
+&#x2002;
+12.25
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1872</td>
+<td>
+&#x2002;
+12.17
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1872</td>
+<td>
+&#x2002;
+11.71
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1872</td>
+<td>
+&#x2002;
+12.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1872</td>
+<td>
+&#x2002;
+11.83
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1872</td>
+<td>
+&#x2002;
+12.13
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1872</td>
+<td>
+&#x2002;
+12.38
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1872</td>
+<td>
+&#x2002;
+12.27
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1872</td>
+<td>
+&#x2002;
+12.28
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1872</td>
+<td>
+&#x2002;
+12.25
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1872</td>
+<td>
+&#x2002;
+12.18
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1872</td>
+<td>
+&#x2002;
+11.96
+</td>
+</tr>
+
+<tr class="even">
+<td>Jan 1, 1872</td>
+<td>
+&#x2002;
+11.90
+</td>
+</tr>
+
+<tr class="odd">
+<td>Dec 1, 1871</td>
+<td>
+&#x2002;
+11.59
+</td>
+</tr>
+
+<tr class="even">
+<td>Nov 1, 1871</td>
+<td>
+&#x2002;
+11.60
+</td>
+</tr>
+
+<tr class="odd">
+<td>Oct 1, 1871</td>
+<td>
+&#x2002;
+11.47
+</td>
+</tr>
+
+<tr class="even">
+<td>Sep 1, 1871</td>
+<td>
+&#x2002;
+12.31
+</td>
+</tr>
+
+<tr class="odd">
+<td>Aug 1, 1871</td>
+<td>
+&#x2002;
+12.55
+</td>
+</tr>
+
+<tr class="even">
+<td>Jul 1, 1871</td>
+<td>
+&#x2002;
+12.27
+</td>
+</tr>
+
+<tr class="odd">
+<td>Jun 1, 1871</td>
+<td>
+&#x2002;
+12.59
+</td>
+</tr>
+
+<tr class="even">
+<td>May 1, 1871</td>
+<td>
+&#x2002;
+12.59
+</td>
+</tr>
+
+<tr class="odd">
+<td>Apr 1, 1871</td>
+<td>
+&#x2002;
+12.05
+</td>
+</tr>
+
+<tr class="even">
+<td>Mar 1, 1871</td>
+<td>
+&#x2002;
+11.19
+</td>
+</tr>
+
+<tr class="odd">
+<td>Feb 1, 1871</td>
+<td>
+&#x2002;
+10.92
+</td>
+</tr>
+
+</table>
+</div>
+<div class="rcol">
+
+<div id="description">
+  <p>Shiller PE ratio for the S&amp;P 500.
+  <p>Price earnings ratio is based on average inflation-adjusted earnings from 
+    the previous 10 years, known as the Cyclically Adjusted PE Ratio 
+    (CAPE Ratio), Shiller PE Ratio, or PE 10 &mdash; 
+    <a href="/shiller-pe/faq">FAQ</a>.
+  <p>Data courtesy of 
+  <a href="http://www.econ.yale.edu/~shiller/data.htm">Robert Shiller</a> 
+  from his book,  <a target="_blank" rel="noopener" href="https://www.amazon.com/gp/product/0691173125/ref=as_li_tl?ie=UTF8&camp=1789&creative=9325&creativeASIN=0691173125&linkCode=as2&tag=multpl-20&linkId=e44dfe35cc880f1df5c6b120af433d1e">Irrational Exuberance</a><img src="//ir-na.amazon-adsystem.com/e/ir?t=multpl-20&l=am2&o=1&a=0691173125" width="1" height="1" border="0" alt="" style="display: inline; border:none !important; margin:0px !important;" />.
+</div>
+
+<div id="table-ads">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2952384934569318"
+crossorigin="anonymous"></script>
+<!-- table3by2 -->
+<ins class="adsbygoogle"
+style="display:inline-block;width:300px;height:250px"
+data-ad-client="ca-pub-2952384934569318"
+data-ad-slot="9623357903"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+<ul class="see-also">
+<h3>See also</h3>
+
+
+<li><a href="/s-p-500-pe-ratio">S&P 500 PE Ratio</a>
+
+
+<li><a href="/s-p-500-price-to-sales">S&P 500 Price to Sales Ratio</a>
+
+
+<li><a href="/s-p-500-earnings-yield">S&P 500 Earnings Yield</a>
+
+
+<li><a href="/s-p-500-price-to-book">S&P 500 Price to Book Value</a>
+
+
+<li><a href="/s-p-500-earnings">S&P 500 Earnings</a>
+
+
+<li><a href="/inflation-adjusted-s-p-500">Inflation Adjusted S&P 500</a>
+
+
+</ul>
+
+</div>
+</div> 
+<div class=clear></div>
+</div> 
+</div> 
+
+<div id="footer">
+Information is provided &lsquo;as is&rsquo; and solely for informational
+purposes, not for trading purposes or advice, and may be delayed.
+<br><br>
+<div id="footer-nav">
+<ul>
+<li>Copyright &copy; 2026</li>
+<li><a href="mailto:contact@multpl.com">contact@multpl.com</a></li>
+<li>
+<div class="donate-space">&nbsp;</div>
+<form class="donate" action="https://www.paypal.com/cgi-bin/webscr"
+method="post">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="VAE8F8PQHDGGE">
+<input class="donate" type="image"
+src="/static/btn_donate_LG.png" border="0" name="submit">
+</form>
+</li>
+</ul>
+</div>
+</div>
+<div class="clear"></div>
+
+<div id="ads">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2952384934569318"
+crossorigin="anonymous"></script>
+<!-- footer responsive -->
+<ins class="adsbygoogle"
+style="display:block"
+data-ad-client="ca-pub-2952384934569318"
+data-ad-slot="8504389712"
+data-ad-format="auto"
+data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+</div>
+</div>
+</div> 
+<script>
+"use strict";
+window.onerror=function(a,b,c){(new Image).src=["/jse?v=1&m=",encodeURIComponent(a),"&f=",encodeURIComponent(b),"&n=",encodeURIComponent(c)].join("");return!1};
+
+</script>
+
+
+</html>
