@@ -158,7 +158,7 @@
       <div class="crow"><span class="cw">奖　金</span><span class="cd">分 3 个月摊薄，并入日投</span></div>
     </div>
     <div class="codes">场内 159501 · 159655 · 563020 · 159201　|　场外 018966 · 017641 · 020602 · 023917<br>四档均已选同指数<b>最低费率档</b>；场外长期持有选 A 类 · 小额日投走场外</div>
-    <div class="hint">温度不改变任何一档的买入金额 —— 回测四种温度调节变体，全部跑输固定权重。<br><a href="plan-v14.html" style="color:var(--blue);text-decoration:none;font-weight:700;">完整使用与定投说明 ›</a></div>
+    <div class="hint">温度不改变任何一档的买入金额 —— 回测四种温度调节变体，全部跑输固定权重。<br><a href="plan-v15.html" style="color:var(--blue);text-decoration:none;font-weight:700;">完整使用与定投说明 ›</a></div>
   </div>
 
   <div class="card">
@@ -544,6 +544,7 @@ function init(){
 // 源④ 内嵌兜底 FALLBACK(本地/离线可用)
 // 缓存击穿: URL 附每日版本参数(北京时间) → CDN 边缘缓存键每天变化, 必然回源取最新, 杜绝"手机看到旧分"
 const _dayKey = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "");
+const _bjDay  = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);   // 北京日期
 const REMOTE_SOURCES = [
   { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json?v=" + _dayKey, n:"jsDelivr CDN" },
   { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json?v=" + _dayKey, n:"GitHub raw" },
@@ -553,8 +554,9 @@ function stampData(){
   const el = document.getElementById("data-meta");
   if(!el) return;
   if(meta && meta.asof){
-    const fresh = meta.updated && meta.updated.slice(0,10) === new Date().toISOString().slice(0,10);
-    el.innerHTML = `数据更新：${meta.updated}<em>${fresh ? " · 今日已更新" : ""}</em> · 截止 ${meta.asof}`;
+    // meta.updated 是北京时间，必须用北京日期比较，否则凌晨会误报"今日已更新"
+    const fresh = meta.updated && meta.updated.slice(0, 10) === _bjDay;
+    el.innerHTML = `抓取 ${meta.updated} 北京 · 美股行情截至 ${meta.asof} 收盘<em>${fresh ? " · 今日已更新" : ""}</em>`;
   }else{
     const last = DATA.week[DATA.week.length-1];
     el.textContent = `数据截止 ${last ? last.d : "?"}（内嵌快照）`;
