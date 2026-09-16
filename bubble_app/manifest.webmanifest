@@ -1,8 +1,8 @@
 {
-  "name": "美股泡沫温度计",
-  "short_name": "泡沫温度计",
-  "description": "RiskWatch 八特征泡沫评分 · 每日 08:00 自动更新",
-  "start_url": "./",
+  "name": "定投量化策略",
+  "short_name": "定投量化",
+  "description": "定投方案 + 美股温度计 + A股温度计 · 每日 08:00 自动更新",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

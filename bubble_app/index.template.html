@@ -2,568 +2,381 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>美股泡沫温度计</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>定投量化策略</title>
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#f4f6f9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="泡沫温度计">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="定投量化策略">
 <style>
   :root {
     --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
     --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb;
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6; padding:16px 12px 48px; }
-  .wrap { max-width:520px; margin:0 auto; }
-  header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:14px; }
-  .brand { display:flex; align-items:flex-start; gap:9px; min-width:0; }
-  .brand .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; margin-top:1px; display:block; }
-  .title { font-size:20px; font-weight:800; letter-spacing:.5px; }
-  .title .hl { color:var(--blue); }
-  .subtitle { font-size:11px; color:var(--sub); margin-top:2px; }
-  .data-meta { font-weight:600; }
-  .data-meta em { font-style:normal; color:var(--green); }
-  .badge { font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px; color:#fff; white-space:nowrap; }
-  .badge.hot { background:var(--red); }
-  .badge.high { background:var(--orange); }
-  .badge.mid { background:var(--amber); }
-  .badge.low { background:var(--green); }
-  .alert { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; border-radius:12px; padding:10px 14px; font-size:13px; margin-bottom:14px; display:flex; gap:8px; align-items:flex-start; }
-  .alert .ic { font-size:15px; }
-  .alert.hidden { display:none; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
-  .card h2 { font-size:14px; font-weight:700; margin-bottom:12px; padding-left:9px; border-left:4px solid var(--blue); display:flex; align-items:center; justify-content:space-between; }
-  .card h2 .tip { font-size:10px; color:var(--sub); font-weight:400; border:none; padding:0; }
-  /* ===== gauge ===== */
-  .gauge-wrap { position:relative; width:100%; max-width:300px; margin:0 auto; }
-  .gauge-num { position:absolute; left:0; right:0; top:86px; text-align:center; }
-  .gauge-num .v { font-size:52px; font-weight:800; line-height:1; }
-  .gauge-num .l { font-size:11px; color:var(--sub); margin-top:2px; }
-  .zone-legend { display:flex; justify-content:space-between; font-size:10px; color:var(--sub); max-width:300px; margin:6px auto 0; }
-  .zone-legend span i { display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:3px; }
-  /* ===== features ===== */
-  .feat { margin-bottom:10px; }
-  .feat:last-child { margin-bottom:0; }
-  .feat .row { display:flex; align-items:center; justify-content:space-between; font-size:12px; margin-bottom:3px; }
-  .feat .row .nm { color:var(--ink); font-weight:600; }
-  .feat .row .nm small { color:var(--sub); font-weight:400; margin-left:4px; }
-  .feat .row .sc { font-weight:700; }
-  .bar { height:8px; background:#eef1f5; border-radius:99px; overflow:hidden; }
-  .bar i { display:block; height:100%; border-radius:99px; transition:width .6s ease; }
-  .feat.nof .bar i { background:#9ca3af; }
-  .feat.nof .row .nm small { color:var(--amber); }
-  /* ===== chart ===== */
-  .chart-wrap { position:relative; }
-  .chart-note { font-size:10px; color:var(--sub); margin-top:6px; text-align:center; }
-  .seg { display:flex; gap:4px; margin-bottom:10px; flex-wrap:wrap; align-items:center; }
-  .seg-item { font-size:11px; padding:4px 11px; border-radius:99px; background:#f0f3f7; color:var(--sub); cursor:pointer; -webkit-user-select:none; user-select:none; }
-  .seg-item.active { background:var(--blue); color:#fff; font-weight:700; }
-  .seg-div { width:1px; height:15px; background:var(--line); margin:0 5px; }
-  .seg-label { font-size:10px; color:var(--sub); margin-right:2px; }
-  /* ===== advice ===== */
-  .advice { font-size:13px; }
-  .advice .head { font-weight:800; font-size:14px; margin-bottom:4px; }
-  .advice ul { margin-left:16px; }
-  .advice li { margin-bottom:3px; }
-  .advice .tag { display:inline-block; font-size:10px; font-weight:700; color:#fff; border-radius:4px; padding:1px 6px; margin-right:4px; }
-  /* ===== plan ===== */
-  .plan-ctrl { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-  .plan-ctrl label { font-size:12px; color:var(--sub); }
-  .plan-ctrl input { width:98px; padding:5px 9px; font-size:15px; font-weight:800; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink); font-variant-numeric:tabular-nums; font-family:inherit; }
-  .plan-ctrl input:focus { outline:none; border-color:var(--blue); }
-  .prow { display:flex; align-items:baseline; gap:8px; font-size:13px; padding:7px 0; border-bottom:1px dashed var(--line); }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+         line-height:1.55; padding:16px 12px 40px; }
+  .wrap { max-width:1180px; margin:0 auto; }
+
+  /* ---------- 顶部：名称 + 同步时间 / 当前时间 ---------- */
+  header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+  header .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; display:block; }
+  h1 { font-size:20px; font-weight:800; letter-spacing:.4px; line-height:1.25; }
+  .stamp { font-size:11px; color:var(--sub); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .stamp .sep { margin:0 5px; color:#c3cad4; }
+  .stamp b { font-weight:600; color:#3d444f; }
+
+  /* ---------- 卡片横排 ---------- */
+  .cards { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
+           -webkit-overflow-scrolling:touch; padding:2px 12px 12px; margin:0 -12px;
+           scrollbar-width:none; }
+  .cards::-webkit-scrollbar { display:none; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:16px;
+          padding:14px 15px 13px; box-shadow:0 1px 3px rgba(0,0,0,.05);
+          flex:0 0 87%; max-width:87%; scroll-snap-align:center;
+          display:flex; flex-direction:column; }
+  .ch { display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:10px; }
+  .ct { font-size:14.5px; font-weight:800; padding-left:8px; border-left:4px solid var(--blue); }
+  .card.c-plan .ct { border-color:var(--green); }
+  .card.c-us .ct { border-color:var(--blue); }
+  .card.c-cn .ct { border-color:var(--red); }
+  .more { font-size:11px; color:var(--blue); text-decoration:none; font-weight:700; white-space:nowrap; }
+
+  /* ---------- 分数 ---------- */
+  .score { display:flex; align-items:baseline; gap:9px; }
+  .score .v { font-size:40px; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; }
+  .score .lv { font-size:11px; font-weight:700; color:#fff; border-radius:99px; padding:2px 9px; }
+  .score2 { display:flex; gap:10px; }
+  .score2 > div { flex:1; min-width:0; }
+  .score2 .k { display:block; font-size:11px; color:var(--sub); }
+  .score2 .row { display:flex; align-items:baseline; gap:5px; }
+  .score2 .v { font-size:26px; font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums; }
+  .score2 .lv { font-size:9.5px; font-weight:700; color:#fff; border-radius:99px; padding:1px 6px; }
+  .asof { font-size:10px; color:var(--sub); margin-top:5px; }
+
+  /* ---------- 指标分解 ---------- */
+  .legs { margin-top:10px; }
+  .leg { display:flex; align-items:center; gap:7px; font-size:11.5px; padding:3px 0; }
+  .leg .ln { color:#3d444f; width:78px; flex-shrink:0; white-space:nowrap;
+             overflow:hidden; text-overflow:ellipsis; }
+  .leg .lb { flex:1; height:5px; background:#eef1f5; border-radius:99px; overflow:hidden; min-width:20px; }
+  .leg .lb i { display:block; height:100%; border-radius:99px; }
+  .leg .lv2 { width:34px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums;
+              flex-shrink:0; }
+  .leg.hd { font-weight:800; color:var(--ink); padding-top:6px; font-size:11.5px; }
+  .leg.hd .lv2 { color:var(--sub); font-weight:600; font-size:9.5px; width:52px; }
+
+  /* ---------- 走势 ---------- */
+  .spark { margin-top:9px; }
+  .spark svg { width:100%; display:block; }
+  .spark .lg { display:flex; gap:10px; font-size:10px; color:var(--sub); margin-top:3px; }
+  .spark .lg i { display:inline-block; width:11px; height:2.5px; border-radius:2px;
+                 vertical-align:middle; margin-right:3px; }
+
+  /* ---------- 定投方案 ---------- */
+  .pctl { display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--sub); margin-bottom:9px; }
+  .pctl input { width:88px; padding:5px 9px; font-size:15px; font-weight:800; border:1px solid var(--line);
+                border-radius:8px; color:var(--ink); font-family:inherit; font-variant-numeric:tabular-nums; }
+  .pctl input:focus { outline:none; border-color:var(--blue); }
+  .prow { display:flex; align-items:baseline; gap:8px; font-size:12.5px; padding:6px 0;
+          border-bottom:1px dashed var(--line); }
   .prow .pn { font-weight:700; flex:1; min-width:0; }
-  .prow .pp { color:var(--sub); font-size:12px; width:40px; text-align:right; flex-shrink:0; }
-  .prow .pa { font-weight:800; width:78px; text-align:right; font-variant-numeric:tabular-nums; flex-shrink:0; }
+  .prow .pp { color:var(--sub); font-size:11px; width:34px; text-align:right; flex-shrink:0; }
+  .prow .pa { font-weight:800; width:74px; text-align:right; font-variant-numeric:tabular-nums; flex-shrink:0; }
   .prow.tot { border-top:1.5px solid var(--ink); border-bottom:none; margin-top:1px; }
-  .prow.ph { padding:4px 0; border-bottom:1px solid var(--line); font-size:11px; color:var(--sub); font-weight:600; }
-  .plan-ctrl .unit { font-size:11.5px; color:var(--sub); }
-  .cal { font-size:12px; margin-top:4px; }
-  .crow { display:flex; gap:8px; padding:5px 0; border-bottom:1px dashed var(--line); }
-  .crow:last-child { border-bottom:none; }
-  .crow .cw { font-weight:700; width:88px; flex-shrink:0; font-size:11.5px; }
-  .crow .cd { color:var(--sub); font-size:11.5px; }
-  .cal-h { font-size:11px; color:var(--sub); font-weight:700; margin-top:14px; }
-  .codes { font-size:10.5px; color:var(--sub); margin-top:10px; line-height:1.6; }
-  .hint { font-size:10.5px; color:var(--sub); margin-top:11px; line-height:1.6; }
-  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:8px; line-height:1.7; }
-  .kpts { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-  .kpt { font-size:10px; background:#f0f3f7; border-radius:6px; padding:2px 7px; color:var(--sub); }
-  /* ===== chart overlay (点击/长按查点) ===== */
-  #overlay { position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; touch-action:pan-y; -webkit-touch-callout:none; user-select:none; }
-  .tip-box { position:absolute; pointer-events:none; background:rgba(255,255,255,.72); color:var(--ink); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(22,24,29,.10); border-radius:9px; padding:5px 10px; font-size:11px; line-height:1.5; z-index:6; min-width:118px; white-space:nowrap; transform:translateY(-50%); box-shadow:0 2px 10px rgba(0,0,0,.08); animation:tipin .12s ease-out; }
-  @keyframes tipin { from{opacity:0; transform:translateY(-50%) scale(.96);} to{opacity:1; transform:translateY(-50%) scale(1);} }
-  .tip-box .d { display:flex; justify-content:space-between; align-items:center; font-size:10px; color:var(--sub); font-weight:700; letter-spacing:.3px; margin-bottom:1px; }
-  .tip-box .close { font-size:10px; color:#a8b0bc; cursor:pointer; pointer-events:auto; padding:0 0 0 10px; line-height:1; }
-  .tip-box .close:hover { color:var(--ink); }
-  .tip-box .r { display:flex; align-items:baseline; gap:6px; }
-  .tip-box .r .k { color:var(--sub); font-size:10px; width:36px; flex-shrink:0; }
-  .tip-box .r b { font-weight:800; font-size:11px; }
-  .tip-box .r em { font-style:normal; font-size:9px; font-weight:700; margin-left:2px; }
+  .rule { font-size:11px; color:var(--sub); margin-top:10px; line-height:1.7; }
+
+  .dots { display:flex; justify-content:center; gap:6px; margin-top:2px; }
+  .dots i { width:6px; height:6px; border-radius:50%; background:#ccd3dd; transition:background .2s; }
+  .dots i.on { background:var(--blue); }
+  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:16px; }
+
+  @media (min-width: 900px) {
+    .cards { overflow:visible; }
+    .card { flex:1 1 0; max-width:none; }
+    .dots { display:none; }
+    .score .v { font-size:44px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <header>
-    <div class="brand">
-      <img class="logo" src="logo.svg" alt="泡沫温度计">
-      <div>
-        <div class="title">美股<span class="hl">泡沫温度计</span></div>
-        <div class="subtitle">周频更新 · <span class="data-meta" id="data-meta">数据加载中…</span></div>
+    <img class="logo" src="logo.svg" alt="">
+    <div>
+      <h1>定投量化策略</h1>
+      <div class="stamp">
+        <span>系统同步 <b id="sync">—</b></span>
+        <span class="sep">|</span>
+        <span>当前 <b id="clock">--:--:--</b></span>
       </div>
     </div>
-    <div class="badge" id="badge">--</div>
   </header>
 
-  <div class="alert hidden" id="alert"><span class="ic">⚠️</span><span id="alert-msg"></span></div>
+  <div class="cards" id="cards">
 
-  <div class="card" style="padding-top:14px;">
-    <h2>当前泡沫分 <span class="tip">越高越危险</span></h2>
-    <div class="gauge-wrap">
-      <svg id="gauge" viewBox="0 0 300 170" style="width:100%;display:block;"></svg>
-      <div class="gauge-num">
-        <div class="v" id="gauge-v">--</div>
-        <div class="l" id="gauge-l">数据加载中…</div>
+    <!-- ① 我的定投方案 -->
+    <section class="card c-plan">
+      <div class="ch"><span class="ct">我的定投方案</span>
+        <a class="more" href="plan-v15.html">详情 ›</a></div>
+      <div class="pctl">
+        <label for="pamt">月投入</label>
+        <input type="number" id="pamt" value="5000" min="0" step="100" inputmode="numeric">
+        <span>元 ÷ 21 个交易日</span>
       </div>
-    </div>
-    <div class="zone-legend">
-      <span><i style="background:var(--green)"></i>≤45 低估</span>
-      <span><i style="background:var(--amber)"></i>45-55 中性</span>
-      <span><i style="background:var(--orange)"></i>55-70 偏高</span>
-      <span><i style="background:var(--red)"></i>≥70 高热</span>
-    </div>
-  </div>
+      <div class="prow" style="font-size:10.5px;color:var(--sub);border-bottom:1px solid var(--line);">
+        <span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
+      <div id="prows"></div>
+      <div class="rule">温度不改变任一档买入金额 · 每个交易日按日申购 · 6/12 月失衡再平衡 ·
+        奖金分 3 个月摊入日投</div>
+    </section>
 
-  <div class="card">
-    <h2>每日定投 <span class="tip">按计划执行，不看温度</span></h2>
-    <div class="plan-ctrl">
-      <label for="pamt">月投入</label>
-      <input type="number" id="pamt" value="5000" min="0" step="100">
-      <span class="unit">元 ÷ 21 个交易日</span>
-    </div>
-    <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
-    <div id="prows"></div>
-    <div class="cal-h">执行规则</div>
-    <div class="cal">
-      <div class="crow"><span class="cw">每个交易日</span><span class="cd">按日申购；QDII 限购按上限买</span></div>
-      <div class="crow"><span class="cw">QDII 买不进</span><span class="cd">先投 A 股两档，下月补回</span></div>
-      <div class="crow"><span class="cw">6 月 · 12 月</span><span class="cd">再平衡，低配档先用新增资金补</span></div>
-      <div class="crow"><span class="cw">奖　金</span><span class="cd">分 3 个月摊薄，并入日投</span></div>
-    </div>
-    <div class="codes">场内 159501 · 159655 · 563020 · 159201　|　场外 018966 · 017641 · 020602 · 023917<br>四档均已选同指数<b>最低费率档</b>；场外长期持有选 A 类 · 小额日投走场外</div>
-    <div class="hint">温度不改变任何一档的买入金额 —— 回测四种温度调节变体，全部跑输固定权重。<br><a href="plan-v15.html" style="color:var(--blue);text-decoration:none;font-weight:700;">完整使用与定投说明 ›</a></div>
-  </div>
-
-  <div class="card">
-    <h2>八特征分解 <span class="tip">0-100 分位</span></h2>
-    <div id="features"></div>
-  </div>
-
-  <div class="card">
-    <h2>总分走势 <span class="tip">泡沫分 × 纳指</span></h2>
-    <div class="seg" id="chart-seg">
-      <span class="seg-label">粒度</span>
-      <span class="seg-item active" data-k="gran" data-v="week">周频</span>
-      <span class="seg-item" data-k="gran" data-v="month">月频</span>
-      <span class="seg-div"></span>
-      <span class="seg-label">范围</span>
-      <span class="seg-item active" data-k="range" data-v="all">全部</span>
-      <span class="seg-item" data-k="range" data-v="y10">10年</span>
-      <span class="seg-item" data-k="range" data-v="y5">5年</span>
-      <span class="seg-item" data-k="range" data-v="y3">3年</span>
-      <span class="seg-item" data-k="range" data-v="y1">1年</span>
-    </div>
-    <div class="chart-wrap">
-      <svg id="chart" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
-      <svg id="overlay" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
-      <div class="tip-box" id="tip" hidden>
-        <div class="d"><span id="tip-d"></span><span class="close" id="tip-close">✕</span></div>
-        <div class="r"><span class="k">泡沫分</span><b id="tip-sc" style="color:#2563eb"></b><em id="tip-z"></em></div>
-        <div class="r"><span class="k">纳指</span><b id="tip-nq" style="color:var(--ink)"></b></div>
+    <!-- ② 美股温度计 -->
+    <section class="card c-us">
+      <div class="ch"><span class="ct">美股温度计</span>
+        <a class="more" href="us.html">详情 ›</a></div>
+      <div class="score"><span class="v" id="us-v">--</span><span class="lv" id="us-lv">—</span></div>
+      <div class="asof" id="us-as">—</div>
+      <div class="legs" id="us-legs"></div>
+      <div class="spark">
+        <svg id="us-chart" viewBox="0 0 320 88" preserveAspectRatio="none"></svg>
+        <div class="lg"><span><i style="background:#2563eb"></i>泡沫分</span>
+          <span><i style="background:#94a3b8"></i>纳指</span></div>
       </div>
-    </div>
-    <div class="chart-note"><span style="color:#2563eb;font-weight:700;">━ 泡沫分</span>（左轴） · <span style="color:#111827;font-weight:700;">━ 纳指收盘</span>（右轴） · 色带 = 泡沫分区 · 圆点 = 关键拐点 · <b style="color:#5b6472;">点击/长按曲线可查看任意点详情</b></div>
-  </div>
+    </section>
 
-  <div class="card">
-    <h2>读数</h2>
-    <div class="advice" id="advice"></div>
-  </div>
+    <!-- ③ A股温度计 -->
+    <section class="card c-cn">
+      <div class="ch"><span class="ct">A股温度计</span>
+        <a class="more" href="cn.html">详情 ›</a></div>
+      <div class="score2">
+        <div><span class="k">市场温度 · 中证全指</span>
+          <div class="row"><span class="v" id="cn-mkt">--</span><span class="lv" id="cn-mkt-lv">—</span></div></div>
+        <div><span class="k">价值温度 · 红利低波</span>
+          <div class="row"><span class="v" id="cn-val">--</span><span class="lv" id="cn-val-lv">—</span></div></div>
+      </div>
+      <div class="asof" id="cn-as">—</div>
+      <div class="legs" id="cn-legs"></div>
+      <div class="spark">
+        <svg id="cn-chart" viewBox="0 0 320 88" preserveAspectRatio="none"></svg>
+        <div class="lg"><span><i style="background:#2563eb"></i>市场温度</span>
+          <span><i style="background:#dc2626"></i>价值温度</span></div>
+      </div>
+    </section>
 
-  <div class="card">
-    <h2>关键拐点回顾</h2>
-    <div class="kpts" id="kpts"></div>
   </div>
+  <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
 
-  <footer>
-    数据源：CAPE · VIX · 保证金债务 · ARKK · 纳指 · 标普 · FRED 利率　周频 · 滚动 10 年分位<br>
-    仅供研究参考，不构成投资建议
-  </footer>
+  <footer>仅供研究参考，不构成投资建议</footer>
 </div>
 
 <script>
-let DATA = null;                       // 运行时数据: fetch data.json 优先, 失败用内嵌兜底
-const FALLBACK = __DATA__;             // 构建时内嵌的快照(本地/离线可用)
+let DATA = null;
+const FALLBACK = __DATA__;
 
-const ZONES = [
-  { max:45,  name:"低估区", color:"#059669", cls:"low"  },
-  { max:55,  name:"中性区", color:"#ca8a04", cls:"mid"  },
-  { max:70,  name:"偏高区", color:"#d97706", cls:"high" },
-  { max:101, name:"高热区", color:"#dc2626", cls:"hot"  },
-];
-
-const FEATURES = [
-  { k:"s1", n:"估值", d:"CAPE 分位" },
-  { k:"s2", n:"预期", d:"12月动量" },
-  { k:"s3", n:"情绪", d:"VIX 反转" },
-  { k:"s4", n:"杠杆", d:"保证金债务" },
-  { k:"s5", n:"投机狂热", d:"ARKK相对动量" },
-  { k:"s6", n:"新买家", d:"股票基金流入异常" },
-  { k:"s7", n:"货币", d:"利率宽松·不计分" },
-  { k:"s8", n:"科技", d:"36月相对动量" },
-];
-
-const KEY_POINTS = [
-  { d:"2008-10-31", l:"2008.10 金融危机", w:8 },
-  { d:"2020-03-27", l:"2020.3 疫情底", w:9 },
-  { d:"2020-09-04", l:"2020.9 科技回调", w:2 },
-  { d:"2021-02-26", l:"2021.2 投机顶", w:9 },
-  { d:"2021-11-26", l:"2021.11 成长顶", w:9 },
-  { d:"2022-10-28", l:"2022.10 熊底", w:9 },
-  { d:"2023-07-28", l:"2023.7 反弹高", w:4 },
-  { d:"2023-10-27", l:"2023.10 底", w:4 },
-  { d:"2024-07-19", l:"2024.7 AI回调", w:5 },
-  { d:"2025-04-04", l:"2025.4 关税底", w:8 },
-  { d:"2025-10-31", l:"2025.10 AI狂热", w:7 },
-  { d:"2026-03-27", l:"2026.3 浅回调", w:5 },
-];
-
-function zoneOf(t){ for(const z of ZONES){ if(t < z.max) return z; } return ZONES[3]; }
-
-// ===== 视图状态 =====
-let CUR = { gran:"week", range:"all" };
-function getSeries(){
-  const ds = DATA[CUR.gran];
-  let cut;
-  if(CUR.range === "all"){
-    cut = ds[0].d.slice(0,7);          // 全部 = 数据起点(月频 2000-01 / 周频 2003-08)
-  }else{
-    const last = new Date(ds[ds.length-1].d);
-    const c = new Date(last);
-    c.setFullYear(c.getFullYear() - (CUR.range==="y10" ? 10 : CUR.range==="y5" ? 5 : CUR.range==="y3" ? 3 : 1));
-    cut = `${c.getFullYear()}-${String(c.getMonth()+1).padStart(2,"0")}`;
-  }
-  return ds.filter(d => d.d.slice(0,7) >= cut);
-}
-function findIdx(ds, kd){
-  const i = ds.findIndex(d => d.d === kd);
-  if(i >= 0) return i;
-  return ds.findIndex(d => d.d.slice(0,7) === kd.slice(0,7));
-}
-
-// ===== Gauge =====
-function pt(cx,cy,r,deg){ const rad = deg*Math.PI/180; return { x: cx + r*Math.cos(rad), y: cy - r*Math.sin(rad) }; }
-function arc(cx,cy,r,a1,a2){ const p1=pt(cx,cy,r,a1), p2=pt(cx,cy,r,a2); const large=(a1-a2)>180?1:0; return `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`; }
-
-function renderGauge(t){
-  const cx=150, cy=150, r=118;
-  const segs = [[180, 99, "#059669"],[99, 90, "#ca8a04"],[90, 54, "#d97706"],[54, 0, "#dc2626"]];
-  let html = "";
-  for(const [a1,a2,c] of segs) html += `<path d="${arc(cx,cy,r,a1,a2)}" stroke="${c}" stroke-opacity="0.30" stroke-width="18" fill="none" stroke-linecap="butt"/>`;
-  const deg = 180 - (t/100)*180;
-  if(deg > 2) html += `<path d="${arc(cx,cy,r,180,deg)}" stroke="${zoneOf(t).color}" stroke-width="18" fill="none" stroke-linecap="round"/>`;
-  const tip = pt(cx,cy,r-26,deg), base1 = pt(cx,cy,12,deg-90), base2 = pt(cx,cy,12,deg+90);
-  html += `<polygon points="${cx},${cy} ${base1.x.toFixed(1)},${base1.y.toFixed(1)} ${tip.x.toFixed(1)},${tip.y.toFixed(1)} ${base2.x.toFixed(1)},${base2.y.toFixed(1)}" fill="${zoneOf(t).color}"/>`;
-  html += `<circle cx="${cx}" cy="${cy}" r="5" fill="${zoneOf(t).color}"/>`;
-  for(let f=0; f<=100; f+=10){ const a=180-(f/100)*180; const p1=pt(cx,cy,r-22,a), p2=pt(cx,cy,r-30,a); html += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="#c3cad4" stroke-width="1.5"/>`; }
-  document.getElementById("gauge").innerHTML = html;
-}
-
-// ===== Features =====
-function renderFeatures(cur){
-  const box = document.getElementById("features");
-  let html = "";
-  for(const f of FEATURES){
-    const v = cur[f.k] ?? 0;
-    const color = f.k==="s7" ? "#9ca3af" : zoneOf(v).color;
-    const nof = f.k==="s7" ? " nof" : "";
-    html += `<div class="feat${nof}">
-      <div class="row"><span class="nm">${f.n}<small>${f.d}</small></span><span class="sc" style="color:${color}">${v.toFixed(0)}</span></div>
-      <div class="bar"><i style="width:${Math.max(2,v)}%;background:${color}"></i></div>
-    </div>`;
-  }
-  box.innerHTML = html;
-}
-
-// ===== Chart (双轴: 泡沫分左轴 + 纳指右轴) =====
-// 交互状态: 当前序列与几何, 供 overlay 点击/长按查点使用
-let OV = { D: null, g: null };
-function chartGeom(D){
-  const W=680, H=250, L=46, R=56, T=18, B=26;
-  const iw = W-L-R, ih = H-T-B;
-  const n = D.length;
-  const x = i => L + (n===1?0: i/(n-1)*iw);
-  const y = v => T + (1 - v/100)*ih;                 // 左轴: 总分 0-100
-  let ndxMin = Infinity, ndxMax = -Infinity;          // 右轴: 纳指
-  for(const d of D){ if(d.ndx < ndxMin) ndxMin = d.ndx; if(d.ndx > ndxMax) ndxMax = d.ndx; }
-  const pad = (ndxMax - ndxMin) * 0.08 || 1;
-  const yN = v => T + (1 - (v - ndxMin + pad) / (ndxMax - ndxMin + 2*pad)) * ih;
-  return { W,H,L,R,T,B,iw,ih,n,x,y,yN,ndxMin,ndxMax,pad };
-}
-function renderChart(D){
-  const W=680, H=250, L=46, R=56, T=18, B=26;
-  const iw = W-L-R, ih = H-T-B;
-  const n = D.length;
-  const x = i => L + (n===1?0: i/(n-1)*iw);
-  const y = v => T + (1 - v/100)*ih;                 // 左轴: 总分 0-100
-  let ndxMin = Infinity, ndxMax = -Infinity;          // 右轴: 纳指
-  for(const d of D){ if(d.ndx < ndxMin) ndxMin = d.ndx; if(d.ndx > ndxMax) ndxMax = d.ndx; }
-  const pad = (ndxMax - ndxMin) * 0.08 || 1;
-  const yN = v => T + (1 - (v - ndxMin + pad) / (ndxMax - ndxMin + 2*pad)) * ih;
-  OV.g = chartGeom(D); OV.D = D; hideTip();           // 记录几何 + 清掉旧浮层
-  let s = "";
-  // zone bands
-  const bands = [[100,70,"#dc2626"],[70,55,"#d97706"],[55,45,"#ca8a04"],[45,0,"#059669"]];
-  for(const [hi,lo,c] of bands){
-    s += `<rect x="${L}" y="${y(hi)}" width="${iw}" height="${(y(lo)-y(hi)).toFixed(1)}" fill="${c}" opacity="0.10"/>`;
-  }
-  // left gridlines
-  for(const g of [0,25,50,75,100]){ s += `<line x1="${L}" y1="${y(g).toFixed(1)}" x2="${W-R}" y2="${y(g).toFixed(1)}" stroke="#e4e7ec" stroke-width="1"/>`; s += `<text x="${L-4}" y="${(y(g)+3).toFixed(1)}" font-size="9" fill="#9aa3af" text-anchor="end">${g}</text>`; }
-  // right axis ticks
-  const tN = 4;
-  for(let i=0;i<=tN;i++){
-    const v = ndxMin - pad + (ndxMax - ndxMin + 2*pad) * i / tN;
-    s += `<text x="${W-R+5}" y="${(yN(v)+3).toFixed(1)}" font-size="9" fill="#9aa3af">${v>=1000 ? (v/1000).toFixed(1)+"k" : v.toFixed(0)}</text>`;
-  }
-  // 纳指价格曲线 (深灰)
-  const ptsN = D.map((d,i)=>`${x(i).toFixed(1)},${yN(d.ndx).toFixed(1)}`).join(" ");
-  s += `<polyline points="${ptsN}" fill="none" stroke="#111827" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" opacity="0.75"/>`;
-  // 总分曲线 (蓝)
-  const pts = D.map((d,i)=>`${x(i).toFixed(1)},${y(d.total).toFixed(1)}`).join(" ");
-  s += `<polyline points="${pts}" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" opacity="0.92"/>`;
-  // key points (按重要性排序, 防重叠: 与已标点距离<54则跳过文本)
-  const hits = KEY_POINTS.map(kp => ({ kp, idx: findIdx(D, kp.d) })).filter(h => h.idx >= 0).sort((a,b) => b.kp.w - a.kp.w);
-  let lastLx = -999;
-  for(const { kp, idx } of hits){
-    const px = x(idx), py = y(D[idx].total);
-    s += `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4" fill="#fff" stroke="#2563eb" stroke-width="2"/>`;
-    if(Math.abs(px - lastLx) < 54) continue;          // 太挤, 跳过文本
-    lastLx = px;
-    const anchor = px > W-120 ? "end" : (px < L+55 ? "start" : "middle");
-    let lx = px, lyr = py;
-    if(anchor==="end") lx = px-7; else if(anchor==="start") lx = px+7;
-    s += `<text x="${lx.toFixed(1)}" y="${(lyr-8).toFixed(1)}" font-size="10" fill="#5b6472" text-anchor="${anchor}" font-weight="600">${kp.l}</text>`;
-  }
-  // last point: 总分
-  const lpx = x(n-1), lpy = y(D[n-1].total);
-  s += `<circle cx="${lpx.toFixed(1)}" cy="${lpy.toFixed(1)}" r="5.5" fill="#dc2626" stroke="#fff" stroke-width="2"/>`;
-  s += `<text x="${(lpx-8).toFixed(1)}" y="${(lpy-10).toFixed(1)}" font-size="11" fill="#dc2626" text-anchor="end" font-weight="800">${D[n-1].total.toFixed(1)} 当前</text>`;
-  // last point: 纳指
-  const lny = yN(D[n-1].ndx);
-  s += `<circle cx="${lpx.toFixed(1)}" cy="${lny.toFixed(1)}" r="3.5" fill="#111827" stroke="#fff" stroke-width="1.5"/>`;
-  s += `<text x="${(lpx-8).toFixed(1)}" y="${(lny-9).toFixed(1)}" font-size="10" fill="#111827" text-anchor="end" font-weight="700">${Math.round(D[n-1].ndx/1000*10)/10}k</text>`;
-  // x labels (year)
-  const years = {};
-  D.forEach((d,i)=>{ const yv = d.d.slice(0,4); if(!(yv in years)) years[yv]=i; });
-  for(const [yv,i] of Object.entries(years)){ s += `<text x="${x(i).toFixed(1)}" y="${H-8}" font-size="9" fill="#9aa3af" text-anchor="middle">${yv}</text>`; }
-  document.getElementById("chart").innerHTML = s;
-}
-
-// ===== 点击/长按查点 (overlay) =====
-function evXY(e){
-  const r = document.getElementById("overlay").getBoundingClientRect();
-  return { x:(e.clientX-r.left)/r.width*680, y:(e.clientY-r.top)/r.height*250 };
-}
-function idxAt(sx){
-  const g = OV.g; if(!g || g.n < 1) return -1;
-  let i = Math.round((sx - g.L) / g.iw * (g.n - 1));
-  return Math.max(0, Math.min(g.n-1, i));
-}
-function hideTip(){
-  const tip = document.getElementById("tip");
-  if(tip) tip.hidden = true;
-  const ov = document.getElementById("overlay");
-  if(ov) ov.innerHTML = "";
-}
-function showTip(i){
-  const g = OV.g, D = OV.D;
-  if(!g || !D || i < 0 || i >= g.n) return;
-  const d = D[i], z = zoneOf(d.total);
-  const px = g.x(i), py = g.y(d.total), pny = g.yN(d.ndx);
-  // 高亮: 垂直参考线 + 泡沫分/纳指两点
-  document.getElementById("overlay").innerHTML =
-    `<line x1="${px.toFixed(1)}" y1="${g.T}" x2="${px.toFixed(1)}" y2="${g.H-g.B}" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3" opacity="0.85"/>` +
-    `<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="${z.color}" stroke="#fff" stroke-width="2"/>` +
-    `<circle cx="${px.toFixed(1)}" cy="${pny.toFixed(1)}" r="4" fill="#111827" stroke="#fff" stroke-width="1.5"/>`;
-  // tooltip 内容
-  const tip = document.getElementById("tip");
-  document.getElementById("tip-d").textContent = d.d;
-  document.getElementById("tip-sc").textContent = d.total.toFixed(1);
-  document.getElementById("tip-nq").textContent = Math.round(d.ndx).toLocaleString("en-US");
-  const tz = document.getElementById("tip-z");
-  tz.textContent = z.name;
-  tz.style.color = z.color;
-  // 定位(物理像素): 先显示以取得真实宽度
-  tip.hidden = false;
-  const rect = document.getElementById("chart").getBoundingClientRect();
-  const physX = px / 680 * rect.width;
-  const physY = py / 250 * rect.height;
-  const tw = tip.offsetWidth || 140;
-  let left = physX + 10;
-  if(left + tw > rect.width - 4) left = physX - tw - 10;
-  tip.style.left = Math.max(2, left) + "px";
-  tip.style.top = Math.min(Math.max(physY, 26), rect.height - 26) + "px";
-}
-function bindOverlay(){
-  const svg = document.getElementById("overlay");
-  if(!svg) return;
-  let down = null, tmr = null, hold = false;
-  svg.addEventListener("pointerdown", e => {
-    down = { x:e.clientX, y:e.clientY, t:Date.now() };
-    hold = false;
-    tmr = setTimeout(() => {                      // 长按 550ms 触发
-      hold = true;
-      showTip(idxAt(evXY({ clientX: down.x, clientY: down.y }).x));
-    }, 550);
-  });
-  svg.addEventListener("pointermove", e => {
-    if(hold && down) showTip(idxAt(evXY(e).x));   // 长按后拖动可换点
-  });
-  svg.addEventListener("pointerup", e => {
-    clearTimeout(tmr); tmr = null;
-    if(!hold && down) showTip(idxAt(evXY(e).x));  // 短按 = 点击
-    down = null; hold = false;
-  });
-  svg.addEventListener("pointercancel", () => { clearTimeout(tmr); tmr = null; down = null; hold = false; });
-  document.getElementById("tip-close").addEventListener("pointerdown", e => { e.stopPropagation(); hideTip(); });
-}
-
-// ===== Advice (仅作观察, 不改变定投金额) =====
-function renderAdvice(t, turn){
-  const z = zoneOf(t);
-  let html = `<div class="head" style="color:${z.color}">${z.name} · ${t.toFixed(1)} 分</div>`;
-  html += `<div style="font-size:12px;color:var(--sub);margin-top:2px;">仅作观察记录，不改变定投金额。</div>`;
-  if(turn && turn >= 20){
-    html += `<div style="margin-top:8px;font-size:12px;color:#991b1b;background:#fef2f2;border-radius:8px;padding:8px 10px;">⚠️ <b>顶部预警</b>：近 13 周总分下降 ${turn.toFixed(0)} 分（≥20），历史上对应 2018-11 / 2020-03 式拐点。</div>`;
-  }
-  document.getElementById("advice").innerHTML = html;
-}
-
-// ===== 每日定投计划 =====
-const DAYS = 21;                              // 每月约 21 个交易日
+// ---------------- 常量 ----------------
+const DAYS = 21;                                   // 每月约 21 个交易日
 const PLAN = [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 20], ["A股自由现金流", 20]];
+const ZONES = [
+  { max:45,  name:"低估", color:"#059669" },
+  { max:55,  name:"中性", color:"#ca8a04" },
+  { max:70,  name:"偏高", color:"#d97706" },
+  { max:101, name:"高热", color:"#dc2626" },
+];
+const FEATS = [
+  { k:"s1", n:"估值" }, { k:"s2", n:"预期" }, { k:"s3", n:"情绪" }, { k:"s4", n:"杠杆" },
+  { k:"s5", n:"投机狂热" }, { k:"s6", n:"新买家" }, { k:"s7", n:"货币" }, { k:"s8", n:"科技" },
+];
+// A股：档位按「历史百分位」切，比固定阈值线稳（阈值线对样本口径敏感）
+const PCT_LEVELS = [
+  { min:80, name:"警戒", color:"#dc2626" },
+  { min:60, name:"偏高", color:"#d97706" },
+  { min:40, name:"中性", color:"#ca8a04" },
+  { min:20, name:"偏低", color:"#059669" },
+  { min:-1, name:"低位", color:"#047857" },
+];
+
+const $ = id => document.getElementById(id);
+const setTxt = (id, s) => { const e = $(id); if(e) e.textContent = s; };
+const zoneOf = t => { for(const z of ZONES){ if(t < z.max) return z; } return ZONES[3]; };
+const pctLevel = p => { for(const z of PCT_LEVELS){ if(p > z.min) return z; } return PCT_LEVELS[4]; };
+const bjDate = () => new Date(Date.now() + 8 * 3600e3);
+
+function tag(el, name, color){
+  el.textContent = name;
+  el.style.background = color;
+}
+
+// ---------------- ① 定投方案 ----------------
 function renderPlan(){
-  const inp = document.getElementById("pamt");
-  const x = parseFloat(inp.value) || 0;
-  const per = x / DAYS;                        // 每个交易日总投入
-  const rows = PLAN;
-  let h = "", s = 0;
-  for(const [n, p] of rows){
-    const v = Math.round(per * p / 100); s += v;
-    h += `<div class="prow"><span class="pn">${n}</span><span class="pp">${p}%</span><span class="pa">¥${v.toLocaleString("zh-CN")}</span></div>`;
+  const x = parseFloat($("pamt").value) || 0;
+  const per = x / DAYS;
+  let h = "", sum = 0;
+  for(const [n, p] of PLAN){
+    const v = Math.round(per * p / 100); sum += v;
+    h += `<div class="prow"><span class="pn">${n}</span><span class="pp">${p}%</span>`
+       + `<span class="pa">¥${v.toLocaleString("zh-CN")}</span></div>`;
   }
-  h += `<div class="prow tot"><span class="pn">合计</span><span class="pp">100%</span><span class="pa">¥${s.toLocaleString("zh-CN")}</span></div>`;
-  document.getElementById("prows").innerHTML = h;
+  h += `<div class="prow tot"><span class="pn">合计</span><span class="pp">100%</span>`
+     + `<span class="pa">¥${sum.toLocaleString("zh-CN")}</span></div>`;
+  $("prows").innerHTML = h;
 }
 function bindPlan(){
-  const inp = document.getElementById("pamt");
-  const savedAmt = localStorage.getItem("pamt");
-  if(savedAmt !== null) inp.value = savedAmt;
+  const inp = $("pamt");
+  const saved = localStorage.getItem("pamt");
+  if(saved !== null) inp.value = saved;
   inp.addEventListener("input", e => { renderPlan(); localStorage.setItem("pamt", e.target.value); });
   renderPlan();
 }
 
-// ===== Key points recap =====
-function renderKpts(D){
-  const html = KEY_POINTS.map(kp=>{
-    const idx = findIdx(D, kp.d);
-    if(idx < 0) return "";
-    const t = D[idx].total;
-    const z = zoneOf(t);
-    return `<span class="kpt"><b style="color:${z.color}">${kp.l} ${t.toFixed(0)}分</b> · ${z.name}</span>`;
-  }).join("");
-  document.getElementById("kpts").innerHTML = html;
-}
-
-function refresh(){
-  const D = getSeries();
-  renderChart(D);
-  renderKpts(D);
-}
-
-function init(){
-  const cur = DATA.week[DATA.week.length-1];
-  const t = cur.total;
-  const z = zoneOf(t);
-  const badge = document.getElementById("badge");
-  badge.textContent = `${z.name} ${t.toFixed(1)}分`;
-  badge.className = "badge " + z.cls;
-  renderGauge(t);
-  document.getElementById("gauge-v").textContent = t.toFixed(1);
-  document.getElementById("gauge-l").textContent = `${cur.d} · ${z.name}`;
-  renderFeatures(cur);
-  refresh();
-  bindPlan();
-  // turn warning (基于周频, 固定)
-  const w = DATA.week;
-  const last13 = w.slice(-13).map(d=>d.total);
-  const prev13 = w.slice(-26,-13).map(d=>d.total);
-  const turn = Math.max(...prev13) - Math.min(...last13);
-  if(turn >= 20){
-    const al = document.getElementById("alert");
-    al.classList.remove("hidden");
-    document.getElementById("alert-msg").textContent = `顶部拐点预警：近13周总分下降 ${turn.toFixed(0)} 分（历史 ≥20 分对应 2018-11、2020-03 式大顶）。`;
+// ---------------- 迷你走势图 ----------------
+// lines: [{v:[..], c:'#hex', w:2, min, max}]   两条线可各自量纲（美股 = 分数 + 纳指）
+function drawSpark(el, W, H, lines){
+  const L = 4, R = 4, T = 7, B = 4;
+  const iw = W - L - R, ih = H - T - B;
+  let s = "";
+  for(const ln of lines){
+    const v = ln.v, n = v.length;
+    if(n < 2) continue;
+    let lo = ln.min, hi = ln.max;
+    if(lo == null){ lo = Math.min(...v); hi = Math.max(...v); }
+    if(hi - lo < 1e-9) hi = lo + 1;
+    const X = i => L + i / (n - 1) * iw;
+    const Y = x => T + (1 - (x - lo) / (hi - lo)) * ih;
+    s += `<polyline points="${v.map((x, i) => `${X(i).toFixed(1)},${Y(x).toFixed(1)}`).join(" ")}"`
+       + ` fill="none" stroke="${ln.c}" stroke-width="${ln.w || 1.8}" stroke-linejoin="round"`
+       + ` stroke-linecap="round" opacity="${ln.op || 1}"/>`;
+    const li = n - 1;
+    s += `<circle cx="${X(li).toFixed(1)}" cy="${Y(v[li]).toFixed(1)}" r="2.6" fill="${ln.c}"`
+       + ` stroke="#fff" stroke-width="1.2"/>`;
   }
-  renderAdvice(t, turn);
-  // seg tabs
-  document.getElementById("chart-seg").addEventListener("click", e => {
-    const el = e.target.closest(".seg-item");
-    if(!el) return;
-    const k = el.dataset.k, v = el.dataset.v;
-    if(CUR[k] === v) return;
-    CUR[k] = v;
-    document.querySelectorAll(`#chart-seg .seg-item[data-k="${k}"]`).forEach(x => x.classList.remove("active"));
-    el.classList.add("active");
-    refresh();
-  });
-  bindOverlay();
-  document.title = `美股泡沫温度计 · ${t.toFixed(1)}分 ${z.name}`;
+  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  el.innerHTML = s;
 }
 
-// ===== 数据加载: 多源容灾 =====
-// 源① jsDelivr CDN(云端 GitHub Actions 每天 8 点自动抓取+打分, push 后自动 purge CDN 立即生效)
-// 源② 本站部署的 data.json(手动部署时的快照)
-// 源③ GitHub raw(海外网络兜底)
-// 源④ 内嵌兜底 FALLBACK(本地/离线可用)
-// 缓存击穿: URL 附每日版本参数(北京时间) → CDN 边缘缓存键每天变化, 必然回源取最新, 杜绝"手机看到旧分"
-const _dayKey = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "");
-const _bjDay  = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);   // 北京日期
+// ---------------- ② 美股卡片 ----------------
+function renderUS(){
+  const wk = DATA.week, cur = wk[wk.length - 1];
+  const z = zoneOf(cur.total);
+  setTxt("us-v", cur.total.toFixed(1));
+  $("us-v").style.color = z.color;
+  tag($("us-lv"), z.name, z.color);
+  setTxt("us-as", `截至 ${cur.d}`);
+  $("us-legs").innerHTML = FEATS.map(f => {
+    const v = cur[f.k] ?? 0;
+    const c = f.k === "s7" ? "#9ca3af" : zoneOf(v).color;
+    return `<div class="leg"><span class="ln">${f.n}</span>`
+         + `<span class="lb"><i style="width:${Math.max(3, v)}%;background:${c}"></i></span>`
+         + `<span class="lv2" style="color:${c}">${v.toFixed(0)}</span></div>`;
+  }).join("");
+  const seg = wk.slice(-260);
+  drawSpark($("us-chart"), 320, 88, [
+    { v: seg.map(d => d.total), c: "#2563eb", w: 2, min: 0, max: 100 },
+    { v: seg.map(d => d.ndx),  c: "#94a3b8", w: 1.4, op: .85 },
+  ]);
+}
+
+// ---------------- ③ A股卡片 ----------------
+function renderCN(){
+  const cn = DATA.cn;
+  if(!cn || !cn.records || !cn.records.length){
+    setTxt("cn-mkt", "--"); setTxt("cn-val", "--");
+    setTxt("cn-as", "数据尚未接入");
+    $("cn-legs").innerHTML = "";
+    return;
+  }
+  const rs = cn.records, cur = rs[rs.length - 1];
+  const hm = (cn.meta && cn.meta.hist) || {};
+  const m = hm.mkt || {}, v = hm.val || {};
+  const ml = pctLevel(m.pos == null ? 50 : m.pos);
+  const vl = pctLevel(v.pos == null ? 50 : v.pos);
+
+  setTxt("cn-mkt", cur.mkt.toFixed(1)); $("cn-mkt").style.color = ml.color;
+  setTxt("cn-val", cur.val.toFixed(1)); $("cn-val").style.color = vl.color;
+  tag($("cn-mkt-lv"), ml.name, ml.color);
+  tag($("cn-val-lv"), vl.name, vl.color);
+  setTxt("cn-as", `截至 ${cur.d}`
+    + (m.pos == null ? "" : `　市场 历史 ${m.pos.toFixed(0)}%`)
+    + (v.pos == null ? "" : `　价值 历史 ${v.pos.toFixed(0)}%`));
+
+  // 取数指标分解：市场温度是单一指标；价值温度 = 估值腿 + 全市场腿 + 板块拥挤度
+  const bar = (n, val, color, right) =>
+    `<div class="leg"><span class="ln">${n}</span>`
+    + `<span class="lb"><i style="width:${Math.max(3, val)}%;background:${color}"></i></span>`
+    + `<span class="lv2" style="color:${color}">${right}</span></div>`;
+  let h = `<div class="leg hd"><span class="ln">市场温度</span>`
+        + `<span class="lb"></span><span class="lv2">100%</span></div>`;
+  h += bar("全指PE分位", cur.mkt, ml.color, cur.mkt.toFixed(0));
+  h += `<div class="leg hd"><span class="ln">价值温度</span>`
+     + `<span class="lb"></span><span class="lv2">55/30/15</span></div>`;
+  h += bar("估值腿", cur.est, vl.color, cur.est.toFixed(0));
+  h += bar("全市场腿", cur.bkg, vl.color, cur.bkg.toFixed(0));
+  h += bar("板块拥挤度", cur.crowd, vl.color, cur.crowd.toFixed(0));
+  $("cn-legs").innerHTML = h;
+
+  const seg = rs.slice(-260);
+  drawSpark($("cn-chart"), 320, 88, [
+    { v: seg.map(d => d.mkt), c: "#2563eb", w: 1.8, min: 0, max: 100 },
+    { v: seg.map(d => d.val), c: "#dc2626", w: 2,   min: 0, max: 100 },
+  ]);
+}
+
+// ---------------- 时间戳 ----------------
+function stampData(){
+  const m = (DATA && DATA.meta) || {};
+  setTxt("sync", m.updated || "—");
+  const cnUp = DATA && DATA.cn && DATA.cn.meta && DATA.cn.meta.updated;
+  if(cnUp && m.updated && cnUp < m.updated) setTxt("sync", cnUp);
+}
+function tick(){
+  const d = bjDate();
+  const p = n => String(n).padStart(2, "0");
+  setTxt("clock", `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`);
+}
+
+// ---------------- 横滑圆点 ----------------
+function bindDots(){
+  const box = $("cards"), dots = [...$("dots").children];
+  const upd = () => {
+    const c = box.scrollLeft, w = box.clientWidth;
+    const i = Math.max(0, Math.min(dots.length - 1, Math.round(c / (w * 0.9))));
+    dots.forEach((d, k) => d.classList.toggle("on", k === i));
+  };
+  box.addEventListener("scroll", upd, { passive:true });
+  dots.forEach((d, k) => d.addEventListener("click",
+    () => box.scrollTo({ left: box.children[k].offsetLeft - box.offsetLeft - 12, behavior:"smooth" })));
+  upd();
+}
+
+// ---------------- 渲染 ----------------
+function renderAll(){
+  renderUS();
+  renderCN();
+  renderPlan();
+  const us = DATA.week[DATA.week.length - 1];
+  let t = `定投量化策略 · 美股 ${us.total.toFixed(1)}`;
+  if(DATA.cn && DATA.cn.records && DATA.cn.records.length){
+    const c = DATA.cn.records[DATA.cn.records.length - 1];
+    t += ` · A股 市场 ${c.mkt.toFixed(0)} / 价值 ${c.val.toFixed(0)}`;
+  }
+  document.title = t;
+}
+
+// ---------------- 数据加载：多源容灾 ----------------
+const _dayKey = bjDate().toISOString().slice(0, 10).replace(/-/g, "");
 const REMOTE_SOURCES = [
   { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json?v=" + _dayKey, n:"jsDelivr CDN" },
   { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json?v=" + _dayKey, n:"GitHub raw" },
 ];
-function stampData(){
-  const meta = DATA.meta;
-  const el = document.getElementById("data-meta");
-  if(!el) return;
-  if(meta && meta.asof){
-    // meta.updated 是北京时间，必须用北京日期比较，否则凌晨会误报"今日已更新"
-    const fresh = meta.updated && meta.updated.slice(0, 10) === _bjDay;
-    el.innerHTML = `抓取 ${meta.updated} 北京 · 美股行情截至 ${meta.asof} 收盘<em>${fresh ? " · 今日已更新" : ""}</em>`;
-  }else{
-    const last = DATA.week[DATA.week.length-1];
-    el.textContent = `数据截止 ${last ? last.d : "?"}（内嵌快照）`;
-  }
-}
 async function fetchJson(url, ms){
   const ctl = new AbortController();
-  const t = setTimeout(()=>ctl.abort(), ms || 6000);
+  const t = setTimeout(() => ctl.abort(), ms || 6000);
   try{
     const r = await fetch(url, { cache:"no-store", signal: ctl.signal });
     if(!r.ok) return null;
@@ -572,7 +385,6 @@ async function fetchJson(url, ms){
   }catch(e){ return null; }
   finally{ clearTimeout(t); }
 }
-// 陈旧判定: CDN 边缘节点可能缓存旧文件, 若远程数据比构建时内嵌快照还旧 → 丢弃(避免旧分覆盖新分)
 function isStale(j){
   if(!j || !j.meta || !j.meta.updated) return false;
   if(!FALLBACK || !FALLBACK.meta || !FALLBACK.meta.updated) return false;
@@ -581,20 +393,24 @@ function isStale(j){
 async function loadData(){
   for(const s of REMOTE_SOURCES){
     const j = await fetchJson(s.u);
-    if(j && !isStale(j)){ DATA = j; console.log("[泡沫温度计] 数据源:", s.n); return; }
-    if(j) console.warn("[泡沫温度计] 忽略陈旧数据:", s.n, j.meta && j.meta.updated);
+    if(j && !isStale(j)) return j;
   }
   const j = await fetchJson("data.json", 4000);
-  if(j && !isStale(j)){ DATA = j; console.log("[泡沫温度计] 数据源: 本站快照"); return; }
-  console.warn("[泡沫温度计] 远程无有效新数据, 使用内嵌快照");
-  DATA = FALLBACK;
+  if(j && !isStale(j)) return j;
+  return FALLBACK;
 }
 
-// ===== 启动 =====
-loadData().then(function(){
-  stampData();
-  init();
-});
+// 先用内嵌快照立即出图（不等网络），远程拿到更新的数据再覆盖一次
+DATA = FALLBACK;
+stampData();
+renderAll();
+bindPlan();
+bindDots();
+tick();
+setInterval(tick, 1000);
+loadData().then(j => {
+  if(j && j !== DATA){ DATA = j; stampData(); renderAll(); }
+}).catch(() => {});
 </script>
 </body>
 </html>

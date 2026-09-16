@@ -49,7 +49,21 @@ jobs:
       - name: 重算泡沫评分 (滚动520周分位)
         run: python bubble/analyze_weekly.py
 
-      - name: 构建页面数据 (data.json + index.html)
+      - name: 抓取 A股数据并计算双读数 (市场温度/价值温度)
+        run: |
+          for i in 1 2 3; do
+            if python bubble_cn/fetch_cn.py; then break; fi
+            echo "fetch_cn 失败(第${i}次), 20s 后重试..."
+            sleep 20
+          done
+          # 容灾: 抓不到也不会中断管线 —— build.py 会沿用 data.json 里已有的 cn 节点
+          if [ -s "bubble_out/cn_scores.json" ]; then
+            echo "A股读数计算完成"
+          else
+            echo "::warning::A股读数缺失, 本次沿用上一次的 cn 数据"
+          fi
+
+      - name: 构建页面数据 (data.json + index/us/cn.html)
         run: python bubble_app/build.py
 
       - name: 提交并推送更新
