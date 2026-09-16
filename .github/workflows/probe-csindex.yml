@@ -1,0 +1,44 @@
+name: PROBE-csindex-可达性
+
+# ⚠️ 临时探针，用完即删。目的：验证 GitHub 海外 runner 能否访问中证指数官网
+on:
+  push:
+    paths:
+      - ".github/workflows/probe-csindex.yml"
+      - "probe_csindex.py"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 显示 runner 出口 IP 与地区
+        run: |
+          echo "=== runner 基本信息 ==="
+          uname -a
+          echo "--- 出口 IP ---"
+          curl -s --max-time 20 https://ipinfo.io/json || echo "(ipinfo 不可达)"
+          echo ""
+
+      - name: 探测各数据源
+        run: |
+          set -o pipefail
+          python probe_csindex.py 2>&1 | tee probe_result.txt
+
+      - name: 上传探测结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-result
+          path: probe_result.txt
+          retention-days: 3
