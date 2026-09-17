@@ -74,6 +74,26 @@
   .leg.hd:first-child { border-top:none; padding-top:0; margin-top:0; }
   .leg.hd .lv2 { width:48px; color:var(--sub); font-weight:600; font-size:10.5px; }
 
+  /* ===== 参考读数（成长 / 风格 · 仅供参考） ===== */
+  .refbox { margin-top:12px; padding-top:10px; border-top:1px dashed var(--line); }
+  .refhd { display:flex; align-items:center; justify-content:space-between; gap:8px;
+           font-size:11px; font-weight:700; color:var(--sub); margin-bottom:4px; }
+  .refhd .badge { font-size:9.5px; font-weight:700; color:#92400e; background:#fef3c7;
+                  border-radius:99px; padding:1px 7px; white-space:nowrap; }
+  .refrow { display:flex; align-items:center; gap:8px; font-size:12px; padding:3px 0; }
+  .refrow .rn { width:64px; flex-shrink:0; color:#3d444f; }
+  .refrow .lb2 { flex:1; height:6px; background:#eef1f5; border-radius:99px;
+                 overflow:hidden; min-width:20px; }
+  .refrow .lb2 i { display:block; height:100%; border-radius:99px; }
+  .refrow .rv { width:40px; text-align:right; font-weight:800; flex-shrink:0;
+                font-variant-numeric:tabular-nums; }
+  .refrow .rp { font-size:10px; color:var(--sub); flex-shrink:0;
+                font-variant-numeric:tabular-nums; }
+  .rz { font-size:9.5px; font-weight:700; color:#fff; border-radius:99px;
+        padding:0 6px; flex-shrink:0; }
+  .refnote { font-size:9.5px; color:var(--sub); line-height:1.6; margin-top:6px; }
+  [data-grp][hidden], .seg-item[hidden] { display:none; }
+
   /* ===== 图表 ===== */
   .seg { display:flex; gap:5px; margin-bottom:9px; flex-wrap:wrap; }
   .seg-item { font-size:11px; padding:3px 10px; border-radius:99px; background:#f0f3f7;
@@ -96,11 +116,14 @@
   .tipc .r b { font-variant-numeric:tabular-nums; }
 
   /* ===== 表格 / 键值 ===== */
+  /* ⚠️ .k 必须 nowrap + flex:0 0 auto：否则一条很长的值会把键名挤成 1 个字宽，
+        键名自己折成两行（「口径」→「口」/「径」），看起来像乱码方框。 */
   .kv { display:flex; justify-content:space-between; font-size:12px; padding:5px 0;
         border-bottom:1px dashed var(--line); }
   .kv:last-child { border-bottom:none; }
-  .kv .k { color:var(--sub); }
-  .kv .v { font-weight:700; font-variant-numeric:tabular-nums; }
+  .kv .k { color:var(--sub); flex:0 0 auto; white-space:nowrap; }
+  .kv .v { font-weight:700; font-variant-numeric:tabular-nums; min-width:0;
+           overflow-wrap:anywhere; }
   table { width:100%; border-collapse:collapse; font-size:11.5px; }
   th { background:#f0f3f7; font-weight:700; text-align:right; padding:6px 5px; font-size:10.5px; color:#3d444f; }
   th:first-child, td:first-child { text-align:left; }
@@ -138,6 +161,13 @@
           <div class="gmeta"><span class="pill" id="gv-lv">—</span><span class="gp" id="gv-p">—</span></div>
         </div>
       </div>
+
+      <div class="refbox" id="refbox" hidden>
+        <div class="refhd"><span>参考读数</span>
+          <span class="badge">仅供参考 · 不参与仓位决策</span></div>
+        <div id="refrows"></div>
+        <div class="refnote" id="refnote"></div>
+      </div>
     </div>
 
     <div class="card">
@@ -149,7 +179,11 @@
         <span class="seg-item" data-v="y3">3年</span>
         <span class="seg-item" data-v="y1">1年</span>
       </div>
-      <div class="cblk">
+      <div class="seg" id="seg2">
+        <span class="seg-item active" data-v="main">主读数（市场 / 价值）</span>
+        <span class="seg-item" data-v="ref">参考读数（成长 / 风格）</span>
+      </div>
+      <div class="cblk" data-grp="main">
         <div class="csub"><b style="color:#2563eb">市场温度</b><span>× 中证全指（右轴）</span></div>
         <div class="chart-wrap">
           <svg id="chart-mkt" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
@@ -157,7 +191,7 @@
           <div class="tipc" id="tip-mkt" hidden></div>
         </div>
       </div>
-      <div class="cblk">
+      <div class="cblk" data-grp="main">
         <div class="csub"><b style="color:#dc2626">价值温度</b><span id="csub-val">× 红利低波·全收益（右轴）</span></div>
         <div class="chart-wrap">
           <svg id="chart-val" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
@@ -165,8 +199,28 @@
           <div class="tipc" id="tip-val" hidden></div>
         </div>
       </div>
-      <div class="chart-note">左轴 温度 0-100 · 右轴 标的指数收盘 · 点击或长按可查任意一周<br>
+      <div data-grp="ref" hidden>
+        <div class="cblk">
+          <div class="csub"><b style="color:#7c3aed">成长温度</b><span>× 中证800成长（右轴）</span></div>
+          <div class="chart-wrap">
+            <svg id="chart-gro" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
+            <svg class="ov" id="ov-gro" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
+            <div class="tipc" id="tip-gro" hidden></div>
+          </div>
+        </div>
+        <div class="cblk">
+          <div class="csub"><b style="color:#0d9488">风格温度</b><span>× 中证全指（右轴）</span></div>
+          <div class="chart-wrap">
+            <svg id="chart-sty" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
+            <svg class="ov" id="ov-sty" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
+            <div class="tipc" id="tip-sty" hidden></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-note" data-grp="main">左轴 温度 0-100 · 右轴 标的指数收盘 · 点击或长按可查任意一周<br>
         价值温度画的是<b>中证红利低波全收益指数</b>（含股息）—— 与你持有的 563020 红利低波 ETF 同口径，近 3 年年化仅差 0.13pp</div>
+      <div class="chart-note" data-grp="ref" hidden><b>参考读数</b>：成长温度 × 中证800成长（H30355）· 风格温度 × 中证全指（比价）<br>
+        两者与市场温度高度冗余（秩相关 0.79 / 0.49）→ <b>不参与仓位决策</b>；目标为<b>价格口径</b>，勿与价值温度的含股息收益横向比较</div>
     </div>
 
     <div class="card">
@@ -175,15 +229,18 @@
     </div>
 
     <div class="card">
-      <h2>档位与历史表现 <span class="tip">后续 52 周 · 含股息</span></h2>
+      <h2>档位与历史表现 <span class="tip" id="lv-note">后续 52 周 · 含股息</span></h2>
       <div class="seg" id="lvseg">
         <span class="seg-item active" data-v="val">价值温度 · 红利低波</span>
         <span class="seg-item" data-v="mkt">市场温度 · 中证全指</span>
+        <span class="seg-item" data-v="gro" hidden>成长温度（参考）</span>
+        <span class="seg-item" data-v="sty" hidden>风格温度（参考）</span>
       </div>
       <table>
         <thead><tr><th>档位</th><th>样本</th><th>后续52周</th><th>胜率</th></tr></thead>
         <tbody id="lvtable"></tbody>
       </table>
+      <div class="chart-note" id="lv-empty" hidden></div>
     </div>
 
     <div class="card">
@@ -219,22 +276,38 @@ const FALLBACK = __DATA__;
 const ZC   = ["#047857", "#059669", "#ca8a04", "#d97706", "#dc2626"];
 const LVS  = ["低位", "偏低", "中性", "偏高", "警戒"];
 
-// 两张走势图：温度（左轴 0-100） × 对应标的（右轴）
+// 四张走势图：温度（左轴 0-100） × 对应标的（右轴）
+//  grp:"main" = 主读数（参与决策）｜"ref" = 参考读数（仅供参考，默认隐藏）
 const CH = [
-  { id:"mkt", svg:"chart-mkt", ov:"ov-mkt", tip:"tip-mkt",
+  { id:"mkt", svg:"chart-mkt", ov:"ov-mkt", tip:"tip-mkt", grp:"main",
     k:"mkt", c:"#2563eb", lbl:"市场温度",
     pk:"pxAll", pc:"#111827", pl:"中证全指", band:"mkt" },
-  { id:"val", svg:"chart-val", ov:"ov-val", tip:"tip-val",
+  { id:"val", svg:"chart-val", ov:"ov-val", tip:"tip-val", grp:"main",
     k:"val", c:"#dc2626", lbl:"价值温度",
     pk:"pxValTr", pc:"#b45309", pl:"红利低波·全收益",
     pkb:"pxVal", plb:"红利低波·价格", sub:"csub-val", band:"val" },
+  // ★ 参考读数：字段起点比主读数晚（成长 PE 只到 2014-05），drawChart 会按字段可用性裁剪
+  { id:"gro", svg:"chart-gro", ov:"ov-gro", tip:"tip-gro", grp:"ref",
+    k:"gro", c:"#7c3aed", lbl:"成长温度",
+    pk:"pxGro", pc:"#111827", pl:"中证800成长", band:"gro" },
+  { id:"sty", svg:"chart-sty", ov:"ov-sty", tip:"tip-sty", grp:"ref",
+    k:"sty", c:"#0d9488", lbl:"风格温度",
+    pk:"pxAll", pc:"#111827", pl:"中证全指", band:"sty" },
 ];
 const OVS = {};
 
 const $ = id => document.getElementById(id);
 const setTxt = (id, s) => { const e = $(id); if(e) e.textContent = s; };
 const bjDate = () => new Date(Date.now() + 8 * 3600e3);
-let VIEW = { range:"all", lv:"val" };
+let VIEW = { range:"all", lv:"val", grp:"main" };
+
+// 档位表表头随所选项变（含股息 / 价格口径不能混着看）
+const LV_NOTE = {
+  val: "后续 52 周 · 含股息",
+  mkt: "后续 52 周 · 中证全指",
+  gro: "后续 52 周 · 800成长（价格口径）",
+  sty: "后续 52 周 · 中证全指（价格口径）",
+};
 
 // ---------------- 分位数档位 ----------------
 function histOf(which){
@@ -320,9 +393,12 @@ function geom2(D, pk){
 const fmtPx = v => Math.round(v).toLocaleString("en-US");
 
 function drawChart(cfg){
-  const D = series(), box = $(cfg.svg);
+  const box = $(cfg.svg);
   if(!box) return;
-  if(!D.length){ box.innerHTML = ""; return; }
+  // ★ 参考读数的字段起点晚于主读数（成长 PE 只到 2014-05、风格比价更晚）→
+  //   只画字段真正可用的那段。若不过滤，polyline 里会混进 NaN 坐标，整条线断掉。
+  const D = series().filter(d => typeof d[cfg.k] === "number" && isFinite(d[cfg.k]));
+  if(!D.length){ box.innerHTML = ""; OVS[cfg.id] = null; return; }
   const rp = resolvePk(D, cfg);
   const g = geom2(D, rp.pk);
   OVS[cfg.id] = { D, g, cfg, pk:rp.pk, pl:rp.pl };
@@ -429,6 +505,15 @@ function bindOverlay(cfg){
 // ---------------- 档位表 ----------------
 function renderLvTable(which){
   const lv = histOf(which).levels || [];
+  setTxt("lv-note", LV_NOTE[which] || "后续 52 周");
+  const em = $("lv-empty");
+  if(!lv.length){
+    $("lvtable").innerHTML = "";
+    if(em){ em.hidden = false;
+            em.textContent = "该读数的历史样本还没随数据同步过来（远端 data.json 可能仍是旧版），点其他档位或稍后刷新再看。"; }
+    return;
+  }
+  if(em) em.hidden = true;
   $("lvtable").innerHTML = lv.map(L => {
     const i = Math.min(4, Math.max(0, parseInt(String(L.name).slice(1,3), 10) / 20 | 0));
     return `<tr><td>${L.name} <span style="color:${ZC[i]};font-size:10px;font-weight:700">${L.lab}</span></td>`
@@ -436,6 +521,40 @@ function renderLvTable(which){
          + `<td style="color:${L.ret > 0 ? "#dc2626" : "#059669"};font-weight:700">`
          + `${L.ret > 0 ? "+" : ""}${L.ret}%</td><td>${L.win}%</td></tr>`;
   }).join("");
+}
+
+// ---------------- 参考读数（成长 / 风格 · 仅供参考） ----------------
+// 定位：与市场温度高度冗余（秩相关 0.79 / 0.49）→ 不参与仓位决策，只作观察。
+// ★ 有值才渲染；一条都没有就整块隐藏，不留空壳。
+function renderRef(cur){
+  const box = $("refbox");
+  if(!box){ return; }
+  const has = k => typeof cur[k] === "number" && isFinite(cur[k]);
+  if(!has("gro") && !has("sty")){ box.hidden = true; return; }
+  box.hidden = false;
+  const fin = v => (typeof v === "number" && isFinite(v)) ? v.toFixed(1) : "—";
+  const rows = [];
+  const row = (nm, k, z) => {
+    if(!has(k)) return;
+    const h = histOf(z), zi = zoneIdx(z, cur[k]);
+    rows.push(`<div class="refrow"><span class="rn">${nm}</span>`
+      + `<span class="lb2"><i style="width:${Math.max(3, cur[k])}%;background:${ZC[zi]}"></i></span>`
+      + `<span class="rv" style="color:${ZC[zi]}">${cur[k].toFixed(1)}</span>`
+      + `<span class="rp">${h.pos == null ? "—" : `分位 ${h.pos.toFixed(0)}%`}</span>`
+      + `<span class="rz" style="background:${ZC[zi]}">${LVS[zi]}</span></div>`);
+  };
+  row("成长温度", "gro", "gro");
+  row("风格温度", "sty", "sty");
+  $("refrows").innerHTML = rows.join("");
+  const note = $("refnote");
+  if(note){
+    const p = [];
+    if(has("groEst")) p.push(`成长温度 = 0.55×估值腿 ${fin(cur.groEst)} + 0.30×全市场腿 ${fin(cur.bkg)} + 0.15×拥挤度 ${fin(cur.crowdGro)}`);
+    if(has("sty"))    p.push("风格温度 = 成长PE ÷ 红利低波PE 比价（去趋势后取 520 周分位）");
+    p.push("成长/风格与市场温度秩相关 0.79 / 0.49 → 高度冗余，<b>不参与仓位决策</b>");
+    p.push("其收益目标为<b>价格指数</b>，勿与价值温度的含股息结果横向比较");
+    note.innerHTML = p.join("；");
+  }
 }
 
 // ---------------- 主渲染 ----------------
@@ -481,15 +600,42 @@ function render(){
   h += bar("新买家", cur.new, "#64748b", cur.new.toFixed(0));
   $("legs").innerHTML = h;
 
+  // ★ 参考读数（成长 / 风格）—— 有值才显示；没有就整块隐藏，不留空壳
+  renderRef(cur);
+
   renderLvTable(VIEW.lv);
 
   const j = cn.meta.jumps || {};
+  const ext = cn.meta.ext || {};
+  const g = cn.meta.grid || {};
+  const num = (v, d) => (typeof v === "number" && isFinite(v)) ? v : d;
+  const nf = v => (typeof v === "number" && isFinite(v)) ? v.toFixed(2) : "—";
   $("meta").innerHTML =
-    `<div class="kv"><span class="k">中证全指 PE</span><span class="v">${cur.peAll.toFixed(2)}</span></div>`
-    + `<div class="kv"><span class="k">红利低波 PE</span><span class="v">${cur.peVal.toFixed(2)}</span></div>`
+    `<div class="kv"><span class="k">中证全指 PE</span><span class="v">${num(cur.peAll, 0).toFixed(2)}</span></div>`
+    + `<div class="kv"><span class="k">红利低波 PE</span><span class="v">${nf(cur.peVal)}</span></div>`
+    + (isFinite(cur.peGro)
+        ? `<div class="kv"><span class="k">中证800成长 PE</span><span class="v">${nf(cur.peGro)}</span></div>` : "")
     + `<div class="kv"><span class="k">PE 口径跳变校正</span><span class="v">红利低波 ${j.val ?? "-"} 次 · 全指 ${j.all ?? "-"} 次</span></div>`
     + `<div class="kv"><span class="k">样本</span><span class="v">${rs.length} 周（自 ${rs[0].d}）</span></div>`
+    + (g.n ? `<div class="kv"><span class="k">周表（含暖启动段）</span><span class="v">${g.n} 周（自 ${g.from}）</span></div>` : "")
+    + (ext.mode === "spliced"
+        ? `<div class="kv"><span class="k">估值腿拼接</span><span class="v" style="font-weight:400;font-size:11px">`
+          + `2013-12-05 前用中证红利 ${ext.proxy} 的 PE 按 k=${ext.k} 接续（补 ${ext.seg_n} 周，自 ${ext.seg_from}）</span></div>`
+        : "")
     + `<div class="kv"><span class="k">口径</span><span class="v" style="font-weight:400;font-size:11px">${cn.meta.caliber || "-"}</span></div>`;
+
+  // 档位表里两个参考项：历史样本到了才放出按钮
+  [["gro", "成长温度（参考）"], ["sty", "风格温度（参考）"]].forEach(([k, lab]) => {
+    const el = document.querySelector(`#lvseg .seg-item[data-v="${k}"]`);
+    if(!el) return;
+    const has = !!(histOf(k).levels && histOf(k).levels.length);
+    el.hidden = !has;
+    if(!has && VIEW.lv === k){          // 当前选中的参考项突然没数据 → 退回价值
+      VIEW.lv = "val";
+      document.querySelectorAll("#lvseg .seg-item").forEach(x => x.classList.toggle("active", x.dataset.v === "val"));
+      renderLvTable("val");
+    }
+  });
 
   CH.forEach(drawChart);
   document.title = `A股温度计 · 市场 ${cur.mkt.toFixed(1)} / 价值 ${cur.val.toFixed(1)}`;
@@ -538,6 +684,17 @@ $("seg").addEventListener("click", e => {
   document.querySelectorAll("#seg .seg-item").forEach(x => x.classList.remove("active"));
   el.classList.add("active");
   hideAllTips(); CH.forEach(drawChart);
+});
+// 主读数 / 参考读数 切换（图数量不变，避免页面过载）
+$("seg2").addEventListener("click", e => {
+  const el = e.target.closest(".seg-item");
+  if(!el || el.dataset.v === VIEW.grp) return;
+  VIEW.grp = el.dataset.v;
+  document.querySelectorAll("#seg2 .seg-item").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+  document.querySelectorAll("[data-grp]").forEach(b => { b.hidden = (b.dataset.grp !== VIEW.grp); });
+  hideAllTips();
+  CH.forEach(drawChart);      // 隐藏时画过也没关系，viewBox 坐标与尺寸无关；切回来再画一次更稳
 });
 $("lvseg").addEventListener("click", e => {
   const el = e.target.closest(".seg-item");
