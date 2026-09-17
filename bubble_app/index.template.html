@@ -50,9 +50,11 @@
   header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
   header .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; display:block; }
   h1 { font-size:20px; font-weight:800; letter-spacing:.4px; line-height:1.25; }
-  .stamp { font-size:11px; color:var(--sub); margin-top:2px; font-variant-numeric:tabular-nums; }
-  .stamp .sep { margin:0 5px; color:#c3cad4; }
-  .stamp b { font-weight:600; color:#3d444f; }
+  /* ★ 三页统一的数据状态小字：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新/N 天前更新 */
+  .subtitle { font-size:11px; color:var(--sub); margin-top:2px; font-variant-numeric:tabular-nums; }
+  .subtitle b { font-weight:600; color:#3d444f; }
+  .subtitle em { font-style:normal; font-weight:700; color:var(--green); }
+  .subtitle em.stale { color:var(--orange); }
 
   /* ===== 卡片 ===== */
   .card { background:var(--card); border:1px solid var(--line); border-radius:16px;
@@ -121,11 +123,7 @@
     <img class="logo" src="logo.svg" alt="">
     <div>
       <h1>定投量化策略</h1>
-      <div class="stamp">
-        <span>系统同步 <b id="sync">—</b></span>
-        <span class="sep">|</span>
-        <span>当前 <b id="clock">--:--:--</b></span>
-      </div>
+      <div class="subtitle" id="asof">数据加载中…</div>
     </div>
   </header>
 
@@ -217,18 +215,33 @@ function bindPlan(){
   renderPlan();
 }
 
-// ---------------- 时间戳 ----------------
-function stampData(){
-  const m = (DATA && DATA.meta) || {};
-  let up = m.updated;
-  const cnUp = DATA && DATA.cn && DATA.cn.meta && DATA.cn.meta.updated;
-  if(cnUp && up && cnUp < up) up = cnUp;
-  setTxt("sync", up || "—");
+// ---------------- 三页统一的「数据状态」小字 ----------------
+// 格式：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新 / N 天前更新
+// 三页必须完全一致（定投方案 / 美股温度计 / A股温度计），各自填自己的数据日期。
+// 本页的标的横跨美股与 A股 → 取两份数据里较旧的那一天（保守，等于"最弱的一环"）。
+function asofLine(asof, updated){
+  const md = v => (typeof v === "string" && v.length >= 10) ? v.slice(5, 10) : "";
+  const mt = v => (typeof v === "string" && v.length >= 16) ? v.slice(5, 16) : "";
+  const now = new Date(Date.now() + 8 * 3600e3);              // 北京日期
+  const t0 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  let st = "";
+  if(typeof updated === "string" && updated.length >= 10){
+    const t1 = Date.UTC(+updated.slice(0,4), +updated.slice(5,7) - 1, +updated.slice(8,10));
+    const n = Math.round((t0 - t1) / 86400000);
+    st = n <= 0 ? ` · <em>今日已更新</em>` : ` · <em class="stale">${n} 天前更新</em>`;
+  }
+  return `数据截至 <b>${md(asof) || "—"}</b> · 更新 <b>${mt(updated) || "—"}</b>${st}`;
 }
-function tick(){
-  const d = bjDate();
-  const p = n => String(n).padStart(2, "0");
-  setTxt("clock", `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`);
+function stampData(){
+  const el = document.getElementById("asof");
+  if(!el) return;
+  const m = (DATA && DATA.meta) || {};
+  const cm = (DATA && DATA.cn && DATA.cn.meta) || {};
+  const older = (a, b) => (!a ? b : (!b ? a : (a < b ? a : b)));
+  const asof = older(m.asof, cm.asof);
+  const upd  = older(m.updated, cm.updated);
+  if(!asof && !upd){ el.textContent = "数据加载中…"; return; }
+  el.innerHTML = asofLine(asof, upd);
 }
 
 // ---------------- 数据加载：多源容灾 ----------------
@@ -267,8 +280,6 @@ async function loadData(){
 DATA = FALLBACK;
 stampData();
 bindPlan();
-tick();
-setInterval(tick, 1000);
 loadData().then(j => {
   if(j && j !== DATA){ DATA = j; stampData(); }
 }).catch(() => {});

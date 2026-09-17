@@ -51,7 +51,11 @@
   .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; display:block; }
   h1 { font-size:20px; font-weight:800; line-height:1.25; }
   h1 .hl { color:var(--red); }
+  /* ★ 三页统一的数据状态小字：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新/N 天前更新 */
   .subtitle { font-size:11px; color:var(--sub); margin-top:2px; }
+  .subtitle b { font-weight:600; color:#3d444f; font-variant-numeric:tabular-nums; }
+  .subtitle em { font-style:normal; font-weight:700; color:var(--green); }
+  .subtitle em.stale { color:var(--orange); }
 
   .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px 15px;
           margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
@@ -129,6 +133,41 @@
              font-size:10px; line-height:1; color:#a8b0bc; border-radius:50%;
              pointer-events:auto; cursor:pointer; user-select:none; }
   .tipc .x:active { background:#e5eaf1; color:var(--ink); }
+  .tipc .r .rt { display:flex; align-items:baseline; gap:5px; }
+  .tipc .r .zb { font-size:9px; font-weight:700; color:#fff; border-radius:99px;
+                 padding:1px 6px; font-style:normal; flex:0 0 auto; }
+
+  /* ===== 档位尺（悬浮框 / 档位表 / 数据卡共用，尺度=各读数自己的 P20/40/60/80） ===== */
+  .zrow { display:flex; align-items:center; gap:6px; margin-top:6px; }
+  .zrow .zl { font-size:9.5px; color:var(--sub); flex:0 0 auto; }
+  .zbar { position:relative; flex:1 1 auto; min-width:60px; height:7px; border-radius:99px;
+          background:#eef1f5; overflow:hidden; }
+  .zbar i { position:absolute; top:0; height:100%; }
+  .zbar u { position:absolute; top:-2px; width:2px; height:11px; background:#16181d;
+            border-radius:1px; margin-left:-1px; }
+  .zrow .zv { font-size:10px; font-weight:700; flex:0 0 auto;
+              font-variant-numeric:tabular-nums; }
+  .zq { font-size:9px; color:var(--sub); margin-top:2px;
+        font-variant-numeric:tabular-nums; }
+  /* 悬浮框里没有 flex 宽度可用 → 给色带一个定宽 */
+  .tipc .zrow { margin-top:5px; }
+  .tipc .zbar { flex:0 0 auto; width:118px; }
+  /* 数据卡里的四读数对照（纯文字，紧凑） */
+  .zlist { margin-top:4px; }
+  .zlisthd { font-size:10px; color:var(--sub); font-weight:600; padding:8px 0 2px;
+             border-top:1px dashed var(--line); margin-top:6px; }
+  .zlist .zi { display:flex; align-items:baseline; gap:6px; font-size:10.5px; padding:4px 0;
+               border-bottom:1px dashed var(--line); }
+  .zlist .zi:last-child { border-bottom:none; }
+  .zlist .zn { flex:0 0 auto; width:52px; color:#3d444f; }
+  .zlist .zc { flex:1 1 auto; color:var(--sub); font-variant-numeric:tabular-nums;
+               text-align:right; }
+  .zlist .zv2 { flex:0 0 auto; width:30px; text-align:right; font-weight:700;
+                font-variant-numeric:tabular-nums; }
+  .zlist .zp { flex:0 0 auto; font-size:9.5px; font-weight:700; color:#fff; border-radius:99px;
+               padding:1px 6px; }
+  /* 档位表里每行的分数区间 */
+  .rng { color:var(--sub); font-size:9.5px; font-weight:400; margin-left:4px; }
 
   /* ===== 表格 / 键值 ===== */
   /* ⚠️ .k 必须 nowrap + flex:0 0 auto：否则一条很长的值会把键名挤成 1 个字宽，
@@ -251,6 +290,7 @@
         <span class="seg-item" data-v="gro" hidden>成长温度（参考）</span>
         <span class="seg-item" data-v="sty" hidden>风格温度（参考）</span>
       </div>
+      <div id="lv-scale"></div>
       <table>
         <thead><tr><th>档位</th><th>样本</th><th>后续52周</th><th>胜率</th></tr></thead>
         <tbody id="lvtable"></tbody>
@@ -342,16 +382,60 @@ function histOf(which){
   const h = (DATA.cn && DATA.cn.meta && DATA.cn.meta.hist && DATA.cn.meta.hist[which]) || null;
   const q = (h && h.q) || {};
   const num = (v, d) => (typeof v === "number" && isFinite(v)) ? v : d;
+  // ★ qok = 四档分界值是否真的随数据下来了（老 data.json 没有 q → 档位尺必须降级不画）
+  const raw = [20, 40, 60, 80].map(k => q[k]);
   return {
     n: h && h.n, from: h && h.from, cur: h && h.cur, pos: h && h.pos,
     levels: (h && h.levels) || null,
     b: [num(q[20],20), num(q[40],40), num(q[60],60), num(q[80],80)],
+    qok: raw.every(v => typeof v === "number" && isFinite(v)),
   };
 }
 function zoneIdx(which, v){
   const b = histOf(which).b;
   for(let i=0;i<4;i++){ if(v < b[i]) return i; }
   return 4;
+}
+
+// ---------------- 档位尺：把「这个分数算高还是低」量出来 ----------------
+// 每个读数有各自的分布，同样 60 分在一个读数里是"偏高"、在另一个里只是"中性"。
+// 这里不改变任何口径，只把该读数**自己**的四档分界（P20/40/60/80）画成 5 格色带 + 游标。
+// 分界值来自 data.json 的 cn.meta.hist[k].q，由云端每周重算 → 永远跟得上。
+function zoneBar(which, markV, showV){
+  const h = histOf(which);
+  if(!h.qok) return "";                       // 降级：没有分界值就不画，绝不留空壳
+  if(typeof markV !== "number" || !isFinite(markV)) return "";
+  const bounds = [0, h.b[0], h.b[1], h.b[2], h.b[3], 100];
+  const cl = x => Math.max(0, Math.min(100, x));
+  let segs = "";
+  for(let i=0;i<5;i++){
+    const w = cl(bounds[i+1]) - cl(bounds[i]);
+    if(w <= 0.2) continue;
+    segs += `<i style="left:${cl(bounds[i])}%;width:${w}%;background:${ZC[i]}"></i>`;
+  }
+  const cx = Math.max(1, Math.min(99, cl(markV)));
+  return `<div class="zrow"><span class="zl">档位</span>`
+       + `<span class="zbar">${segs}<u style="left:${cx}%"></u></span>`
+       + (showV ? `<span class="zv" style="color:${ZC[zoneIdx(which, markV)]}">${markV.toFixed(1)}</span>` : "")
+       + `</div>`
+       + `<div class="zq">分界 ${h.b.map(x => x.toFixed(1)).join(" · ")}</div>`;
+}
+
+// ---------------- 三页统一的「数据状态」小字 ----------------
+// 格式：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新 / N 天前更新
+// 三页必须完全一致（定投方案 / 美股温度计 / A股温度计），各自填自己的数据日期。
+function asofLine(asof, updated){
+  const md = v => (typeof v === "string" && v.length >= 10) ? v.slice(5, 10) : "";
+  const mt = v => (typeof v === "string" && v.length >= 16) ? v.slice(5, 16) : "";
+  const now = new Date(Date.now() + 8 * 3600e3);              // 北京日期
+  const t0 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  let st = "";
+  if(typeof updated === "string" && updated.length >= 10){
+    const t1 = Date.UTC(+updated.slice(0,4), +updated.slice(5,7) - 1, +updated.slice(8,10));
+    const n = Math.round((t0 - t1) / 86400000);
+    st = n <= 0 ? ` · <em>今日已更新</em>` : ` · <em class="stale">${n} 天前更新</em>`;
+  }
+  return `数据截至 <b>${md(asof) || "—"}</b> · 更新 <b>${mt(updated) || "—"}</b>${st}`;
 }
 
 // ---------------- 转盘仪表 ----------------
@@ -498,10 +582,16 @@ function showTip(cfg, i){
     + `<circle cx="${px.toFixed(1)}" cy="${g.y(d[cfg.k]).toFixed(1)}" r="4.6" fill="${cfg.c}" stroke="#fff" stroke-width="1.8"/>`
     + `<circle cx="${px.toFixed(1)}" cy="${g.yP(d[pk]).toFixed(1)}" r="3.8" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
   const tip = $(cfg.tip);
+  // ★ 档位徽标 + 档位尺：同一个分数在不同读数里含义不同（69 分对价值=警戒、对市场=中性），
+  //   所以把该读数**自己**的四档分界一起显示出来，不用记阈值。
+  const zi = zoneIdx(cfg.k, d[cfg.k]);
   tip.innerHTML = `<span class="x" title="关闭">✕</span>`
     + `<div class="d">${d.d}</div>`
-    + `<div class="r"><span style="color:${cfg.c}">${cfg.lbl}</span><b>${d[cfg.k].toFixed(1)}</b></div>`
-    + `<div class="r"><span style="color:${cfg.pc}">${pl}</span><b>${fmtPx(d[pk])}</b></div>`;
+    + `<div class="r"><span style="color:${cfg.c}">${cfg.lbl}</span>`
+    +   `<span class="rt"><b>${d[cfg.k].toFixed(1)}</b>`
+    +   `<em class="zb" style="background:${ZC[zi]}">${LVS[zi]}</em></span></div>`
+    + `<div class="r"><span style="color:${cfg.pc}">${pl}</span><b>${fmtPx(d[pk])}</b></div>`
+    + zoneBar(cfg.k, d[cfg.k], false);
   tip.hidden = false;
   const rect = $(cfg.svg).getBoundingClientRect();
   const physX = px / 680 * rect.width;
@@ -531,13 +621,43 @@ function bindOverlay(cfg){
   svg.addEventListener("pointercancel", () => { clearTimeout(tmr); tmr = null; down = null; hold = false; });
 }
 
+// ---------------- 四读数档位分界对照（同样是 60 分，在不同读数里含义不同） ----------------
+function zListHtml(cur){
+  const rows = [["mkt","市场温度"],["val","价值温度"],["gro","成长温度"],["sty","风格温度"]]
+    .filter(([k]) => typeof cur[k] === "number" && isFinite(cur[k]))
+    .map(([k, nm]) => {
+      const h = histOf(k);
+      if(!h.qok) return "";                       // 降级：没有分界值就不列这一行
+      const zi = zoneIdx(k, cur[k]);
+      return `<div class="zi"><span class="zn">${nm}</span>`
+           + `<span class="zc">${h.b.map(x => x.toFixed(1)).join(" · ")}</span>`
+           + `<span class="zv2" style="color:${ZC[zi]}">${cur[k].toFixed(1)}</span>`
+           + `<span class="zp" style="background:${ZC[zi]}">${LVS[zi]}</span></div>`;
+    }).join("");
+  if(!rows) return "";
+  return `<div class="zlist"><div class="zlisthd">各读数档位分界 · P20/40/60/80</div>${rows}</div>`;
+}
+
 // ---------------- 档位表 ----------------
+// 第 i 档的分数区间（i: 0=低位 … 4=警戒），从该读数自己的分界值算
+function zoneRange(which, i){
+  const h = histOf(which);
+  if(!h.qok) return "";
+  const b = h.b;
+  if(i >= 4) return `≥${b[3].toFixed(1)}`;
+  if(i <= 0) return `&lt;${b[0].toFixed(1)}`;
+  return `${b[i-1].toFixed(1)}~${b[i].toFixed(1)}`;
+}
 function renderLvTable(which){
   const lv = histOf(which).levels || [];
   setTxt("lv-note", LV_NOTE[which] || "后续 52 周");
+  // ★ 档位尺：把"这个读数多少分算高"直接量出来（分界值随数据每周更新）
+  const sc = $("lv-scale");
+  if(sc) sc.innerHTML = zoneBar(which, histOf(which).cur, true);
   const em = $("lv-empty");
   if(!lv.length){
     $("lvtable").innerHTML = "";
+    if(sc) sc.innerHTML = "";
     if(em){ em.hidden = false;
             em.textContent = "该读数的历史样本还没随数据同步过来（远端 data.json 可能仍是旧版），点其他档位或稍后刷新再看。"; }
     return;
@@ -545,7 +665,10 @@ function renderLvTable(which){
   if(em) em.hidden = true;
   $("lvtable").innerHTML = lv.map(L => {
     const i = Math.min(4, Math.max(0, parseInt(String(L.name).slice(1,3), 10) / 20 | 0));
-    return `<tr><td>${L.name} <span style="color:${ZC[i]};font-size:10px;font-weight:700">${L.lab}</span></td>`
+    const rg = zoneRange(which, i);
+    return `<tr><td>${L.name} <span style="color:${ZC[i]};font-size:10px;font-weight:700">${L.lab}</span>`
+         + (rg ? `<span class="rng">${rg}</span>` : "")
+         + `</td>`
          + `<td>${L.n}</td>`
          + `<td style="color:${L.ret > 0 ? "#dc2626" : "#059669"};font-weight:700">`
          + `${L.ret > 0 ? "+" : ""}${L.ret}%</td><td>${L.win}%</td></tr>`;
@@ -608,7 +731,8 @@ function render(){
   setTxt("gm-p", hm.pos == null ? "—" : `历史 ${hm.pos.toFixed(0)}% 分位`);
   $("gv-lv").textContent = LVS[vi]; $("gv-lv").style.background = ZC[vi];
   setTxt("gv-p", hv.pos == null ? "—" : `历史 ${hv.pos.toFixed(0)}% 分位`);
-  setTxt("asof", `周频 · 截至 ${cur.d}` + (cn.meta.updated ? ` · 同步 ${cn.meta.updated}` : ""));
+  // ★ 三页统一格式：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新/N 天前更新
+  $("asof").innerHTML = asofLine(cn.meta.asof || cur.d, cn.meta.updated);
 
   const bar = (n, val, c, right, cls) =>
     `<div class="leg ${cls || ""}"><span class="ln">${n}</span>`
@@ -652,7 +776,8 @@ function render(){
         ? `<div class="kv"><span class="k">估值腿拼接</span><span class="v" style="font-weight:400;font-size:11px">`
           + `2013-12-05 前用中证红利 ${ext.proxy} 的 PE 按 k=${ext.k} 接续（补 ${ext.seg_n} 周，自 ${ext.seg_from}）</span></div>`
         : "")
-    + `<div class="kv"><span class="k">口径</span><span class="v" style="font-weight:400;font-size:11px">${cn.meta.caliber || "-"}</span></div>`;
+    + `<div class="kv"><span class="k">口径</span><span class="v" style="font-weight:400;font-size:11px">${cn.meta.caliber || "-"}</span></div>`
+    + zListHtml(cur);
 
   // 档位表里两个参考项：历史样本到了才放出按钮
   [["gro", "成长温度（参考）"], ["sty", "风格温度（参考）"]].forEach(([k, lab]) => {

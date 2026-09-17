@@ -48,9 +48,11 @@
   .brand .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; margin-top:1px; display:block; }
   .title { font-size:20px; font-weight:800; letter-spacing:.5px; }
   .title .hl { color:var(--blue); }
+  /* ★ 三页统一的数据状态小字：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新/N 天前更新 */
   .subtitle { font-size:11px; color:var(--sub); margin-top:2px; }
-  .data-meta { font-weight:600; }
-  .data-meta em { font-style:normal; color:var(--green); }
+  .subtitle b { font-weight:600; color:#3d444f; font-variant-numeric:tabular-nums; }
+  .subtitle em { font-style:normal; font-weight:700; color:var(--green); }
+  .subtitle em.stale { color:var(--orange); }
   .badge { font-size:12px; font-weight:700; padding:5px 12px; border-radius:99px; color:#fff; white-space:nowrap; }
   .badge.hot { background:var(--red); }
   .badge.high { background:var(--orange); }
@@ -137,7 +139,7 @@
       <img class="logo" src="logo.svg" alt="">
       <div>
         <div class="title">美股<span class="hl">温度计</span></div>
-        <div class="subtitle"><span class="data-meta" id="data-meta">数据加载中…</span></div>
+        <div class="subtitle" id="asof">数据加载中…</div>
       </div>
     </div>
     <div class="badge" id="badge">--</div>
@@ -555,22 +557,35 @@ function init(){
 // 源④ 内嵌兜底 FALLBACK(本地/离线可用)
 // 缓存击穿: URL 附每日版本参数(北京时间) → CDN 边缘缓存键每天变化, 必然回源取最新, 杜绝"手机看到旧分"
 const _dayKey = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "");
-const _bjDay  = new Date(Date.now() + 8 * 3600e3).toISOString().slice(0, 10);   // 北京日期
 const REMOTE_SOURCES = [
   { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json?v=" + _dayKey, n:"jsDelivr CDN" },
   { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json?v=" + _dayKey, n:"GitHub raw" },
 ];
+// ---------------- 三页统一的「数据状态」小字 ----------------
+// 格式：数据截至 MM-DD · 更新 MM-DD HH:MM · 今日已更新 / N 天前更新
+// 三页必须完全一致（定投方案 / 美股温度计 / A股温度计），各自填自己的数据日期。
+function asofLine(asof, updated){
+  const md = v => (typeof v === "string" && v.length >= 10) ? v.slice(5, 10) : "";
+  const mt = v => (typeof v === "string" && v.length >= 16) ? v.slice(5, 16) : "";
+  const now = new Date(Date.now() + 8 * 3600e3);              // 北京日期
+  const t0 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+  let st = "";
+  if(typeof updated === "string" && updated.length >= 10){
+    const t1 = Date.UTC(+updated.slice(0,4), +updated.slice(5,7) - 1, +updated.slice(8,10));
+    const n = Math.round((t0 - t1) / 86400000);
+    st = n <= 0 ? ` · <em>今日已更新</em>` : ` · <em class="stale">${n} 天前更新</em>`;
+  }
+  return `数据截至 <b>${md(asof) || "—"}</b> · 更新 <b>${mt(updated) || "—"}</b>${st}`;
+}
 function stampData(){
-  const meta = DATA.meta;
-  const el = document.getElementById("data-meta");
+  const meta = (DATA && DATA.meta) || {};
+  const el = document.getElementById("asof");
   if(!el) return;
-  if(meta && meta.asof){
-    // meta.updated 是北京时间，必须用北京日期比较，否则凌晨会误报"今日已更新"
-    const fresh = meta.updated && meta.updated.slice(0, 10) === _bjDay;
-    el.innerHTML = `抓取 ${meta.updated} 北京 · 美股行情截至 ${meta.asof} 收盘<em>${fresh ? " · 今日已更新" : ""}</em>`;
+  if(meta.asof){
+    el.innerHTML = asofLine(meta.asof, meta.updated);
   }else{
     const last = DATA.week[DATA.week.length-1];
-    el.textContent = `数据截止 ${last ? last.d : "?"}（内嵌快照）`;
+    el.textContent = `数据截至 ${last ? last.d.slice(5,10) : "—"}（内嵌快照）`;
   }
 }
 async function fetchJson(url, ms){
