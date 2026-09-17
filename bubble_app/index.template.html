@@ -244,15 +244,34 @@ function stampData(){
   el.innerHTML = asofLine(asof, upd);
 }
 
-// ---------------- 数据加载：多源容灾 ----------------
+// ---------------- 数据加载：多源并发 · 取最新版 · 只升不降 ----------------
+// ★ 修复「每刷新一次，小字就换一个版本」(2026-09-17)
+//   旧实现是"谁先答应用谁的版本"：jsDelivr 实测耗时 2.6~11.3s 而单源超时 6s，
+//   GitHub raw 在国内基本不可达（实测 16/16 失败，白等 6s）→ 同一个用户每次刷新
+//   落点都不同：有时是 CDN 的新版、有时降级到本站的旧快照、有时掉到内嵌裁剪快照。
+//   而云端管线每天自动构建并 purge CDN，本站那份却只在手动部署时才更新 → 两边长期不同版。
+// 现在的规矩：
+//   ① 并发拉全部源(含本站)，比「版本号」取最新 —— 不看谁先回来；
+//   ② 版本号 = min(美股构建时间, A股构建时间)：build.py 重跑但 A股沿用旧数据时，
+//      不会因为 meta.updated 变新而被误判成"有新数据"；
+//   ③ 只升不降：把见过的最新一版存 localStorage，弱网/全部源挂掉时也不退回旧版；
+//      首绘直接用这一版 → 刷新时不再有"先旧后新"的跳动；
+//   ④ 单源超时 3.5s(原 6s)：最坏等待从 6+6+4=16s 降到约 4s。
+//   ★ jsDelivr 不再挂 ?v=<北京日期>：那会让 CDN 按"当天第一次请求"的结果缓存一整天
+//     （当天第一次请求通常早于云端构建 → 整天都是旧分），而云端管线 purge 的是
+//     不带查询串的裸 URL（见 .github/workflows/daily.yml），两者对不上。
 const _dayKey = bjDate().toISOString().slice(0, 10).replace(/-/g, "");
+const JSD_URL = "https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json";
+const RAW_URL = "https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json?v=" + _dayKey;
 const REMOTE_SOURCES = [
-  { u:"https://cdn.jsdelivr.net/gh/1278943518/ndx-bubble-daily@main/bubble_app/data.json?v=" + _dayKey, n:"jsDelivr CDN" },
-  { u:"https://raw.githubusercontent.com/1278943518/ndx-bubble-daily/main/bubble_app/data.json?v=" + _dayKey, n:"GitHub raw" },
+  { u:JSD_URL, n:"jsDelivr CDN" },
+  { u:RAW_URL, n:"GitHub raw" },
+  { u:"data.json", n:"本站快照" },
 ];
+const BEST_KEY = "ndx_data_best_v1";
 async function fetchJson(url, ms){
   const ctl = new AbortController();
-  const t = setTimeout(() => ctl.abort(), ms || 6000);
+  const t = setTimeout(() => ctl.abort(), ms || 3500);
   try{
     const r = await fetch(url, { cache:"no-store", signal: ctl.signal });
     if(!r.ok) return null;
@@ -261,23 +280,38 @@ async function fetchJson(url, ms){
   }catch(e){ return null; }
   finally{ clearTimeout(t); }
 }
-function isStale(j){
-  if(!j || !j.meta || !j.meta.updated) return false;
-  if(!FALLBACK || !FALLBACK.meta || !FALLBACK.meta.updated) return false;
-  return j.meta.updated < FALLBACK.meta.updated;
+// 版本号："YYYY-MM-DD HH:MM" 可直接按字符串比大小
+function verOf(j){
+  if(!j || !j.meta || !j.meta.updated) return "";
+  const cu = (j.cn && j.cn.meta && j.cn.meta.updated) || "";
+  return (cu && cu < j.meta.updated) ? cu : j.meta.updated;
 }
+function newest(a, b){ return !a ? b : (!b ? a : (verOf(b) > verOf(a) ? b : a)); }
+function readBest(){
+  try{
+    const s = localStorage.getItem(BEST_KEY);
+    if(!s) return null;
+    const j = JSON.parse(s);
+    return (j && j.week && j.week.length) ? j : null;
+  }catch(e){ return null; }        // 无痕模式 / 配额异常一律降级
+}
+function saveBest(j){ try{ localStorage.setItem(BEST_KEY, JSON.stringify(j)); }catch(e){} }
+// 启动种子 = 内嵌快照 与 本地缓存 里较新的一版（首绘就用它，避免"先旧后新"跳一下）
+const SEED = newest(FALLBACK, readBest());
 async function loadData(){
-  for(const s of REMOTE_SOURCES){
-    const j = await fetchJson(s.u);
-    if(j && !isStale(j)) return j;
+  const got = await Promise.all(REMOTE_SOURCES.map(s =>
+    fetchJson(s.u).then(j => (j ? { j:j, n:s.n } : null))));
+  let best = SEED, who = (SEED === FALLBACK ? "内嵌快照" : "本地缓存");
+  for(const g of got){
+    if(g && verOf(g.j) > verOf(best)){ best = g.j; who = g.n; }
   }
-  const j = await fetchJson("data.json", 4000);
-  if(j && !isStale(j)) return j;
-  return FALLBACK;
+  if(best !== SEED) saveBest(best);
+  console.log("[温度计] 数据源:", who, "| 版本", verOf(best), "| 内嵌", verOf(FALLBACK));
+  return best;
 }
 
-// 先用内嵌快照立即出图（不等网络），远程拿到更新的数据再覆盖一次
-DATA = FALLBACK;
+// 首绘用「内嵌快照 / 本地缓存」里较新的那一版（不等网络），远程确有更新版再覆盖一次
+DATA = SEED;
 stampData();
 bindPlan();
 loadData().then(j => {
