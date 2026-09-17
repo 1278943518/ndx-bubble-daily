@@ -113,6 +113,66 @@
   .entry .tag { font-size:10px; font-weight:700; color:#fff; background:var(--green);
                 border-radius:5px; padding:1.5px 6px; }
 
+  /* ===== 择时状态徽标 ===== */
+  .st { display:inline-block; font-size:9.5px; font-weight:700; line-height:1.55; border-radius:5px;
+        padding:1px 5px; margin-left:5px; white-space:nowrap; vertical-align:1px; }
+  .st.up   { background:#fef2f2; color:#b91c1c; }
+  .st.base { background:#eef2f7; color:#556074; }
+  .st.down { background:#fff7ed; color:#b45309; }
+  .st.stop { background:#eef2f7; color:#8b93a1; }
+  .st.na   { background:#f3f4f6; color:#9ca3af; font-weight:600; }
+
+  /* ===== 择时调整明细（在「每日合计」区内） ===== */
+  .tadj { margin-top:11px; border-top:1px dashed var(--line); padding-top:9px; }
+  .tadj .h { font-size:10.5px; color:var(--sub); line-height:1.6; margin-bottom:6px; }
+  .tadj .h b { color:var(--ink); font-variant-numeric:tabular-nums; }
+  .tadj .r { display:flex; align-items:baseline; gap:8px; font-size:11.5px; color:var(--sub); padding:2.5px 0; }
+  .tadj .r .n { flex:1; min-width:0; font-variant-numeric:tabular-nums; }
+  .tadj .r .d { font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
+  .tadj .r .d.up { color:#b91c1c; }
+  .tadj .r .d.dn { color:var(--green); }
+  .tadj .tot { display:flex; align-items:baseline; gap:8px; font-size:12px; font-weight:800;
+               border-top:1.5px solid var(--ink); margin-top:6px; padding-top:7px; }
+  .tadj .tot .n { flex:1; min-width:0; }
+  .tadj .tot .d { font-variant-numeric:tabular-nums; }
+
+  /* ===== 再平衡计算器 ===== */
+  .rbin { display:flex; flex-direction:column; gap:7px; margin-bottom:12px; }
+  .rbin .rw { display:flex; align-items:center; gap:8px; }
+  .rbin .rw > label { flex:1; min-width:0; font-size:12px; color:#3d444f; }
+  .rbin .rw .bx { display:flex; align-items:center; gap:3px; border:1px solid var(--line);
+                  border-radius:8px; padding:3px 8px; background:#fbfcfd; flex-shrink:0; }
+  .rbin .rw .bx:focus-within { border-color:var(--blue); background:#fff; }
+  .rbin .rw input { width:80px; border:none; background:transparent; font-size:13.5px; font-weight:700;
+                    color:var(--ink); font-family:inherit; font-variant-numeric:tabular-nums;
+                    text-align:right; outline:none; }
+  .rbin .rw .u { font-size:10px; color:var(--sub); }
+  .rbin .cash { border-top:1px dashed var(--line); padding-top:9px; margin-top:2px; }
+  .rbin .cash > label { font-weight:700; color:var(--ink); }
+  table.rb { width:100%; border-collapse:collapse; font-size:11.5px; font-variant-numeric:tabular-nums; }
+  table.rb th, table.rb td { text-align:right; padding:7px 4px; border-bottom:1px solid var(--line); }
+  table.rb th:first-child, table.rb td:first-child { text-align:left; }
+  table.rb th { font-size:10px; color:var(--sub); font-weight:600; letter-spacing:.1px; }
+  table.rb td.nm { font-weight:700; }
+  table.rb tbody tr:last-child td { border-bottom:none; }
+  table.rb tr.sum td { border-top:1.5px solid var(--ink); font-weight:800; }
+  table.rb tr.sum td:last-child { font-weight:800; }
+  .rbsep { margin:14px 0 9px; font-size:10.5px; color:var(--sub); font-weight:600; }
+  .rbmsg { font-size:11.5px; border-radius:9px; padding:9px 11px; line-height:1.7; margin-top:11px; }
+  .rbmsg.ok   { background:#f0fdf4; border:1px solid #bbf7d0; color:#166534; }
+  .rbmsg.warn { background:#fffbeb; border:1px solid #fde68a; color:#92400e; }
+  .rbmsg.off  { background:#f8fafc; border:1px solid var(--line); color:var(--sub); }
+  .rbmsg b { font-weight:700; }
+  .rbsub { font-size:10px; color:var(--sub); margin-top:9px; line-height:1.7; }
+
+  /* 计算器摘要（键值行，视觉上是表格） */
+  .rbkv { font-size:11.5px; font-variant-numeric:tabular-nums; }
+  .rbkv > div { display:flex; align-items:baseline; gap:10px; padding:5px 0;
+                border-bottom:1px dashed var(--line); }
+  .rbkv > div:last-child { border-bottom:none; }
+  .rbkv i { font-style:normal; color:var(--sub); flex-shrink:0; }
+  .rbkv b { margin-left:auto; font-weight:700; text-align:right; }
+
   footer { font-size:10px; color:var(--sub); text-align:center; margin-top:auto; padding-top:14px; }
 </style>
 </head>
@@ -128,31 +188,51 @@
   </header>
 
   <div class="card">
-    <h2>我的定投方案 <span class="tip">温度只展示，不改变金额</span></h2>
+    <h2>我的定投方案 <span class="tip">A股两腿按价值温度择时</span></h2>
     <div class="pctl">
       <label for="pamt">月投入</label>
       <div class="pbox"><input type="number" id="pamt" value="5000" min="0" step="100" inputmode="numeric"><span>元</span></div>
-      <div class="perday"><span class="k">每日合计</span><span class="v" id="per">—</span></div>
+      <div class="perday"><span class="k">调整后每日合计</span><span class="v" id="per">—</span></div>
     </div>
+    <div class="tadj" id="tadj"></div>
     <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
     <div id="prows"></div>
   </div>
 
   <div class="card">
-    <h2>执行规则 <span class="tip">v1.6</span></h2>
+    <h2>执行规则 <span class="tip">v1.7</span></h2>
     <ul class="rule">
-      <li><span class="no">1</span><span>每个交易日按日申购，<b>温度不改变任一档买入金额</b></span></li>
+      <li><span class="no">1</span><span><b>A 股两腿</b>按价值温度档位调每日金额（倍数 <b>2 / 1.5 / 1 / 0.5 / 0</b>）；<b>美股两腿不择时</b></span></li>
       <li><span class="no">2</span><span>每月按 <b>21 个交易日</b>把月投入摊到每日</span></li>
       <li><span class="no">3</span><span>每年 <b>6 月 / 12 月</b>检查权重，偏离目标则再平衡</span></li>
       <li><span class="no">4</span><span>奖金（2 月 2 万 · 下半年 1 万）<b>分 3 个月摊入日投</b></span></li>
     </ul>
   </div>
 
-  <a class="entry" href="plan-v15.html">
-    <span class="tag">v1.6</span>
+  <a class="entry" href="plan-v16.html">
+    <span class="tag">v1.7</span>
     <span>完整方案 · 标的代码与再平衡细则</span>
     <span class="arw">›</span>
   </a>
+
+  <!-- ============ 再平衡计算器 ============ -->
+  <div class="card">
+    <h2>再平衡计算器 <span class="tip">只在 6 月 / 12 月用</span></h2>
+    <div class="rbin">
+      <div class="rw"><label for="rbv0">纳斯达克 100 · 当前市值</label>
+        <div class="bx"><input type="number" id="rbv0" min="0" step="100" inputmode="decimal" placeholder="0"><span class="u">元</span></div></div>
+      <div class="rw"><label for="rbv1">标普 500 · 当前市值</label>
+        <div class="bx"><input type="number" id="rbv1" min="0" step="100" inputmode="decimal" placeholder="0"><span class="u">元</span></div></div>
+      <div class="rw"><label for="rbv2">A股红利低波 · 当前市值</label>
+        <div class="bx"><input type="number" id="rbv2" min="0" step="100" inputmode="decimal" placeholder="0"><span class="u">元</span></div></div>
+      <div class="rw"><label for="rbv3">A股自由现金流 · 当前市值</label>
+        <div class="bx"><input type="number" id="rbv3" min="0" step="100" inputmode="decimal" placeholder="0"><span class="u">元</span></div></div>
+      <div class="rw cash"><label for="rbcash">可用现金</label>
+        <div class="bx"><input type="number" id="rbcash" min="0" step="100" inputmode="decimal" placeholder="0"><span class="u">元</span></div></div>
+    </div>
+    <div id="rbout"></div>
+    <div class="rbsub">只填市值（份额 × 现价 自己换算，页面不联网取价，避免用错价）。现金按「尚未投出的定投款」计入组合总资产。触发规则：任一腿 <b>|相对偏离| &gt; 40%</b> 才动手，未到线不动；绝对偏离 ≥15pp 必须卖出超配腿；<b>现金先补低配腿，不够才卖</b>。</div>
+  </div>
 
   <footer>仅供研究参考，不构成投资建议</footer>
 </div>
@@ -187,32 +267,215 @@ const FALLBACK = __DATA__;
 const DAYS = 21;                                   // 每月约 21 个交易日
 const PLAN = [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 20], ["A股自由现金流", 20]];
 
+// ★ A股两腿「档位择时」（第 20 轮口径，2026-09-17）
+//   信号 = 价值温度（A股温度计的读数）。两腿共用同一个信号 —— 红利低波 × 自由现金流
+//   周相关 0.87，本来就是同一个风格包；现金流指数自己没有温度读数（A股管线只有
+//   市场/价值/成长/风格四个读数，价值腿 100% 由红利低波构成），所以这是**代用信号**。
+//   代用已实测（中证 932365 代用现金流腿，2014-01~2026-09，153 个月）：
+//     固定边界下滚动 5 年窗口跑赢 70.2%、超额中位 +1.04pp；反向方案 −0.64pp（应跑输）；
+//     随机权重对照 50.0% / ~0pp（= 检测有鉴别力）。
+//   边界为什么用**固定 [30,40,50,70]** 而不是页面的滚动分位：
+//     · 同口径下 expanding 分位在现金流腿上滚动 5 年跑赢仅 44.7%、中位 −0.06pp
+//       （≈ 随机 50%）→ 无鉴别力；固定边界 70.2% / +1.04pp。
+//     · 价值温度的**全样本分位 = 29.9 / 39.2 / 53.4 / 68.8**，与固定边界几乎重合
+//       → 固定边界本来就是「历史分位点」，区别只是不随样本漂移、且无前视。
+//   倍数 = 中等方案 2/1.5/1/0.5/0（回测主推）。备选「温和」1.5/1.25/1/0.75/0.5：
+//   单位回撤换来的超额与中等基本持平，绝对超额减半，但绝不出现「完全停投」。
+const TM_BOUNDS = [30, 40, 50, 70];
+const TM_MULT   = [2, 1.5, 1, 0.5, 0];
+const TM_LABEL  = ["低位", "偏低", "中性", "偏高", "警戒"];
+const TM_STATE  = ["加仓中", "加仓中", "基准定投", "减码中", "暂停"];
+const TM_CLASS  = ["up", "up", "base", "down", "stop"];
+const TM_LEGS   = ["A股红利低波", "A股自由现金流"];
+
 const $ = id => document.getElementById(id);
 const setTxt = (id, s) => { const e = $(id); if(e) e.textContent = s; };
 const bjDate = () => new Date(Date.now() + 8 * 3600e3);
 const money = v => "¥" + Math.round(v).toLocaleString("zh-CN");
+const numOf = v => { const x = parseFloat(v); return (isFinite(x) && x > 0) ? x : 0; };
+const sgn = v => (v > 0 ? "+" : (v < 0 ? "−" : ""));
+const fmtRel = v => sgn(v) + Math.abs(v).toFixed(1) + "%";
+
+// ---------------- A股两腿择时状态 ----------------
+// 读数不足（老 data.json / 抓取失败）→ 返回 null → 全部按基准倍数 1 执行，不画空壳
+function timing(){
+  const rs = (DATA && DATA.cn && DATA.cn.records) || [];
+  const last = rs.length ? rs[rs.length - 1] : null;
+  if(!last || typeof last.val !== "number" || !isFinite(last.val)) return null;
+  let z = TM_BOUNDS.length - 1;
+  for(let i = 0; i < TM_BOUNDS.length; i++){ if(last.val < TM_BOUNDS[i]){ z = i; break; } }
+  return { val:last.val, d:last.d, zone:z, mult:TM_MULT[z], label:TM_LABEL[z],
+           state:TM_STATE[z], cls:TM_CLASS[z] };
+}
 
 // ---------------- 定投表 ----------------
 function renderPlan(){
   const x = parseFloat($("pamt").value) || 0;
   const per = x / DAYS;
-  setTxt("per", money(per));
-  let h = "", sum = 0;
+  const tm = timing();
+  let h = "", sumBase = 0, sumAct = 0;
   for(const [n, p] of PLAN){
-    const v = Math.round(per * p / 100); sum += v;
-    h += `<div class="prow"><span class="pn">${n}</span><span class="pp">${p}%</span>`
-       + `<span class="pa">${money(v)}</span></div>`;
+    const base = per * p / 100;
+    const timed = TM_LEGS.indexOf(n) >= 0;
+    const act = Math.round(base * ((timed && tm) ? tm.mult : 1));
+    const b0 = Math.round(base);
+    sumBase += b0; sumAct += act;
+    const badge = timed
+      ? (tm ? `<em class="st ${tm.cls}">（${tm.state}）</em>` : `<em class="st na">（待取数）</em>`)
+      : "";
+    h += `<div class="prow"><span class="pn">${n}${badge}</span><span class="pp">${p}%</span>`
+       + `<span class="pa">${money(act)}</span></div>`;
   }
   h += `<div class="prow tot"><span class="pn">合计</span><span class="pp">100%</span>`
-     + `<span class="pa">${money(sum)}</span></div>`;
+     + `<span class="pa">${money(sumAct)}</span></div>`;
   $("prows").innerHTML = h;
+  setTxt("per", money(sumAct));
+  renderAdj(tm, per, sumBase, sumAct);
 }
+
+// 「每日合计」区的择时明细：两腿各自的增减 + 调整后的当日实际合计
+function renderAdj(tm, per, sumBase, sumAct){
+  const el = $("tadj");
+  if(!el) return;
+  if(!tm){
+    el.innerHTML = `<div class="h">A股两腿择时：<b>待取数</b>（未取到价值温度）→ 暂按基准倍数 1× 执行</div>`;
+    return;
+  }
+  let h = `<div class="h">A股两腿择时｜判定依据 <b>价值温度 ${tm.val.toFixed(1)}</b>`
+        + `（${tm.d ? tm.d.slice(5) + " " : ""}）· 档位 <b>${tm.label}</b> · 倍数 <b>${tm.mult}×</b>`
+        + `<em class="st ${tm.cls}">（${tm.state}）</em></div>`;
+  for(const n of TM_LEGS){
+    const p = (PLAN.find(a => a[0] === n) || [null, 0])[1];
+    const b0 = Math.round(per * p / 100), act = Math.round(per * p / 100 * tm.mult);
+    const d = act - b0;
+    h += `<div class="r"><span class="n">${n}　基准 ${money(b0)} → ${money(act)}</span>`
+       + `<span class="d ${d > 0 ? "up" : (d < 0 ? "dn" : "")}">择时${d > 0 ? "加" : (d < 0 ? "减" : "")} `
+       + `${sgn(d)}${money(Math.abs(d))}</span></div>`;
+  }
+  h += `<div class="tot"><span class="n">当日实际合计</span>`
+     + `<span class="d">基准 ${money(sumBase)} → ${money(sumAct)}</span></div>`;
+  el.innerHTML = h;
+}
+
 function bindPlan(){
   const inp = $("pamt");
   const saved = localStorage.getItem("pamt");
   if(saved !== null) inp.value = saved;
   inp.addEventListener("input", e => { renderPlan(); localStorage.setItem("pamt", e.target.value); });
   renderPlan();
+}
+
+// ---------------- 再平衡计算器 ----------------
+// 目标权重与触发规则沿用完整方案 §04：相对偏离 >40% 触发；绝对偏离 ≥15pp 必须卖超配腿。
+// 「可用现金」计入组合总资产（= 尚未投出的定投款），所以现金够时目标自动把它分配出去。
+const RB_PLAN = [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 20], ["A股自由现金流", 20]];
+const RB_REL = 40, RB_ABS = 15;
+
+function renderRb(){
+  const out = $("rbout");
+  if(!out) return;
+  const vals = RB_PLAN.map((_, i) => numOf(($("rbv" + i) || {}).value));
+  const cash = numOf(($("rbcash") || {}).value);
+  const pos = vals.reduce((a, b) => a + b, 0);
+  const total = pos + cash;
+  if(total <= 0){
+    out.innerHTML = `<div class="rbmsg off">填入四腿<b>当前市值</b>后自动计算。市值为 0 的腿按「尚未建仓」处理。</div>`;
+    return;
+  }
+  const curW = vals.map(v => v / total * 100);
+  const tgtV = RB_PLAN.map(([, p]) => total * p / 100);
+  const delta = tgtV.map((t, i) => t - vals[i]);
+  const rel = curW.map((w, i) => (w - RB_PLAN[i][1]) / RB_PLAN[i][1] * 100);
+  const abs = curW.map((w, i) => w - RB_PLAN[i][1]);
+  const trig = rel.map(r => Math.abs(r) > RB_REL);
+  const frc = abs.map(a => Math.abs(a) >= RB_ABS);
+  const anyTrig = trig.some(Boolean) || frc.some(Boolean);
+
+  let buy = [0, 0, 0, 0], sell = [0, 0, 0, 0], msg = "", cls = "off";
+  if(!anyTrig){
+    let k = 0;
+    for(let i = 1; i < 4; i++){ if(Math.abs(rel[i]) > Math.abs(rel[k])) k = i; }
+    msg = `<b>未触发</b>：四腿相对偏离都没到 ±40%（最大 ${fmtRel(rel[k])}，在 ${RB_PLAN[k][0]}）→ `
+        + `保持现有持仓不动，可用现金继续按日投买入。<br>最接近触发的是 <b>${RB_PLAN[k][0]}</b>：`
+        + `当前 ${curW[k].toFixed(1)}%，触发线 ${(RB_PLAN[k][1] * (1 + RB_REL / 100)).toFixed(1)}% `
+        + `或 ${(RB_PLAN[k][1] * (1 - RB_REL / 100)).toFixed(1)}%，还差 <b>${(RB_REL - Math.abs(rel[k])).toFixed(1)}pp</b> 相对偏离。`;
+  } else {
+    const needBuy = delta.map(d => d > 0 ? d : 0);
+    const sumNeed = needBuy.reduce((a, b) => a + b, 0);
+    const sellable = delta.map((d, i) => (d < 0 && (trig[i] || frc[i])) ? -d : 0);
+    const sumSell = sellable.reduce((a, b) => a + b, 0);
+    cls = "ok";
+    if(cash >= sumNeed){
+      buy = needBuy.slice();
+      msg = `<b>已触发再平衡</b>：可用现金 ${money(cash)} 够补齐低配腿（需 ${money(sumNeed)}），<b>不用卖出</b>。`;
+    } else if(cash + sumSell >= sumNeed){
+      let k = sumNeed - cash;
+      for(let i = 0; i < 4 && k > 0; i++){
+        if(sellable[i] <= 0) continue;
+        const s = Math.min(sellable[i], k);
+        sell[i] = s; k -= s;
+      }
+      buy = needBuy.slice();
+      msg = `<b>已触发再平衡</b>：现金 ${money(cash)} 不够（需 ${money(sumNeed)}）→ 卖出超配腿补足差额。`;
+    } else {
+      const k2 = (cash + sumSell) / sumNeed;
+      buy = needBuy.map(b => b * k2);
+      sell = sellable.slice();
+      cls = "warn";
+      msg = `<b>现金不足</b>：需补 ${money(sumNeed)}，现金 ${money(cash)} + 可卖超配腿 ${money(sumSell)} 仍差 `
+          + `${money(sumNeed - cash - sumSell)}；且未达卖出条件的超配腿不卖 → 本次只能`
+          + `<b>按 ${(k2 * 100).toFixed(0)}% 等比部分再平衡</b>，缺口留到下次检视再补。`;
+    }
+  }
+
+  const sumBuy = buy.reduce((a, b) => a + b, 0);
+  const sumSell = sell.reduce((a, b) => a + b, 0);
+  const left = cash + sumSell - sumBuy;
+  const post = vals.map((v, i) => v + buy[i] - sell[i]);
+  const postTotal = post.reduce((a, b) => a + b, 0) + left;
+
+  const nameOf = i => RB_PLAN[i][0] + ((trig[i] || frc[i]) ? "<em class=\"st down\">（已触发）</em>" : "");
+  const t1 = `<table class="rb"><thead><tr><th>标的</th><th>当前市值</th><th>目标市值</th>`
+    + `<th>相对偏离</th><th>需调整</th></tr></thead><tbody>`
+    + RB_PLAN.map((_, i) => {
+        const adj = buy[i] - sell[i];
+        const col = rel[i] > 0 ? "#dc2626" : (rel[i] < 0 ? "#059669" : "inherit");
+        return `<tr><td class="nm">${nameOf(i)}</td><td>${money(vals[i])}</td><td>${money(tgtV[i])}</td>`
+             + `<td style="color:${col};font-weight:700">${fmtRel(rel[i])}</td>`
+             + `<td style="font-weight:700">${Math.abs(adj) < 1 ? "—" : sgn(adj) + money(Math.abs(adj))}</td></tr>`;
+      }).join("")
+    + `<tr class="sum"><td>合计</td><td>${money(pos)}</td><td>${money(total)}</td><td>—</td>`
+    + `<td>${sgn(sumBuy - sumSell)}${money(Math.abs(sumBuy - sumSell))}</td></tr></tbody></table>`;
+
+  const t2 = `<div class="rbsep">再平衡后持仓结构</div>
+    <table class="rb"><thead><tr><th>再平衡后</th><th>市值</th><th>权重</th></tr></thead><tbody>`
+    + RB_PLAN.map(([n], i) => `<tr><td class="nm">${n}</td><td>${money(post[i])}</td>`
+        + `<td>${(post[i] / postTotal * 100).toFixed(1)}%</td></tr>`).join("")
+    + `<tr><td class="nm">剩余现金</td><td>${money(left)}</td><td>${(left / postTotal * 100).toFixed(1)}%</td></tr>`
+    + `<tr class="sum"><td>合计</td><td>${money(postTotal)}</td><td>100.0%</td></tr></tbody></table>`;
+
+  const listOf = (arr) => {
+    const s = arr.map((v, i) => v > 1 ? `${RB_PLAN[i][0]} ${money(v)}` : null).filter(Boolean);
+    return s.length ? s.join(" ｜ ") : "无";
+  };
+  const t3 = `<div class="rbsep">操作清单</div><div class="rbkv">
+      <div><i>组合总资产</i><b>${money(total)}（持仓 ${money(pos)} + 现金 ${money(cash)}）</b></div>
+      <div><i>买入合计</i><b>${sumBuy > 1 ? money(sumBuy) : "无"}</b></div>
+      <div><i>买入明细</i><b>${listOf(buy)}</b></div>
+      <div><i>卖出合计</i><b>${sumSell > 1 ? money(sumSell) : "无"}</b></div>
+      <div><i>卖出明细</i><b>${listOf(sell)}</b></div>
+      <div><i>剩余现金</i><b>${money(left)}</b></div>
+    </div>`;
+
+  out.innerHTML = t1 + t3 + t2 + `<div class="rbmsg ${cls}">${msg}</div>`;
+}
+
+function bindRb(){
+  ["rbv0", "rbv1", "rbv2", "rbv3", "rbcash"].forEach(id => {
+    const e = $(id);
+    if(e) e.addEventListener("input", renderRb);
+  });
+  renderRb();
 }
 
 // ---------------- 三页统一的「数据状态」小字 ----------------
@@ -314,8 +577,9 @@ async function loadData(){
 DATA = SEED;
 stampData();
 bindPlan();
+bindRb();
 loadData().then(j => {
-  if(j && j !== DATA){ DATA = j; stampData(); }
+  if(j && j !== DATA){ DATA = j; stampData(); renderPlan(); }
 }).catch(() => {});
 </script>
 </body>
