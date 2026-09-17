@@ -158,14 +158,15 @@
         </div>
       </div>
       <div class="cblk">
-        <div class="csub"><b style="color:#dc2626">价值温度</b><span>× 红利低波（右轴）</span></div>
+        <div class="csub"><b style="color:#dc2626">价值温度</b><span id="csub-val">× 红利低波·全收益（右轴）</span></div>
         <div class="chart-wrap">
           <svg id="chart-val" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
           <svg class="ov" id="ov-val" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
           <div class="tipc" id="tip-val" hidden></div>
         </div>
       </div>
-      <div class="chart-note">左轴 温度 0-100 · 右轴 标的指数收盘 · 点击或长按可查任意一周</div>
+      <div class="chart-note">左轴 温度 0-100 · 右轴 标的指数收盘 · 点击或长按可查任意一周<br>
+        价值温度画的是<b>中证红利低波全收益指数</b>（含股息）—— 与你持有的 563020 红利低波 ETF 同口径，近 3 年年化仅差 0.13pp</div>
     </div>
 
     <div class="card">
@@ -174,7 +175,7 @@
     </div>
 
     <div class="card">
-      <h2>档位与历史表现 <span class="tip">后续 52 周</span></h2>
+      <h2>档位与历史表现 <span class="tip">后续 52 周 · 含股息</span></h2>
       <div class="seg" id="lvseg">
         <span class="seg-item active" data-v="val">价值温度 · 红利低波</span>
         <span class="seg-item" data-v="mkt">市场温度 · 中证全指</span>
@@ -225,7 +226,8 @@ const CH = [
     pk:"pxAll", pc:"#111827", pl:"中证全指", band:"mkt" },
   { id:"val", svg:"chart-val", ov:"ov-val", tip:"tip-val",
     k:"val", c:"#dc2626", lbl:"价值温度",
-    pk:"pxVal", pc:"#b45309", pl:"红利低波", band:"val" },
+    pk:"pxValTr", pc:"#b45309", pl:"红利低波·全收益",
+    pkb:"pxVal", plb:"红利低波·价格", sub:"csub-val", band:"val" },
 ];
 const OVS = {};
 
@@ -286,6 +288,14 @@ function renderGauge(svgId, which, v){
 }
 
 // ---------------- 走势：温度 × 标的 ----------------
+// ★ 标的线字段解析：优先 pk（全收益），远端 data.json 还是旧版时回落 pkb（价格），
+//   并同步图例文字 —— 避免用户看到一条空线还不知道为什么。
+function resolvePk(D, cfg){
+  const ok = k => typeof k === "string" && D.some(d => typeof d[k] === "number" && isFinite(d[k]));
+  if(ok(cfg.pk))  return { pk:cfg.pk,  pl:cfg.pl };
+  if(ok(cfg.pkb)) return { pk:cfg.pkb, pl:cfg.plb };
+  return { pk:cfg.pk, pl:cfg.pl };
+}
 function series(){
   const rs = (DATA.cn && DATA.cn.records) || [];
   if(VIEW.range === "all" || rs.length < 2) return rs;
@@ -313,8 +323,10 @@ function drawChart(cfg){
   const D = series(), box = $(cfg.svg);
   if(!box) return;
   if(!D.length){ box.innerHTML = ""; return; }
-  const g = geom2(D, cfg.pk);
-  OVS[cfg.id] = { D, g, cfg };
+  const rp = resolvePk(D, cfg);
+  const g = geom2(D, rp.pk);
+  OVS[cfg.id] = { D, g, cfg, pk:rp.pk, pl:rp.pl };
+  if(cfg.sub){ const e = $(cfg.sub); if(e) e.textContent = `× ${rp.pl}（右轴）`; }
   const b = histOf(cfg.band).b;
   const bounds = [0, b[0], b[1], b[2], b[3], 100];
   let s = "";
@@ -337,7 +349,7 @@ function drawChart(cfg){
        + `${fmtPx(v)}</text>`;
   }
   // 标的指数（右轴，细线）
-  s += `<polyline points="${D.map((d,i) => `${g.x(i).toFixed(1)},${g.yP(d[cfg.pk]).toFixed(1)}`).join(" ")}"`
+  s += `<polyline points="${D.map((d,i) => `${g.x(i).toFixed(1)},${g.yP(d[rp.pk]).toFixed(1)}`).join(" ")}"`
      + ` fill="none" stroke="${cfg.pc}" stroke-width="1.6" stroke-linejoin="round"`
      + ` stroke-linecap="round" opacity="0.68"/>`;
   // 温度（左轴，主线）
@@ -346,10 +358,10 @@ function drawChart(cfg){
      + ` stroke-linecap="round" opacity="0.95"/>`;
   // 末点标注
   const n = D.length, lp = D[n-1], lx = g.x(n-1);
-  const yp = g.yP(lp[cfg.pk]), yk = g.y(lp[cfg.k]);
+  const yp = g.yP(lp[rp.pk]), yk = g.y(lp[cfg.k]);
   s += `<circle cx="${lx.toFixed(1)}" cy="${yp.toFixed(1)}" r="3.6" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
   s += `<text x="${(lx-7).toFixed(1)}" y="${(yp+14).toFixed(1)}" font-size="11" fill="${cfg.pc}"`
-     + ` text-anchor="end" font-weight="700">${fmtPx(lp[cfg.pk])}</text>`;
+     + ` text-anchor="end" font-weight="700">${fmtPx(lp[rp.pk])}</text>`;
   s += `<circle cx="${lx.toFixed(1)}" cy="${yk.toFixed(1)}" r="5" fill="${cfg.c}" stroke="#fff" stroke-width="2"/>`;
   s += `<text x="${(lx-7).toFixed(1)}" y="${(yk-9).toFixed(1)}" font-size="12" fill="${cfg.c}"`
      + ` text-anchor="end" font-weight="800">${lp[cfg.k].toFixed(1)}</text>`;
@@ -375,16 +387,16 @@ function evX(cfg, clientX){
 function showTip(cfg, i){
   const S = OVS[cfg.id];
   if(!S || i < 0 || i >= S.g.n) return;
-  const { D, g } = S, d = D[i], px = g.x(i);
+  const { D, g } = S, d = D[i], px = g.x(i), pk = S.pk || cfg.pk, pl = S.pl || cfg.pl;
   $(cfg.ov).innerHTML =
     `<line x1="${px.toFixed(1)}" y1="${g.T}" x2="${px.toFixed(1)}" y2="${g.H-g.B}"`
     + ` stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
     + `<circle cx="${px.toFixed(1)}" cy="${g.y(d[cfg.k]).toFixed(1)}" r="4.6" fill="${cfg.c}" stroke="#fff" stroke-width="1.8"/>`
-    + `<circle cx="${px.toFixed(1)}" cy="${g.yP(d[cfg.pk]).toFixed(1)}" r="3.8" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
+    + `<circle cx="${px.toFixed(1)}" cy="${g.yP(d[pk]).toFixed(1)}" r="3.8" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
   const tip = $(cfg.tip);
   tip.innerHTML = `<div class="d">${d.d}</div>`
     + `<div class="r"><span style="color:${cfg.c}">${cfg.lbl}</span><b>${d[cfg.k].toFixed(1)}</b></div>`
-    + `<div class="r"><span style="color:${cfg.pc}">${cfg.pl}</span><b>${fmtPx(d[cfg.pk])}</b></div>`;
+    + `<div class="r"><span style="color:${cfg.pc}">${pl}</span><b>${fmtPx(d[pk])}</b></div>`;
   tip.hidden = false;
   const rect = $(cfg.svg).getBoundingClientRect();
   const physX = px / 680 * rect.width;

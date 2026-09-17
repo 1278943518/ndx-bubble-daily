@@ -7,7 +7,7 @@
 输出每条记录（周频）：
     d, mkt, val, est, bkg, crowd, senti, lev, new,
     peVal, peAll,          # 展示用原始 PE（未经跳变校正）
-    pxVal, pxAll           # 标的走势：红利低波 / 中证全指 收盘，供走势图叠加
+    pxVal, pxValTr, pxAll  # 标的走势：红利低波价格 / 红利低波全收益 / 中证全指 收盘
 
 口径（2026-09-16 定稿，见《A股温度计-双读数口径回测-20260916》）:
 
@@ -21,11 +21,17 @@
     杠杆     = pr(两融余额 ÷ A股流通市值)
     新买家   = pr(融资买入额 ÷ 全A成交额)
 
-★ 两个必须固化的实现要点
+★ 三个必须固化的实现要点
   1. PE 序列必须做「跳变回溯校正」（成分股半年调整会让 PE 单周跳 ±13~59%）。
      原始 PE 序列每次全量重抓 → 全量重算校正 → **天然幂等**，不会重复放大。
      校正值只用于算分位；对外展示的 PE 绝对值仍用原始值。
   2. pr() 暖启动必须返回 NaN，不能填 50.0（否则形成精确 50.0 质量点污染统计）。
+  3. ★ **收益口径用「全收益」而不是「价格」**（第 11 轮修正）：
+     红利低波价格指数 H30269 **不含股息**，用户实持的 563020 含分红（≈5.17pp/年），
+     用价格指数算"后续 52 周收益"会系统性低估约 5pp，且走势图与用户账户对不上。
+     → 展示与统计统一改用 **H20269 中证红利低波全收益指数**（同组合、同 PE，只多了股息再投）。
+       实测它与 563020 前复权净值年化只差 +0.13pp、周收益相关 0.9928 → 可以当 ETF 的完整历史用。
+       ⚠️ ETF 本身只有 143 周（2023-12-15 上市），**不能**直接当走势图的线。
 
 容灾设计：网络失败时回退到已提交的 bubble_data/cn_raw.pkl，
 保证「A股抓不到」不会让整条云端管线挂掉，也不会清空页面上的 cn 节点。
@@ -46,8 +52,13 @@ OUT = os.path.join(ROOT, "bubble_out")
 RAW_PKL = os.path.join(DATA, "cn_raw.pkl")
 OUT_JSON = os.path.join(OUT, "cn_scores.json")
 
-# 只保留两条读数所需：红利低波（价值）+ 中证全指（市场/分母）
+# 读数所需：红利低波（价值）+ 中证全指（市场/分母）
 CODES = {"val": "H30269", "all": "000985"}
+# ★ 展示/统计用的「含股息」标的：中证红利低波动**全收益**指数。
+#   与 H30269 同组合、同 PE，只多了股息再投（实测年化差 ≈ 4.94pp）。
+#   它与用户实持的 563020 前复权净值几乎重合（年化差 +0.13pp、周相关 0.9928），
+#   而 ETF 自身只有 143 周（2023-12-15 上市）→ 走势图用这条指数线代替 ETF。
+TR_CODE = "H20269"
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126",
       "Referer": "https://www.csindex.com.cn/"}
 
@@ -127,6 +138,8 @@ def fetch_raw():
         raw["px_" + k] = _csi_perf(code, "close")
         raw["amt_" + k] = _csi_perf(code, "tradingValue")
         log(f"  {code}: PE {len(raw['pe_' + k])} 条 / 行情 {len(raw['px_' + k])} 条")
+    raw["px_valtr"] = _csi_perf(TR_CODE, "close")
+    log(f"  {TR_CODE} 红利低波全收益: 行情 {len(raw['px_valtr'])} 条")
     raw["margin"] = _margin()
     log(f"  两融: {len(raw['margin'])} 条, 最新 {raw['margin'].index[-1].date()}")
     return raw
@@ -204,7 +217,20 @@ def build_weekly(raw):
     df["ltsz"] = al(m["LTSZ"] / 1e8)          # 亿元
     df["rzrq"] = al(m["RZRQYE"] / 1e8)
     df["rzmre"] = al(m["RZMRE"] / 1e8)
-    return df.dropna()
+    # ⚠️ 这里必须显式写 subset。历史上一次裸 dropna() 被一列起点更晚的指数
+    #    静默截掉了 60 周样本，实盘阈值一路算错（项目备忘 陷阱⑦）。
+    df = df.dropna(subset=["pe_val", "px_val", "amt_val",
+                           "pe_all", "px_all", "amt_all", "ltsz", "rzrq", "rzmre"])
+    # ★ 全收益标的列在 dropna **之后**再拼：它不参与上面的筛选，
+    #   否则一旦它某天缺数就会把整行丢掉、静默改变样本长度。
+    if "px_valtr" in raw:
+        vtr = al(raw["px_valtr"]).reindex(df.index, method="ffill")
+        assert vtr.notna().all(), "红利低波全收益序列对齐后仍有缺口"
+        df["px_valtr"] = vtr
+    else:
+        log("  ⚠️ 缓存缺 px_valtr（H20269 全收益）→ 临时回落用价格指数，不影响管线")
+        df["px_valtr"] = df["px_val"]
+    return df
 
 
 def compute(df):
@@ -234,11 +260,16 @@ def compute(df):
     t["pe_val"] = df["pe_val"].round(2)
     t["pe_all"] = df["pe_all"].round(2)
     # ★ 标的走势：走势图上要把「温度」与「对应标的」画在一起，所以要把指数价格带出去
-    #   市场温度 ← 中证全指 000985；价值温度 ← 红利低波 H30269
-    t["px_val"] = df["px_val"].round(2)
+    #   市场温度 ← 中证全指 000985（价格指数）
+    #   价值温度 ← 红利低波 **全收益** H20269（含股息，与用户实持的 563020 对上）
+    t["px_val"] = df["px_val"].round(2)          # 价格指数（降级兜底 / 旧数据兼容）
+    t["px_valtr"] = df["px_valtr"].round(2)      # 全收益指数（走势图用这条）
     t["px_all"] = df["px_all"].round(2)
-    # 后续 52 周收益（红利低波价格指数，不含股息 → 绝对收益被低估，只看档间相对差）
-    t["fwd_val"] = (df["px_val"].shift(-52) / df["px_val"] - 1) * 100
+    # 后续 52 周收益 —— ★ 第 11 轮改为**全收益口径（含股息）**：
+    #   价格指数不含股息，会系统性低估约 5pp/年，与用户实得收益对不上。
+    t["fwd_val"] = (df["px_valtr"].shift(-52) / df["px_valtr"] - 1) * 100
+    # 价格口径留一份仅供对照排查，不进页面
+    t["fwd_val_px"] = (df["px_val"].shift(-52) / df["px_val"] - 1) * 100
     return t, len(jumps_val), len(jumps_all)
 
 
@@ -288,7 +319,8 @@ def main():
             rec[k] = round(float(r[k]), 1)
         rec["peVal"] = float(r["pe_val"])
         rec["peAll"] = float(r["pe_all"])
-        rec["pxVal"] = float(r["px_val"])          # 红利低波 H30269 收盘（价值温度的标的）
+        rec["pxVal"] = float(r["px_val"])          # 红利低波 H30269 价格指数
+        rec["pxValTr"] = float(r["px_valtr"])      # ★ 红利低波 H20269 全收益（走势图用）
         rec["pxAll"] = float(r["px_all"])          # 中证全指 000985 收盘（市场温度的标的）
         recs.append(rec)
     assert recs, "没有一条有效记录"
@@ -303,7 +335,7 @@ def main():
             "jumps": {"val": n_jv, "all": n_ja},
             "hist": {"val": calibration(t["val"], t["fwd_val"]),
                      "mkt": calibration(t["mkt"], t["fwd_val"])},
-            "caliber": "0.55/0.30/0.15 · 520周 · PE跳变回溯校正",
+            "caliber": "0.55/0.30/0.15 · 520周 · PE跳变回溯校正 · 收益=全收益口径(含股息)",
         },
     }
     payload = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
@@ -321,6 +353,7 @@ def main():
     log(f"   分解：估值腿 {last['est']} × 0.55 + 全市场腿 {last['bkg']} × 0.30 "
         f"+ 拥挤度 {last['crowd']} × 0.15 = "
         f"{0.55 * last['est'] + 0.30 * last['bkg'] + 0.15 * last['crowd']:.1f}")
+    log("   ★ 下方「后续52周」口径 = 红利低波全收益 H20269（含股息），与用户实得收益一致")
     for L in out["meta"]["hist"]["val"]["levels"]:
         log(f"   价值档 {L['name']} ({L['lab']}) n={L['n']}  后续52周 {L['ret']}%  胜率 {L['win']}%")
 
