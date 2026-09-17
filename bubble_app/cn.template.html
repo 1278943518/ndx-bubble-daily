@@ -11,42 +11,91 @@
 <meta name="theme-color" content="#f4f6f9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="定投量化策略">
 <style>
   :root {
     --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
     --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb;
+    --tabh:58px;
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
   body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-         line-height:1.6; padding:16px 12px 44px; font-size:14px; }
-  .wrap { max-width:560px; margin:0 auto; }
+         line-height:1.6; font-size:14px;
+         padding:16px 12px calc(var(--tabh) + env(safe-area-inset-bottom) + 14px);
+         min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
+  .wrap { max-width:560px; margin:0 auto; width:100%; flex:1 1 auto; display:flex; flex-direction:column; }
+
+  /* ===== 底部导航（三页共用 · 全屏切换） ===== */
+  .tabbar { position:fixed; left:0; right:0; bottom:0; z-index:80; display:flex;
+            background:rgba(255,255,255,.97); -webkit-backdrop-filter:saturate(180%) blur(14px);
+            backdrop-filter:saturate(180%) blur(14px); border-top:1px solid var(--line);
+            box-shadow:0 -1px 12px rgba(22,24,29,.05);
+            padding-bottom:env(safe-area-inset-bottom); }
+  .tabbar a { flex:1 1 0; min-width:0; position:relative; display:flex; flex-direction:column;
+              align-items:center; justify-content:center; gap:2px; padding:7px 2px 6px;
+              text-decoration:none; color:#8b93a1; font-size:10.5px; font-weight:600;
+              white-space:nowrap; }
+  .tabbar a svg { width:21px; height:21px; display:block; }
+  .tabbar a.on { color:var(--ac); font-weight:800; }
+  .tabbar a.on::before { content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+                         width:26px; height:2.5px; border-radius:0 0 3px 3px; background:var(--ac); }
+  .tabbar a:active { background:#f0f3f7; }
+
   header { display:flex; align-items:center; gap:9px; margin-bottom:12px; }
-  .back { width:30px; height:30px; border-radius:50%; background:#fff; border:1px solid var(--line);
-          color:var(--ink); text-decoration:none; font-size:19px; font-weight:700; line-height:27px;
-          text-align:center; flex-shrink:0; }
-  .back:active { background:#eef1f5; }
+  .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; display:block; }
   h1 { font-size:20px; font-weight:800; line-height:1.25; }
   h1 .hl { color:var(--red); }
   .subtitle { font-size:11px; color:var(--sub); margin-top:2px; }
+
   .card { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px 15px;
           margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
   h2 { font-size:13.5px; font-weight:700; margin-bottom:10px; padding-left:8px;
-       border-left:4px solid var(--red); }
-  .readings { display:flex; gap:10px; }
-  .rd { flex:1; min-width:0; border:1px solid var(--line); border-radius:13px; padding:11px 12px; }
-  .rd .n { font-size:11px; color:var(--sub); }
-  .rd .row { display:flex; align-items:baseline; gap:6px; margin-top:1px; }
-  .rd .v { font-size:32px; font-weight:800; line-height:1.05; font-variant-numeric:tabular-nums; }
-  .rd .lv { font-size:10px; font-weight:700; color:#fff; border-radius:99px; padding:1.5px 7px; }
-  .rd .p { font-size:10.5px; color:var(--sub); margin-top:3px; font-variant-numeric:tabular-nums; }
+       border-left:4px solid var(--red); display:flex; align-items:baseline;
+       justify-content:space-between; gap:8px; }
+  h2 .tip { font-size:10px; color:var(--sub); font-weight:400; }
+
+  /* ===== 双转盘 ===== */
+  .gauges { display:flex; gap:6px; }
+  .gcell { flex:1 1 0; min-width:0; text-align:center; }
+  .gcell svg { width:100%; display:block; }
+  .gnm { font-size:10.5px; color:var(--sub); margin-bottom:-2px; }
+  .gmeta { display:flex; align-items:center; justify-content:center; gap:5px; margin-top:-8px; }
+  .pill { font-size:10px; font-weight:700; color:#fff; border-radius:99px; padding:1.5px 8px; }
+  .gp { font-size:10px; color:var(--sub); font-variant-numeric:tabular-nums; }
+
+  /* ===== 指标条 ===== */
   .leg { display:flex; align-items:center; gap:8px; font-size:12px; padding:4px 0; }
   .leg .ln { color:#3d444f; width:96px; flex-shrink:0; }
   .leg .lb { flex:1; height:6px; background:#eef1f5; border-radius:99px; overflow:hidden; min-width:20px; }
   .leg .lb i { display:block; height:100%; border-radius:99px; }
-  .leg .lv2 { width:42px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
+  .leg .lv2 { width:48px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
   .leg.hd { font-weight:800; color:var(--ink); padding-top:9px; border-top:1px dashed var(--line); margin-top:5px; }
   .leg.hd:first-child { border-top:none; padding-top:0; margin-top:0; }
-  .leg.hd .lv2 { width:42px; color:var(--sub); font-weight:600; font-size:10.5px; }
+  .leg.hd .lv2 { width:48px; color:var(--sub); font-weight:600; font-size:10.5px; }
+
+  /* ===== 图表 ===== */
+  .seg { display:flex; gap:5px; margin-bottom:9px; flex-wrap:wrap; }
+  .seg-item { font-size:11px; padding:3px 10px; border-radius:99px; background:#f0f3f7;
+              color:var(--sub); cursor:pointer; }
+  .seg-item.active { background:var(--blue); color:#fff; font-weight:700; }
+  .cblk + .cblk { margin-top:11px; }
+  .csub { display:flex; align-items:baseline; gap:6px; font-size:11.5px; margin-bottom:4px; }
+  .csub span { font-size:10.5px; color:var(--sub); }
+  .chart-wrap { position:relative; }
+  .chart-note { font-size:10px; color:var(--sub); margin-top:7px; text-align:center; }
+  .ov { position:absolute; inset:0; width:100%; height:100%; cursor:crosshair;
+        touch-action:pan-y; -webkit-touch-callout:none; user-select:none; }
+  /* ⚠️ 图表浮层类名必须是 .tipc —— 不能叫 .tip，否则会和标题里的 h2 .tip 标签打架 */
+  .tipc { position:absolute; pointer-events:none; background:rgba(255,255,255,.9);
+         border:1px solid var(--line); border-radius:9px; padding:5px 9px; font-size:11px;
+         line-height:1.5; z-index:6; white-space:nowrap; transform:translateY(-50%);
+         box-shadow:0 2px 10px rgba(0,0,0,.08); }
+  .tipc .d { font-size:10px; color:var(--sub); font-weight:700; margin-bottom:2px; }
+  .tipc .r { display:flex; justify-content:space-between; gap:10px; }
+  .tipc .r b { font-variant-numeric:tabular-nums; }
+
+  /* ===== 表格 / 键值 ===== */
   .kv { display:flex; justify-content:space-between; font-size:12px; padding:5px 0;
         border-bottom:1px dashed var(--line); }
   .kv:last-child { border-bottom:none; }
@@ -58,31 +107,15 @@
   td { padding:6px 5px; border-bottom:1px dashed var(--line); text-align:right;
        font-variant-numeric:tabular-nums; }
   tr:last-child td { border-bottom:none; }
-  .seg { display:flex; gap:5px; margin-bottom:9px; flex-wrap:wrap; }
-  .seg-item { font-size:11px; padding:3px 10px; border-radius:99px; background:#f0f3f7;
-              color:var(--sub); cursor:pointer; }
-  .seg-item.active { background:var(--blue); color:#fff; font-weight:700; }
-  .chart-wrap { position:relative; }
-  .chart-note { font-size:10px; color:var(--sub); margin-top:5px; display:flex; gap:12px; }
-  .chart-note i { display:inline-block; width:12px; height:3px; border-radius:2px;
-                  vertical-align:middle; margin-right:4px; }
-  #overlay { position:absolute; inset:0; width:100%; height:100%; cursor:crosshair;
-             touch-action:pan-y; -webkit-touch-callout:none; user-select:none; }
-  .tip { position:absolute; pointer-events:none; background:rgba(255,255,255,.9);
-         border:1px solid var(--line); border-radius:9px; padding:5px 9px; font-size:11px;
-         line-height:1.5; z-index:6; white-space:nowrap; transform:translateY(-50%);
-         box-shadow:0 2px 10px rgba(0,0,0,.08); }
-  .tip .d { font-size:10px; color:var(--sub); font-weight:700; margin-bottom:2px; }
-  .tip .r { display:flex; justify-content:space-between; gap:10px; }
-  .tip .r b { font-variant-numeric:tabular-nums; }
-  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:12px; line-height:1.7; }
+
+  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:auto; padding-top:12px; line-height:1.7; }
   .empty { font-size:12px; color:var(--sub); }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <a class="back" href="index.html" aria-label="返回">‹</a>
+    <img class="logo" src="logo.svg" alt="">
     <div>
       <h1>A股<span class="hl">温度计</span></h1>
       <div class="subtitle" id="asof">数据加载中…</div>
@@ -92,23 +125,23 @@
   <div id="body" style="display:none;">
 
     <div class="card">
-      <h2>当前读数</h2>
-      <div class="readings">
-        <div class="rd">
-          <div class="n">市场温度 · 中证全指</div>
-          <div class="row"><span class="v" id="mkt-v">--</span><span class="lv" id="mkt-lv">—</span></div>
-          <div class="p" id="mkt-p">—</div>
+      <h2>当前读数 <span class="tip">档位按各自历史分位切</span></h2>
+      <div class="gauges">
+        <div class="gcell">
+          <div class="gnm">市场温度 · 中证全指</div>
+          <svg id="gm" viewBox="0 10 300 152" style="width:100%;display:block;"></svg>
+          <div class="gmeta"><span class="pill" id="gm-lv">—</span><span class="gp" id="gm-p">—</span></div>
         </div>
-        <div class="rd">
-          <div class="n">价值温度 · 红利低波</div>
-          <div class="row"><span class="v" id="val-v">--</span><span class="lv" id="val-lv">—</span></div>
-          <div class="p" id="val-p">—</div>
+        <div class="gcell">
+          <div class="gnm">价值温度 · 红利低波</div>
+          <svg id="gv" viewBox="0 10 300 152" style="width:100%;display:block;"></svg>
+          <div class="gmeta"><span class="pill" id="gv-lv">—</span><span class="gp" id="gv-p">—</span></div>
         </div>
       </div>
     </div>
 
     <div class="card">
-      <h2>走势</h2>
+      <h2>走势 <span class="tip">温度 × 对应标的</span></h2>
       <div class="seg" id="seg">
         <span class="seg-item active" data-v="all">全部</span>
         <span class="seg-item" data-v="y10">10年</span>
@@ -116,15 +149,23 @@
         <span class="seg-item" data-v="y3">3年</span>
         <span class="seg-item" data-v="y1">1年</span>
       </div>
-      <div class="chart-wrap">
-        <svg id="chart" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
-        <svg id="overlay" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
-        <div class="tip" id="tip" hidden></div>
+      <div class="cblk">
+        <div class="csub"><b style="color:#2563eb">市场温度</b><span>× 中证全指（右轴）</span></div>
+        <div class="chart-wrap">
+          <svg id="chart-mkt" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
+          <svg class="ov" id="ov-mkt" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
+          <div class="tipc" id="tip-mkt" hidden></div>
+        </div>
       </div>
-      <div class="chart-note">
-        <span><i style="background:#2563eb"></i>市场温度</span>
-        <span><i style="background:#dc2626"></i>价值温度</span>
+      <div class="cblk">
+        <div class="csub"><b style="color:#dc2626">价值温度</b><span>× 红利低波（右轴）</span></div>
+        <div class="chart-wrap">
+          <svg id="chart-val" viewBox="0 0 680 250" style="width:100%;display:block;"></svg>
+          <svg class="ov" id="ov-val" viewBox="0 0 680 250" style="width:100%;height:100%;"></svg>
+          <div class="tipc" id="tip-val" hidden></div>
+        </div>
       </div>
+      <div class="chart-note">左轴 温度 0-100 · 右轴 标的指数收盘 · 点击或长按可查任意一周</div>
     </div>
 
     <div class="card">
@@ -133,7 +174,11 @@
     </div>
 
     <div class="card">
-      <h2>档位与历史表现</h2>
+      <h2>档位与历史表现 <span class="tip">后续 52 周</span></h2>
+      <div class="seg" id="lvseg">
+        <span class="seg-item active" data-v="val">价值温度 · 红利低波</span>
+        <span class="seg-item" data-v="mkt">市场温度 · 中证全指</span>
+      </div>
       <table>
         <thead><tr><th>档位</th><th>样本</th><th>后续52周</th><th>胜率</th></tr></thead>
         <tbody id="lvtable"></tbody>
@@ -153,132 +198,235 @@
   <footer>仅供研究参考，不构成投资建议</footer>
 </div>
 
+<nav class="tabbar">
+  <a href="index.html" style="--ac:#059669">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 10h18M9 15.2l2 2 4-4.2"/></svg>
+    定投方案</a>
+  <a href="us.html" style="--ac:#2563eb">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 18a8.5 8.5 0 1 1 17 0"/><path d="M12 18l4.2-5.4"/><circle cx="12" cy="18" r="1.7" fill="currentColor" stroke="none"/></svg>
+    美股温度计</a>
+  <a href="cn.html" style="--ac:#dc2626" class="on" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.6V5a2 2 0 1 1 4 0v8.6"/><circle cx="12" cy="17" r="3.4"/></svg>
+    A股温度计</a>
+</nav>
+
 <script>
 let DATA = null;
 const FALLBACK = __DATA__;
 
-const PCT_LEVELS = [
-  { min:80, name:"警戒", color:"#dc2626" },
-  { min:60, name:"偏高", color:"#d97706" },
-  { min:40, name:"中性", color:"#ca8a04" },
-  { min:20, name:"偏低", color:"#059669" },
-  { min:-1, name:"低位", color:"#047857" },
+// 档位（按各自历史分位切 P20/40/60/80）—— 低 → 高
+const ZC   = ["#047857", "#059669", "#ca8a04", "#d97706", "#dc2626"];
+const LVS  = ["低位", "偏低", "中性", "偏高", "警戒"];
+
+// 两张走势图：温度（左轴 0-100） × 对应标的（右轴）
+const CH = [
+  { id:"mkt", svg:"chart-mkt", ov:"ov-mkt", tip:"tip-mkt",
+    k:"mkt", c:"#2563eb", lbl:"市场温度",
+    pk:"pxAll", pc:"#111827", pl:"中证全指", band:"mkt" },
+  { id:"val", svg:"chart-val", ov:"ov-val", tip:"tip-val",
+    k:"val", c:"#dc2626", lbl:"价值温度",
+    pk:"pxVal", pc:"#b45309", pl:"红利低波", band:"val" },
 ];
+const OVS = {};
+
 const $ = id => document.getElementById(id);
 const setTxt = (id, s) => { const e = $(id); if(e) e.textContent = s; };
-const pctLevel = p => { for(const z of PCT_LEVELS){ if(p > z.min) return z; } return PCT_LEVELS[4]; };
 const bjDate = () => new Date(Date.now() + 8 * 3600e3);
+let VIEW = { range:"all", lv:"val" };
 
-let VIEW = { range:"all" };
-let OV = { D:null, g:null };
+// ---------------- 分位数档位 ----------------
+function histOf(which){
+  const h = (DATA.cn && DATA.cn.meta && DATA.cn.meta.hist && DATA.cn.meta.hist[which]) || null;
+  const q = (h && h.q) || {};
+  const num = (v, d) => (typeof v === "number" && isFinite(v)) ? v : d;
+  return {
+    n: h && h.n, from: h && h.from, cur: h && h.cur, pos: h && h.pos,
+    levels: (h && h.levels) || null,
+    b: [num(q[20],20), num(q[40],40), num(q[60],60), num(q[80],80)],
+  };
+}
+function zoneIdx(which, v){
+  const b = histOf(which).b;
+  for(let i=0;i<4;i++){ if(v < b[i]) return i; }
+  return 4;
+}
 
+// ---------------- 转盘仪表 ----------------
+function pt(cx,cy,r,deg){ const rad = deg*Math.PI/180; return { x: cx + r*Math.cos(rad), y: cy - r*Math.sin(rad) }; }
+function arc(cx,cy,r,a1,a2){
+  const p1 = pt(cx,cy,r,a1), p2 = pt(cx,cy,r,a2);
+  const large = (a1 - a2) > 180 ? 1 : 0;
+  return `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
+}
+const A = v => 180 - v * 1.8;                 // 分(0-100) → 角度(180°→0°)
+
+function renderGauge(svgId, which, v){
+  const cx = 150, cy = 152, r = 118, sw = 20;
+  const b = histOf(which).b, zi = zoneIdx(which, v);
+  const bounds = [0, b[0], b[1], b[2], b[3], 100];
+  let s = "";
+  for(let i=0;i<5;i++){
+    const lo = bounds[i], hi = bounds[i+1];
+    if(hi - lo < 0.01) continue;
+    s += `<path d="${arc(cx,cy,r,A(lo),A(hi))}" stroke="${ZC[i]}"`
+       + ` stroke-opacity="${i === zi ? 1 : 0.18}" stroke-width="${sw}"`
+       + ` fill="none" stroke-linecap="butt"/>`;
+  }
+  const deg = A(v);
+  // 指针：基座半径 12、针尖半径 r-26（与美股页转盘同款比例）
+  const tip = pt(cx,cy,r-26,deg), b1 = pt(cx,cy,12,deg-90), b2 = pt(cx,cy,12,deg+90);
+  s += `<polygon points="${cx},${cy} ${b1.x.toFixed(1)},${b1.y.toFixed(1)}`
+     + ` ${tip.x.toFixed(1)},${tip.y.toFixed(1)} ${b2.x.toFixed(1)},${b2.y.toFixed(1)}"`
+     + ` fill="${ZC[zi]}"/>`;
+  s += `<circle cx="${cx}" cy="${cy}" r="5" fill="${ZC[zi]}"/>`;
+  // 读数用墨色（与美股页一致）：指针同色穿过数字才不乱。档位色由高亮弧 + 下方色标承担
+  s += `<text x="${cx}" y="126" font-size="50" font-weight="800" text-anchor="middle"`
+     + ` fill="#16181d">${v.toFixed(1)}</text>`;
+  $(svgId).innerHTML = s;
+}
+
+// ---------------- 走势：温度 × 标的 ----------------
 function series(){
   const rs = (DATA.cn && DATA.cn.records) || [];
-  if(VIEW.range === "all") return rs;
+  if(VIEW.range === "all" || rs.length < 2) return rs;
   const y = { y10:10, y5:5, y3:3, y1:1 }[VIEW.range];
   const last = new Date(rs[rs.length - 1].d);
   const cut = new Date(last); cut.setFullYear(cut.getFullYear() - y);
   const c = cut.toISOString().slice(0, 7);
   return rs.filter(d => d.d.slice(0, 7) >= c);
 }
-
-function geom(D){
-  const W = 680, H = 250, L = 34, R = 12, T = 14, B = 24;
-  const iw = W - L - R, ih = H - T - B;
-  const n = D.length;
+function geom2(D, pk){
+  const W = 680, H = 250, L = 42, R = 62, T = 16, B = 26;
+  const iw = W - L - R, ih = H - T - B, n = D.length;
   const x = i => L + (n === 1 ? 0 : i / (n - 1) * iw);
-  const y = v => T + (1 - v / 100) * ih;
-  return { W, H, L, R, T, B, iw, ih, n, x, y };
+  const y = v => T + (1 - v / 100) * ih;              // 左轴：温度 0-100
+  let lo = Infinity, hi = -Infinity;
+  for(const d of D){ const v = d[pk]; if(typeof v === "number" && isFinite(v)){ if(v < lo) lo = v; if(v > hi) hi = v; } }
+  if(!isFinite(lo) || !isFinite(hi) || hi - lo < 1e-9){ lo = 0; hi = 1; }
+  const pad = (hi - lo) * 0.08;
+  const yP = v => T + (1 - (v - lo + pad) / (hi - lo + 2 * pad)) * ih;   // 右轴：标的价格
+  return { W, H, L, R, T, B, iw, ih, n, x, y, yP, lo, hi, pad };
 }
+const fmtPx = v => Math.round(v).toLocaleString("en-US");
 
-function drawChart(){
-  const D = series();
-  if(!D.length) return;
-  const g = geom(D); OV.D = D; OV.g = g;
+function drawChart(cfg){
+  const D = series(), box = $(cfg.svg);
+  if(!box) return;
+  if(!D.length){ box.innerHTML = ""; return; }
+  const g = geom2(D, cfg.pk);
+  OVS[cfg.id] = { D, g, cfg };
+  const b = histOf(cfg.band).b;
+  const bounds = [0, b[0], b[1], b[2], b[3], 100];
   let s = "";
-  // 五档色带（按该序列自己的历史分位切，与档位表一致）
-  const q = (DATA.cn.meta && DATA.cn.meta.hist && DATA.cn.meta.hist.val
-             && DATA.cn.meta.hist.val.q) || {};
-  const bands = [[100, q[80] || 70, "#dc2626"], [q[80] || 70, q[60] || 50, "#d97706"],
-                 [q[60] || 50, q[40] || 40, "#ca8a04"], [q[40] || 40, q[20] || 25, "#059669"],
-                 [q[20] || 25, 0, "#047857"]];
-  for(const [hi, lo, c] of bands){
+  for(let i=0;i<5;i++){
+    const lo = bounds[i], hi = bounds[i+1];
+    if(hi - lo < 0.01) continue;
     const yh = g.y(hi), yl = g.y(lo);
-    s += `<rect x="${g.L}" y="${yh.toFixed(1)}" width="${g.iw}" height="${Math.max(0, yl - yh).toFixed(1)}"`
-       + ` fill="${c}" opacity="0.07"/>`;
+    s += `<rect x="${g.L}" y="${yh.toFixed(1)}" width="${g.iw}"`
+       + ` height="${Math.max(0.5, yl - yh).toFixed(1)}" fill="${ZC[i]}" opacity="0.07"/>`;
   }
-  for(const v of [0, 25, 50, 75, 100]){
-    s += `<line x1="${g.L}" y1="${g.y(v).toFixed(1)}" x2="${g.W - g.R}" y2="${g.y(v).toFixed(1)}"`
+  for(const v of [0,25,50,75,100]){
+    s += `<line x1="${g.L}" y1="${g.y(v).toFixed(1)}" x2="${g.W-g.R}" y2="${g.y(v).toFixed(1)}"`
        + ` stroke="#e4e7ec" stroke-width="1"/>`
-       + `<text x="${g.L - 4}" y="${(g.y(v) + 3).toFixed(1)}" font-size="9" fill="#9aa3af"`
+       + `<text x="${g.L-4}" y="${(g.y(v)+3.2).toFixed(1)}" font-size="10" fill="#9aa3af"`
        + ` text-anchor="end">${v}</text>`;
   }
-  for(const [k, c, w] of [["val", "#dc2626", 2.2], ["mkt", "#2563eb", 1.8]]){
-    s += `<polyline points="${D.map((d, i) => `${g.x(i).toFixed(1)},${g.y(d[k]).toFixed(1)}`).join(" ")}"`
-       + ` fill="none" stroke="${c}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"/>`;
+  for(let i=0;i<=4;i++){
+    const v = g.lo - g.pad + (g.hi - g.lo + 2 * g.pad) * i / 4;
+    s += `<text x="${g.W-g.R+5}" y="${(g.yP(v)+3.2).toFixed(1)}" font-size="10" fill="#9aa3af">`
+       + `${fmtPx(v)}</text>`;
   }
-  const n = D.length, lp = D[n - 1];
-  for(const [k, c] of [["val", "#dc2626"], ["mkt", "#2563eb"]]){
-    s += `<circle cx="${g.x(n - 1).toFixed(1)}" cy="${g.y(lp[k]).toFixed(1)}" r="4" fill="${c}"`
-       + ` stroke="#fff" stroke-width="1.6"/>`
-       + `<text x="${(g.x(n - 1) - 6).toFixed(1)}" y="${(g.y(lp[k]) - 7).toFixed(1)}" font-size="11"`
-       + ` fill="${c}" text-anchor="end" font-weight="800">${lp[k].toFixed(1)}</text>`;
-  }
+  // 标的指数（右轴，细线）
+  s += `<polyline points="${D.map((d,i) => `${g.x(i).toFixed(1)},${g.yP(d[cfg.pk]).toFixed(1)}`).join(" ")}"`
+     + ` fill="none" stroke="${cfg.pc}" stroke-width="1.6" stroke-linejoin="round"`
+     + ` stroke-linecap="round" opacity="0.68"/>`;
+  // 温度（左轴，主线）
+  s += `<polyline points="${D.map((d,i) => `${g.x(i).toFixed(1)},${g.y(d[cfg.k]).toFixed(1)}`).join(" ")}"`
+     + ` fill="none" stroke="${cfg.c}" stroke-width="2.4" stroke-linejoin="round"`
+     + ` stroke-linecap="round" opacity="0.95"/>`;
+  // 末点标注
+  const n = D.length, lp = D[n-1], lx = g.x(n-1);
+  const yp = g.yP(lp[cfg.pk]), yk = g.y(lp[cfg.k]);
+  s += `<circle cx="${lx.toFixed(1)}" cy="${yp.toFixed(1)}" r="3.6" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
+  s += `<text x="${(lx-7).toFixed(1)}" y="${(yp+14).toFixed(1)}" font-size="11" fill="${cfg.pc}"`
+     + ` text-anchor="end" font-weight="700">${fmtPx(lp[cfg.pk])}</text>`;
+  s += `<circle cx="${lx.toFixed(1)}" cy="${yk.toFixed(1)}" r="5" fill="${cfg.c}" stroke="#fff" stroke-width="2"/>`;
+  s += `<text x="${(lx-7).toFixed(1)}" y="${(yk-9).toFixed(1)}" font-size="12" fill="${cfg.c}"`
+     + ` text-anchor="end" font-weight="800">${lp[cfg.k].toFixed(1)}</text>`;
+  // 年份
   const years = {};
-  D.forEach((d, i) => { const y2 = d.d.slice(0, 4); if(!(y2 in years)) years[y2] = i; });
-  for(const [y2, i] of Object.entries(years))
-    s += `<text x="${g.x(i).toFixed(1)}" y="${g.H - 8}" font-size="9" fill="#9aa3af"`
+  D.forEach((d,i) => { const y2 = d.d.slice(0,4); if(!(y2 in years)) years[y2] = i; });
+  for(const [y2,i] of Object.entries(years))
+    s += `<text x="${g.x(i).toFixed(1)}" y="${g.H-8}" font-size="10" fill="#9aa3af"`
        + ` text-anchor="middle">${y2}</text>`;
-  $("chart").innerHTML = s;
+  box.innerHTML = s;
 }
 
-function hideTip(){ $("tip").hidden = true; $("overlay").innerHTML = ""; }
-function evX(e){
-  const r = $("overlay").getBoundingClientRect();
-  return (e.clientX - r.left) / r.width * 680;
+// ---------------- 查点（两张图各自独立） ----------------
+function hideTip(cfg){
+  const t = $(cfg.tip); if(t) t.hidden = true;
+  const o = $(cfg.ov); if(o) o.innerHTML = "";
 }
-function showTip(i){
-  const g = OV.g, D = OV.D;
-  if(!g || !D || i < 0 || i >= g.n) return;
-  const d = D[i], px = g.x(i);
-  $("overlay").innerHTML =
-    `<line x1="${px.toFixed(1)}" y1="${g.T}" x2="${px.toFixed(1)}" y2="${g.H - g.B}"`
+function hideAllTips(){ CH.forEach(hideTip); }
+function evX(cfg, clientX){
+  const r = $(cfg.ov).getBoundingClientRect();
+  return (clientX - r.left) / r.width * 680;
+}
+function showTip(cfg, i){
+  const S = OVS[cfg.id];
+  if(!S || i < 0 || i >= S.g.n) return;
+  const { D, g } = S, d = D[i], px = g.x(i);
+  $(cfg.ov).innerHTML =
+    `<line x1="${px.toFixed(1)}" y1="${g.T}" x2="${px.toFixed(1)}" y2="${g.H-g.B}"`
     + ` stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 3"/>`
-    + `<circle cx="${px.toFixed(1)}" cy="${g.y(d.val).toFixed(1)}" r="4.5" fill="#dc2626" stroke="#fff" stroke-width="1.6"/>`
-    + `<circle cx="${px.toFixed(1)}" cy="${g.y(d.mkt).toFixed(1)}" r="4.5" fill="#2563eb" stroke="#fff" stroke-width="1.6"/>`;
-  const tip = $("tip");
+    + `<circle cx="${px.toFixed(1)}" cy="${g.y(d[cfg.k]).toFixed(1)}" r="4.6" fill="${cfg.c}" stroke="#fff" stroke-width="1.8"/>`
+    + `<circle cx="${px.toFixed(1)}" cy="${g.yP(d[cfg.pk]).toFixed(1)}" r="3.8" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
+  const tip = $(cfg.tip);
   tip.innerHTML = `<div class="d">${d.d}</div>`
-    + `<div class="r"><span style="color:#dc2626">价值</span><b>${d.val.toFixed(1)}</b></div>`
-    + `<div class="r"><span style="color:#2563eb">市场</span><b>${d.mkt.toFixed(1)}</b></div>`;
+    + `<div class="r"><span style="color:${cfg.c}">${cfg.lbl}</span><b>${d[cfg.k].toFixed(1)}</b></div>`
+    + `<div class="r"><span style="color:${cfg.pc}">${cfg.pl}</span><b>${fmtPx(d[cfg.pk])}</b></div>`;
   tip.hidden = false;
-  const rect = $("chart").getBoundingClientRect();
+  const rect = $(cfg.svg).getBoundingClientRect();
   const physX = px / 680 * rect.width;
-  const tw = tip.offsetWidth || 120;
+  const tw = tip.offsetWidth || 132;
   let left = physX + 10;
   if(left + tw > rect.width - 2) left = physX - tw - 10;
   tip.style.left = Math.max(2, left) + "px";
   tip.style.top = (rect.height / 2) + "px";
 }
-function bindOverlay(){
-  const svg = $("overlay");
+function bindOverlay(cfg){
+  const svg = $(cfg.ov); if(!svg) return;
   let down = null, tmr = null, hold = false;
   const idx = sx => {
-    const g = OV.g; if(!g || g.n < 1) return -1;
-    return Math.max(0, Math.min(g.n - 1, Math.round((sx - g.L) / g.iw * (g.n - 1))));
+    const S = OVS[cfg.id]; if(!S || S.g.n < 1) return -1;
+    return Math.max(0, Math.min(S.g.n - 1, Math.round((sx - S.g.L) / S.g.iw * (S.g.n - 1))));
   };
   svg.addEventListener("pointerdown", e => {
-    down = { x:e.clientX, y:e.clientY }; hold = false;
-    tmr = setTimeout(() => { hold = true; showTip(idx(evX({ clientX: down.x }))); }, 500);
+    down = { x:e.clientX, y:e.clientY }; hold = false; hideAllTips();
+    tmr = setTimeout(() => { hold = true; showTip(cfg, idx(evX(cfg, down.x))); }, 480);
   });
-  svg.addEventListener("pointermove", e => { if(hold && down) showTip(idx(evX(e))); });
+  svg.addEventListener("pointermove", e => { if(hold && down) showTip(cfg, idx(evX(cfg, e.clientX))); });
   svg.addEventListener("pointerup", e => {
     clearTimeout(tmr); tmr = null;
-    if(!hold && down) showTip(idx(evX(e)));
+    if(!hold && down) showTip(cfg, idx(evX(cfg, e.clientX)));
     down = null; hold = false;
   });
-  svg.addEventListener("pointercancel", () => { clearTimeout(tmr); down = null; hold = false; });
+  svg.addEventListener("pointercancel", () => { clearTimeout(tmr); tmr = null; down = null; hold = false; });
 }
 
+// ---------------- 档位表 ----------------
+function renderLvTable(which){
+  const lv = histOf(which).levels || [];
+  $("lvtable").innerHTML = lv.map(L => {
+    const i = Math.min(4, Math.max(0, parseInt(String(L.name).slice(1,3), 10) / 20 | 0));
+    return `<tr><td>${L.name} <span style="color:${ZC[i]};font-size:10px;font-weight:700">${L.lab}</span></td>`
+         + `<td>${L.n}</td>`
+         + `<td style="color:${L.ret > 0 ? "#dc2626" : "#059669"};font-weight:700">`
+         + `${L.ret > 0 ? "+" : ""}${L.ret}%</td><td>${L.win}%</td></tr>`;
+  }).join("");
+}
+
+// ---------------- 主渲染 ----------------
 function render(){
   const cn = DATA.cn;
   if(!cn || !cn.records || !cn.records.length){
@@ -290,16 +438,16 @@ function render(){
   $("body").style.display = "";
   $("emptycard").style.display = "none";
 
-  const rs = cn.records, cur = rs[rs.length - 1], hm = cn.meta.hist || {};
-  const m = hm.mkt || {}, v = hm.val || {};
-  const ml = pctLevel(m.pos == null ? 50 : m.pos), vl = pctLevel(v.pos == null ? 50 : v.pos);
+  const rs = cn.records, cur = rs[rs.length - 1];
+  const hm = histOf("mkt"), hv = histOf("val");
+  const mi = zoneIdx("mkt", cur.mkt), vi = zoneIdx("val", cur.val);
 
-  setTxt("mkt-v", cur.mkt.toFixed(1)); $("mkt-v").style.color = ml.color;
-  $("mkt-lv").textContent = ml.name; $("mkt-lv").style.background = ml.color;
-  setTxt("mkt-p", m.pos == null ? "—" : `历史百分位 ${m.pos.toFixed(0)}%　P80 ${m.q[80]}`);
-  setTxt("val-v", cur.val.toFixed(1)); $("val-v").style.color = vl.color;
-  $("val-lv").textContent = vl.name; $("val-lv").style.background = vl.color;
-  setTxt("val-p", v.pos == null ? "—" : `历史百分位 ${v.pos.toFixed(0)}%　P80 ${v.q[80]}`);
+  renderGauge("gm", "mkt", cur.mkt);
+  renderGauge("gv", "val", cur.val);
+  $("gm-lv").textContent = LVS[mi]; $("gm-lv").style.background = ZC[mi];
+  setTxt("gm-p", hm.pos == null ? "—" : `历史 ${hm.pos.toFixed(0)}% 分位`);
+  $("gv-lv").textContent = LVS[vi]; $("gv-lv").style.background = ZC[vi];
+  setTxt("gv-p", hv.pos == null ? "—" : `历史 ${hv.pos.toFixed(0)}% 分位`);
   setTxt("asof", `周频 · 截至 ${cur.d}` + (cn.meta.updated ? ` · 同步 ${cn.meta.updated}` : ""));
 
   const bar = (n, val, c, right, cls) =>
@@ -307,13 +455,13 @@ function render(){
     + `<span class="lb"><i style="width:${Math.max(3, val)}%;background:${c}"></i></span>`
     + `<span class="lv2" style="color:${c}">${right}</span></div>`;
   let h = `<div class="leg hd"><span class="ln">市场温度</span><span class="lb"></span>`
-        + `<span class="lv2">100%</span></div>`;
-  h += bar("中证全指PE分位", cur.mkt, ml.color, cur.mkt.toFixed(1));
+        + `<span class="lv2">单指标</span></div>`;
+  h += bar("中证全指PE分位", cur.mkt, ZC[mi], cur.mkt.toFixed(1));
   h += `<div class="leg hd"><span class="ln">价值温度</span><span class="lb"></span>`
      + `<span class="lv2">55/30/15</span></div>`;
-  h += bar("估值腿·红利低波", cur.est, vl.color, `${cur.est.toFixed(0)} · 55%`);
-  h += bar("全市场腿", cur.bkg, vl.color, `${cur.bkg.toFixed(0)} · 30%`);
-  h += bar("板块拥挤度", cur.crowd, vl.color, `${cur.crowd.toFixed(0)} · 15%`);
+  h += bar("估值腿·红利低波", cur.est, ZC[vi], `${cur.est.toFixed(0)} · 55%`);
+  h += bar("全市场腿", cur.bkg, ZC[vi], `${cur.bkg.toFixed(0)} · 30%`);
+  h += bar("板块拥挤度", cur.crowd, ZC[vi], `${cur.crowd.toFixed(0)} · 15%`);
   h += `<div class="leg hd"><span class="ln">全市场腿拆解</span><span class="lb"></span>`
      + `<span class="lv2">20/20/15</span></div>`;
   h += bar("情绪", cur.senti, "#64748b", cur.senti.toFixed(0));
@@ -321,11 +469,7 @@ function render(){
   h += bar("新买家", cur.new, "#64748b", cur.new.toFixed(0));
   $("legs").innerHTML = h;
 
-  $("lvtable").innerHTML = (v.levels || []).map(L =>
-    `<tr><td>${L.name} <span style="color:${pctLevel(parseInt(L.name.slice(1, 3), 10) + 1).color};`
-    + `font-size:10px">${L.lab}</span></td><td>${L.n}</td>`
-    + `<td style="color:${L.ret > 0 ? "#dc2626" : "#059669"};font-weight:700">`
-    + `${L.ret > 0 ? "+" : ""}${L.ret}%</td><td>${L.win}%</td></tr>`).join("");
+  renderLvTable(VIEW.lv);
 
   const j = cn.meta.jumps || {};
   $("meta").innerHTML =
@@ -335,7 +479,7 @@ function render(){
     + `<div class="kv"><span class="k">样本</span><span class="v">${rs.length} 周（自 ${rs[0].d}）</span></div>`
     + `<div class="kv"><span class="k">口径</span><span class="v" style="font-weight:400;font-size:11px">${cn.meta.caliber || "-"}</span></div>`;
 
-  drawChart();
+  CH.forEach(drawChart);
   document.title = `A股温度计 · 市场 ${cur.mkt.toFixed(1)} / 价值 ${cur.val.toFixed(1)}`;
 }
 
@@ -374,17 +518,25 @@ async function loadData(){
 // 先用内嵌快照立即出图（不等网络），远程拿到更新的数据再覆盖一次
 DATA = FALLBACK;
 render();
-bindOverlay();
+CH.forEach(bindOverlay);
 $("seg").addEventListener("click", e => {
   const el = e.target.closest(".seg-item");
   if(!el || el.dataset.v === VIEW.range) return;
   VIEW.range = el.dataset.v;
   document.querySelectorAll("#seg .seg-item").forEach(x => x.classList.remove("active"));
   el.classList.add("active");
-  hideTip(); drawChart();
+  hideAllTips(); CH.forEach(drawChart);
+});
+$("lvseg").addEventListener("click", e => {
+  const el = e.target.closest(".seg-item");
+  if(!el || el.dataset.v === VIEW.lv) return;
+  VIEW.lv = el.dataset.v;
+  document.querySelectorAll("#lvseg .seg-item").forEach(x => x.classList.remove("active"));
+  el.classList.add("active");
+  renderLvTable(VIEW.lv);
 });
 loadData().then(j => {
-  if(j && j !== DATA){ DATA = j; hideTip(); render(); }
+  if(j && j !== DATA){ DATA = j; hideAllTips(); render(); }
 }).catch(() => {});
 </script>
 </body>

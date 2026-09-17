@@ -2,31 +2,45 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>美股温度计 · 定投量化策略</title>
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#f4f6f9">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="泡沫温度计">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="定投量化策略">
 <style>
   :root {
     --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
     --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb;
+    --tabh:58px;
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6; padding:16px 12px 48px; }
-  .wrap { max-width:520px; margin:0 auto; }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6;
+         padding:16px 12px calc(var(--tabh) + env(safe-area-inset-bottom) + 14px);
+         min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
+  .wrap { max-width:520px; margin:0 auto; width:100%; flex:1 1 auto; display:flex; flex-direction:column; }
   header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:14px; }
   .brand { display:flex; align-items:flex-start; gap:9px; min-width:0; }
-  .back { width:30px; height:30px; border-radius:50%; background:#fff; border:1px solid var(--line);
-          color:var(--ink); text-decoration:none; font-size:19px; font-weight:700; line-height:27px;
-          text-align:center; flex-shrink:0; margin-top:1px; }
-  .back:active { background:#eef1f5; }
+  /* ===== 底部导航（三页共用 · 全屏切换） ===== */
+  .tabbar { position:fixed; left:0; right:0; bottom:0; z-index:80; display:flex;
+            background:rgba(255,255,255,.97); -webkit-backdrop-filter:saturate(180%) blur(14px);
+            backdrop-filter:saturate(180%) blur(14px); border-top:1px solid var(--line);
+            box-shadow:0 -1px 12px rgba(22,24,29,.05);
+            padding-bottom:env(safe-area-inset-bottom); }
+  .tabbar a { flex:1 1 0; min-width:0; position:relative; display:flex; flex-direction:column;
+              align-items:center; justify-content:center; gap:2px; padding:7px 2px 6px;
+              text-decoration:none; color:#8b93a1; font-size:10.5px; font-weight:600;
+              white-space:nowrap; }
+  .tabbar a svg { width:21px; height:21px; display:block; }
+  .tabbar a.on { color:var(--ac); font-weight:800; }
+  .tabbar a.on::before { content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+                         width:26px; height:2.5px; border-radius:0 0 3px 3px; background:var(--ac); }
+  .tabbar a:active { background:#f0f3f7; }
   .brand .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; margin-top:1px; display:block; }
   .title { font-size:20px; font-weight:800; letter-spacing:.5px; }
   .title .hl { color:var(--blue); }
@@ -96,7 +110,7 @@
   .cal-h { font-size:11px; color:var(--sub); font-weight:700; margin-top:14px; }
   .codes { font-size:10.5px; color:var(--sub); margin-top:10px; line-height:1.6; }
   .hint { font-size:10.5px; color:var(--sub); margin-top:11px; line-height:1.6; }
-  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:8px; line-height:1.7; }
+  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:auto; padding-top:8px; line-height:1.7; }
   .kpts { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
   .kpt { font-size:10px; background:#f0f3f7; border-radius:6px; padding:2px 7px; color:var(--sub); }
   /* ===== chart overlay (点击/长按查点) ===== */
@@ -116,7 +130,7 @@
 <div class="wrap">
   <header>
     <div class="brand">
-      <a class="back" href="index.html" aria-label="返回">‹</a>
+      <img class="logo" src="logo.svg" alt="">
       <div>
         <div class="title">美股<span class="hl">温度计</span></div>
         <div class="subtitle"><span class="data-meta" id="data-meta">数据加载中…</span></div>
@@ -189,6 +203,18 @@
     仅供研究参考，不构成投资建议
   </footer>
 </div>
+
+<nav class="tabbar">
+  <a href="index.html" style="--ac:#059669">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 10h18M9 15.2l2 2 4-4.2"/></svg>
+    定投方案</a>
+  <a href="us.html" style="--ac:#2563eb" class="on" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 18a8.5 8.5 0 1 1 17 0"/><path d="M12 18l4.2-5.4"/><circle cx="12" cy="18" r="1.7" fill="currentColor" stroke="none"/></svg>
+    美股温度计</a>
+  <a href="cn.html" style="--ac:#dc2626">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.6V5a2 2 0 1 1 4 0v8.6"/><circle cx="12" cy="17" r="3.4"/></svg>
+    A股温度计</a>
+</nav>
 
 <script>
 let DATA = null;                       // 运行时数据: fetch data.json 优先, 失败用内嵌兜底

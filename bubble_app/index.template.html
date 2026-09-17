@@ -17,13 +17,32 @@
   :root {
     --bg:#f4f6f9; --card:#fff; --ink:#16181d; --sub:#5b6472; --line:#e4e7ec;
     --red:#dc2626; --orange:#d97706; --amber:#ca8a04; --green:#059669; --blue:#2563eb;
+    --tabh:58px;
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
   body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
-         line-height:1.55; padding:16px 12px 40px; }
-  .wrap { max-width:1180px; margin:0 auto; }
+         line-height:1.55;
+         padding:16px 12px calc(var(--tabh) + env(safe-area-inset-bottom) + 14px);
+         min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
+  .wrap { max-width:560px; margin:0 auto; width:100%; flex:1 1 auto; display:flex; flex-direction:column; }
 
-  /* ---------- 顶部：名称 + 同步时间 / 当前时间 ---------- */
+  /* ===== 底部导航（三页共用 · 全屏切换） ===== */
+  .tabbar { position:fixed; left:0; right:0; bottom:0; z-index:80; display:flex;
+            background:rgba(255,255,255,.97); -webkit-backdrop-filter:saturate(180%) blur(14px);
+            backdrop-filter:saturate(180%) blur(14px); border-top:1px solid var(--line);
+            box-shadow:0 -1px 12px rgba(22,24,29,.05);
+            padding-bottom:env(safe-area-inset-bottom); }
+  .tabbar a { flex:1 1 0; min-width:0; position:relative; display:flex; flex-direction:column;
+              align-items:center; justify-content:center; gap:2px; padding:7px 2px 6px;
+              text-decoration:none; color:#8b93a1; font-size:10.5px; font-weight:600;
+              white-space:nowrap; }
+  .tabbar a svg { width:21px; height:21px; display:block; }
+  .tabbar a.on { color:var(--ac); font-weight:800; }
+  .tabbar a.on::before { content:""; position:absolute; top:0; left:50%; transform:translateX(-50%);
+                         width:26px; height:2.5px; border-radius:0 0 3px 3px; background:var(--ac); }
+  .tabbar a:active { background:#f0f3f7; }
+
+  /* ===== 顶部 ===== */
   header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
   header .logo { width:34px; height:34px; border-radius:9px; flex-shrink:0; display:block; }
   h1 { font-size:20px; font-weight:800; letter-spacing:.4px; line-height:1.25; }
@@ -31,77 +50,64 @@
   .stamp .sep { margin:0 5px; color:#c3cad4; }
   .stamp b { font-weight:600; color:#3d444f; }
 
-  /* ---------- 卡片横排 ---------- */
-  .cards { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x mandatory;
-           -webkit-overflow-scrolling:touch; padding:2px 12px 12px; margin:0 -12px;
-           scrollbar-width:none; }
-  .cards::-webkit-scrollbar { display:none; }
+  /* ===== 卡片 ===== */
   .card { background:var(--card); border:1px solid var(--line); border-radius:16px;
-          padding:14px 15px 13px; box-shadow:0 1px 3px rgba(0,0,0,.05);
-          flex:0 0 87%; max-width:87%; scroll-snap-align:center;
-          display:flex; flex-direction:column; }
-  .ch { display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:10px; }
-  .ct { font-size:14.5px; font-weight:800; padding-left:8px; border-left:4px solid var(--blue); }
-  .card.c-plan .ct { border-color:var(--green); }
-  .card.c-us .ct { border-color:var(--blue); }
-  .card.c-cn .ct { border-color:var(--red); }
-  .more { font-size:11px; color:var(--blue); text-decoration:none; font-weight:700; white-space:nowrap; }
+          padding:15px 16px 14px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  h2 { font-size:13.5px; font-weight:700; margin-bottom:12px; padding-left:8px;
+       border-left:4px solid var(--green); display:flex; align-items:baseline;
+       justify-content:space-between; gap:8px; }
+  h2 .tip { font-size:10px; color:var(--sub); font-weight:400; }
 
-  /* ---------- 分数 ---------- */
-  .score { display:flex; align-items:baseline; gap:9px; }
-  .score .v { font-size:40px; font-weight:800; line-height:1; font-variant-numeric:tabular-nums; }
-  .score .lv { font-size:11px; font-weight:700; color:#fff; border-radius:99px; padding:2px 9px; }
-  .score2 { display:flex; gap:10px; }
-  .score2 > div { flex:1; min-width:0; }
-  .score2 .k { display:block; font-size:11px; color:var(--sub); }
-  .score2 .row { display:flex; align-items:baseline; gap:5px; }
-  .score2 .v { font-size:26px; font-weight:800; line-height:1.1; font-variant-numeric:tabular-nums; }
-  .score2 .lv { font-size:9.5px; font-weight:700; color:#fff; border-radius:99px; padding:1px 6px; }
-  .asof { font-size:10px; color:var(--sub); margin-top:5px; }
+  /* ===== 月投入 / 每日 ===== */
+  .pctl { display:flex; align-items:center; gap:12px; }
+  .pctl > label { font-size:12px; color:var(--sub); flex-shrink:0; }
+  .pbox { display:flex; align-items:center; gap:4px; border:1px solid var(--line); border-radius:10px;
+          padding:4px 10px; background:#fbfcfd; }
+  .pbox input { width:92px; border:none; background:transparent; font-size:19px; font-weight:800;
+                color:var(--ink); font-family:inherit; font-variant-numeric:tabular-nums; outline:none; }
+  .pbox span { font-size:11px; color:var(--sub); }
+  .pbox:focus-within { border-color:var(--blue); background:#fff; }
+  .perday { margin-left:auto; text-align:right; }
+  .perday .k { font-size:10px; color:var(--sub); display:block; }
+  .perday .v { font-size:22px; font-weight:800; line-height:1.1; color:var(--green);
+               font-variant-numeric:tabular-nums; }
 
-  /* ---------- 指标分解 ---------- */
-  .legs { margin-top:10px; }
-  .leg { display:flex; align-items:center; gap:7px; font-size:11.5px; padding:3px 0; }
-  .leg .ln { color:#3d444f; width:78px; flex-shrink:0; white-space:nowrap;
-             overflow:hidden; text-overflow:ellipsis; }
-  .leg .lb { flex:1; height:5px; background:#eef1f5; border-radius:99px; overflow:hidden; min-width:20px; }
-  .leg .lb i { display:block; height:100%; border-radius:99px; }
-  .leg .lv2 { width:34px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums;
-              flex-shrink:0; }
-  .leg.hd { font-weight:800; color:var(--ink); padding-top:6px; font-size:11.5px; }
-  .leg.hd .lv2 { color:var(--sub); font-weight:600; font-size:9.5px; width:52px; }
-
-  /* ---------- 走势 ---------- */
-  .spark { margin-top:9px; }
-  .spark svg { width:100%; display:block; }
-  .spark .lg { display:flex; gap:10px; font-size:10px; color:var(--sub); margin-top:3px; }
-  .spark .lg i { display:inline-block; width:11px; height:2.5px; border-radius:2px;
-                 vertical-align:middle; margin-right:3px; }
-
-  /* ---------- 定投方案 ---------- */
-  .pctl { display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--sub); margin-bottom:9px; }
-  .pctl input { width:88px; padding:5px 9px; font-size:15px; font-weight:800; border:1px solid var(--line);
-                border-radius:8px; color:var(--ink); font-family:inherit; font-variant-numeric:tabular-nums; }
-  .pctl input:focus { outline:none; border-color:var(--blue); }
-  .prow { display:flex; align-items:baseline; gap:8px; font-size:12.5px; padding:6px 0;
+  /* ===== 标的表 ===== */
+  .prow { display:flex; align-items:center; gap:8px; font-size:13px; padding:8px 0;
           border-bottom:1px dashed var(--line); }
+  .prow:last-child { border-bottom:none; }
   .prow .pn { font-weight:700; flex:1; min-width:0; }
-  .prow .pp { color:var(--sub); font-size:11px; width:34px; text-align:right; flex-shrink:0; }
-  .prow .pa { font-weight:800; width:74px; text-align:right; font-variant-numeric:tabular-nums; flex-shrink:0; }
-  .prow.tot { border-top:1.5px solid var(--ink); border-bottom:none; margin-top:1px; }
-  .rule { font-size:11px; color:var(--sub); margin-top:10px; line-height:1.7; }
+  .prow .pp { color:var(--sub); font-size:11px; width:38px; text-align:right; flex-shrink:0;
+              font-variant-numeric:tabular-nums; }
+  .prow .pa { font-weight:800; width:82px; text-align:right; flex-shrink:0;
+              font-variant-numeric:tabular-nums; }
+  .prow.ph { padding:0 0 6px; border-bottom:1px solid var(--line); font-size:10.5px; color:var(--sub);
+             font-weight:600; }
+  .prow.ph .pa, .prow.ph .pp { font-weight:600; font-size:10.5px; }
+  .prow.tot { border-top:1.5px solid var(--ink); border-bottom:none; margin-top:1px; padding-top:9px; }
+  .prow.tot .pa { color:var(--ink); }
 
-  .dots { display:flex; justify-content:center; gap:6px; margin-top:2px; }
-  .dots i { width:6px; height:6px; border-radius:50%; background:#ccd3dd; transition:background .2s; }
-  .dots i.on { background:var(--blue); }
-  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:16px; }
+  /* ===== 规则 ===== */
+  .rule { list-style:none; }
+  .rule li { display:flex; gap:8px; font-size:12px; color:#3d444f; padding:5px 0;
+             border-bottom:1px dashed var(--line); line-height:1.6; }
+  .rule li:last-child { border-bottom:none; }
+  .rule li b { color:var(--ink); }
+  .rule .no { flex-shrink:0; width:16px; height:16px; border-radius:50%; background:#eef1f5;
+              color:var(--sub); font-size:10px; font-weight:700; line-height:16px; text-align:center;
+              margin-top:2px; }
 
-  @media (min-width: 900px) {
-    .cards { overflow:visible; }
-    .card { flex:1 1 0; max-width:none; }
-    .dots { display:none; }
-    .score .v { font-size:44px; }
-  }
+  /* ===== 入口 ===== */
+  .entry { display:flex; align-items:center; gap:10px; background:var(--card);
+           border:1px solid var(--line); border-radius:14px; padding:13px 16px;
+           text-decoration:none; color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.05);
+           font-size:13px; font-weight:600; }
+  .entry .arw { margin-left:auto; color:var(--sub); font-size:17px; line-height:1; }
+  .entry:active { background:#f0f3f7; }
+  .entry .tag { font-size:10px; font-weight:700; color:#fff; background:var(--green);
+                border-radius:5px; padding:1.5px 6px; }
+
+  footer { font-size:10px; color:var(--sub); text-align:center; margin-top:auto; padding-top:14px; }
 </style>
 </head>
 <body>
@@ -119,62 +125,47 @@
     </div>
   </header>
 
-  <div class="cards" id="cards">
-
-    <!-- ① 我的定投方案 -->
-    <section class="card c-plan">
-      <div class="ch"><span class="ct">我的定投方案</span>
-        <a class="more" href="plan-v15.html">详情 ›</a></div>
-      <div class="pctl">
-        <label for="pamt">月投入</label>
-        <input type="number" id="pamt" value="5000" min="0" step="100" inputmode="numeric">
-        <span>元 ÷ 21 个交易日</span>
-      </div>
-      <div class="prow" style="font-size:10.5px;color:var(--sub);border-bottom:1px solid var(--line);">
-        <span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
-      <div id="prows"></div>
-      <div class="rule">温度不改变任一档买入金额 · 每个交易日按日申购 · 6/12 月失衡再平衡 ·
-        奖金分 3 个月摊入日投</div>
-    </section>
-
-    <!-- ② 美股温度计 -->
-    <section class="card c-us">
-      <div class="ch"><span class="ct">美股温度计</span>
-        <a class="more" href="us.html">详情 ›</a></div>
-      <div class="score"><span class="v" id="us-v">--</span><span class="lv" id="us-lv">—</span></div>
-      <div class="asof" id="us-as">—</div>
-      <div class="legs" id="us-legs"></div>
-      <div class="spark">
-        <svg id="us-chart" viewBox="0 0 320 88" preserveAspectRatio="none"></svg>
-        <div class="lg"><span><i style="background:#2563eb"></i>泡沫分</span>
-          <span><i style="background:#94a3b8"></i>纳指</span></div>
-      </div>
-    </section>
-
-    <!-- ③ A股温度计 -->
-    <section class="card c-cn">
-      <div class="ch"><span class="ct">A股温度计</span>
-        <a class="more" href="cn.html">详情 ›</a></div>
-      <div class="score2">
-        <div><span class="k">市场温度 · 中证全指</span>
-          <div class="row"><span class="v" id="cn-mkt">--</span><span class="lv" id="cn-mkt-lv">—</span></div></div>
-        <div><span class="k">价值温度 · 红利低波</span>
-          <div class="row"><span class="v" id="cn-val">--</span><span class="lv" id="cn-val-lv">—</span></div></div>
-      </div>
-      <div class="asof" id="cn-as">—</div>
-      <div class="legs" id="cn-legs"></div>
-      <div class="spark">
-        <svg id="cn-chart" viewBox="0 0 320 88" preserveAspectRatio="none"></svg>
-        <div class="lg"><span><i style="background:#2563eb"></i>市场温度</span>
-          <span><i style="background:#dc2626"></i>价值温度</span></div>
-      </div>
-    </section>
-
+  <div class="card">
+    <h2>我的定投方案 <span class="tip">温度只展示，不改变金额</span></h2>
+    <div class="pctl">
+      <label for="pamt">月投入</label>
+      <div class="pbox"><input type="number" id="pamt" value="5000" min="0" step="100" inputmode="numeric"><span>元</span></div>
+      <div class="perday"><span class="k">每日合计</span><span class="v" id="per">—</span></div>
+    </div>
+    <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
+    <div id="prows"></div>
   </div>
-  <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
+
+  <div class="card">
+    <h2>执行规则 <span class="tip">v1.6</span></h2>
+    <ul class="rule">
+      <li><span class="no">1</span><span>每个交易日按日申购，<b>温度不改变任一档买入金额</b></span></li>
+      <li><span class="no">2</span><span>每月按 <b>21 个交易日</b>把月投入摊到每日</span></li>
+      <li><span class="no">3</span><span>每年 <b>6 月 / 12 月</b>检查权重，偏离目标则再平衡</span></li>
+      <li><span class="no">4</span><span>奖金（2 月 2 万 · 下半年 1 万）<b>分 3 个月摊入日投</b></span></li>
+    </ul>
+  </div>
+
+  <a class="entry" href="plan-v15.html">
+    <span class="tag">v1.6</span>
+    <span>完整方案 · 标的代码与再平衡细则</span>
+    <span class="arw">›</span>
+  </a>
 
   <footer>仅供研究参考，不构成投资建议</footer>
 </div>
+
+<nav class="tabbar">
+  <a href="index.html" style="--ac:#059669" class="on" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 10h18M9 15.2l2 2 4-4.2"/></svg>
+    定投方案</a>
+  <a href="us.html" style="--ac:#2563eb">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 18a8.5 8.5 0 1 1 17 0"/><path d="M12 18l4.2-5.4"/><circle cx="12" cy="18" r="1.7" fill="currentColor" stroke="none"/></svg>
+    美股温度计</a>
+  <a href="cn.html" style="--ac:#dc2626">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.6V5a2 2 0 1 1 4 0v8.6"/><circle cx="12" cy="17" r="3.4"/></svg>
+    A股温度计</a>
+</nav>
 
 <script>
 let DATA = null;
@@ -183,48 +174,25 @@ const FALLBACK = __DATA__;
 // ---------------- 常量 ----------------
 const DAYS = 21;                                   // 每月约 21 个交易日
 const PLAN = [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 20], ["A股自由现金流", 20]];
-const ZONES = [
-  { max:45,  name:"低估", color:"#059669" },
-  { max:55,  name:"中性", color:"#ca8a04" },
-  { max:70,  name:"偏高", color:"#d97706" },
-  { max:101, name:"高热", color:"#dc2626" },
-];
-const FEATS = [
-  { k:"s1", n:"估值" }, { k:"s2", n:"预期" }, { k:"s3", n:"情绪" }, { k:"s4", n:"杠杆" },
-  { k:"s5", n:"投机狂热" }, { k:"s6", n:"新买家" }, { k:"s7", n:"货币" }, { k:"s8", n:"科技" },
-];
-// A股：档位按「历史百分位」切，比固定阈值线稳（阈值线对样本口径敏感）
-const PCT_LEVELS = [
-  { min:80, name:"警戒", color:"#dc2626" },
-  { min:60, name:"偏高", color:"#d97706" },
-  { min:40, name:"中性", color:"#ca8a04" },
-  { min:20, name:"偏低", color:"#059669" },
-  { min:-1, name:"低位", color:"#047857" },
-];
 
 const $ = id => document.getElementById(id);
 const setTxt = (id, s) => { const e = $(id); if(e) e.textContent = s; };
-const zoneOf = t => { for(const z of ZONES){ if(t < z.max) return z; } return ZONES[3]; };
-const pctLevel = p => { for(const z of PCT_LEVELS){ if(p > z.min) return z; } return PCT_LEVELS[4]; };
 const bjDate = () => new Date(Date.now() + 8 * 3600e3);
+const money = v => "¥" + Math.round(v).toLocaleString("zh-CN");
 
-function tag(el, name, color){
-  el.textContent = name;
-  el.style.background = color;
-}
-
-// ---------------- ① 定投方案 ----------------
+// ---------------- 定投表 ----------------
 function renderPlan(){
   const x = parseFloat($("pamt").value) || 0;
   const per = x / DAYS;
+  setTxt("per", money(per));
   let h = "", sum = 0;
   for(const [n, p] of PLAN){
     const v = Math.round(per * p / 100); sum += v;
     h += `<div class="prow"><span class="pn">${n}</span><span class="pp">${p}%</span>`
-       + `<span class="pa">¥${v.toLocaleString("zh-CN")}</span></div>`;
+       + `<span class="pa">${money(v)}</span></div>`;
   }
   h += `<div class="prow tot"><span class="pn">合计</span><span class="pp">100%</span>`
-     + `<span class="pa">¥${sum.toLocaleString("zh-CN")}</span></div>`;
+     + `<span class="pa">${money(sum)}</span></div>`;
   $("prows").innerHTML = h;
 }
 function bindPlan(){
@@ -235,137 +203,18 @@ function bindPlan(){
   renderPlan();
 }
 
-// ---------------- 迷你走势图 ----------------
-// lines: [{v:[..], c:'#hex', w:2, min, max}]   两条线可各自量纲（美股 = 分数 + 纳指）
-function drawSpark(el, W, H, lines){
-  const L = 4, R = 4, T = 7, B = 4;
-  const iw = W - L - R, ih = H - T - B;
-  let s = "";
-  for(const ln of lines){
-    const v = ln.v, n = v.length;
-    if(n < 2) continue;
-    let lo = ln.min, hi = ln.max;
-    if(lo == null){ lo = Math.min(...v); hi = Math.max(...v); }
-    if(hi - lo < 1e-9) hi = lo + 1;
-    const X = i => L + i / (n - 1) * iw;
-    const Y = x => T + (1 - (x - lo) / (hi - lo)) * ih;
-    s += `<polyline points="${v.map((x, i) => `${X(i).toFixed(1)},${Y(x).toFixed(1)}`).join(" ")}"`
-       + ` fill="none" stroke="${ln.c}" stroke-width="${ln.w || 1.8}" stroke-linejoin="round"`
-       + ` stroke-linecap="round" opacity="${ln.op || 1}"/>`;
-    const li = n - 1;
-    s += `<circle cx="${X(li).toFixed(1)}" cy="${Y(v[li]).toFixed(1)}" r="2.6" fill="${ln.c}"`
-       + ` stroke="#fff" stroke-width="1.2"/>`;
-  }
-  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  el.innerHTML = s;
-}
-
-// ---------------- ② 美股卡片 ----------------
-function renderUS(){
-  const wk = DATA.week, cur = wk[wk.length - 1];
-  const z = zoneOf(cur.total);
-  setTxt("us-v", cur.total.toFixed(1));
-  $("us-v").style.color = z.color;
-  tag($("us-lv"), z.name, z.color);
-  setTxt("us-as", `截至 ${cur.d}`);
-  $("us-legs").innerHTML = FEATS.map(f => {
-    const v = cur[f.k] ?? 0;
-    const c = f.k === "s7" ? "#9ca3af" : zoneOf(v).color;
-    return `<div class="leg"><span class="ln">${f.n}</span>`
-         + `<span class="lb"><i style="width:${Math.max(3, v)}%;background:${c}"></i></span>`
-         + `<span class="lv2" style="color:${c}">${v.toFixed(0)}</span></div>`;
-  }).join("");
-  const seg = wk.slice(-260);
-  drawSpark($("us-chart"), 320, 88, [
-    { v: seg.map(d => d.total), c: "#2563eb", w: 2, min: 0, max: 100 },
-    { v: seg.map(d => d.ndx),  c: "#94a3b8", w: 1.4, op: .85 },
-  ]);
-}
-
-// ---------------- ③ A股卡片 ----------------
-function renderCN(){
-  const cn = DATA.cn;
-  if(!cn || !cn.records || !cn.records.length){
-    setTxt("cn-mkt", "--"); setTxt("cn-val", "--");
-    setTxt("cn-as", "数据尚未接入");
-    $("cn-legs").innerHTML = "";
-    return;
-  }
-  const rs = cn.records, cur = rs[rs.length - 1];
-  const hm = (cn.meta && cn.meta.hist) || {};
-  const m = hm.mkt || {}, v = hm.val || {};
-  const ml = pctLevel(m.pos == null ? 50 : m.pos);
-  const vl = pctLevel(v.pos == null ? 50 : v.pos);
-
-  setTxt("cn-mkt", cur.mkt.toFixed(1)); $("cn-mkt").style.color = ml.color;
-  setTxt("cn-val", cur.val.toFixed(1)); $("cn-val").style.color = vl.color;
-  tag($("cn-mkt-lv"), ml.name, ml.color);
-  tag($("cn-val-lv"), vl.name, vl.color);
-  setTxt("cn-as", `截至 ${cur.d}`
-    + (m.pos == null ? "" : `　市场 历史 ${m.pos.toFixed(0)}%`)
-    + (v.pos == null ? "" : `　价值 历史 ${v.pos.toFixed(0)}%`));
-
-  // 取数指标分解：市场温度是单一指标；价值温度 = 估值腿 + 全市场腿 + 板块拥挤度
-  const bar = (n, val, color, right) =>
-    `<div class="leg"><span class="ln">${n}</span>`
-    + `<span class="lb"><i style="width:${Math.max(3, val)}%;background:${color}"></i></span>`
-    + `<span class="lv2" style="color:${color}">${right}</span></div>`;
-  let h = `<div class="leg hd"><span class="ln">市场温度</span>`
-        + `<span class="lb"></span><span class="lv2">100%</span></div>`;
-  h += bar("全指PE分位", cur.mkt, ml.color, cur.mkt.toFixed(0));
-  h += `<div class="leg hd"><span class="ln">价值温度</span>`
-     + `<span class="lb"></span><span class="lv2">55/30/15</span></div>`;
-  h += bar("估值腿", cur.est, vl.color, cur.est.toFixed(0));
-  h += bar("全市场腿", cur.bkg, vl.color, cur.bkg.toFixed(0));
-  h += bar("板块拥挤度", cur.crowd, vl.color, cur.crowd.toFixed(0));
-  $("cn-legs").innerHTML = h;
-
-  const seg = rs.slice(-260);
-  drawSpark($("cn-chart"), 320, 88, [
-    { v: seg.map(d => d.mkt), c: "#2563eb", w: 1.8, min: 0, max: 100 },
-    { v: seg.map(d => d.val), c: "#dc2626", w: 2,   min: 0, max: 100 },
-  ]);
-}
-
 // ---------------- 时间戳 ----------------
 function stampData(){
   const m = (DATA && DATA.meta) || {};
-  setTxt("sync", m.updated || "—");
+  let up = m.updated;
   const cnUp = DATA && DATA.cn && DATA.cn.meta && DATA.cn.meta.updated;
-  if(cnUp && m.updated && cnUp < m.updated) setTxt("sync", cnUp);
+  if(cnUp && up && cnUp < up) up = cnUp;
+  setTxt("sync", up || "—");
 }
 function tick(){
   const d = bjDate();
   const p = n => String(n).padStart(2, "0");
   setTxt("clock", `${p(d.getUTCHours())}:${p(d.getUTCMinutes())}:${p(d.getUTCSeconds())}`);
-}
-
-// ---------------- 横滑圆点 ----------------
-function bindDots(){
-  const box = $("cards"), dots = [...$("dots").children];
-  const upd = () => {
-    const c = box.scrollLeft, w = box.clientWidth;
-    const i = Math.max(0, Math.min(dots.length - 1, Math.round(c / (w * 0.9))));
-    dots.forEach((d, k) => d.classList.toggle("on", k === i));
-  };
-  box.addEventListener("scroll", upd, { passive:true });
-  dots.forEach((d, k) => d.addEventListener("click",
-    () => box.scrollTo({ left: box.children[k].offsetLeft - box.offsetLeft - 12, behavior:"smooth" })));
-  upd();
-}
-
-// ---------------- 渲染 ----------------
-function renderAll(){
-  renderUS();
-  renderCN();
-  renderPlan();
-  const us = DATA.week[DATA.week.length - 1];
-  let t = `定投量化策略 · 美股 ${us.total.toFixed(1)}`;
-  if(DATA.cn && DATA.cn.records && DATA.cn.records.length){
-    const c = DATA.cn.records[DATA.cn.records.length - 1];
-    t += ` · A股 市场 ${c.mkt.toFixed(0)} / 价值 ${c.val.toFixed(0)}`;
-  }
-  document.title = t;
 }
 
 // ---------------- 数据加载：多源容灾 ----------------
@@ -403,13 +252,11 @@ async function loadData(){
 // 先用内嵌快照立即出图（不等网络），远程拿到更新的数据再覆盖一次
 DATA = FALLBACK;
 stampData();
-renderAll();
 bindPlan();
-bindDots();
 tick();
 setInterval(tick, 1000);
 loadData().then(j => {
-  if(j && j !== DATA){ DATA = j; stampData(); renderAll(); }
+  if(j && j !== DATA){ DATA = j; stampData(); }
 }).catch(() => {});
 </script>
 </body>

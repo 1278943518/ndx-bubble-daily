@@ -4,6 +4,11 @@
 用法:
     python bubble_cn/fetch_cn.py            # 抓取 + 计算 + 写 bubble_out/cn_scores.json
 
+输出每条记录（周频）：
+    d, mkt, val, est, bkg, crowd, senti, lev, new,
+    peVal, peAll,          # 展示用原始 PE（未经跳变校正）
+    pxVal, pxAll           # 标的走势：红利低波 / 中证全指 收盘，供走势图叠加
+
 口径（2026-09-16 定稿，见《A股温度计-双读数口径回测-20260916》）:
 
     市场温度 = pr( 中证全指 000985 PE校正, 520周 )
@@ -228,6 +233,10 @@ def compute(df):
     t["mkt"] = pr(pe_all_adj)                     # 市场温度（纯单一指标）
     t["pe_val"] = df["pe_val"].round(2)
     t["pe_all"] = df["pe_all"].round(2)
+    # ★ 标的走势：走势图上要把「温度」与「对应标的」画在一起，所以要把指数价格带出去
+    #   市场温度 ← 中证全指 000985；价值温度 ← 红利低波 H30269
+    t["px_val"] = df["px_val"].round(2)
+    t["px_all"] = df["px_all"].round(2)
     # 后续 52 周收益（红利低波价格指数，不含股息 → 绝对收益被低估，只看档间相对差）
     t["fwd_val"] = (df["px_val"].shift(-52) / df["px_val"] - 1) * 100
     return t, len(jumps_val), len(jumps_all)
@@ -279,6 +288,8 @@ def main():
             rec[k] = round(float(r[k]), 1)
         rec["peVal"] = float(r["pe_val"])
         rec["peAll"] = float(r["pe_all"])
+        rec["pxVal"] = float(r["px_val"])          # 红利低波 H30269 收盘（价值温度的标的）
+        rec["pxAll"] = float(r["px_all"])          # 中证全指 000985 收盘（市场温度的标的）
         recs.append(rec)
     assert recs, "没有一条有效记录"
 
