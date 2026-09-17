@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- ★ 关掉网页版缩放（双击放大 / 双指放大），更像原生 App；iOS 会忽略 user-scalable=no，
+     所以另有 CSS touch-action + JS gesture 兜底，见下方 <style> 与 <script> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>A股温度计 · 定投量化策略</title>
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -20,6 +22,9 @@
     --tabh:58px;
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  /* ★ 禁止双指缩放 / 双击放大（浏览器页面上 html/body 的 touch-action 会向下取交集，
+        所以整页都生效；.ov 自己更严格的 pan-y 不受影响） */
+  html, body { touch-action:pan-x pan-y; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
          line-height:1.6; font-size:14px;
          padding:16px 12px calc(var(--tabh) + env(safe-area-inset-bottom) + 14px);
@@ -69,10 +74,13 @@
   .leg .ln { color:#3d444f; width:96px; flex-shrink:0; }
   .leg .lb { flex:1; height:6px; background:#eef1f5; border-radius:99px; overflow:hidden; min-width:20px; }
   .leg .lb i { display:block; height:100%; border-radius:99px; }
-  .leg .lv2 { width:48px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums; flex-shrink:0; }
+  .leg .lv2 { width:52px; text-align:right; font-weight:700; font-variant-numeric:tabular-nums;
+              flex-shrink:0; white-space:nowrap; }
   .leg.hd { font-weight:800; color:var(--ink); padding-top:9px; border-top:1px dashed var(--line); margin-top:5px; }
   .leg.hd:first-child { border-top:none; padding-top:0; margin-top:0; }
-  .leg.hd .lv2 { width:48px; color:var(--sub); font-weight:600; font-size:10.5px; }
+  .leg.hd .lv2 { width:52px; color:var(--sub); font-weight:600; font-size:10.5px; }
+  /* ★ 标题行不画进度条轨道（权重/说明文字直接靠右，靠 .lb 空占位维持与下面各行的列对齐） */
+  .leg.hd .lb { background:none; }
 
   /* ===== 参考读数（成长 / 风格 · 仅供参考） ===== */
   .refbox { margin-top:12px; padding-top:10px; border-top:1px dashed var(--line); }
@@ -111,9 +119,16 @@
          border:1px solid var(--line); border-radius:9px; padding:5px 9px; font-size:11px;
          line-height:1.5; z-index:6; white-space:nowrap; transform:translateY(-50%);
          box-shadow:0 2px 10px rgba(0,0,0,.08); }
-  .tipc .d { font-size:10px; color:var(--sub); font-weight:700; margin-bottom:2px; }
+  .tipc .d { font-size:10px; color:var(--sub); font-weight:700; margin-bottom:2px; padding-right:13px; }
   .tipc .r { display:flex; justify-content:space-between; gap:10px; }
   .tipc .r b { font-variant-numeric:tabular-nums; }
+  /* 浮窗右上角关闭按钮：容器整体 pointer-events:none（不挡住下面的图），
+     只有这个 ✕ 单独放开接收点击 */
+  .tipc .x { position:absolute; top:2px; right:3px; width:16px; height:16px;
+             display:flex; align-items:center; justify-content:center;
+             font-size:10px; line-height:1; color:#a8b0bc; border-radius:50%;
+             pointer-events:auto; cursor:pointer; user-select:none; }
+  .tipc .x:active { background:#e5eaf1; color:var(--ink); }
 
   /* ===== 表格 / 键值 ===== */
   /* ⚠️ .k 必须 nowrap + flex:0 0 auto：否则一条很长的值会把键名挤成 1 个字宽，
@@ -269,6 +284,19 @@
 </nav>
 
 <script>
+// ★ 关掉「网页版」缩放手势（双击放大 / 双指放大），让页面更像原生 App。
+//   viewport 的 user-scalable=no 在 iOS 10+ 被忽略，所以这里再兜一层：
+//   · iOS 专属 gesture* 事件直接拦掉
+//   · 双指 touchmove 拦掉（安卓部分浏览器只认这条）
+//   只在 iOS 上挂非 passive 的 touchmove，避免影响安卓的滚动流畅度。
+if("ongesturestart" in window){
+  ["gesturestart", "gesturechange", "gestureend"].forEach(t =>
+    document.addEventListener(t, e => e.preventDefault(), { passive:false }));
+  document.addEventListener("touchmove", e => {
+    if(e.touches && e.touches.length > 1) e.preventDefault();
+  }, { passive:false });
+}
+
 let DATA = null;
 const FALLBACK = __DATA__;
 
@@ -470,7 +498,8 @@ function showTip(cfg, i){
     + `<circle cx="${px.toFixed(1)}" cy="${g.y(d[cfg.k]).toFixed(1)}" r="4.6" fill="${cfg.c}" stroke="#fff" stroke-width="1.8"/>`
     + `<circle cx="${px.toFixed(1)}" cy="${g.yP(d[pk]).toFixed(1)}" r="3.8" fill="${cfg.pc}" stroke="#fff" stroke-width="1.5"/>`;
   const tip = $(cfg.tip);
-  tip.innerHTML = `<div class="d">${d.d}</div>`
+  tip.innerHTML = `<span class="x" title="关闭">✕</span>`
+    + `<div class="d">${d.d}</div>`
     + `<div class="r"><span style="color:${cfg.c}">${cfg.lbl}</span><b>${d[cfg.k].toFixed(1)}</b></div>`
     + `<div class="r"><span style="color:${cfg.pc}">${pl}</span><b>${fmtPx(d[pk])}</b></div>`;
   tip.hidden = false;
@@ -590,9 +619,10 @@ function render(){
   h += bar("中证全指PE分位", cur.mkt, ZC[mi], cur.mkt.toFixed(1));
   h += `<div class="leg hd"><span class="ln">价值温度</span><span class="lb"></span>`
      + `<span class="lv2">55/30/15</span></div>`;
-  h += bar("估值腿·红利低波", cur.est, ZC[vi], `${cur.est.toFixed(0)} · 55%`);
-  h += bar("全市场腿", cur.bkg, ZC[vi], `${cur.bkg.toFixed(0)} · 30%`);
-  h += bar("板块拥挤度", cur.crowd, ZC[vi], `${cur.crowd.toFixed(0)} · 15%`);
+  // 权重已写在标题行「55/30/15」里，行内不再重复 —— 分数后面挂比例会把 52px 的数值列挤成两行
+  h += bar("估值腿·红利低波", cur.est, ZC[vi], cur.est.toFixed(0));
+  h += bar("全市场腿", cur.bkg, ZC[vi], cur.bkg.toFixed(0));
+  h += bar("板块拥挤度", cur.crowd, ZC[vi], cur.crowd.toFixed(0));
   h += `<div class="leg hd"><span class="ln">全市场腿拆解</span><span class="lb"></span>`
      + `<span class="lv2">20/20/15</span></div>`;
   h += bar("情绪", cur.senti, "#64748b", cur.senti.toFixed(0));
@@ -677,6 +707,17 @@ async function loadData(){
 DATA = FALLBACK;
 render();
 CH.forEach(bindOverlay);
+
+// ★ 浮窗关闭：① 点右上角 ✕ ② 点页面空白处
+//   用委托挂在 document 上（浮窗内容是每次 innerHTML 换新节点，逐个 addEventListener 会串台）
+document.addEventListener("click", e => {
+  if(e.target.closest && e.target.closest(".tipc .x")) hideAllTips();
+});
+document.addEventListener("pointerdown", e => {
+  const t = e.target;
+  if(t.closest && (t.closest(".tipc") || t.closest(".ov"))) return;  // 浮窗内、图表上不算空白
+  hideAllTips();
+});
 $("seg").addEventListener("click", e => {
   const el = e.target.closest(".seg-item");
   if(!el || el.dataset.v === VIEW.range) return;

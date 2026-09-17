@@ -2,7 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- ★ 关掉网页版缩放（双击放大 / 双指放大），更像原生 App；iOS 会忽略 user-scalable=no，
+     所以另有 CSS touch-action + JS gesture 兜底，见下方 <style> 与 <script> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>美股温度计 · 定投量化策略</title>
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -20,6 +22,8 @@
     --tabh:58px;
   }
   * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+  /* ★ 禁止双指缩放 / 双击放大（html/body 的 touch-action 会向下取交集，整页生效） */
+  html, body { touch-action:pan-x pan-y; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   body { background:var(--bg); color:var(--ink); font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6;
          padding:16px 12px calc(var(--tabh) + env(safe-area-inset-bottom) + 14px);
          min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
@@ -217,6 +221,16 @@
 </nav>
 
 <script>
+// ★ 关掉「网页版」缩放手势（双击放大 / 双指放大），让页面更像原生 App。
+//   viewport 的 user-scalable=no 在 iOS 10+ 被忽略，所以这里再兜一层。
+if("ongesturestart" in window){
+  ["gesturestart", "gesturechange", "gestureend"].forEach(t =>
+    document.addEventListener(t, e => e.preventDefault(), { passive:false }));
+  document.addEventListener("touchmove", e => {
+    if(e.touches && e.touches.length > 1) e.preventDefault();
+  }, { passive:false });
+}
+
 let DATA = null;                       // 运行时数据: fetch data.json 优先, 失败用内嵌兜底
 const FALLBACK = __DATA__;             // 构建时内嵌的快照(本地/离线可用)
 
@@ -521,6 +535,12 @@ function bindOnce(){
     refresh();
   });
   bindOverlay();
+  // ★ 点页面空白处关掉浮窗（浮窗内、图表上不算空白）—— 与 A股页保持一致
+  document.addEventListener("pointerdown", e => {
+    const t = e.target;
+    if(t.closest && (t.closest(".tip-box") || t.closest("#overlay"))) return;
+    hideTip();
+  });
 }
 
 function init(){
