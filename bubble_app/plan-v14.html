@@ -2,8 +2,8 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>美股温度计 · 使用与定投说明</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>定投温度计 · 使用与定投说明</title>
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -16,6 +16,9 @@
     --green:#059669; --amber:#b45309; --red:#b91c1c;
   }
   *{box-sizing:border-box;}
+  /* ★ 禁止双指缩放 / 双击放大 / 缩放后左右平移（与首页 index.html 同一套做法：
+     html/body 的 touch-action 会向下取交集、整页生效；iOS 另用 JS gesture 兜底） */
+  html, body { touch-action:pan-x pan-y; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   body{margin:0;background:var(--bg);color:var(--ink);
     font:15px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
     -webkit-font-smoothing:antialiased;}
@@ -111,7 +114,7 @@
     <img class="logo" src="logo.svg" alt="泡沫温度计">
     <a class="back" href="./">← 返回温度计</a>
   </div>
-  <h1>美股温度计 · 使用与定投说明</h1>
+  <h1>定投温度计 · 使用与定投说明</h1>
   <p class="lead">不择时 · <b>每个交易日定投</b> · 分红再投 · 数据每日 08:00 自动更新<br>
   看顺序：<b>配置表 → 标的选择 → 执行规则</b>；取舍理由与回测在后面，不影响执行。</p>
 </header>
@@ -326,6 +329,15 @@
 </div>
 
 <script>
+// ★ 关掉「网页版」缩放手势（双击放大 / 双指放大 / 缩放后左右平移），让页面更像原生 App。
+//   viewport 的 user-scalable=no 在 iOS 10+ 被忽略，所以这里再兜一层。与首页完全同一套。
+if("ongesturestart" in window){
+  ["gesturestart", "gesturechange", "gestureend"].forEach(t =>
+    document.addEventListener(t, e => e.preventDefault(), { passive:false }));
+  document.addEventListener("touchmove", e => {
+    if(e.touches && e.touches.length > 1) e.preventDefault();
+  }, { passive:false });
+}
 (function(){
   var DAYS = 21;
   var P = [["纳斯达克 100",30],["标普 500",30],["A 股红利低波",25],["A 股自由现金流",15]];

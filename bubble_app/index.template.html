@@ -83,15 +83,20 @@
           border-bottom:1px dashed var(--line); }
   .prow:last-child { border-bottom:none; }
   .prow .pn { font-weight:700; flex:1; min-width:0; }
-  .prow .pp { color:var(--sub); font-size:11px; width:38px; text-align:right; flex-shrink:0;
+  .prow .pp { color:var(--sub); font-size:11px; width:34px; text-align:right; flex-shrink:0;
               font-variant-numeric:tabular-nums; }
-  .prow .pa { font-weight:800; width:82px; text-align:right; flex-shrink:0;
+  .prow .pa { font-weight:800; width:70px; text-align:right; flex-shrink:0;
               font-variant-numeric:tabular-nums; }
+  /* 第 22 轮新增「每周四」列：A股两腿每周四一笔（= 当日金额 × 5），美股两腿不适用 → 显示 — */
+  .prow .pw { font-weight:800; width:74px; text-align:right; flex-shrink:0;
+              font-variant-numeric:tabular-nums; color:var(--green); }
+  .prow .pw.na { color:var(--sub); font-weight:600; }
   .prow.ph { padding:0 0 6px; border-bottom:1px solid var(--line); font-size:10.5px; color:var(--sub);
              font-weight:600; }
-  .prow.ph .pa, .prow.ph .pp { font-weight:600; font-size:10.5px; }
+  .prow.ph .pa, .prow.ph .pp, .prow.ph .pw { font-weight:600; font-size:10.5px; color:var(--sub); }
   .prow.tot { border-top:1.5px solid var(--ink); border-bottom:none; margin-top:1px; padding-top:9px; }
   .prow.tot .pa { color:var(--ink); }
+  .prow.tot .pw { color:var(--green); }
 
   /* ===== 规则 ===== */
   .rule { list-style:none; }
@@ -165,6 +170,66 @@
   .rbmsg b { font-weight:700; }
   .rbsub { font-size:10px; color:var(--sub); margin-top:9px; line-height:1.7; }
 
+  /* ===== 我的持仓 · 定投台账（第 22 轮新增） ===== */
+  .hbanner { font-size:10.5px; line-height:1.6; background:#fff7ed; border:1px solid #fed7aa;
+             color:#9a3412; border-radius:9px; padding:7px 9px; margin-bottom:10px; }
+  .hsum { display:flex; align-items:baseline; gap:9px; flex-wrap:wrap; margin:2px 0 10px; }
+  .hsum .big { font-size:26px; font-weight:800; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
+  .hsum .pl { font-size:13px; font-weight:800; font-variant-numeric:tabular-nums; }
+  .hsum .pl.up { color:#b91c1c; } .hsum .pl.dn { color:var(--green); }
+  .hsum .sm { font-size:10.5px; color:var(--sub); margin-left:auto; text-align:right; line-height:1.4; }
+  .hrow { display:flex; align-items:center; gap:8px; font-size:12.5px; padding:8px 0; border-bottom:1px solid var(--line); }
+  .hrow:last-child { border-bottom:none; }
+  .hrow .hn { flex:1; min-width:0; font-weight:700; }
+  .hrow .hn .cd { font-weight:500; font-size:10px; color:var(--sub); margin-left:5px; font-variant-numeric:tabular-nums; }
+  .hrow .hn .lm { display:block; font-size:10px; font-weight:500; color:var(--sub); margin-top:1px;
+                  font-variant-numeric:tabular-nums; }
+  .hrow .hv { width:80px; text-align:right; font-weight:800; flex-shrink:0; font-variant-numeric:tabular-nums; }
+  .hrow .hp { width:82px; text-align:right; font-size:11px; font-weight:700; flex-shrink:0;
+              font-variant-numeric:tabular-nums; line-height:1.35; }
+  .hrow .hp.up { color:#b91c1c; } .hrow .hp.dn { color:var(--green); }
+  .hrow.na .hv { color:var(--sub); font-weight:700; }
+  /* 第 22 轮：加了「在途」后每腿 4 个输入框。
+     ★ 光靠 placeholder 不够 —— 有值时 placeholder 根本不显示，4 个数字框就分不清谁是谁
+     （199.59 / 595.01 / 142 摆一排，用户没法猜）。所以每个输入框配一个**常显小标签**，一行两个。 */
+  .hedit { display:flex; align-items:center; gap:6px 8px; flex-wrap:wrap; font-size:11px; padding:8px 0; border-bottom:1px solid var(--line); }
+  .hedit:last-of-type { border-bottom:none; }
+  .hedit .el { width:100%; flex-shrink:0; font-weight:700; margin-bottom:1px; }
+  .hedit .ef { flex:1 1 45%; min-width:0; display:flex; align-items:center; gap:5px; }
+  .hedit .ef i { font-style:normal; font-size:10.5px; color:var(--sub); flex-shrink:0; width:44px; text-align:right; }
+  .hedit input { width:100%; min-width:0; border:1px solid var(--line); border-radius:8px; padding:5px 7px;
+                 font-size:12.5px; font-family:inherit; background:#fff; color:var(--ink); }
+  .hedit input:focus { outline:none; border-color:var(--blue); }
+  .hedit .eu { font-size:10px; color:var(--sub); flex-shrink:0; }
+  /* 第 23 轮：自动记账开关（开了份额才会自己涨） */
+  .hauto { display:flex; align-items:flex-start; gap:7px; margin-top:10px; font-size:11px;
+           line-height:1.5; color:var(--ink); cursor:pointer; }
+  .hauto input { width:auto; flex-shrink:0; margin:2px 0 0; }
+  .hbtns { display:flex; gap:7px; margin-top:11px; }
+  .hbtn { flex:1 1 0; min-width:0; font-family:inherit; font-size:11.5px; font-weight:700; color:var(--ink);
+          background:#f1f4f8; border:1px solid var(--line); border-radius:9px; padding:9px 4px;
+          cursor:pointer; white-space:nowrap; }
+  .hbtn:active { background:#e6ebf2; }
+  .hbtn.on { background:var(--green); border-color:var(--green); color:#fff; }
+  .hbtn.gh { background:#fff; }
+  .hlz { margin-top:10px; border-top:1px dashed var(--line); padding-top:9px; max-height:268px; overflow-y:auto;
+         -webkit-overflow-scrolling:touch; }
+  .hl { display:flex; align-items:center; gap:7px; font-size:11.5px; padding:5px 0; border-bottom:1px solid var(--line); }
+  .hl:last-child { border-bottom:none; }
+  .hl .hd { flex:1; min-width:0; font-variant-numeric:tabular-nums; }
+  .hl .hd i { font-style:normal; color:var(--sub); font-size:10px; }
+  .hl .ha { width:62px; text-align:right; font-weight:700; flex-shrink:0; font-variant-numeric:tabular-nums; }
+  .hl .hm { width:40px; text-align:right; flex-shrink:0; font-size:10px; color:var(--sub); }
+  .hl .hk { width:40px; flex-shrink:0; font-size:10px; font-weight:700; border:1px solid var(--line);
+            border-radius:7px; background:#f1f4f8; padding:4px 0; text-align:center; font-family:inherit; cursor:pointer; }
+  .hl.done .hd { color:var(--sub); }
+  .hl.done .hk { background:var(--green); border-color:var(--green); color:#fff; }
+  .hnote { font-size:10px; color:var(--sub); margin-top:9px; line-height:1.7; }
+  .hnote b { color:var(--ink); }
+  .himp { width:100%; margin-top:8px; border:1px solid var(--line); border-radius:9px; padding:7px 9px;
+          font-family:ui-monospace,Menlo,Consolas,monospace; font-size:10.5px; line-height:1.5;
+          background:#fafbfd; color:var(--sub); resize:vertical; min-height:56px; }
+
   /* 计算器摘要（键值行，视觉上是表格） */
   .rbkv { font-size:11.5px; font-variant-numeric:tabular-nums; }
   .rbkv > div { display:flex; align-items:baseline; gap:10px; padding:5px 0;
@@ -187,6 +252,14 @@
     </div>
   </header>
 
+  <!-- ============ 我的持仓 · 定投台账（第 22 轮新增） ============
+       净值走腾讯 jj 前缀自动取；持仓与台账只存本机 localStorage，不上传。
+       内容全部由 renderHold() 渲染（每次 innerHTML 重建 → 事件一律用委托）。 -->
+  <div class="card" id="holdCard">
+    <h2>我的持仓 <span class="tip" id="hAsOf">净值取数中…</span></h2>
+    <div id="holdBox"></div>
+  </div>
+
   <div class="card">
     <h2>我的定投方案 <span class="tip">A股两腿按价值温度择时</span></h2>
     <div class="pctl">
@@ -195,7 +268,7 @@
       <div class="perday"><span class="k">调整后每日合计</span><span class="v" id="per">—</span></div>
     </div>
     <div class="tadj" id="tadj"></div>
-    <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span></div>
+    <div class="prow ph"><span class="pn">标的</span><span class="pp">占比</span><span class="pa">每日</span><span class="pw">每周四</span></div>
     <div id="prows"></div>
   </div>
 
@@ -203,9 +276,10 @@
     <h2>执行规则 <span class="tip">v1.7</span></h2>
     <ul class="rule">
       <li><span class="no">1</span><span><b>A 股两腿</b>按价值温度档位调每日金额（倍数 <b>2 / 1.5 / 1 / 0.5 / 0</b>）；<b>美股两腿不择时</b></span></li>
-      <li><span class="no">2</span><span>每月按 <b>21 个交易日</b>把月投入摊到每日</span></li>
-      <li><span class="no">3</span><span>每年 <b>6 月 / 12 月</b>检查权重，偏离目标则再平衡</span></li>
-      <li><span class="no">4</span><span>奖金（2 月 2 万 · 下半年 1 万）<b>分 3 个月摊入日投</b></span></li>
+      <li><span class="no">2</span><span>每日金额基准 <b>= 月投入 ÷ 21 个交易日</b>，再按各腿占比拆分（月投入 5000 → <b>基准</b>每日合计 238：纳指/标普各 71，A股两腿各 48）</span></li>
+      <li><span class="no">3</span><span><b>A 股两腿每周四投一笔</b>＝当日金额 × 5（一周 5 个交易日）；<b>美股两腿每个交易日按当日金额投</b></span></li>
+      <li><span class="no">4</span><span>每年 <b>6 月 / 12 月</b>检查权重，偏离目标则再平衡</span></li>
+      <li><span class="no">5</span><span>奖金（2 月 2 万 · 下半年 1 万）<b>分 3 个月摊入日投</b></span></li>
     </ul>
   </div>
 
@@ -265,7 +339,11 @@ const FALLBACK = __DATA__;
 
 // ---------------- 常量 ----------------
 const DAYS = 21;                                   // 每月约 21 个交易日
-const PLAN = [["纳斯达克 100", 30], ["标普 500", 30], ["A股红利低波", 20], ["A股自由现金流", 20]];
+// 第 3 位 = 执行频率。daily = 每个交易日；weekly4 = 每周四一笔（金额 = 当日基准 × 5）。
+// ★ 这个频率是**你实际的执行方式**，与"择时"是两件事：A股两腿碰巧既择时又每周四，
+//   但代码里分开表达（频率看 freq，择时看 TM_LEGS），以后想改任何一个都不用碰另一个。
+const PLAN = [["纳斯达克 100", 30, "daily"], ["标普 500", 30, "daily"],
+              ["A股红利低波", 20, "weekly4"], ["A股自由现金流", 20, "weekly4"]];
 
 // ★ A股两腿「档位择时」（第 20 轮口径，2026-09-17）
 //   信号 = 价值温度（A股温度计的读数）。两腿共用同一个信号 —— 红利低波 × 自由现金流
@@ -302,7 +380,12 @@ function timing(){
   const rs = (DATA && DATA.cn && DATA.cn.records) || [];
   const last = rs.length ? rs[rs.length - 1] : null;
   if(!last || typeof last.val !== "number" || !isFinite(last.val)) return null;
-  let z = TM_BOUNDS.length - 1;
+  // ★ 初始值 = 「最后一档」的索引。TM_BOUNDS 是 4 条边界 → 切出 5 档（索引 0..4）。
+  //   val ≥ 最后一个边界（70）时循环一条都不命中，必须落到索引 4（警戒 / 0× / 暂停）。
+  //   ⚠️ 历史 bug：曾写成 TM_BOUNDS.length - 1（= 3 = 偏高 / 0.5×）→ 价值温度 70 会显示
+  //      「择时减 −24」，与完整方案 plan-v16 的 zoneOf()（边界都不满足时 return 4）自相矛盾。
+  //      判定必须与 v1.7 档位表一致：50–70 = 偏高（0.5×）、**≥70 = 警戒（0×，停止定投）**。
+  let z = TM_BOUNDS.length;
   for(let i = 0; i < TM_BOUNDS.length; i++){ if(last.val < TM_BOUNDS[i]){ z = i; break; } }
   return { val:last.val, d:last.d, zone:z, mult:TM_MULT[z], label:TM_LABEL[z],
            state:TM_STATE[z], cls:TM_CLASS[z] };
@@ -313,8 +396,8 @@ function renderPlan(){
   const x = parseFloat($("pamt").value) || 0;
   const per = x / DAYS;
   const tm = timing();
-  let h = "", sumBase = 0, sumAct = 0;
-  for(const [n, p] of PLAN){
+  let h = "", sumBase = 0, sumAct = 0, sumWk = 0;
+  for(const [n, p, freq] of PLAN){
     const base = per * p / 100;
     const timed = TM_LEGS.indexOf(n) >= 0;
     const act = Math.round(base * ((timed && tm) ? tm.mult : 1));
@@ -323,11 +406,16 @@ function renderPlan(){
     const badge = timed
       ? (tm ? `<em class="st ${tm.cls}">（${tm.state}）</em>` : `<em class="st na">（待取数）</em>`)
       : "";
+    // 每周四那一笔 = 当日金额 × 5（一周 5 个交易日）；美股腿按日投，这一列不适用
+    const wk = (freq === "weekly4") ? act * 5 : null;
+    if(wk !== null) sumWk += wk;
     h += `<div class="prow"><span class="pn">${n}${badge}</span><span class="pp">${p}%</span>`
-       + `<span class="pa">${money(act)}</span></div>`;
+       + `<span class="pa">${money(act)}</span>`
+       + `<span class="pw${wk === null ? " na" : ""}">${wk === null ? "—" : money(wk)}</span></div>`;
   }
   h += `<div class="prow tot"><span class="pn">合计</span><span class="pp">100%</span>`
-     + `<span class="pa">${money(sumAct)}</span></div>`;
+     + `<span class="pa">${money(sumAct)}</span>`
+     + `<span class="pw">${money(sumWk)}</span></div>`;
   $("prows").innerHTML = h;
   setTxt("per", money(sumAct));
   renderAdj(tm, per, sumBase, sumAct);
@@ -361,7 +449,11 @@ function bindPlan(){
   const inp = $("pamt");
   const saved = localStorage.getItem("pamt");
   if(saved !== null) inp.value = saved;
-  inp.addEventListener("input", e => { renderPlan(); localStorage.setItem("pamt", e.target.value); });
+  inp.addEventListener("input", e => {
+    renderPlan();
+    localStorage.setItem("pamt", e.target.value);
+    renderHold();          // 月投入变了 → 持仓卡里的「每日 / 每周四应投」也要跟着变
+  });
   renderPlan();
 }
 
@@ -573,13 +665,502 @@ async function loadData(){
   return best;
 }
 
+// ================= 我的持仓 · 定投台账（第 22 轮新增） =================
+// 改这个模块之前先读这四条设计取舍：
+//  ① 取数：腾讯 `q=jj` + 6位代码，与 A股同一个 qt.gtimg.cn，用 script 标签加载 → 不需要 CORS。
+//     只读「单位净值/累计净值/日涨跌/净值日期」四个数字字段，**故意不读名称字段**
+//     （腾讯是 GBK，在 UTF-8 文档里会乱码；好在 `~`=0x7E 不是合法 GBK 尾字节，分隔符不会被中文吃进去）。
+//  ② ★ "自动"的边界：**市值与收益随净值自动变；份额只能由「已投」驱动**。
+//     页面绝不替你假设"你买了"——那是编数据。所以台账只自动生成「应投」待办，一键确认才入账。
+//  ③ 应投金额跟着价值温度档位走：美股腿 = 基准日额；A股腿 = 基准日额 × 倍数 × 5（每周四一笔）。
+//     这正是用户口中"本来 48、现在 24、一周 120"的来源（价值温度 69.0 → 0.5×）。
+//  ④ 存储只在本机 localStorage（与 pamt 一致）。跨设备用「复制配置 / 粘贴导入」。
+const HKEY = "dca_hold_v1";
+const HDEF = [
+  // ★★ 2026-09-20 晚：用户给出 4 只基金的 App 详情页截图，逐条核对后定稿。
+  //    验证方式 = 「份额 × 最新净值 + 在途 = App 的基金资产」，四条**分毫不差**：
+  //      纳指 199.59×2.2797 = 455.01 (+在途142) = 597.01 ✓ 成本 595.01 → 收益 +2.00 ✓
+  //      标普  76.39×2.2411 = 171.20 (+在途142) = 313.20 ✓ 成本 312.62 → 收益 +0.58 ✓
+  //      红利 2100.04×1.0708 = 2248.72 (=App 资产) ✓ 成本 2283.90 → 收益 −35.18 ✓
+  //      现金流 1885.89×1.1745 = 2214.98 (=App 资产) ✓ 成本 2240.00 → 收益 −25.02 ✓
+  //    ⚠️ 我先前把标普份额记成 139.75 是**错的**（那是拿「资产÷净值」算的，而资产含在途）→ 已改为 76.39。
+  //    ★ 两只 QDII 腿都恰好有 2 笔确认中 = 71×2 = ¥142 在途 —— 这正是用户说的"同时还有在途交易"。
+  //      「在途」= 钱已付、份额未确认；它**计入市值也计入成本**（与 App 口径一致），但不随净值波动。
+  { leg:"纳斯达克 100",   pct:30, freq:"daily",   code:"021000", shares:199.59,  cost:595.01,  pend:142.00 },
+  { leg:"标普 500",       pct:30, freq:"daily",   code:"007721", shares:76.39,   cost:312.62,  pend:142.00 },
+  { leg:"A股红利低波",     pct:20, freq:"weekly4", code:"020602", shares:2100.04, cost:2283.90, pend:0      },
+  { leg:"A股自由现金流",   pct:20, freq:"weekly4", code:"023917", shares:1885.89, cost:2240.00, pend:0      }
+];
+let HST = null, HNAV = {}, HMODE = "", HMSG = "";
+
+const hesc = s => String(s === null || s === undefined ? "" : s)
+  .replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+// ★ 编辑框回填数字要截断小数：自动记账折出来的份额是长浮点（199.59+31.144…=230.73444883096…），
+//   直接塞进 value 会把输入框撑爆、也没法看。4 位小数足够（0.0001 份 ≈ ¥0.0002）。0 → 空串（= 未录）。
+const hnum4 = v => (typeof v === "number" && isFinite(v) && v !== 0)
+  ? String(Math.round(v * 10000) / 10000) : "";
+const hIsLegTimed = leg => TM_LEGS.indexOf(leg) >= 0;
+function hToday(){
+  const d = bjDate();
+  return d.getUTCFullYear() + "-" + String(d.getUTCMonth()+1).padStart(2,"0") + "-" + String(d.getUTCDate()).padStart(2,"0");
+}
+function hAddD(ds, n){
+  const p = ds.split("-").map(Number);
+  const d = new Date(Date.UTC(p[0], p[1]-1, p[2]) + n*864e5);
+  return d.getUTCFullYear() + "-" + String(d.getUTCMonth()+1).padStart(2,"0") + "-" + String(d.getUTCDate()).padStart(2,"0");
+}
+function hDow(ds){ const p = ds.split("-").map(Number); return new Date(Date.UTC(p[0], p[1]-1, p[2])).getUTCDay(); } // 4 = 周四
+
+function hLoad(){
+  let s = null;
+  try{ const raw = localStorage.getItem(HKEY); if(raw) s = JSON.parse(raw); }catch(e){ s = null; }
+  const fs = (s && s.funds) || {};
+  HST = {
+    v:1,
+    seed: (s && typeof s.seed === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s.seed)) ? s.seed : hToday(),
+    funds: HDEF.map(d => {
+      const f = fs[d.leg] || {};
+      // ★ 迁移规则：**只在"空白"处补 HDEF 的新默认值，绝不覆盖用户填过的**。
+      //   ① code 空串 → 补新代码（否则先打开过页面的人永远看不到新代码）；
+      //   ② shares/cost 是 0 或缺失 → 视为"还没录"，也补默认值。
+      //      （份额/成本为 0 与"未录入"在语义上无法区分，而后者才是真实情况。）
+      const c0 = (f.code === undefined || f.code === null) ? "" : String(f.code).replace(/\D/g,"").slice(0,6);
+      const num = (v, dflt) => (typeof v === "number" && isFinite(v) && v > 0) ? v : dflt;
+      return { leg:d.leg, pct:d.pct, freq:d.freq,
+               code: c0 || d.code,
+               shares: num(f.shares, d.shares),
+               cost:   num(f.cost,   d.cost),
+               // 在途 0 是合法值（就是"没有在途"），所以**不能**用 num 那套"0 当未录"的规则
+               pend: (typeof f.pend === "number" && isFinite(f.pend) && f.pend >= 0) ? f.pend : d.pend };
+    }),
+    ledger: (s && Array.isArray(s.ledger)) ? s.ledger.filter(r => r && r.d && r.leg) : [],
+    // ★ 「自动记账」开关：默认开（用户的诉求就是"根据每日净值自动记录"）。
+    //   关掉 → 回到全手动（待投留着，点「已投」才折份额）。
+    auto: (s && typeof s.auto === "boolean") ? s.auto : true,
+    // ★ 自建每日净值日志 {代码: {净值日期: 净值}}。自动记账要用"投出那天"的净值折算，
+    //   而腾讯 jj 只给最新一条 → 只能每次打开页面时自己攒一条（攒不到的日子用最新净值近似）。
+    navlog: (s && s.navlog && typeof s.navlog === "object" && !Array.isArray(s.navlog)) ? s.navlog : {}
+  };
+}
+function hSave(){ try{ localStorage.setItem(HKEY, JSON.stringify(HST)); }catch(e){} }
+
+// 场外基金净值：一次请求拿多只（qt.gtimg.cn 支持逗号分隔），7s 超时
+function hNav(codes){
+  return new Promise(res => {
+    const list = (codes || []).filter(c => /^\d{6}$/.test(c));
+    if(!list.length) return res({});
+    const s = document.createElement("script");
+    let fin = false;
+    const done = v => { if(fin) return; fin = true; try{ s.remove(); }catch(e){} res(v); };
+    s.src = "https://qt.gtimg.cn/q=" + list.map(c => "jj" + c).join(",") + "&_=" + Date.now();
+    s.onload = () => {
+      const out = {};
+      list.forEach(c => {
+        const raw = window["v_jj" + c];
+        if(typeof raw !== "string") return;
+        const a = raw.split("~");
+        if(a.length < 9) return;
+        const nav = parseFloat(a[5]);
+        // ★ 货币基金恒返 0、不存在的代码返字符串 "undefined" → 两种都必须判成"取不到"，宁缺勿假
+        if(a[5] === "undefined" || !isFinite(nav) || !(nav > 0)) return;
+        out[c] = { nav:nav, acc:parseFloat(a[6]) || 0, chg:parseFloat(a[7]) || 0, date:(a[8] || "").trim() };
+      });
+      done(out);
+    };
+    s.onerror = () => done({});
+    setTimeout(() => done({}), 7000);
+    document.head.appendChild(s);
+  });
+}
+
+// 单腿当期应投金额。美股腿不择时；A股腿 = 基准日额 × 倍数，再 ×5 折成「每周四一笔」
+function hPer(){ return (parseFloat(($("pamt") || {}).value) || 0) / DAYS; }
+function hDue(row, tm){
+  const base = hPer() * row.pct / 100;
+  const mult = (hIsLegTimed(row.leg) && tm && isFinite(tm.mult)) ? tm.mult : 1;
+  return row.freq === "weekly4" ? Math.round(base * mult) * 5 : Math.round(base * mult);
+}
+
+// 幂等补齐「应投」记录：只从最后一条之后补到今天；没记录就从建账日算起（不给历史补造几百条）
+function hBackfill(tm){
+  if(!HST || !HST.funds.length) return 0;
+  const today = hToday();
+  const have = {};
+  HST.ledger.forEach(r => { have[r.d + "|" + r.leg] = 1; });
+  let start = HST.seed;
+  if(HST.ledger.length){
+    let mx = HST.seed;
+    HST.ledger.forEach(r => { if(r.d > mx) mx = r.d; });
+    start = hAddD(mx, 1);
+  }
+  if(start > today) return 0;
+  let n = 0, g = 0;
+  for(let d = start; d <= today && g < 800; d = hAddD(d, 1), g++){
+    for(const row of HST.funds){
+      // ★ 没填代码也照记「应投」：应投额只依赖方案权重与择时倍数，不依赖净值；
+      //   只有「已投」折算份额才需要净值（点的时候会提示先填代码）。这样用户还没查代码就能看到该投多少。
+      if(row.freq === "weekly4"){
+        if(hDow(d) !== 4) continue;
+        // ★ 择时未知（老 data.json / 抓取失败）→ 先不记 A股腿，宁可晚记也不把金额记错
+        if(!tm) continue;
+      }
+      if(have[d + "|" + row.leg]) continue;
+      have[d + "|" + row.leg] = 1;
+      const amt = hDue(row, tm);
+      if(amt <= 0) continue;                 // 暂停档（倍数 0）→ 不产生 0 元记录
+      HST.ledger.push({ d:d, leg:row.leg, amt:amt, done:false, nav:null, navd:"", sh:0 });
+      n++;
+    }
+  }
+  if(n){ HST.ledger.sort((a,b) => (a.d < b.d) ? 1 : (a.d > b.d ? -1 : 0)); hSave(); }
+  return n;
+}
+
+function hCalc(){
+  // ★ 每条腿"已入账"的金额合计。编辑区填的 pend 是**期初在途**（从基金 App 抄来的那个数），
+  //   每确认一笔就从未确认池里扣掉对应金额 ⇒ 在途 = max(0, 期初在途 − 已入账合计)。
+  //   不这么扣的话，自动记账把这几天的钱折进份额之后，在途还留着同一笔钱 → 市值重复计一次。
+  const cmt = {};
+  HST.ledger.forEach(r => { if(r.done) cmt[r.leg] = (cmt[r.leg] || 0) + (r.amt || 0); });
+  return HST.funds.map(r => {
+    const q = (r.code && HNAV[r.code]) || null;
+    // ★ shares 没录（0）时 v 一律视为 null —— 否则会显示「¥0 市值」，看着像跌没了，
+    //   而真相是"你还没告诉我买了多少份"。页面不替你假设（那是编数据）。
+    const pd = Math.max(0, (typeof r.pend === "number" && isFinite(r.pend) && r.pend > 0 ? r.pend : 0) - (cmt[r.leg] || 0));
+    // ★★ 在途 = 钱已付、份额还没确认（QDII T+2，所以天天都有）。它**计入市值也计入成本**
+    //    （与基金 App 的「基金资产 / 持仓成本」口径一致），但不随净值波动。
+    //    实测：纳指 455.01 + 142 = 597.01、标普 171.20 + 142 = 313.20，与 App 分毫不差。
+    const v = (q && ((r.shares > 0) || pd > 0)) ? (r.shares > 0 ? r.shares * q.nav : 0) + pd : null;
+    const pnl = (v !== null && r.cost > 0) ? v - r.cost : null;
+    const pct = (pnl !== null) ? (v / r.cost - 1) * 100 : null;
+    return { r:r, q:q, v:v, pnl:pnl, pct:pct, pend:pd };
+  });
+}
+
+// 「投出那天（d）或之前最近」的已知净值；日志里没有就退回最新净值
+function hNavFor(code, d){
+  if(!code) return null;
+  const log = (HST.navlog && HST.navlog[code]) || {};
+  let best = "";
+  for(const k in log){ if(k && (!d || k <= d) && k > best) best = k; }
+  if(best && log[best] > 0) return { nav: log[best], d: best };
+  const q = HNAV[code];
+  return (q && q.nav > 0) ? { nav: q.nav, d: q.date || "" } : null;
+}
+
+// ★ 「自动记账」：把所有「待投」按净值折份额入账（这就是"份额会自己涨"的唯一机制）。
+//   ⚠️ 只在你打开页面时跑 —— 没有后台任务，所以"份额不会在你不看的时候自己涨"。
+//   ⚠️ 用户手动撤销过的记录带 hold 标记，不会再被自动入账（否则撤销就失效了）。
+function hAuto(){
+  if(!HST || !HST.auto) return 0;
+  const pend = HST.ledger.filter(r => !r.done && !r.hold);
+  if(!pend.length) return 0;
+  pend.sort((a, b) => (a.d < b.d) ? -1 : (a.d > b.d ? 1 : 0));   // 从最早的开始，份额累加顺序才稳定
+  let n = 0;
+  for(const r of pend){
+    const row = HST.funds.filter(f => f.leg === r.leg)[0];
+    if(!row) continue;
+    const q = hNavFor(row.code, r.d);
+    if(!q || !(q.nav > 0)) continue;          // 取不到净值 → 留着待投，页面不猜
+    r.done = true; r.nav = q.nav; r.navd = q.d; r.sh = r.amt / q.nav;
+    row.shares = row.shares + r.sh;
+    n++;
+  }
+  if(n) hSave();
+  return n;
+}
+
+function renderHold(){
+  const el = $("holdBox");
+  if(!el || !HST) return;
+  const tm = timing();
+  hBackfill(tm);
+  const autoN = hAuto();     // ★ 先补「应投」记录 → 再自动折份额 → 最后才算市值（顺序不能反）
+  const cs = hCalc();
+  const needN = HST.funds.filter(r => r.code).length;
+  const gotN  = cs.filter(c => c.q).length;
+  // ★★ 合计口径（分子与分母必须来自**同一组腿**，这是第 22 轮反复栽过的坑）：
+  //   ① 只把「能算出市值」的腿（v !== null）计进合计 —— 缺净值 / 缺份额的腿**不进**，
+  //      否则会出现"市值少了它、成本却算它"的反向不对称（例：纳指取不到净值 → 收益假跌到 −14%）。
+  //   ② 进合计的腿里只要有「缺成本」的 → 合计收益一律不给
+  //      （否则分子有它分母没它 → 例 5232/4837−1 = +8.2%，而真值 −1.2%）。
+  // 宁可不给数字，也不给一个错数字；未计入的腿在下方 sm 行显式报数，保证可核对。
+  const inV    = cs.filter(c => c.v !== null);
+  const outN   = cs.length - inV.length;                      // 未计入合计的腿数（缺净值 / 缺份额）
+  const totV   = inV.reduce((a,c) => a + c.v, 0);
+  const totAll = cs.reduce((a,c) => a + (c.r.cost || 0), 0);   // 全部已录成本（含未计入合计的腿）
+  const totC   = inV.length ? inV.reduce((a,c) => a + (c.r.cost || 0), 0) : totAll;
+  const totPend = inV.reduce((a,c) => a + c.pend, 0);          // 在途合计（只展示，已含在市值里）
+  const hasV  = inV.length > 0;
+  const partial = inV.some(c => c.pnl === null);
+  const totP  = (!partial && hasV && totC > 0) ? totV - totC : null;
+  const totPct = (totP !== null) ? (totV / totC - 1) * 100 : null;
+  const pend  = HST.ledger.filter(r => !r.done);
+  const dates = cs.filter(c => c.q && c.q.date).map(c => c.q.date).sort();
+  const nastr = dates.length ? dates[dates.length - 1] : "";
+  setTxt("hAsOf", nastr ? ("净值 " + nastr.slice(5)) : (needN ? "取不到净值" : "未填代码"));
+
+  let h = "";
+  if(HMSG) h += '<div class="hbanner">' + hesc(HMSG) + '</div>';
+  // 自动记账生效时明确报一句（否则用户会以为"份额怎么自己变了"或"怎么没变"）
+  if(autoN > 0) h += '<div class="hbanner">已自动入账 <b>' + autoN +
+    '</b> 笔（按净值折份额 → 份额已上涨）；在途同步扣减，市值不会因此跳变。</div>';
+  if(!needN) h += '<div class="hbanner">还没填基金代码 —— 点「编辑持仓」把 6 位代码填上，就能自动取净值算市值。</div>';
+  else if(gotN < needN) h += '<div class="hbanner">' + (needN - gotN) +
+    ' 只暂时取不到净值（休市 / 代码有误 / 货币基金没有净值）→ 这只先按成本显示、<b>不计入合计</b>，页面不猜。</div>';
+  // 能取到净值但缺失项 → 说清缺的是"份额"还是"成本"，别让 ¥0 / 虚高收益去误导
+  const noSh   = cs.filter(c => c.q && !(c.r.shares > 0));
+  const noCost = cs.filter(c => c.q && c.r.shares > 0 && !(c.r.cost > 0));
+  if(noSh.length) h += '<div class="hbanner">' + noSh.length + ' 只已能取到净值，但<b>还没录份额</b>（' +
+    noSh.map(c => hesc(c.r.leg)).join("、") + '）→ 点「编辑持仓」填份额与成本，市值才算得出来。</div>';
+  if(noCost.length) h += '<div class="hbanner">' + noCost.length + ' 只<b>还没录成本</b>（' +
+    noCost.map(c => hesc(c.r.leg)).join("、") + '）→ 市值已能算，但收益要等你填成本（' +
+    '否则分子有它分母没它，合计收益会虚高）→ 点「编辑持仓」补上。</div>';
+
+  h += '<div class="hsum"><span class="big">' + (hasV ? money(totV) : "—") + '</span>';
+  if(totP !== null){
+    const c = totP > 0 ? "up" : (totP < 0 ? "dn" : "");
+    h += '<span class="pl ' + c + '">' + sgn(totP) + money(Math.abs(totP)) + ' · ' + fmtRel(totPct) + '</span>';
+  }else if(partial && hasV){
+    h += '<span class="pl">部分腿缺成本<br>合计收益暂不计</span>';
+  }
+  // ⚠️ 有腿缺成本时，把这行标成「已录成本」——否则用户会拿 市值/成本 自己心算出虚高的收益率
+  h += '<span class="sm">' + (partial ? "已录成本 " : "成本 ") + money(totC) +
+    (outN > 0 ? '<br>' + outN + ' 只未算入合计（缺净值 / 缺份额）' : '') + '<br>' +
+    (totPend > 0 ? "含在途 " + money(totPend) + " · " : "") +
+    '市值 = 份额 × 净值 + 在途</span></div>';
+
+  for(const c of cs){
+    const r = c.r;
+    const fr = r.freq === "weekly4" ? "每周四" : "每日";
+    const lm = fr + " " + money(hDue(r, tm)) + (c.q
+      ? " · 净值 " + c.q.nav.toFixed(4) + "（" + (c.q.date || "").slice(5) + "）"
+      : " · 待取净值") + (c.pend > 0 ? " · 在途 " + money(c.pend) : "");
+    h += '<div class="hrow' + (c.q ? "" : " na") + '"><span class="hn">' + hesc(r.leg) +
+      '<span class="cd">' + (r.code ? hesc(r.code) : "未填代码") + '</span>' +
+      '<span class="lm">' + lm + '</span></span>' +
+      '<span class="hv">' + (c.v !== null ? money(c.v)
+        : (c.q && !(r.shares > 0) ? "待录份额" : (r.cost > 0 ? money(r.cost) : "—"))) + '</span>' +
+      '<span class="hp ' + (c.pnl === null ? "" : (c.pnl > 0 ? "up" : (c.pnl < 0 ? "dn" : ""))) + '">' +
+      (c.pnl === null
+        ? '<em style="font-style:normal;color:var(--sub)">' +
+          (c.q ? (!(r.shares > 0) ? "待录份额" : "待录成本") : "取不到") + '</em>'
+        : sgn(c.pnl) + money(Math.abs(c.pnl)) + '<br>' + fmtRel(c.pct)) +
+      '</span></div>';
+  }
+
+  if(HMODE === "edit"){
+    // 每腿 4 个输入框，都配常显小标签（只有 placeholder 的话，有值时分不清 份额/成本/在途）
+    const efld = (label, key, r, attrs) =>
+      '<label class="ef"><i>' + label + '</i><input data-e="' + key + '" data-leg="' + hesc(r.leg) + '"' + attrs + '></label>';
+    for(const r of HST.funds){
+      h += '<div class="hedit" style="margin-top:6px"><span class="el">' + hesc(r.leg) + '</span>' +
+        efld("代码", "code",   r, ' inputmode="numeric" placeholder="6位" value="' + hesc(r.code) + '"') +
+        efld("份额", "shares", r, ' inputmode="decimal" placeholder="份" value="' + hnum4(r.shares) + '"') +
+        efld("成本", "cost",   r, ' inputmode="decimal" placeholder="元" value="' + hnum4(r.cost) + '"') +
+        efld("期初在途", "pend", r, ' inputmode="decimal" placeholder="元" value="' + hnum4(r.pend) + '"') +
+        '</div>';
+    }
+    h += '<div class="hedit"><span class="el">建账日</span>' +
+      '<label class="ef"><i>日期</i><input data-e="seed" inputmode="numeric" placeholder="YYYY-MM-DD" value="' +
+      hesc(HST.seed) + '"></label>' +
+      '<span class="eu">这天之前不补记</span></div>' +
+      '<textarea class="himp" id="hImp" placeholder="粘贴另一台设备「复制配置」出来的文本即可导入（本机持仓与台账会被覆盖）"></textarea>';
+  }
+
+  if(HMODE === "ledger"){
+    h += '<div class="hlz">';
+    if(!HST.ledger.length){
+      h += '<div class="hnote">台账还是空的。按方案频率，每天的「应投」会自动出现在这里（A股两腿只在周四记一笔）。</div>';
+    }
+    for(const r of HST.ledger.slice(0, 40)){
+      h += '<div class="hl' + (r.done ? " done" : "") + '">' +
+        '<span class="hd">' + hesc(r.d.slice(5)) + ' <i>' + hesc(r.leg.replace("A股", "")) + '</i></span>' +
+        '<span class="ha">' + money(r.amt) + '</span>' +
+        '<span class="hm">' + (r.done ? (r.sh ? r.sh.toFixed(2) + "份" : "已投") : "待投") + '</span>' +
+        '<button class="hk" data-k="' + hesc(r.d) + '|' + hesc(r.leg) + '">' + (r.done ? "撤销" : "已投") + '</button></div>';
+    }
+    h += '</div>';
+    if(pend.length) h += '<div class="hnote">共 <b>' + pend.length + '</b> 笔待投，合计 <b>' +
+      money(pend.reduce((a,r) => a + r.amt, 0)) + '</b>。点「已投」按最新净值折份额入账。</div>';
+  }
+
+  h += '<div class="hbtns">' +
+    '<button class="hbtn' + (HMODE === "edit" ? " on" : "") + '" data-a="edit">' +
+    (HMODE === "edit" ? "完成编辑" : "编辑持仓") + '</button>' +
+    '<button class="hbtn' + (HMODE === "ledger" ? " on" : "") + '" data-a="ledger">台账' +
+    (pend.length ? "（" + pend.length + "）" : "") + '</button></div>' +
+    '<div class="hbtns" style="margin-top:7px">' +
+    '<button class="hbtn gh" data-a="refresh">刷新净值</button>' +
+    '<button class="hbtn gh" data-a="copy">复制配置</button></div>' +
+    '<label class="hauto"><input type="checkbox" id="hAuto"' + (HST.auto ? " checked" : "") +
+    '><span><b>自动记账</b>：每次打开本页，把「待投」按净值自动折份额入账 —— ' +
+    '<b>份额要靠它才会自己涨</b>；关掉就要手点「已投」。' +
+    (HST.auto && pend.length ? '（现有 <b>' + pend.length + '</b> 笔待入账）' : '') + '</span></label>';
+
+  h += '<div class="hnote">净值来源：腾讯行情 <b>qt.gtimg.cn</b>（场外基金 <b>jj</b> 前缀）· 净值截至 ' +
+    (nastr || "—") + '<br>' +
+    '收益口径：市值 − 成本，<b>不含汇率变动</b>（QDII 份额以人民币净值计）。<br>' +
+    '「在途」＝ 钱已付、份额未确认（QDII T+2，所以美股两腿天天有）→ <b>计入市值也计入成本</b>，' +
+    '与基金 App 的「基金资产 / 持仓成本」口径一致。<br>' +
+    '★ 编辑区填的是<b>期初在途</b>（从 App 抄来的那个数）；<b>在途 = 期初在途 − 已入账合计</b>，' +
+    '确认一笔就扣一笔 —— 不扣的话同一笔钱会既算进份额又留在在途，市值就重复计了。<br>' +
+    '「应投」按方案频率与价值温度倍数生成：<b>美股两腿每日一笔、A股两腿每周四一笔（= 当日基准 × 倍数 × 5）</b>；' +
+    '改月投入<b>只影响往后新生成的记录</b>，已有记录不重算。<br>' +
+    '★ 「自动记账」开着份额才会自动涨；折算优先用<b>该记录日或之前最近的已知净值</b>' +
+    '（净值日志在每次打开本页时攒一条），攒不到就退回最新净值。<br>' +
+    '⚠️ 页面<b>没有后台任务</b>：净值更新与自动记账都只发生在<b>你打开本页</b>那一刻 —— ' +
+    '关着页面时份额<b>不会</b>变。<br>' +
+    '持仓与台账只存在这台设备的浏览器里，不上传任何服务器。</div>';
+
+  el.innerHTML = h;
+}
+
+// 全事件委托：内容每次 innerHTML 重建，直接绑节点会串台
+function hField(t){
+  const e = t.getAttribute("data-e");
+  if(e === "seed"){
+    const v = String(t.value || "").trim();
+    if(/^\d{4}-\d{2}-\d{2}$/.test(v)){ HST.seed = v; hSave(); HMSG = ""; renderHold(); }
+    else { t.value = HST.seed; }
+    return;
+  }
+  const leg = t.getAttribute("data-leg");
+  const row = HST.funds.filter(f => f.leg === leg)[0];
+  if(!row) return;
+  const v = String(t.value || "").trim();
+  if(e === "code"){
+    const c = v.replace(/\D/g, "").slice(0, 6);
+    row.code = c; t.value = c; hSave();
+    if(c && !HNAV[c]) hRefresh(); else { HMSG = ""; renderHold(); }
+    return;
+  }
+  const n = parseFloat(v);
+  if(e === "shares") row.shares = (isFinite(n) && n >= 0) ? n : 0;
+  if(e === "cost")   row.cost   = (isFinite(n) && n >= 0) ? n : 0;
+  if(e === "pend")   row.pend   = (isFinite(n) && n >= 0) ? n : 0;
+  hSave(); HMSG = ""; renderHold();
+}
+function hToggle(k){
+  HMSG = "";
+  const i = k.indexOf("|");
+  if(i < 0) return;
+  const d = k.slice(0, i), leg = k.slice(i + 1);
+  const r = HST.ledger.filter(x => x.d === d && x.leg === leg)[0];
+  if(!r) return;
+  const row = HST.funds.filter(f => f.leg === leg)[0];
+  if(r.done){
+    if(r.sh && row) row.shares = Math.max(0, row.shares - r.sh);
+    r.done = false; r.sh = 0; r.nav = null; r.navd = "";
+    r.hold = true;     // ★ 手动撤销过的别再被「自动记账」立刻入账回去，否则撤销等于白点
+  } else {
+    const q = (row && row.code) ? hNavFor(row.code, r.d) : null;
+    if(!q){ HMSG = "「" + leg + "」还没有净值，没法折算份额 —— 先把 6 位代码填对，再点一次「刷新净值」。"; renderHold(); return; }
+    r.done = true; r.hold = false; r.nav = q.nav; r.navd = q.d; r.sh = r.amt / q.nav;
+    if(row) row.shares = row.shares + r.sh;
+  }
+  hSave(); renderHold();
+}
+function hCopy(){
+  const s = JSON.stringify({ v:1, seed:HST.seed, funds:HST.funds, ledger:HST.ledger,
+                             auto:HST.auto, navlog:HST.navlog });
+  HMSG = "";
+  const after = ok => {
+    HMSG = ok ? ("配置文本已复制（" + (s.length / 1024).toFixed(1) + " KB）。到另一台设备用「编辑持仓 → 粘贴导入」即可同步。")
+              : "浏览器不给自动复制：请点「编辑持仓」，下面的文本框里已放好内容，手动全选复制。";
+    renderHold();
+    const ta = $("hImp");
+    if(ta){ ta.value = s; if(ok){ try{ ta.select(); }catch(e){} } }
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(s).then(() => after(true)).catch(() => after(false));
+  } else { after(false); }
+}
+function hImport(v){
+  const s = String(v || "").trim();
+  if(!s) return;
+  try{
+    const j = JSON.parse(s);
+    if(!j || !Array.isArray(j.funds)) throw new Error("不是配置文本");
+    HST.funds = HDEF.map(d => {
+      const f = j.funds.filter(x => x && x.leg === d.leg)[0];
+      if(!f) return { leg:d.leg, pct:d.pct, freq:d.freq, code:d.code, shares:d.shares, cost:d.cost, pend:d.pend };
+      return { leg:d.leg, pct:d.pct, freq:d.freq,
+               code: String(f.code || "").replace(/\D/g,"").slice(0,6),
+               shares: (typeof f.shares === "number" && isFinite(f.shares) && f.shares >= 0) ? f.shares : 0,
+               cost:   (typeof f.cost   === "number" && isFinite(f.cost)   && f.cost   >= 0) ? f.cost   : 0,
+               pend:   (typeof f.pend   === "number" && isFinite(f.pend)   && f.pend   >= 0) ? f.pend   : 0 };
+    });
+    if(typeof j.seed === "string" && /^\d{4}-\d{2}-\d{2}$/.test(j.seed)) HST.seed = j.seed;
+    if(Array.isArray(j.ledger)) HST.ledger = j.ledger.filter(r => r && r.d && r.leg);
+    if(typeof j.auto === "boolean") HST.auto = j.auto;
+    if(j.navlog && typeof j.navlog === "object" && !Array.isArray(j.navlog)) HST.navlog = j.navlog;
+    hSave();
+    HMSG = "导入成功：" + HST.funds.length + " 条持仓 · " + HST.ledger.length + " 条台账。";
+    hRefresh();
+  }catch(e){
+    HMSG = "导入失败：不是合法的配置文本（" + e.message + "）。";
+    renderHold();
+  }
+}
+async function hRefresh(){
+  if(!HST) return;
+  const codes = HST.funds.map(f => f.code).filter(c => /^\d{6}$/.test(c));
+  if(!codes.length){ renderHold(); return; }
+  setTxt("hAsOf", "净值取数中…");
+  const got = await hNav(codes);
+  for(const c in got){ if(got.hasOwnProperty(c)) HNAV[c] = got[c]; }
+  // ★ 自建每日净值日志：腾讯 jj 只给最新一条，而「自动记账」要按"投出那天"的净值折算
+  //   → 每次取到就按净值日期存一条（同一天只存一份）。攒不到的日子会退回最新净值。
+  if(!HST.navlog) HST.navlog = {};
+  for(const c in got){
+    if(!got.hasOwnProperty(c)) continue;
+    const g = got[c];
+    if(!g || !(g.nav > 0) || !g.date) continue;
+    const m = HST.navlog[c] || (HST.navlog[c] = {});
+    m[g.date] = g.nav;
+    const ks = Object.keys(m).sort();
+    while(ks.length > 400) delete m[ks.shift()];      // 每只最多留 400 个净值日，别把 localStorage 撑爆
+  }
+  hSave();
+  const miss = codes.filter(c => !HNAV[c]);
+  HMSG = miss.length ? (miss.length + " 只取不到净值：" + miss.join("、") + "（休市 / 代码有误 / 货币基金无净值）") : "";
+  renderHold();
+}
+function bindHold(){
+  hLoad();
+  const box = $("holdBox");
+  if(box){
+    box.addEventListener("click", e => {
+      const b = e.target && e.target.closest ? e.target.closest("button") : null;
+      if(!b) return;
+      const a = b.getAttribute("data-a"), k = b.getAttribute("data-k");
+      if(a === "edit" || a === "ledger"){ HMSG = ""; HMODE = (HMODE === a) ? "" : a; renderHold(); }
+      else if(a === "refresh"){ hRefresh(); }
+      else if(a === "copy"){ hCopy(); }
+      else if(k){ hToggle(k); }
+    });
+    // 只在 change（失焦/回车）时处理，避免每敲一个字就重建 DOM 把焦点冲掉
+    box.addEventListener("change", e => {
+      const t = e.target;
+      if(!t) return;
+      if(t.id === "hAuto"){ HST.auto = !!t.checked; hSave(); HMSG = ""; renderHold(); return; }
+      if(t.id === "hImp"){ hImport(t.value); return; }
+      if(t.getAttribute && t.getAttribute("data-e")) hField(t);
+    });
+  }
+  renderHold();
+  hRefresh();
+}
+
 // 首绘用「内嵌快照 / 本地缓存」里较新的那一版（不等网络），远程确有更新版再覆盖一次
 DATA = SEED;
 stampData();
 bindPlan();
 bindRb();
+bindHold();
 loadData().then(j => {
-  if(j && j !== DATA){ DATA = j; stampData(); renderPlan(); }
+  if(j && j !== DATA){ DATA = j; stampData(); renderPlan(); renderHold(); }
 }).catch(() => {});
 </script>
 </body>
